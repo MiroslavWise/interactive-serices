@@ -4,15 +4,15 @@ import { type ControllerRenderProps } from "react-hook-form"
 import { ImageStatic } from "@/components/common"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
+import { cx } from "@/lib/cx"
 import { TSchemaCreate } from "../utils/create.schema"
 import { TSchemaCreatePost } from "../../CreatePost/schema"
 import { TSchemaCreateNote } from "../../CreateNewNote/utils"
-import { cx } from "@/lib/cx"
 
 interface IProps {
   item: string
   index: number
-  field: ControllerRenderProps<TSchemaCreate | TSchemaCreatePost | TSchemaCreateNote, "file">
+  field: ControllerRenderProps<any, "file">
 
   progress: number | null
 }

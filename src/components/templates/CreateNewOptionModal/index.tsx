@@ -126,8 +126,6 @@ export default function CreateNewOptionModal() {
       : undefined,
   })
 
-  console.log("errors: ", errors)
-
   const onProgress = (files: File[], index: number): number => {
     const file = files[index]
     const name = file?.name

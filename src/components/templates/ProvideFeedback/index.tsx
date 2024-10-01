@@ -1,6 +1,6 @@
 import { Controller, useForm } from "react-hook-form"
 import { useQuery } from "@tanstack/react-query"
-import { useRef, useState, type HTMLAttributes } from "react"
+import { useEffect, useRef, useState, type HTMLAttributes } from "react"
 
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 import { type IBodyPostTestimonials } from "@/services/testimonials/types"
@@ -9,6 +9,7 @@ import Avatar from "@avatar"
 import IconPlus from "@/components/icons/IconPlus"
 import IconStar from "@/components/icons/IconStar"
 import IconRepeat from "@/components/icons/IconRepeat"
+import IconTrashBlack from "@/components/icons/IconTrashBlack"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 import { Button, ImageCategory, ImageStatic } from "@/components/common"
 
@@ -20,7 +21,6 @@ import { fileUploadService, getBarterId, patchTestimonial, postTestimonial, serv
 import { handleImageChange, MAX_LENGTH, resolver, TFiles, type TSchema } from "./utils"
 
 import styles from "./style.module.scss"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
 export const CN_ProvideFeedback: HTMLAttributes<HTMLElement>["className"] = "h-auto max-h-full flex flex-col max-md:!rounded-none"
 
@@ -53,7 +53,7 @@ function ProvideFeedback() {
   } = useForm<TSchema>({
     defaultValues: {
       message: "",
-      rating: 3,
+      rating: 0,
       file: {
         file: [],
         string: [],
@@ -75,7 +75,7 @@ function ProvideFeedback() {
         provider: EnumTypeProvider.offer,
         barterId: barterId!,
         rating: values.rating!,
-        message: values.message,
+        message: values.message ?? "",
         status: "published",
         enabled: true,
         receiverId: user?.id!,
@@ -138,6 +138,18 @@ function ProvideFeedback() {
       })
     }
   })
+
+  useEffect(() => {
+    function onUnLoad(event: any) {
+      event.preventDefault()
+      event.returnValue = ""
+
+      return `Прерывание`
+    }
+    window.addEventListener("beforeunload", onUnLoad)
+
+    return () => window.removeEventListener("beforeunload", onUnLoad)
+  }, [])
 
   return (
     <>
@@ -210,7 +222,7 @@ function ProvideFeedback() {
                     "w-full h-full whitespace-pre-wrap rounded-2xl resize-none p-3.5 pb-6 border border-solid  text-text-primary placeholder:text-text-disabled text-sm font-normal",
                     !!error || field.value.length >= MAX_LENGTH ? "border-text-error" : "border-grey-stroke focus:border-element-accent-1",
                   )}
-                  placeholder="Поделитесь впечатлениями об обмене"
+                  placeholder="Поделитесь впечатлениями, как всё прошло? Это повлияет на рейтинг и поможет другим пользователям сделать выбор"
                 />
                 <span
                   className={cx(

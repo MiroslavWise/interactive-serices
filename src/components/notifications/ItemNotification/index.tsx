@@ -8,6 +8,7 @@ import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 import { type IResponseNotifications } from "@/services/notifications/types"
 import { type TTypeIconCurrentNotification, type TTypeIconNotification } from "./types/type"
 
+import Avatar from "@avatar"
 import ButtonsToComplete from "./components/Button"
 import { ButtonsDots } from "./components/ButtonsDots"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
@@ -25,12 +26,11 @@ import {
   serviceNotifications,
 } from "@/services"
 import { cx } from "@/lib/cx"
+import { getPostId } from "@/services/posts"
 import { queryClient, useWebSocket } from "@/context"
 import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, dispatchModal, EModalData, dispatchBallonPost } from "@/store"
 
 import styles from "./styles/style.module.scss"
-import Avatar from "@avatar"
-import { getPostId } from "@/services/posts"
 
 const IMG_TYPE: Record<TTypeIconCurrentNotification, string> = {
   chat: "/svg/notifications/chat.svg",

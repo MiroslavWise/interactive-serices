@@ -44,6 +44,7 @@ function CreateNewNote() {
       const data: IBodyNote = {
         postId: id!,
         main: false,
+        isAuthRead: values.is,
       }
       if (description) {
         data.description = description
@@ -108,10 +109,7 @@ function CreateNewNote() {
       <header className="w-full px-3 pt-5 md:pt-6 pb-4 md:pb-5 overflow-hidden flex flex-row items-center justify-start md:justify-center border-b border-solid border-grey-separator h-standard-header-modal">
         <h3 className="text-text-primary text-2xl font-semibold">Новая запись</h3>
       </header>
-      <ul
-        data-test="ul-create-new-note"
-        className="w-full flex flex-col items-center gap-4 px-5 h-full-minus-standard-header-modal"
-      >
+      <ul data-test="ul-create-new-note" className="w-full flex flex-col items-center gap-4 px-5 h-full-minus-standard-header-modal">
         <form className="w-full h-full overflow-y-auto flex flex-col items-center gap-4 md:gap-5 overflow-x-hidden" onSubmit={onSubmit}>
           <div className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 pb-1">
             <div className="w-5 h-5 p-2.5 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5">
@@ -185,6 +183,31 @@ function CreateNewNote() {
                 <i className="!text-text-disabled !-mt-3">Максимальный размер фото - 10 МБ</i>
                 <i className="!text-text-disabled !-mt-3">Не более 9 изображений</i>
               </fieldset>
+            )}
+          />
+          <Controller
+            name="is"
+            control={control}
+            render={({ field }) => (
+              <div
+                className="w-full grid items-center gap-2.5"
+                style={{
+                  gridTemplateColumns: `2.625rem minmax(0, 1fr)`,
+                }}
+              >
+                <div
+                  className={cx(
+                    "h-6 w-[2.625rem] rounded-xl cursor-pointer p-0.5 flex flex-row items-center transition-all",
+                    field.value ? "bg-text-accent justify-end" : "bg-grey-stroke justify-start",
+                  )}
+                  onClick={() => {
+                    field.onChange(!field.value)
+                  }}
+                >
+                  <span className="rounded-full h-5 w-5 bg-text-button" />
+                </div>
+                <p className="text-text-primary text-sm font-normal">Показывать запись только участникам мероприятия</p>
+              </div>
             )}
           />
           <footer className="w-full pt-2.5 mt-auto bg-BG-second">

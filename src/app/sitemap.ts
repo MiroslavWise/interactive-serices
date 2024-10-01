@@ -1,27 +1,18 @@
-import { cache } from "react"
-import { MetadataRoute } from "next"
+import { type MetadataRoute } from "next"
 
-import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffersCategories } from "@/services/offers-categories/types"
 
 import env from "@/config/environment"
-import { getPosts } from "@/services/posts"
-import { getOffers, getOffersCategoriesPROD } from "@/services"
-
-const getCachePosts = cache(getPosts)
-const getCacheOffers = cache(getOffers)
-const getCacheAlerts = cache(getOffers)
-const getCacheDiscussions = cache(getOffers)
+import { getOffersCategoriesPROD } from "@/services"
+import { getServerData } from "@/helpers/server-data"
 
 export default async function (): Promise<MetadataRoute.Sitemap> {
   const [{ data }, { data: listDiscussions }, { data: listAlerts }, { data: listOffers }, { data: listPosts }] = await Promise.all([
     getOffersCategoriesPROD(),
-    env.server.host.includes("dev")
-      ? Promise.resolve({ data: [] })
-      : getCacheDiscussions({ provider: EnumTypeProvider.discussion, order: "DESC" }),
-    env.server.host.includes("dev") ? Promise.resolve({ data: [] }) : getCacheAlerts({ provider: EnumTypeProvider.alert, order: "DESC" }),
-    env.server.host.includes("dev") ? Promise.resolve({ data: [] }) : getCacheOffers({ provider: EnumTypeProvider.offer, order: "DESC" }),
-    env.server.host.includes("dev") ? Promise.resolve({ data: [] }) : getCachePosts({ order: "DESC", archive: 0 }),
+    getServerData.discussions,
+    getServerData.alerts,
+    getServerData.offers,
+    getServerData.posts,
   ])
   const items = (data as IResponseOffersCategories[]) ?? []
 

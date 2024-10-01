@@ -52,7 +52,7 @@ const PreCloseCreateService = dynamic(() => import("@/components/templates/PreCl
 const ChangeService = dynamic(() => import("@/components/profile").then((res) => res.ChangeService), { ssr: false })
 const NotificationCreateService = dynamic(() => import("@/components/content/NotificationCreateService"), { ssr: false })
 
-export const Containers = () => {
+function Containers() {
   const isAuth = useAuth(({ isAuth }) => isAuth)
   const visibleReasonBarters = useReasonBarters(({ visible }) => visible)
   const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
@@ -111,3 +111,6 @@ export const Containers = () => {
     </>
   )
 }
+
+Containers.displayName = "Containers"
+export default Containers

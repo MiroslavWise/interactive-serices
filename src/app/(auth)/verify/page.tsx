@@ -25,24 +25,22 @@ export default function PageVerify() {
               message: "Ваш аккаунт успешно прошёл верификацию",
             })
             if (response.res) {
-              queryClient
-                .fetchQuery({
-                  queryFn: () => getUserId(response.res?.id!),
-                  queryKey: ["user", { userId: response.res?.id }],
-                })
-                .then(({ data }) => {
-                  if (!!data) {
-                    dispatchAuthToken({ user: data!, auth: response?.res! })
+              queryClient.fetchQuery({
+                queryFn: () => getUserId(response.res?.id!),
+                queryKey: ["user", { userId: response.res?.id }],
+              }).then(({ data }) => {
+                if (!!data) {
+                  dispatchAuthToken({ user: data!, auth: response?.res! })
 
-                    dispatchOnboarding("open")
-                    handlePush("/")
-                  } else {
-                    on({
-                      message: "Ваш аккаунт не прошёл верификацию.",
-                    })
-                    handlePush("/")
-                  }
-                })
+                  dispatchOnboarding("open")
+                  handlePush("/")
+                } else {
+                  on({
+                    message: "Ваш аккаунт не прошёл верификацию.",
+                  })
+                  handlePush("/")
+                }
+              })
             }
           } else {
             on({

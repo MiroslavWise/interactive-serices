@@ -18,6 +18,7 @@ const file = z.object({
 const schemaNote = z.object({
   description: description,
   file: file,
+  is: z.boolean().default(false),
 })
 
 export const resolverCreateNote = zodResolver(schemaNote)
@@ -28,6 +29,7 @@ export const DEFAULT_VALUES: TSchemaCreateNote = {
     file: [],
     string: [],
   },
+  is: false,
 }
 
 type TProgress = Record<string, AxiosProgressEvent>

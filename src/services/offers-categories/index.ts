@@ -1,6 +1,6 @@
-import type { IQueryOffersCategories, IResponseOffersCategories, IServiceOffersCategories, TPostOfferCategory } from "./types"
+import { type IServiceOffersCategories, type TPostOfferCategory } from "./types"
 
-import { fetchGet, get, wrapperPost } from "../request"
+import { fetchGet, wrapperPost } from "../request"
 
 const url = "/offers-categories"
 

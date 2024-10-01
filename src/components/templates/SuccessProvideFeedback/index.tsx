@@ -18,7 +18,7 @@ function SuccessProvideFeedback() {
               "after:w-10 after:h-10 after:rounded-[1.25rem] after:opacity-15 after:-z-[1]",
             )}
           >
-            <div className="w-6 h-6 flex items-center justify-center *:w-4 *:h-4 bg-more-field">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center *:w-4 *:h-4 bg-more-field">
               <IconCheck />
             </div>
           </div>

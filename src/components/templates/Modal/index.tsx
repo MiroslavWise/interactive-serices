@@ -1,10 +1,8 @@
 "use client"
 
-import { memo, useCallback, useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 
 import { ButtonClose } from "@/components/common"
-
-import { DATA_MODAL, ID_MODAL, STYLE_MODAL } from "../Data"
 
 import {
   useModal,
@@ -17,8 +15,8 @@ import {
   dispatchOpenPreCloseCreateService,
   useAddCreateModal,
 } from "@/store"
-
 import { cx } from "@/lib/cx"
+import { DATA_MODAL, ID_MODAL, STYLE_MODAL } from "../Data"
 
 import styles from "./style.module.scss"
 
@@ -94,7 +92,7 @@ function Modal() {
     }
   }, [data])
 
-  const close = useCallback(() => {
+  function close() {
     if (data && [EModalData.ChangePassword, EModalData.DeleteUser].includes(data)) {
       dispatchModal(EModalData.UpdateProfile)
       return
@@ -110,7 +108,7 @@ function Modal() {
       dispatchModalClose()
       return
     }
-  }, [data, visibleCreateCategory, visibleOnboarding, typeAdd])
+  }
 
   useEffect(() => {
     if (ref.current && data) {
@@ -152,7 +150,7 @@ function Modal() {
         window.removeEventListener("popstate", popState)
       }
     }
-  }, [visible, data, visibleCreateCategory, visibleOnboarding])
+  }, [visible, data, visibleCreateCategory, visibleOnboarding, typeAdd])
 
   return (
     <div
@@ -192,4 +190,4 @@ function Modal() {
 }
 
 Modal.displayName = "Modal"
-export default memo(Modal)
+export default Modal

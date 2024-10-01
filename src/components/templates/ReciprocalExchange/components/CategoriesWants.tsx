@@ -48,7 +48,7 @@ export const CategoriesWants = memo(({ categoriesWants, loading }: IProps) => {
                 watch("category") === item.id ? "border-element-accent-1 bg-element-accent-1" : "border-grey-stroke-light bg-BG-second",
               )}
             >
-              <div data-img className="w-7 h-7 p-1.5 rounded-full">
+              <div data-img className="w-7 h-7 p-3.5 rounded-full relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
                 <ImageCategory id={item.id!} slug={item?.slug} provider={item?.provider} />
               </div>
               <span className="w-full text-text-primary text-sm font-medium text-ellipsis line-clamp-1">{item.title}</span>

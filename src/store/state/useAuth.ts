@@ -5,10 +5,12 @@ import { createJSONStorage, persist } from "zustand/middleware"
 import { type IUserResponse } from "@/services/users/types"
 import { type TSchemaEmailSignIn } from "@/components/templates/ModalSign/utils/email-sign-in.schema"
 
+import { clg } from "@console"
 import { queryClient } from "@/context"
 import { getLogout, getUser, login, refresh } from "@/services"
 
 const NAME_STORAGE_USE_AUTH = "::---sheira-auth---::"
+
 export const useAuth = create(
   persist<IStateUseAuth>(
     () => ({
@@ -29,61 +31,67 @@ export const useAuth = create(
   ),
 )
 
-export const dispatchLoginTokenData = async ({ email, password }: TSchemaEmailSignIn) => {
-  return login({ email, password }).then((response) => {
-    if (response.ok) {
-      useAuth.setState((_) => ({
-        ..._,
-        auth: response.res,
-        isAuth: true,
-      }))
+function setData(res: TAuth | null) {
+  useAuth.setState(
+    (_) => ({
+      ..._,
+      auth: res ?? null,
+      isAuth: !!res,
+    }),
+    true,
+  )
+}
 
-      queryClient
-        .fetchQuery({
-          queryFn: () => getUser(),
-          queryKey: ["user", { userId: response?.res?.id! }],
-        })
-        .then(({ data }) => {
-          if (!!data) {
-            useAuth.setState((_) => ({
-              ..._,
-              user: data,
-            }))
-          }
-        })
-
-      return response
-    } else {
-      useAuth.setState((_) => ({
-        ..._,
-        auth: null,
-        isAuth: false,
-      }))
-      return response
-    }
-  })
+export async function dispatchLoginTokenData({ email, password }: TSchemaEmailSignIn) {
+  const response = await login({ email, password })
+  clg("response await", response, "error")
+  if (response.ok) {
+    setData(response?.res!)
+    clg("response setData", response, "error")
+    await queryClient
+      .fetchQuery({
+        queryFn: getUser,
+        queryKey: ["user", { userId: response?.res?.id! }],
+      })
+      .then(({ data }) => {
+        if (!!data) {
+          useAuth.setState((_) => ({
+            ..._,
+            user: data,
+          }))
+        }
+      })
+  } else {
+    setData(null)
+  }
+  clg("response await end", response, "error")
+  return response
 }
 
 export const dispatchRefresh = async () => {
   return refresh().then((response) => {
     const { ok, res } = response
     if (ok) {
-      useAuth.setState((_) => ({
-        ..._,
-        auth: res as TAuth,
-        isAuth: true,
-      }))
+      ;(function () {
+        useAuth.setState((_) => ({
+          ..._,
+          auth: res as TAuth,
+          isAuth: true,
+        }))
+      })()
 
       return response
     } else {
-      useAuth.setState(
-        (_) => ({
-          auth: null,
-          user: null,
-          isAuth: false,
-        }),
-        true,
-      )
+      ;(function () {
+        useAuth.setState(
+          (_) => ({
+            auth: null,
+            user: null,
+            isAuth: false,
+          }),
+          true,
+        )
+      })()
 
       return response
     }

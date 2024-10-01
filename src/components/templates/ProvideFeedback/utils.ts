@@ -1,11 +1,11 @@
 import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
 import { ChangeEvent } from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
 
-const { object, string, array, number } = z
+const { object, string, number } = z
 
-export const MIN_LENGTH = 16
-export const MAX_LENGTH = 2000
+export const MIN_LENGTH = 1
+export const MAX_LENGTH = 512
 
 const file = z.object({
   file: z.array(z.instanceof(File)),
@@ -15,13 +15,16 @@ const file = z.object({
 const schema = object({
   message: string()
     .trim()
-    .min(1, { message: "Поле обязательно для заполнения" })
-    .min(MIN_LENGTH, { message: `Не менее ${MIN_LENGTH} символов` })
+    // .min(1, { message: "Поле обязательно для заполнения" })
+    // .min(MIN_LENGTH, { message: `Не менее ${MIN_LENGTH} символов` })
     .max(MAX_LENGTH, { message: `Достигнут лимит символов` }),
-  rating: number().default(3),
+  rating: number()
+    .default(0)
+    .refine((value) => value > 0, {
+      message: "Нужен рейтинг",
+    }),
   file: file,
 })
-
 export const resolver = zodResolver(schema)
 export type TSchema = z.infer<typeof schema>
 export type TFiles = z.infer<typeof file>

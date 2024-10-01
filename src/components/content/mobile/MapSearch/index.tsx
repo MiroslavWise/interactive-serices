@@ -10,8 +10,8 @@ import { IconChevron } from "@/components/icons/IconChevron"
 import { dispatchMapCoordinates, dispatchVisibleSearchMobile, useBanner, useSearchMobile } from "@/store"
 
 import { cx } from "@/lib/cx"
-import { useDebounce } from "@/helpers"
 import { queryClient } from "@/context"
+import { useDebounce } from "@/helpers"
 import { getGeocodeSearch } from "@/services"
 
 import styles from "./style.module.scss"
