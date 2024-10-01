@@ -14,18 +14,21 @@ export const generateMetadata = async ({ params }: { params: { id: string | numb
 
   const name = `${profile?.firstName || "Имя"} ${profile?.lastName || "Фамилия"}`
 
+  const title = `Профиль и предложения пользователя ${profile?.username ?? ""} на Sheira. Люди, услуги, события`
+  const description = `Приглашаю присоединиться к Sheira, где мы вместе сможем помогать другим людям`
+
   return {
-    title: name,
+    title: title,
     keywords: [...keyWords, name],
-    description: profile?.about || `Пользователь ${profile?.username}`,
+    description: description,
     openGraph: {
-      title: name,
-      description: profile?.about ?? `Пользователь ${name}`,
+      title: title,
+      description: description,
       images: profile?.image?.attributes?.url || "/icons/icon.png",
     },
     twitter: {
-      title: name,
-      description: profile?.about ?? `Пользователь ${name}`,
+      title: title,
+      description: description,
       images: profile?.image?.attributes?.url || "/icons/icon.png",
     },
     category: "people, user, customers, offers",
