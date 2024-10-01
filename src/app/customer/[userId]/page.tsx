@@ -23,18 +23,19 @@ export const generateMetadata = async ({ params }: IParamsCustomer): Promise<Met
   const { profile } = data ?? {}
 
   const name = `${profile?.firstName || "Имя"} ${profile?.lastName || "Фамилия"}`
+    const title = `Профиль и предложения пользователя ${profile?.username ?? ""} на Sheira. Люди, услуги, события`
 
   return {
-    title: name,
+    title: title,
     keywords: [...keyWords],
     description: profile?.about ?? `Пользователь ${profile?.username}`,
     openGraph: {
-      title: name,
+      title: title,
       description: profile?.about ?? `Пользователь ${profile?.username}`,
       images: profile?.image?.attributes?.url || "/icons/icon.png",
     },
     twitter: {
-      title: name,
+      title: title,
       description: profile?.about ?? `Пользователь ${profile?.username}`,
       images: profile?.image?.attributes?.url || "/icons/icon.png",
     },
