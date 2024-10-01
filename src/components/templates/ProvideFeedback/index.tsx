@@ -9,6 +9,7 @@ import Avatar from "@avatar"
 import IconPlus from "@/components/icons/IconPlus"
 import IconStar from "@/components/icons/IconStar"
 import IconRepeat from "@/components/icons/IconRepeat"
+import IconTrashBlack from "@/components/icons/IconTrashBlack"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 import { Button, ImageCategory, ImageStatic } from "@/components/common"
 
@@ -20,7 +21,6 @@ import { fileUploadService, getBarterId, patchTestimonial, postTestimonial, serv
 import { handleImageChange, MAX_LENGTH, resolver, TFiles, type TSchema } from "./utils"
 
 import styles from "./style.module.scss"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
 export const CN_ProvideFeedback: HTMLAttributes<HTMLElement>["className"] = "h-auto max-h-full flex flex-col max-md:!rounded-none"
 

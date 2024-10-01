@@ -18,10 +18,13 @@ const schema = object({
     // .min(1, { message: "Поле обязательно для заполнения" })
     // .min(MIN_LENGTH, { message: `Не менее ${MIN_LENGTH} символов` })
     .max(MAX_LENGTH, { message: `Достигнут лимит символов` }),
-  rating: number().default(0),
+  rating: number()
+    .default(0)
+    .refine((value) => value > 0, {
+      message: "Нужен рейтинг",
+    }),
   file: file,
 })
-
 export const resolver = zodResolver(schema)
 export type TSchema = z.infer<typeof schema>
 export type TFiles = z.infer<typeof file>
