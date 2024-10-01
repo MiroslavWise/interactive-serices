@@ -17,6 +17,7 @@
 /db/
 ./db/
 /db/ids.json
+./db/ids.json
 
 # next.js
 /.next/
