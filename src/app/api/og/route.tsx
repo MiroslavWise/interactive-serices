@@ -25,8 +25,8 @@ export async function GET() {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            height: 562,
-            width: 562,
+            height: 240,
+            width: 240,
             aspectRatio: "1/1",
             zIndex: 50,
           }}
@@ -56,8 +56,8 @@ export async function GET() {
       </div>
     ),
     {
-      width: 1280,
-      height: 720,
+      width: 256,
+      height: 256,
     },
   )
 }
