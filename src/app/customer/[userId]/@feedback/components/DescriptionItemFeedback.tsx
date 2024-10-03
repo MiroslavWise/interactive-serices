@@ -16,6 +16,8 @@ function DescriptionItemFeedback({ message }: { message: string }) {
     }
   }
 
+  if (!message) return null
+
   return (
     <p
       ref={ref}
