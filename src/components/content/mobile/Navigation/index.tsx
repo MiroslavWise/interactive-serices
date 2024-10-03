@@ -76,7 +76,7 @@ export default function Navigation() {
           data-plus
           className="w-full bg-transparent p-3.5 flex flex-col items-center justify-center pb-3 disabled:bg-btn-second-default disabled:cursor-no-drop hover:opacity-90"
         >
-          <div className="w-5 h-5 p-0.5 flex items-center justify-center *:w-4 *:h-4">
+          <div className="relative w-5 h-5 p-0.5 flex items-center justify-center *:w-4 *:h-4">
             <IconPlus />
           </div>
         </button>
@@ -86,7 +86,7 @@ export default function Navigation() {
           data-minus
           className="w-full bg-transparent p-3.5 flex flex-col items-center justify-center pt-3 disabled:bg-btn-second-default disabled:cursor-no-drop hover:opacity-90"
         >
-          <div className="w-5 h-5 p-0.5 flex items-center justify-center *:w-4 *:h-4">
+          <div className="relative w-5 h-5 p-0.5 flex items-center justify-center *:w-4 *:h-4">
             <IconMinus />
           </div>
         </button>
