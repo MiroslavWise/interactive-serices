@@ -22,8 +22,7 @@ export const generateMetadata = async ({ params }: IParamsCustomer): Promise<Met
 
   const { profile } = data ?? {}
 
-  const name = `${profile?.firstName || "Имя"} ${profile?.lastName || "Фамилия"}`
-    const title = `Профиль и предложения пользователя ${profile?.username ?? ""} на Sheira. Люди, услуги, события`
+  const title = `Профиль и предложения пользователя ${profile?.username ?? ""} на Sheira. Люди, услуги, события`
 
   return {
     title: title,

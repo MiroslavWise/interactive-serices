@@ -25,27 +25,29 @@ export default function CallbackYandex() {
       console.log("response: postYandex", response)
       if (response.ok) {
         if (response?.res) {
-          queryClient.fetchQuery({
-            queryFn: () => getUserId(response.res?.id!),
-            queryKey: ["user", { userId: response.res?.id }],
-          }).then(({ data }) => {
-            if (!!data) {
-              if (!data?.profile?.username) {
-                dispatchOnboarding("open")
+          queryClient
+            .fetchQuery({
+              queryFn: () => getUserId(response.res?.id!),
+              queryKey: ["user", { userId: response.res?.id }],
+            })
+            .then(({ data }) => {
+              if (!!data) {
+                if (!data?.profile?.username) {
+                  dispatchOnboarding("open")
+                }
+                dispatchAuthToken({ auth: response.res!, user: data! })
+                handlePush("/")
+                on({
+                  message: "Авторизация через сервис Yandex прошла успешно",
+                })
+              } else {
+                on({
+                  message: "К сожалению, сейчас мы не можем авторизовать вас через Яндекс. Пожалуйста, попробуйте другой способ.",
+                })
+                //добавить уведомление о некоректных данных Yandex
+                handlePush("/")
               }
-              dispatchAuthToken({ auth: response.res!, user: data! })
-              handlePush("/")
-              on({
-                message: "Авторизация через сервис Yandex прошла успешно",
-              })
-            } else {
-              on({
-                message: "К сожалению, сейчас мы не можем авторизовать вас через Яндекс. Пожалуйста, попробуйте другой способ.",
-              })
-              //добавить уведомление о некоректных данных Yandex
-              handlePush("/")
-            }
-          })
+            })
         }
       } else {
         if (!response.ok) {
@@ -61,7 +63,7 @@ export default function CallbackYandex() {
         }
         on({
           message:
-            "У нас произошла какая-то ошибка, и мы не смогли вас авторизовать на сервисе. Возможно, Yandex проводит какие-то опецарации, попробуйте чуть позже",
+            "У нас произошла какая-то ошибка, и мы не смогли вас авторизовать на сервисе. Возможно, Yandex проводит какие-то операции, попробуйте чуть позже",
         })
         //добавить уведомление о некоректных данных Yandex
         handlePush("/")
