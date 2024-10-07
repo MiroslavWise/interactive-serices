@@ -25,8 +25,8 @@ export function metadataImages({ images = [] }: IData) {
         imagesAndIconsOpenGraph.images!?.push({
           url: replaceURLImage(image.attributes.url),
           alt: image.attributes.alt,
-          width: 256,
-          height: 256,
+          width: 1200,
+          height: 630,
           type: "image/png",
         })
       }

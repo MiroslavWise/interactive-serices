@@ -19,10 +19,12 @@ export function metadataOffers({ data }: IData): Metadata {
 
   const { user, slug, id, title, category, provider, description, created } = data ?? {}
 
+  const metaTitle = title.slice(0, 89)
+
   if (provider === EnumTypeProvider.offer) {
-    meta.title = category?.title
+    meta.title = category?.title?.slice(0, 89)
   } else {
-    meta.title = title
+    meta.title = metaTitle
   }
   meta.description = description
 
@@ -48,21 +50,21 @@ export function metadataOffers({ data }: IData): Metadata {
   meta.metadataBase = metadataBase
 
   meta.openGraph = {
-    title: provider === EnumTypeProvider.offer ? category?.title : title,
-    siteName: `${provider === EnumTypeProvider.offer ? category?.title : title} | Sheira`,
+    title: provider === EnumTypeProvider.offer ? category?.title?.slice(0, 89) : metaTitle,
+    siteName: `${provider === EnumTypeProvider.offer ? category?.title?.slice(0, 80) : metaTitle} | Sheira`,
     type: "website",
     locale: "ru_RU",
-    description: description ?? "",
+    description: description?.slice(0, 199) ?? "",
     url: metadataBase,
     images: metaImgs.images.reverse(),
   }
   meta.twitter = {
-    title: title,
+    title: title?.slice(0, 69),
     creator: name,
     site: `Sheira`,
     card: "summary_large_image",
     images: metaImgs.images.reverse(),
-    description: description ?? `Описание: ${title ?? ""}`,
+    description: description?.slice(0, 199) ?? `Описание: ${title ?? ""}`,
   }
   meta.robots = {
     index: true,
