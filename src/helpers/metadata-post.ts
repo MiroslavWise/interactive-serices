@@ -18,13 +18,15 @@ export function metadataPosts({ data }: IData): Metadata {
 
   const { id, title, notes, user } = data ?? {}
 
-  meta.title = title
+  const metaTitle = title.slice(0, 89)
+
+  meta.title = metaTitle
   meta.keywords = [title, ...keyWords]
 
   const note = notes?.find((item) => item.main)
 
   if (note) {
-    meta.description = note?.description ?? `Описание: ${title ?? ""}`
+    meta.description = note?.description ?? `Описание: ${metaTitle ?? ""}`
   }
 
   const name = `${user?.firstName ?? "Имя"} ${user?.lastName ?? "Фамилия"}`
@@ -50,22 +52,22 @@ export function metadataPosts({ data }: IData): Metadata {
   meta.icons = metaImgs.icons
 
   meta.openGraph = {
-    title: title,
-    siteName: `${title} | Sheira`,
+    title: metaTitle,
+    siteName: `${metaTitle.slice(0, 80)} | Sheira`,
     type: "website",
     locale: "ru_RU",
     url: metadataBase,
-    description: note?.description ?? `Описание: ${title ?? ""}`,
+    description: note?.description ?? `Описание: ${metaTitle ?? ""}`,
     images: metaImgs.images.reverse(),
   }
 
   meta.twitter = {
-    title: title,
+    title: metaTitle.slice(0, 69),
     creator: name,
     site: `Sheira`,
     card: "summary_large_image",
     images: metaImgs.images.reverse(),
-    description: note?.description ?? `Описание: ${title ?? ""}`,
+    description: note?.description?.slice(0, 199) ?? `Описание: ${metaTitle ?? ""}`,
   }
   meta.robots = {
     index: true,
