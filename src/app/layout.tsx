@@ -1,6 +1,7 @@
 import Script from "next/script"
 import dynamic from "next/dynamic"
 import { Inter } from "next/font/google"
+
 import { type PropsWithChildren } from "react"
 import { type Viewport, type Metadata } from "next"
 
@@ -74,12 +75,18 @@ export function generateMetadata(): Metadata {
       siteName: "Sheira",
       description:
         "Сервис с интерактивной картой города, где можно размещать свои услуги, проводить активности, общаться и помогать друг другу",
-      title: "Sheira. Люди, события, услуги",
+      title: {
+        default: "Sheira",
+        template: "%s | Sheira. Люди, события, услуги",
+      },
       images: `${env.server.host!}/api/og`,
     },
     twitter: {
       site: env.server.host!,
-      title: "Sheira",
+      title: {
+        default: "Sheira",
+        template: "%s | Sheira. Люди, события, услуги",
+      },
       description:
         "Sheira - сервис с интерактивной картой городов. Обычные люди размещают здесь свои услуги для обмена и продажи, обсуждают важные вопросы и сообщают о локальных проблемах.",
       images: `${env.server.host!}/api/og`,
