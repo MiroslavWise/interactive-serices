@@ -174,6 +174,7 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
                         setValueForm("help", true)
                       }
                       setValue("")
+                      setOpen(false)
                     }}
                   >
                     <span
