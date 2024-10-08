@@ -90,7 +90,7 @@ export default function SearchCategory() {
             title="Очистить поле ввода"
             aria-label="Очистить поле ввода"
             className={cx(
-              "absolute h-9 w-9 top-1/2 -translate-y-1/2 r-3.5 p-2.5 items-center justify-center bg-transparent border-none outline-none",
+              "absolute h-9 w-9 top-1/2 -translate-y-1/2 right-3.5 p-2.5 items-center justify-center bg-transparent border-none outline-none",
               !!input?.trim() ? "flex" : "hidden",
               "*:w-4 *:h-4",
             )}
