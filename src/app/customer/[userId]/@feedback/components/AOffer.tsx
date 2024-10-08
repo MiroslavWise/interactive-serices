@@ -3,6 +3,7 @@
 import { type IResponseOffers } from "@/services/offers/types"
 
 import { ImageCategory } from "@/components/common"
+
 import { dispatchBallonOffer } from "@/store"
 
 function AOffer({ offer }: { offer: IResponseOffers }) {

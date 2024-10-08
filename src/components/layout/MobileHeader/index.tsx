@@ -1,5 +1,8 @@
-import { Logo } from "./components/Logo"
+"use client"
+
 import { useParams, usePathname } from "next/navigation"
+
+import { Logo } from "./components/Logo"
 import { NotificationBell } from "./components/NotificationBell"
 
 import { cx } from "@/lib/cx"
