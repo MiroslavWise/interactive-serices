@@ -1,21 +1,25 @@
 "use client"
 
+import { useRef } from "react"
+
+import { type IImageData } from "@/types/type"
+
 import { NextImageMotion } from "@/components/common"
+
 import { cx } from "@/lib/cx"
 import { dispatchPhotoCarousel } from "@/store"
-import { type IImageData } from "@/types/type"
-import { useRef } from "react"
 
 function ImagesFeedback({ images }: { images: IImageData[] }) {
   const refImages = useRef<HTMLDivElement>(null)
 
-  if (ImagesFeedback.length === 0) return null
+  if (images.length === 0) return null
 
   return (
     <div
       className={cx(
         "scroll-no",
         "w-[calc(100%_+_2rem)] h-[4.875rem] -mx-4 min-h-[4.875rem] max-h-[4.875rem] relative overflow-hidden !px-0",
+        images.length === 0 && "hidden",
       )}
       onWheel={(event) => {
         event.stopPropagation()
