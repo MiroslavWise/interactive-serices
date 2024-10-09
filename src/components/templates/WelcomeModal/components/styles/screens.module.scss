@@ -30,7 +30,7 @@
     }
   }
 
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: 768px) {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -92,7 +92,7 @@
     right: 46px;
     max-width: 483px;
   }
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: 768px) {
     & > [data-absolute-image] {
       height: auto;
       display: flex;
@@ -149,7 +149,7 @@
     }
   }
 
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: 768px) {
     & > [data-absolute-image] {
       aspect-ratio: 233/140;
     }
@@ -227,7 +227,7 @@
     }
   }
 
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: 768px) {
     & > [data-absolute-image] {
       height: auto;
       display: flex;
