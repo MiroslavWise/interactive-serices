@@ -1,13 +1,13 @@
+import { type IResponse } from "../request"
+import { type IUserOffer } from "../offers/types"
 import type { IPromiseReturn } from "@/services/types/general"
 import type { TTypeFriends } from "@/store/types/createDroverFriends"
-import { type IUserOffer } from "../offers/types"
-import { type IResponse } from "../request"
 
 interface IPostDataFriends {
   id: number
 }
 
-interface IFriendsResponse extends IUserOffer {}
+export interface IFriendsResponse extends IUserOffer {}
 
 interface IQueries {
   order?: "ASC" | "DESC"

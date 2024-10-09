@@ -19,6 +19,7 @@ import { useToast } from "@/helpers/hooks/useToast"
 import { DeclensionAllQuantityFriends } from "@/lib/declension"
 import { dispatchDeleteFriend, dispatchMyFriends, useAuth, useMyFriends } from "@/store"
 import { clg } from "@console"
+import IconAddFriend from "@/components/icons/IconAddFriend"
 
 function MyFriends() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -115,7 +116,7 @@ function MyFriends() {
                 ? itemsResponse.map((item) => (
                     <li
                       key={`:key:my:friend:${item.id}:`}
-                      className="w-full h-[3.125rem] grid grid-cols-[3.125rem_minmax(0,1fr)_13.0625rem] gap-3"
+                      className="w-full h-[3.125rem] grid grid-cols-[3.125rem_minmax(0,1fr)_2.25rem] md:grid-cols-[3.125rem_minmax(0,1fr)_13.0625rem] gap-3 items-center"
                     >
                       <Avatar className="w-[3.125rem] h-[3.125rem] aspect-square rounded-.625" image={item.image} userId={item.id} />
                       <div className="w-full flex flex-col items-start justify-center gap-1">
@@ -132,7 +133,7 @@ function MyFriends() {
                         </Link>
                         <RatingAndFeedbackComponent id={item.id} />
                       </div>
-                      <div className="w-full grid grid-cols-[minmax(0,1fr)_2.25rem] items-center *:h-9 *:w-full *:rounded-[1.125rem] gap-2.5">
+                      <div className="w-full hidden md:grid grid-cols-[minmax(0,1fr)_2.25rem] items-center *:h-9 *:w-full *:rounded-[1.125rem] gap-2.5">
                         <Button
                           type="button"
                           typeButton="fill-primary"
@@ -155,13 +156,20 @@ function MyFriends() {
                           <IconAccentChat />
                         </Link>
                       </div>
+                      <button
+                        type="button"
+                        className="h-9 w-9 relative rounded-full flex md:hidden *:w-5 *:h-5"
+                        onClick={() => onHandleAdd(item.id)}
+                      >
+                        <IconAddFriend />
+                      </button>
                     </li>
                   ))
                 : null}
               {items.map((item) => (
                 <li
                   key={`:key:my:friend:${item.id}:`}
-                  className="w-full h-[3.125rem] grid grid-cols-[3.125rem_minmax(0,1fr)_13.0625rem] gap-3"
+                  className="w-full h-[3.125rem] grid grid-cols-[3.125rem_minmax(0,1fr)_2.25rem] md:grid-cols-[3.125rem_minmax(0,1fr)_13.0625rem] items-center gap-3"
                 >
                   <Avatar className="w-[3.125rem] h-[3.125rem] aspect-square rounded-.625" image={item.image} userId={item.id} />
                   <div className="w-full flex flex-col items-start justify-center gap-1">
@@ -178,7 +186,7 @@ function MyFriends() {
                     </Link>
                     <RatingAndFeedbackComponent id={item.id} />
                   </div>
-                  <div className="w-full grid grid-cols-[minmax(0,1fr)_2.25rem] items-center *:h-9 *:w-full *:rounded-[1.125rem] gap-2.5">
+                  <div className="w-full hidden md:grid grid-cols-[minmax(0,1fr)_2.25rem] items-center *:h-9 *:w-full *:rounded-[1.125rem] gap-2.5">
                     <ButtonLink
                       typeButton="fill-primary"
                       href={{
@@ -198,6 +206,18 @@ function MyFriends() {
                       <IconCheckFriend />
                     </div>
                   </div>
+                  <Link
+                    href={{
+                      pathname: "/chat",
+                      query: {
+                        user: item.id,
+                      },
+                    }}
+                    prefetch={false}
+                    className="h-9 w-9 relative rounded-full flex md:hidden *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"
+                  >
+                    <IconAccentChat />
+                  </Link>
                 </li>
               ))}
             </ul>
