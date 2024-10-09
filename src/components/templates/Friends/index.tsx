@@ -2,12 +2,12 @@
 
 import { useState } from "react"
 
+import ListAll from "./components/ListAll"
 import { IconXClose } from "@/components/icons/IconXClose"
 
 import { cx } from "@/lib/cx"
 import { SEGMENT_FRIENDS, type TFriends } from "./constants/segments"
 import { dispatchCloseFriends, useFriends } from "@/store"
-import ListAll from "./components/ListAll"
 
 function Friends() {
   const visible = useFriends(({ visible }) => visible)
