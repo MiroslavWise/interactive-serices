@@ -17,7 +17,7 @@
     width: 0px;
   }
 
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: 768px) {
     margin: 0;
     -webkit-overflow-scrolling: touch;
     height: 100%;
@@ -34,8 +34,7 @@
 .__container-offer-page__ {
   height: calc(100vh - var(--height-header-nav-bar) - 1.5rem);
 
-  @media screen and (max-width: 760px) {
-    
+  @media screen and (max-width: 768px) {
     -webkit-overflow-scrolling: touch;
     padding-bottom: calc(var(--height-mobile-footer-nav) + 0.625rem);
     padding-top: calc(var(--height-mobile-header) + 0.625rem);

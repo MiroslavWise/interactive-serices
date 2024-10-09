@@ -10,13 +10,12 @@ import styles from "./style.module.scss"
 
 const link = `https://promo.sheira.ru/partner`
 
-function BannerPartner({ is }: { is: boolean }) {
+function BannerPartner() {
   return (
     <div
       className={cx(
         styles.wrapper,
         "relative overflow-hidden transition-transform duration-200 h-[var(--height-banner)] w-full flex flex-row md:items-center justify-start md:justify-center pl-2.5 md:pl-4 md:px-1.5 py-3 md:py-2.5",
-        is ? "translate-y-0" : "-translate-y-full",
       )}
     >
       <p className="text-text-button text-base md:text-sm font-semibold inline flex-wrap items-center md:justify-center relative z-30">
