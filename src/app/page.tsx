@@ -36,10 +36,8 @@ const BannerMainPage = dynamic(() => import("@/components/content/BannerMainPage
 
 import { useResize } from "@/helpers"
 import { dispatchUTMData, IStateUTM, useAuth } from "@/store"
-import { clg } from "@console"
 
-export default ({ searchParams: searchParams_ }: { searchParams: any }) => {
-  clg("searchParams_: ", searchParams_, "error")
+export default () => {
   const searchParams = useSearchParams()
   const { replace } = useRouter()
 
