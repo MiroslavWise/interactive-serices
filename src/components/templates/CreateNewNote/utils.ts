@@ -1,9 +1,10 @@
 import { z } from "zod"
-import { type AxiosProgressEvent } from "axios"
 import { zodResolver } from "@hookform/resolvers/zod"
+
+import { type AxiosProgressEvent } from "axios"
 import { type ChangeEvent, type Dispatch, type SetStateAction } from "react"
 
-export const LIMIT_DESCRIPTION = 400
+export const LIMIT_DESCRIPTION = 1024
 const sleep = () => new Promise((r) => setTimeout(r, 50))
 const description = z
   .string()
