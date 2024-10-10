@@ -12,6 +12,7 @@ import { ServiceLoading } from "@/components/common"
 import { getPosts } from "@/services/posts"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import { useBounds, useFiltersServices, useUrgentFilter } from "@/store"
+import { EXCEPTION_POST_MAP } from "@/config/exception"
 
 export const ServicesComponent = memo(function ({ parentRef }: { parentRef: RefObject<HTMLUListElement> }) {
   const { itemsOffers, isLoading } = useMapOffers()
@@ -40,6 +41,9 @@ export const ServicesComponent = memo(function ({ parentRef }: { parentRef: RefO
       const dataAllItems =
         itemsPost?.filter((item) => {
           if (!item?.addresses?.length) {
+            return false
+          }
+          if (EXCEPTION_POST_MAP.includes(item.id)) {
             return false
           }
           const coordinates = item?.addresses[0]?.coordinates?.split(" ").map(Number).filter(Boolean)
