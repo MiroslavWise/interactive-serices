@@ -1,1 +1,1 @@
-export const EXCEPTION_POST_MAP = [0]
+export const EXCEPTION_POST_MAP = [26]
