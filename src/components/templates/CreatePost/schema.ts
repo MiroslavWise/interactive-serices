@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { schemaFeatureMember, schemaPostAddress } from "@/services/addresses/types/geocodeSearch"
 
 export const LIMIT_TITLE_POST = 144
-export const LIMIT_DESCRIPTION = 400
+export const LIMIT_DESCRIPTION = 1024
 
 const regexContent = /[^a-z0-9а-яёй\s]/i
 
