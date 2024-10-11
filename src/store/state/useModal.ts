@@ -33,7 +33,6 @@ export enum EModalData {
   CompletionTransaction = "completion-transaction",
   ComplaintModal = "complaint-modal",
   UpdateProfile = "update-profile",
-  ModalSign = "modal-sign",
   BalloonOffer = "balloon-offer",
   BalloonDiscussion = "balloon-discussion",
   BalloonAlert = "balloon-alert",

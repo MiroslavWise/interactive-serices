@@ -5,13 +5,12 @@ import { resolverEmailSignIn, TSchemaEmailSignIn } from "../utils/email-sign-in.
 
 import { Button } from "@/components/common"
 
+import { clg } from "@console"
 import { useToast } from "@/helpers/hooks/useToast"
-import { useReplacePathName } from "../hooks/replace-path-name"
 import { functionAuthErrors, serviceAuthErrors } from "@/services"
-import { dispatchAuthModal, dispatchLoginTokenData } from "@/store"
+import { dispatchCloseModalAuth, dispatchLoginTokenData } from "@/store"
 
 import styles from "../styles/form.module.scss"
-import { clg } from "@console"
 
 export const SignInEmail = ({ children, itemForgot }: { children: ReactNode; itemForgot: ReactNode }) => {
   const [loading, setLoading] = useState(false)
@@ -57,7 +56,7 @@ export const SignInEmail = ({ children, itemForgot }: { children: ReactNode; ite
         return
       }
       if (!!response?.res) {
-        dispatchAuthModal({ visible: false })
+        dispatchCloseModalAuth()
       }
 
       setLoading(false)
