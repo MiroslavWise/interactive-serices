@@ -35,7 +35,7 @@ export function metadataOffers({ data }: IData): Metadata {
   if (user) {
     meta.authors = {
       name: name,
-      url: `${env.server.host}/user/${user?.id}/${user?.username}`,
+      url: `${env.server.host}/user/${user?.id}`,
     }
     meta.creator = name
     meta.publisher = name

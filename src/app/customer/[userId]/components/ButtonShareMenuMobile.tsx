@@ -15,7 +15,7 @@ function ButtonShareMenuMobile({ user }: { user: IUserResponse }) {
   const { onSimpleMessage } = useToast()
 
   function handle() {
-    const linkUser = `/user/${id}/${String(profile?.username || "").replaceAll("/", "_") || "пользователь"}`
+    const linkUser = `/user/${id}`
     const url = `${env.server.host}${linkUser}`
     if (!!window.navigator.share!) {
       navigator.share({
