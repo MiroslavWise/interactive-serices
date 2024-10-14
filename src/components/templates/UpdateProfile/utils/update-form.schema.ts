@@ -19,8 +19,17 @@ const stringMinThree = (message: string, messageMax: string, regex: RegExp) =>
 
 const schemaUpdateForm = z.object({
   firstName: stringMinThree("Минимум 2 символа в имени", "Максимум 32 символа в имени", /^[a-zA-Zа-яА-Яёй\-]+$/),
-  lastName: stringMinThree("Минимум 2 символа в фамилии", "Максимум 32 символа в фамилии", /^[a-zA-Zа-яА-Яёй\-]+$/),
-  username: stringMinThree("Минимум 2 символа в никнейме", "Максимум 32 символа в никнейме", /^[a-zA-Zа-яА-Яёй\-0-9_]+$/),
+  lastName: z
+    .string()
+    .regex(/^[a-zA-Zа-яА-Яёй\-]+$/, {
+      message: "Не верный формат поля, допускаются только буквы и один дефис",
+    })
+    .default(""),
+  // username: stringMinThree("Минимум 2 символа в никнейме", "Максимум 32 символа в никнейме", /^[a-zA-Zа-яА-Яёй\-0-9_]+$/),
+  username: z
+    .string()
+    .regex(/^[a-zA-Zа-яА-Яёй\-0-9_]+$/, { message: "Не верный формат поля, допускаются только буквы и один дефис" })
+    .default(""),
   gender: nullableStringGender,
 })
 

@@ -90,18 +90,21 @@ export const PersonalData = () => {
       const valuesProfile: IPatchProfileData = {
         enabled: true,
       }
-
-      if (values.firstName !== profile?.firstName) {
-        valuesProfile.firstName = values.firstName
+      const firstName = values.firstName.trim()
+      if (firstName !== profile?.firstName && firstName) {
+        valuesProfile.firstName = firstName
       }
-      if (values.lastName !== profile?.lastName) {
-        valuesProfile.lastName = values.lastName
+      const lastName = values.lastName.trim()
+      if (lastName !== profile?.lastName && lastName) {
+        valuesProfile.lastName = lastName
       }
-      if (values.username !== profile?.username) {
-        valuesProfile.username = values.username?.replace("@", "")
+      const username = values.username.trim()
+      if (username !== profile?.username && username) {
+        valuesProfile.username = username?.replace("@", "")
       }
-      if (values.gender !== profile?.gender && ["f", "m"].includes(values.gender!)) {
-        valuesProfile.gender = values.gender
+      const gender = values.gender
+      if (gender !== profile?.gender && ["f", "m"].includes(gender)) {
+        valuesProfile.gender = gender
       }
 
       if (Object.keys(valuesProfile).length === 1 && !file.string) {
