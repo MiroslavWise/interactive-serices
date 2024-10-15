@@ -1,11 +1,7 @@
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-const nullableStringGender = z.enum(["m", "f"], {
-  errorMap: () => ({
-    message: "Выберите пол",
-  }),
-})
+const nullableStringGender = z.any()
 const stringMinThree = (message: string, messageMax: string, regex: RegExp) =>
   z
     .string({ errorMap: () => ({ message }) })
