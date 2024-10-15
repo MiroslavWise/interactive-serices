@@ -1,14 +1,11 @@
 import { Button } from "@/components/common"
 
-import { dispatchAuthModal, useModalAuth } from "@/store"
+import { dispatchCloseModalAuth, useModalAuth } from "@/store"
 
 import styles from "../styles/form.module.scss"
 
 export const ContentInformationCreateAccount = () => {
   const email = useModalAuth(({ email }) => email)
-  function handleClose() {
-    dispatchAuthModal({ visible: false })
-  }
 
   return (
     <div className={styles.content} data-test="information-create-account">
@@ -21,7 +18,7 @@ export const ContentInformationCreateAccount = () => {
         type="button"
         typeButton="fill-primary"
         label="Хорошо"
-        onClick={handleClose}
+        onClick={dispatchCloseModalAuth}
         data-test="information-create-account-button-close"
       />
     </div>

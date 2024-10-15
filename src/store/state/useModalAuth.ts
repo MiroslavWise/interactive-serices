@@ -2,6 +2,8 @@ import { create } from "zustand"
 import { persist, createJSONStorage } from "zustand/middleware"
 
 import { EnumSign } from "@/types/enum"
+import { type IUserResponse } from "@/services/users/types"
+
 import type {
   IUseVisibleAndTypeAuthModalState,
   IAction,
@@ -9,15 +11,12 @@ import type {
   IUseTimerModalAuth,
   IUseModalAuthEmailOrPhone,
   TTypeEmailOrNumber,
-  IActionAuthModalVerification,
 } from "../types/useVisibleAndTypeAuthModalState"
-import { IUserResponse } from "@/services/users/types"
-import { dispatchModal, dispatchModalClose, EModalData } from "./useModal"
-import { clg } from "@console"
 
 export const useModalAuth = create(
   persist<IUseVisibleAndTypeAuthModalState>(
     () => ({
+      visible: false,
       type: null,
       prevType: null,
     }),
@@ -38,48 +37,47 @@ export const useModalAuthEmailOrPhone = create(
   }),
 )
 
+export const dispatchCloseModalAuth = () => useModalAuth.setState((_) => ({ visible: false }), true)
+
 export const dispatchIModalAuthEmailOrPhone = (value: TTypeEmailOrNumber) => {
-  dispatchModal(EModalData.ModalSign)
+  useModalAuth.setState(
+    (_) => ({
+      ..._,
+      visible: true,
+    }),
+    true,
+  )
   useModalAuthEmailOrPhone.setState((_) => ({
     typeEmailOrPhone: value,
   }))
 }
 
 export const dispatchAuthModal = ({ visible, type, email }: IAction) => {
-  clg("dispatchAuthModal: visible", visible, "warning")
-  clg("dispatchAuthModal: type", type, "warning")
-  clg("dispatchAuthModal: email", email, "warning")
-  if (typeof visible !== "undefined") {
-    if (visible) {
-      dispatchModal(EModalData.ModalSign)
-    } else {
-      dispatchModalClose()
-    }
-  }
   useModalAuth.setState((_) => ({
+    visible: typeof visible !== "undefined" ? visible : false,
     type: typeof type !== "undefined" ? type : _.type,
     email: typeof email !== "undefined" ? email : _.email,
   }))
 }
 
 export const dispatchAuthModalResetPassword = (value: string) => {
-  dispatchModal(EModalData.ModalSign)
   useModalAuth.setState((_) => ({
+    visible: true,
     type: EnumSign.ResetPassword,
     codeReset: value,
   }))
 }
 export const dispatchAuthModalInformationCreateAccount = (value: string) => {
-  dispatchModal(EModalData.ModalSign)
   useModalAuth.setState((_) => ({
+    visible: true,
     type: EnumSign.InformationCreateAccount,
     email: value,
   }))
 }
 
 export const dispatchAuthModalCreatePassword = ({ email, phone, agree, marketing }: IActionCreatePassword) => {
-  dispatchModal(EModalData.ModalSign)
   useModalAuth.setState((_) => ({
+    visible: true,
     type: EnumSign.CreatePassword,
     email: email,
     phone: phone,
@@ -107,12 +105,8 @@ export const dispatchStartTimer = () => {
 // export const dispatchIntervalTimer = () => useTimerModalAuth.setState((_) => ({}), true)
 
 export const dispatchAuthModalCurrentUser = ({ user }: { user?: IUserResponse }) => {
-  if (!!user) {
-    dispatchModal(EModalData.ModalSign)
-  } else {
-    dispatchModalClose()
-  }
   useModalAuth.setState((_) => ({
+    visible: !!user,
     type: !!user ? EnumSign.CurrentUser : null,
     user: user,
   }))
@@ -127,8 +121,8 @@ export const dispatchAuthModalCodeVerification = ({
   idUser: number | string
   prevType: EnumSign | null
 }) => {
-  dispatchModal(EModalData.ModalSign)
   useModalAuth.setState((_) => ({
+    visible: true,
     phone: phone,
     idUser: idUser,
     type: EnumSign.CodeVerification,

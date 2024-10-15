@@ -10,12 +10,12 @@ import { resolverCodeVerification, type TSchemaCodeVerification } from "../utils
 import { TimerData } from "./TimerData"
 import { Button } from "@/components/common"
 
+import { cx } from "@/lib/cx"
 import { serviceAuth } from "@/services"
 import { useReplacePathName } from "../hooks/replace-path-name"
-import { dispatchAuthModal, dispatchAuthToken, useModalAuth } from "@/store"
+import { dispatchAuthModal, dispatchAuthToken, dispatchCloseModalAuth, useModalAuth } from "@/store"
 
 import styles from "../styles/form.module.scss"
-import { cx } from "@/lib/cx"
 
 export const ContentCodeVerification = ({}) => {
   const [loading, setLoading] = useState(false)
@@ -49,10 +49,7 @@ export const ContentCodeVerification = ({}) => {
               auth: response?.res!,
               user: null,
             })
-            dispatchAuthModal({
-              visible: false,
-              type: null,
-            })
+            dispatchCloseModalAuth()
             onReplace()
           } else {
             console.log("%c ---ERROR CONFIRM CODE---", "color: #f00", response?.error)

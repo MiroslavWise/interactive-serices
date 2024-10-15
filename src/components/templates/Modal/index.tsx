@@ -58,7 +58,7 @@ function Modal() {
       if ([EModalData.UpdateProfile, EModalData.ActiveServicesFrom].includes(data)) {
         ref.current.style.setProperty("--width-section", `41.875rem`)
       }
-      if ([EModalData.ModalSign, EModalData.ChangePassword].includes(data)) {
+      if ([EModalData.ChangePassword].includes(data)) {
         ref.current.style.setProperty("--width-section", `30.625rem`)
       }
       if (

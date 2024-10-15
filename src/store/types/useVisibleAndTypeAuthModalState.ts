@@ -16,6 +16,7 @@ export interface IActionCreatePassword {
   marketing: boolean
 }
 export interface IUseVisibleAndTypeAuthModalState {
+  visible: boolean
   type: EnumSign | null
   prevType: EnumSign | null
   email?: string

@@ -1,6 +1,5 @@
 import { type ReactNode } from "react"
 
-import ModalSign from "../ModalSign"
 import OutAccount from "../OutAccount"
 import DeleteUser from "../DeleteUser"
 import DeleteChat from "../DeleteChat"
@@ -29,7 +28,6 @@ import ProvideFeedback, { CN_ProvideFeedback } from "../ProvideFeedback"
 import { cx } from "@/lib/cx"
 import { EModalData } from "@/store"
 
-import { CN_CONTAINER_MODAL_SIGN } from "../ModalSign/style"
 import { CN_SUCCESS_NEW_OPTIONAL } from "../SuccessNewOptional/style"
 import { CN_SECTION } from "@/components/templates/NewServicesBanner/style"
 import styleCreateNewOptionModal from "@/components/templates/CreateNewOptionModal/styles/style.module.scss"
@@ -61,7 +59,6 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.CompletionTransaction, <ProvideFeedback key="::key::modal::ProvideFeedback" />], //Отзыв о завершении обмена
   [EModalData.ComplaintModal, <ComplaintModal key="::key::modal::complaint-modal" />], //Жалоба на пользователя
   [EModalData.UpdateProfile, <UpdateProfile key="::key::modal::update-profile" />], //Редактирование профиля
-  [EModalData.ModalSign, <ModalSign key="::key::modal::modal-sign" />], //Флоу логина и регаистрации
   [EModalData.BalloonAlert, <BalloonAlert key="::key::modal::modal-sign" />], //Балун алерта
   [EModalData.BalloonDiscussion, <BalloonDiscussion key="::key::modal::modal-sign" />], //Балун дискуссии
   [EModalData.BalloonOffer, <BalloonOffer key="::key::modal::modal-sign" />], //балун оффера
@@ -92,7 +89,6 @@ export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.CompletionTransaction, CN_ProvideFeedback!], //
   [EModalData.ComplaintModal, stylesComplaintModal.container], //
   [EModalData.UpdateProfile, stylesUpdateProfile.container], //
-  [EModalData.ModalSign, CN_CONTAINER_MODAL_SIGN], //
   [EModalData.BalloonAlert, stringBalloonAlert], //
   [EModalData.BalloonDiscussion, stringBalloonDiscussion], //
   [EModalData.BalloonOffer, stringBalloonOffer], //

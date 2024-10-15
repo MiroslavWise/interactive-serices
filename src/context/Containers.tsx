@@ -39,6 +39,7 @@ import Friends from "@/components/templates/Friends"
 import MyFriends from "@/components/templates/MyFriends"
 import ArchivePost from "@/components/templates/ArchivePost"
 import UpdatePost from "@/components/templates/Update/Posts"
+import ModalSign from "@/components/templates/ModalSign"
 
 const Modal = dynamic(() => import("@/components/templates/Modal"), { ssr: false })
 const DeleteNote = dynamic(() => import("@/components/templates/DeleteNote"), { ssr: false })
@@ -78,6 +79,7 @@ function Containers() {
         <>
           <Intro />
           <AboutSheiraPopup />
+          <ModalSign />
         </>
       )}
       <Friends />
