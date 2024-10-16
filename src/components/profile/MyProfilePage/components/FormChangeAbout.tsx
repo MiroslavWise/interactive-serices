@@ -11,7 +11,7 @@ import { Button } from "@/components/common"
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
 import { useOut } from "@/helpers"
-import { getProfile, getUserId, patchProfile } from "@/services"
+import { getUserId, patchProfile } from "@/services"
 
 export const FormChangeAbout = ({ setIsEditing }: { setIsEditing: Dispatch<SetStateAction<boolean>> }) => {
   const [loading, setLoading] = useState(false)

@@ -3,7 +3,7 @@ import { type IPromiseReturn } from "@/services/types/general"
 import { EnumHelper, EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 import { type IAddressesResponse } from "../addresses/types/serviceAddresses"
 import { type IResponseOffersCategories } from "../offers-categories/types"
-import { type IResponse } from "../request"
+import { IResponse } from "../request/types"
 
 export interface ISmallDataOfferBarter {
   id: number
@@ -91,7 +91,7 @@ export interface IBartersService {
   get(values?: IQueries): Promise<IResponse<IBarterResponse[]>>
   getId(id: string | number): Promise<IResponse<IBarterResponse>>
   getUserId(id: string | number, values?: IQueries): IPromiseReturn<IBarterResponse[]>
-  getReceiverId(id: string | number, values?: IQueries): IPromiseReturn<IBarterResponse[]>
+  getReceiverId(id: string | number, values?: IQueries): Promise<IResponse<IBarterResponse[]>>
   post(value: IPostDataBarter): IPromiseReturn<IBarterResponse>
   patch(value: IPatchDataBarter, id: number | string): IPromiseReturn<IBarterResponse>
 }

@@ -1,6 +1,7 @@
 import { type IUserOffer } from "../offers/types"
 import { type IBarterResponse } from "../barters/types"
 import { type IPromiseReturn, type TOrder } from "../types/general"
+import { IResponse } from "../request/types"
 
 type TTypeOperation =
   | "create"
@@ -47,6 +48,6 @@ interface IQueries {
 
 export interface IServiceNotifications {
   post(value: IPostNotification): IPromiseReturn<IResponseNotifications>
-  get(value?: IQueries): IPromiseReturn<IResponseNotifications[]>
+  get(value?: IQueries): Promise<IResponse<IResponseNotifications[]>>
   patch(value: TPatchNotification, id: number | string): IPromiseReturn<IResponseNotifications>
 }

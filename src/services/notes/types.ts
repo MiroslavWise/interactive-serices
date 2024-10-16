@@ -1,7 +1,7 @@
-import { type IResponse } from "../request"
 import { type IImageData } from "@/types/type"
 import { type IUserOffer as IUserSmall } from "../offers/types"
 import { type TOrder } from "../types/general"
+import { IResponse } from "../request/types"
 
 export interface INotes {
   id: number

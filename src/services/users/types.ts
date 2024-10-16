@@ -6,7 +6,7 @@ import type { IResponseOffersCategories } from "@/services/offers-categories/typ
 import { IResponsePhones } from "../phones/types"
 import { TRole } from "../roles/types"
 import { EnumStatusBarter } from "@/types/enum"
-import { IResponse } from "../request"
+import { IResponse } from "../request/types"
 
 interface IPostDataUser {
   email: string

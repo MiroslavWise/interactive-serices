@@ -2,8 +2,8 @@ import { AxiosError } from "axios"
 import { type IReturnData } from "../types/general"
 import { type TSchemaEmailSignIn } from "@/components/templates/ModalSign/utils/email-sign-in.schema"
 
-import { instance } from "../request"
 import { isTokenExpired, useAuth, type TAuth } from "@/store"
+import { instance } from "../request/instance"
 
 const url = "/auth"
 

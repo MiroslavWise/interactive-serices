@@ -35,7 +35,7 @@ export default function Notifications() {
   })
 
   useEffect(() => {
-    const values = dataNotifications?.res
+    const values = dataNotifications?.data
 
     if (values && userId) {
       const array: IResponseNotifications[] = []
@@ -70,7 +70,7 @@ export default function Notifications() {
 
       return () => clearTimeout(timer)
     }
-  }, [dataNotifications?.res, userId])
+  }, [dataNotifications?.data, userId])
 
   return (
     <section

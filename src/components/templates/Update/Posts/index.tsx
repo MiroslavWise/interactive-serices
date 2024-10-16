@@ -13,8 +13,9 @@ import { queryClient } from "@/context"
 import { getNotes } from "@/services/notes"
 import { getPostId, getPosts } from "@/services/posts"
 import { handleImageChange, updatePatch } from "./utils"
+import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
 import { dispatchBallonPost, dispatchUpdatePost, useAuth, useUpdatePost } from "@/store"
-import { LIMIT_DESCRIPTION, LIMIT_TITLE_POST, resolverCreatePostUpdate, type TSchemaCreatePostUpdate } from "../../CreatePost/schema"
+import { LIMIT_TITLE_POST, resolverCreatePostUpdate, type TSchemaCreatePostUpdate } from "../../CreatePost/schema"
 
 function UpdatePost() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -144,21 +145,21 @@ function UpdatePost() {
                     {...field}
                     className={cx(
                       "w-full h-[7.375rem] resize-none p-3.5 pb-6 rounded-2xl border border-solid text-text-primary placeholder:text-text-secondary disabled:text-text-disabled text-sm font-normal",
-                      !!error || field.value.length >= LIMIT_DESCRIPTION
+                      !!error || field.value.length >= MAX_LENGTH_DESCRIPTION_NOTE
                         ? "border-text-error"
                         : "border-grey-stroke focus:border-element-accent-1",
                     )}
-                    maxLength={LIMIT_DESCRIPTION + 2}
+                    maxLength={MAX_LENGTH_DESCRIPTION_NOTE}
                   />
                   <span
                     className={cx(
                       "absolute bottom-1 left-3.5 right-3.5 flex flex-row items-center justify-between text-xs font-normal",
-                      field.value.length >= LIMIT_DESCRIPTION || !!error ? "text-text-error" : "text-text-primary",
+                      field.value.length >= MAX_LENGTH_DESCRIPTION_NOTE || !!error ? "text-text-error" : "text-text-primary",
                     )}
                   >
                     <span>{!!error ? error.message : null}</span>
                     <span>
-                      {field.value.length}/{LIMIT_DESCRIPTION}
+                      {field.value.length}/{MAX_LENGTH_DESCRIPTION_NOTE}
                     </span>
                   </span>
                 </div>

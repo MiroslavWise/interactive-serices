@@ -1,7 +1,7 @@
 import { type IProvider } from "./types"
 
-import { postForm } from "../request"
 import { generateShortHash } from "@/lib/hash"
+import { postForm } from "../request/form-data"
 
 async function getFileDimensions(uploadFile: File): Promise<{ width: number; height: number }> {
   return new Promise((resolve, reject) => {
@@ -26,16 +26,17 @@ async function getFileDimensions(uploadFile: File): Promise<{ width: number; hei
 }
 
 export async function fileUploadService(uploadFile: File, provider: IProvider) {
-  const dimensions = await getFileDimensions(uploadFile)
-
   const formData = new FormData()
   formData.append("name", `${provider.type}_${uploadFile.name?.replaceAll(":", "_")}`) //type: profile | offer | discussion | alert | threads
   formData.append("caption", uploadFile.name)
   formData.append("ext", `.${uploadFile.name.split(".").at(-1)}`)
   formData.append("alt", uploadFile.name)
   formData.append("hash", "")
-  formData.append("height", dimensions.height.toString())
-  formData.append("width", dimensions.width.toString())
+  if (uploadFile.type.includes("image")) {
+    const dimensions = await getFileDimensions(uploadFile)
+    formData.append("height", dimensions.height.toString())
+    formData.append("width", dimensions.width.toString())
+  }
   formData.append("provider", `${provider.type}:${provider.userId}:${provider.idSupplements}`) //idSupplements - id оффера или чата, или другой сущности
   formData.append("size", uploadFile.size.toString())
   formData.append("thumb", generateShortHash(`${uploadFile.name}-${uploadFile.size}`))

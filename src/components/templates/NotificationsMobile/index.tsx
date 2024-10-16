@@ -31,7 +31,7 @@ export function NotificationsMobile() {
   })
 
   useEffect(() => {
-    const values = dataNotifications?.res
+    const values = dataNotifications?.data
 
     if (values && userId) {
       const array: IResponseNotifications[] = []
@@ -71,9 +71,9 @@ export function NotificationsMobile() {
         }
       }
     }
-  }, [dataNotifications?.res, userId])
+  }, [dataNotifications?.data, userId])
 
-  const maps = dataNotifications?.res || []
+  const maps = dataNotifications?.data || []
 
   return (
     <div className={cx("wrapper-fixed", styles.wrapper)} data-visible={visible}>

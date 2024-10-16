@@ -1,7 +1,7 @@
 import { EnumTypeProvider } from "@/types/enum"
 import type { IPromiseReturn, TOrder } from "../types/general"
 import { TCreateOfferCategory } from "@/components/templates/CreateNewCategory/utils/create.schema"
-import { IResponse } from "../request"
+import { IResponse } from "../request/types"
 
 export interface IResponseOffersCategories {
   id: number

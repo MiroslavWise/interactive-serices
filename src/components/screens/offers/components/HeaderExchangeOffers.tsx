@@ -23,7 +23,7 @@ export const HeaderExchangeOffers = () => {
     enabled: !!userId,
   })
 
-  const users = new Set(data?.res?.map((item) => item?.userId) || [])
+  const users = new Set(data?.data?.map((item) => item?.userId) || [])
 
   const dataUsers = useQueries({
     queries: Array.from(users)
@@ -43,7 +43,7 @@ export const HeaderExchangeOffers = () => {
     return []
   }, [dataUsers])
 
-  const length = data?.res?.length || 0
+  const length = data?.data?.length || 0
 
   return (
     <section className="w-full p-4 rounded-2xl bg-BG-second flex flex-col gap-2.5">

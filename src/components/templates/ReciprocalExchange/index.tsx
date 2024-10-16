@@ -9,6 +9,7 @@ import { type IPostDataBarter } from "@/services/barters/types"
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 import { type IPostOffers, type IResponseCreate } from "@/services/offers/types"
 
+import { IResponse } from "@/services/request/types"
 import { ETypeOfNewCreated, IFormValues } from "./types/types"
 
 import { ItemOffer } from "./components/ItemOffer"
@@ -20,7 +21,7 @@ import { useWebSocket } from "@/context"
 import { transliterateAndReplace } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { createAddress } from "@/helpers/address/create"
-import { serviceNotifications, postOffer, postBarter, getUserId, getOffersCategories, type IResponse } from "@/services"
+import { serviceNotifications, postOffer, postBarter, getUserId, getOffersCategories } from "@/services"
 import { dispatchBallonOffer, useReciprocalExchange, dispatchReciprocalExchange, useAuth, dispatchRefresh } from "@/store"
 
 function ReciprocalExchange() {

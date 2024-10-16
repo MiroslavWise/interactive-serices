@@ -53,8 +53,6 @@ function MyFriends() {
   const itemsResponse = dataResponse ?? []
   const lengthName = DeclensionAllQuantityFriends(length)
 
-  clg("itemsResponse: ", itemsResponse, "warning")
-
   function onHandleAdd(id: number) {
     if (!loadingAdd) {
       setLoadingAdd(true)

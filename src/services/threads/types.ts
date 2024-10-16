@@ -1,8 +1,8 @@
 import { type IImageData } from "@/types/type"
-import type { IPromiseReturn } from "../types/general"
+import { type IUserOffer } from "../offers/types"
+import { type IResponse } from "../request/types"
 import { EnumProviderThreads } from "@/types/enum"
-import type { IUserOffer } from "../offers/types"
-import { IResponse } from "../request"
+import { type IPromiseReturn } from "../types/general"
 
 export interface IPostThreads {
   title: "completed" | string

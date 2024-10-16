@@ -1,4 +1,4 @@
-import { get, wrapperPost } from "../request"
+import { wrapperPost } from "../request"
 import { TPostPhone, TPostVerifyPhone } from "./types"
 
 const url = "/phones"

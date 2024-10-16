@@ -27,18 +27,18 @@ export const ContainerOffersNow: TContainerOffersNow = ({ dispatch }) => {
   })
 
   useEffect(() => {
-    if (data?.ok) {
-      dispatch({ total: data?.res?.length || 0 })
+    if (data?.data) {
+      dispatch({ total: data?.data?.length || 0 })
     }
-  }, [data])
+  }, [data?.data])
 
   return (
     <section className={cx(styles.containerOffersNow, "w-full h-full z-[3]")}>
       <ul className="w-full grid gap-4 grid-cols-2 pb-5 overflow-y-auto z-[3] max-md:h-full max-md:flex max-md:flex-col max-md:gap-3 max-md:overflow-y-visible">
         {isLoading
           ? [1, 2, 3].map((_) => <LoadingBarters key={`::item::load${_}::`} />)
-          : Array.isArray(data?.res) &&
-            data?.res.map((item) => <CardOffer key={`${item.id}-offer-page-${item.provider}`} {...item} refetch={refetch} />)}
+          : Array.isArray(data?.data) &&
+            data?.data.map((item) => <CardOffer key={`${item.id}-offer-page-${item.provider}`} {...item} refetch={refetch} />)}
       </ul>
     </section>
   )

@@ -1,8 +1,8 @@
+import { type IImageData } from "@/types/type"
 import { EnumTypeProvider } from "@/types/enum"
+import { type IResponse } from "../request/types"
 import { type IPromiseReturn, type TOrder } from "../types/general"
 import { type IResponseOffers, type IUserOffer } from "../offers/types"
-import { type IResponse } from ".."
-import { IImageData } from "@/types/type"
 
 type TStatusFeedback = "published" | "blocked" | "edited"
 type TNumberRating = 1 | 2 | 3 | 4 | 5 | number

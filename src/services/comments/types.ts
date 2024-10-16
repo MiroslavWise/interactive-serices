@@ -1,6 +1,6 @@
-import { type IResponse } from "../request"
 import { type IUserOffer } from "../offers/types"
 import { type IPromiseReturn } from "@/services/types/general"
+import { IResponse } from "../request/types"
 
 export type TTypeStatusComments = "published" | "create"
 

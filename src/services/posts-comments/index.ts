@@ -1,7 +1,8 @@
 import { type TTypeStatusComments } from "../comments/types"
 import { INotes } from "../notes/types"
 import { IUserOffer } from "../offers/types"
-import { fetchGet, type IResponse, post } from "../request"
+import { fetchGet, post } from "../request"
+import { IResponse } from "../request/types"
 
 export interface IBodyPostComment {
   parentId?: number

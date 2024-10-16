@@ -4,7 +4,7 @@ import { type IAddressesResponse } from "../addresses/types/serviceAddresses"
 import { EnumHelper, EnumTypeProvider } from "@/types/enum"
 import { type TGenderForm } from "@/components/templates/UpdateProfile/utils/update-form.schema"
 import { type IResponseOffersCategories } from "../offers-categories/types"
-import { type IResponse } from "../request"
+import { IResponse } from "../request/types"
 
 export interface IResponseCreate {
   id: number

@@ -17,16 +17,16 @@ export const NotificationBell = () => {
   })
 
   useEffect(() => {
-    if (dataNotifications?.res && dataNotifications?.res?.length > 0) {
+    if (dataNotifications?.data && dataNotifications?.data?.length > 0) {
       let count = 0
-      for (const item of dataNotifications?.res) {
+      for (const item of dataNotifications?.data) {
         if (!item.read) {
           count += 1
         }
       }
       setCount(count || null)
     }
-  }, [dataNotifications?.res])
+  }, [dataNotifications?.data])
 
   return !!isAuth ? (
     <button

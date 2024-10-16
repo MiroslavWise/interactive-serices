@@ -1,6 +1,7 @@
 import type { IResponseLoginNot2fa } from "./authService"
 import type { IPromiseReturn } from "@/services/types/general"
 import { IAgree } from "./typeAgree"
+import { IResponse } from "@/services/request/types"
 
 export interface IRequestPhone extends Partial<IAgree> {
   phone: string
@@ -32,4 +33,4 @@ interface INewPassword {
 
 export type TPostNewPassword = (values: INewPassword) => IPromiseReturn<any>
 export type TGetSession = () => IPromiseReturn<any>
-export type TGetLogout = () => IPromiseReturn<any>
+export type TGetLogout = () => Promise<IResponse<any>>

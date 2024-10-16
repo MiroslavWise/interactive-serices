@@ -29,7 +29,7 @@ export const LinkOffers = ({ pathname }: { pathname: string }) => {
   })
 
   const isActive = pathname.includes(ITEMS_LINK_FOOTER.offers)
-  const count = data?.res?.length || 0
+  const count = data?.data?.length || 0
 
   return (
     <Link

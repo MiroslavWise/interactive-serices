@@ -1,4 +1,4 @@
-import { type IResponse } from "../request"
+import { IResponse } from "../request/types"
 import { EnumTypeProvider } from "@/types/enum"
 
 export interface IPostComplains {
