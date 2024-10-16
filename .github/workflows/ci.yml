@@ -54,7 +54,7 @@ jobs:
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
             cd /home/sheira/sheira-core/
-            docker stop sheira-frontend && docker rm sheira-frontend && docker rmi $(docker images | grep 'sheira/frontend')
+            # docker stop sheira-frontend && docker rm sheira-frontend && docker rmi $(docker images | grep 'sheira/frontend')
             docker pull sheira/frontend:development 
             docker-compose up -d --no-deps sheira-frontend && docker restart sheira-nginx
             ls -la
