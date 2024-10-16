@@ -1,4 +1,4 @@
-import { type IResponse } from "../request"
+import { IResponse } from "../request/types"
 
 type TProviderLikes = "offer" | "user" | "post"
 

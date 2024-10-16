@@ -1,7 +1,7 @@
 import { type IImageData } from "@/types/type"
+import { type IResponse } from "../request/types"
 import { type IPromiseReturn } from "@/services/types/general"
 import { type TGenderForm } from "@/components/templates/UpdateProfile/utils/update-form.schema"
-import { type IResponse } from "../request"
 
 export interface IPostProfileData {
   username?: string
@@ -37,8 +37,8 @@ interface IProfileResponse {
 }
 
 export interface IServiceProfile {
-  get(): IPromiseReturn<IGetProfileIdResponse>
-  getUserId(id: number | string): IPromiseReturn<IGetProfileIdResponse>
+  get(): Promise<IResponse<IGetProfileIdResponse>>
+  getUserId(id: number | string): Promise<IResponse<IGetProfileIdResponse>>
   post(value: IPostProfileData): Promise<IResponse<IProfileResponse>>
   patch(value: IPatchProfileData): Promise<IResponse<IGetProfileIdResponse>>
   delete(id: string | number): IPromiseReturn<IProfileResponse>

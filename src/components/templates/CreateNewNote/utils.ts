@@ -1,15 +1,16 @@
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-
 import { type AxiosProgressEvent } from "axios"
 import { type ChangeEvent, type Dispatch, type SetStateAction } from "react"
 
-export const LIMIT_DESCRIPTION = 1024
+import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
+
 const sleep = () => new Promise((r) => setTimeout(r, 50))
+
 const description = z
   .string()
   .trim()
-  .max(LIMIT_DESCRIPTION, { message: `Не более ${LIMIT_DESCRIPTION} символов` })
+  .max(MAX_LENGTH_DESCRIPTION_NOTE, { message: `Не более ${MAX_LENGTH_DESCRIPTION_NOTE} символов` })
   .default("")
   .optional()
 const file = z.object({

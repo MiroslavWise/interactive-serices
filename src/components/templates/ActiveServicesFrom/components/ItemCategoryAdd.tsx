@@ -15,8 +15,8 @@ export function ItemCategoryAdd() {
         event.stopPropagation()
         handleAdd()
       }}
-      data-test="alias-button-modal-active-services-from "
-      className="group rounded-xl border border-dashed border-grey-stroke p-3 w-full h-[7.125rem] cursor-pointer flex flex-col gap-3 justify-end items-start focus:border-text-accent hover:border-text-accent"
+      data-test="alias-button-modal-active-services-from"
+      className="group rounded-xl border border-dashed border-grey-stroke p-3 w-full h-[7.125rem] cursor-pointer flex flex-col gap-3 justify-end items-start focus:border-text-accent hover:border-text-accent relative"
     >
       <footer className="flex flex-row items-center gap-1 [&>svg]:w-4 [&>svg]:h-4 [&>svg>path]:fill-grey-stroke group-hover:[&>svg>path]:fill-text-accent group-focus:[&>svg>path]:fill-text-accent">
         <IconPlus />

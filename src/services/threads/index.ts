@@ -1,4 +1,4 @@
-import type { IServiceThreads } from "./types"
+import { type IServiceThreads } from "./types"
 
 import { fetchGet, wrapperPost, wrapperDelete } from "../request"
 

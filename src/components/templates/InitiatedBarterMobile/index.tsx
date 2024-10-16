@@ -23,7 +23,7 @@ export function InitiatedBarterMobile() {
     enabled: visible && !!userId,
   })
 
-  const counts = data?.res?.length || 0
+  const counts = data?.data?.length || 0
 
   return (
     <div
@@ -56,7 +56,7 @@ export function InitiatedBarterMobile() {
         {isLoading ? (
           [1, 2, 3].map((item) => <LoadingBarters key={`::item::load::barter::${item}::`} />)
         ) : !!counts ? (
-          data?.res?.map((item) => <CardBarter key={`::key::item::barter::`} barter={item} />)
+          data?.data?.map((item) => <CardBarter key={`::key::item::barter::`} barter={item} />)
         ) : (
           <p className="text-text-primary text-base font-normal">У вас нет предложений по обмену от пользователей</p>
         )}

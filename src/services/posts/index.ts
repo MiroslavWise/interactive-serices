@@ -1,5 +1,5 @@
 import { TGetPostId, TGetPosts, TGetPostsFromUser, TPatchPost, type TPostPosts } from "./types"
-import { wrapperPatch, fetchGet, post, patch } from "../request"
+import { fetchGet, post, patch } from "../request"
 
 const url = "/posts"
 

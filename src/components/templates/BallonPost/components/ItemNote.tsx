@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { type DispatchWithoutAction, useEffect, useRef, useState } from "react"
+import { type DispatchWithoutAction, useEffect, useMemo, useRef, useState } from "react"
 
 import { type INotes } from "@/services/notes/types"
 
@@ -15,6 +15,9 @@ import { useToast } from "@/helpers/hooks/useToast"
 import { useContextPostsComments } from "./ContextComments"
 import { getLikes, getLikeTargetId, postLike } from "@/services"
 import { dispatchPhotoCarousel, useAuth, useBalloonPost } from "@/store"
+import { IImageData } from "@/types/type"
+import Link from "next/link"
+import IconFile_06 from "@/components/icons/IconFile_06"
 
 function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: DispatchWithoutAction }) {
   const { archive } = useBalloonPost(({ data }) => data) ?? {}
@@ -136,6 +139,29 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
     })
   }, [expand])
 
+  const files = useMemo(() => {
+    const obj: Record<"img" | "file", IImageData[]> = {
+      img: [],
+      file: [],
+    }
+
+    for (const item of images) {
+      if (item.attributes.mime.includes("image")) {
+        obj.img.push(item)
+      } else {
+        obj.file.push({
+          ...item,
+          attributes: {
+            ...item.attributes,
+            url: item.attributes.url.split("?")[0],
+          },
+        })
+      }
+    }
+
+    return obj
+  }, [images])
+
   return (
     <li
       className={cx(
@@ -169,9 +195,24 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
       >
         {expand ? "Скрыть" : "Читать всё"}
       </a>
+      <div className={cx("w-full flex-col gap-2", files.file.length > 0 ? "flex" : "hidden")}>
+        {files.file.map((item) => (
+          <Link
+            key={`:item:file:key:${item.id}:`}
+            href={item.attributes.url!}
+            target="_blank"
+            className="w-fit grid grid-cols-[1.5rem_minmax(0,1fr)] gap-1 items-center bg-btn-second-default p-1.5 pr-2 rounded-[1.125rem]"
+          >
+            <div className="w-6 h-6 p-3 relative *:w-4 *:h-4">
+              <IconFile_06 />
+            </div>
+            <span className="text-sm font-medium text-text-primary line-clamp-1 text-ellipsis">{item.attributes.caption}</span>
+          </Link>
+        ))}
+      </div>
       <div
         data-images
-        className={cx("-mx-4 w-[calc(100%_+_2rem)] relative overflow-hidden group", images.length ? "flex" : "hidden")}
+        className={cx("-mx-4 w-[calc(100%_+_2rem)] relative overflow-hidden group", files.img.length ? "flex" : "hidden")}
         onTouchMove={(event) => {
           event.stopPropagation()
           event.preventDefault()
@@ -197,7 +238,7 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
           className={cx(
             "w-8 h-8 rounded-full absolute top-1/2 -translate-y-1/2 left-[1.875rem] bg-BG-second p-1.5 *:w-5 *:h-5 *:rotate-90",
             "hidden md:flex opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 items-center justify-center",
-            images.length < 4 && "!hidden",
+            files.img.length < 4 && "!hidden",
           )}
         >
           <IconChevronDown />
@@ -211,13 +252,13 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
           className={cx(
             "w-8 h-8 rounded-full absolute top-1/2 -translate-y-1/2 right-[1.875rem] bg-BG-second p-1.5 *:w-5 *:h-5 *:-rotate-90",
             "hidden md:flex opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 items-center justify-center ",
-            images.length < 4 && "!hidden",
+            files.img.length < 4 && "!hidden",
           )}
         >
           <IconChevronDown />
         </button>
         <div className="w-full flex flex-row gap-2 overflow-hidden overflow-x-scroll px-4" ref={refImages}>
-          {images.map((item) => (
+          {files.img.map((item) => (
             <NextImageMotion
               key={`::${item.id}::photo::post::`}
               src={item?.attributes?.url!}
@@ -226,7 +267,7 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
               className="rounded-lg cursor-pointer"
               onClick={(event) => {
                 event.stopPropagation()
-                const photos = images.map((item) => ({
+                const photos = files.img.map((item) => ({
                   url: item?.attributes?.url!,
                   id: item?.id,
                 }))

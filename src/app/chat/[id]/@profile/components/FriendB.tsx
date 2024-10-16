@@ -79,9 +79,7 @@ function FriendB({ user }: { user: IUserResponse }) {
               onBarters({
                 status: null,
                 title: "Заявка отправлена",
-                message: `Если ${user?.profile?.firstName || "Имя"} ${
-                  user?.profile?.lastName || "Фамилия"
-                } одобрит заявку, вы станете друзьями`,
+                message: `Если ${user?.profile?.firstName || "Имя"} ${user?.profile?.lastName ?? ""} одобрит заявку, вы станете друзьями`,
               })
             }
           }

@@ -1,5 +1,5 @@
-import { IResponse } from "@/services/request"
-import type { IReturnData } from "@/services/types/general"
+import { type IResponse } from "@/services/request/types"
+import { type IReturnData } from "@/services/types/general"
 
 export interface IAddressesResponse {
   id: number

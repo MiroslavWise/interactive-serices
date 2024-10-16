@@ -30,7 +30,7 @@ function ContentSignIn() {
             <div className="flex flex-col items-start justify-start w-full z-[3]">
               <a
                 className="text-text-accent text-center text-sm font-medium cursor-pointer"
-                onClick={() => dispatchAuthModal({ type: EnumSign.ForgotPassword })}
+                onClick={() => dispatchAuthModal({ type: EnumSign.ForgotPassword, visible: true })}
               >
                 Забыли пароль?
               </a>
@@ -47,7 +47,7 @@ function ContentSignIn() {
       <article data-column>
         <p>
           Нет аккаунта?&nbsp;
-          <a data-a-on-register-type onClick={() => dispatchAuthModal({ type: EnumSign.SignUp })}>
+          <a data-a-on-register-type onClick={() => dispatchAuthModal({ type: EnumSign.SignUp, visible: true })}>
             Зарегистрироваться
           </a>
         </p>

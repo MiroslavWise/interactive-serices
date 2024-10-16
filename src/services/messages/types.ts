@@ -1,7 +1,7 @@
 import { type IImageData } from "@/types/type"
 import { type IPromiseReturn } from "../types/general"
 import { type IUserOffer } from "../offers/types"
-import { type IResponse } from "../request"
+import { IResponse } from "../request/types"
 
 export interface IRequestPostMessages {
   threadId: number

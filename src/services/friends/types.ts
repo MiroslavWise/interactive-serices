@@ -1,7 +1,7 @@
-import { type IResponse } from "../request"
 import { type IUserOffer } from "../offers/types"
 import type { IPromiseReturn } from "@/services/types/general"
 import type { TTypeFriends } from "@/store/types/createDroverFriends"
+import { IResponse } from "../request/types"
 
 interface IPostDataFriends {
   id: number

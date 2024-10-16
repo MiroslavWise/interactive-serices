@@ -1,9 +1,9 @@
-import { type IResponse } from "../request"
 import { type TOrder } from "../types/general"
 import { type IUserOffer as IUserSmall } from "../offers/types"
 import { type IAddressesResponse } from "../addresses/types/serviceAddresses"
 import { INotes } from "../notes/types"
 import { EnumHelper } from "@/types/enum"
+import { IResponse } from "../request/types"
 
 export interface IBodyPost {
   title: string

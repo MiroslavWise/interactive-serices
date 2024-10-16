@@ -15,15 +15,9 @@ import { getPostId } from "@/services/posts"
 import { fileUploadService } from "@/services"
 import { patchNote, postNote } from "@/services/notes"
 import { dispatchBallonPost, dispatchCloseCreateNote, useAuth, useCreateNewNote } from "@/store"
-import {
-  DEFAULT_VALUES,
-  handleImageChange,
-  LIMIT_DESCRIPTION,
-  onProgress,
-  onUploadProgress,
-  resolverCreateNote,
-  type TSchemaCreateNote,
-} from "./utils"
+import { DEFAULT_VALUES, handleImageChange, onProgress, onUploadProgress, resolverCreateNote, type TSchemaCreateNote } from "./utils"
+import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
+import { clg } from "@console"
 
 function CreateNewNote() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -52,7 +46,8 @@ function CreateNewNote() {
       const responseCreate = await postNote(data)
       if (!!responseCreate.data) {
         const idNote = responseCreate!.data!.id!
-        if (files.length) {
+        clg("files: ", files)
+        if (files.length > 0) {
           const responseImages = await Promise.all(
             files.map((item) =>
               fileUploadService(item!, {
@@ -128,20 +123,20 @@ function CreateNewNote() {
                     {...field}
                     placeholder="Расскажите новые факты о вашем мероприятии, приложите фотоотчет или задайте вопрос публике"
                     data-error={!!error}
-                    maxLength={LIMIT_DESCRIPTION + 2}
+                    maxLength={MAX_LENGTH_DESCRIPTION_NOTE}
                     className={cx(
                       "whitespace-pre-wrap w-full outline-none h-full border border-solid resize-none focus:!border-text-accent px-3.5 pt-3.5 pb-6 text-text-primary placeholder:text-text-disabled text-sm font-normal rounded-2xl",
                       !!error ? "!border-text-error" : "!border-grey-stroke",
                     )}
                   />
                   <span
-                    data-error={field!.value!?.length + 20 >= LIMIT_DESCRIPTION}
+                    data-error={field!.value!?.length + 20 >= MAX_LENGTH_DESCRIPTION_NOTE}
                     className={cx(
                       "absolute bottom-1 right-3.5 text-right text-xs font-normal",
                       !!error ? "text-text-error" : "text-text-primary",
                     )}
                   >
-                    {field.value?.length || 0}/{LIMIT_DESCRIPTION}
+                    {field.value?.length || 0}/{MAX_LENGTH_DESCRIPTION_NOTE}
                   </span>
                 </div>
                 {!!error && error?.type === "required" ? <i>Обязательное поле</i> : !!error ? <i>{error.message}</i> : null}
@@ -169,7 +164,7 @@ function CreateNewNote() {
                     <div data-image data-input-plus className="border border-dashed border-grey-stroke-light focus:border-element-accent-1">
                       <input
                         type="file"
-                        accept="image/*"
+                        
                         onChange={async (event) => {
                           const dataValues = await handleImageChange(field.value, event)
                           field.onChange(dataValues)

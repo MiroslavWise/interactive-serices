@@ -1,38 +1,12 @@
-import axios, { AxiosError, type RawAxiosRequestHeaders } from "axios"
+import { AxiosError, type RawAxiosRequestHeaders } from "axios"
 
-import { EStatusAuth } from "@/types/enum"
-import type { IMetaData, IReturnData } from "../types/general"
-import type { MethodDelete, MethodPatch, MethodPost, MethodUploadFile, TReturnError } from "./types"
+import type { IReturnData } from "../types/general"
+import type { IResponse, MethodDelete, MethodPatch, MethodPost, TReturnError } from "./types"
 
+import { fetchGet } from "./get"
 import { URL_API } from "@/helpers"
 import { authToken } from "../auth/authService"
-import { clg } from "@/lib/console"
-
-interface I<T = any> {
-  data: T | null
-  error: any | null
-  meta?: IMetaData
-}
-
-export type IResponse<T = any> = Readonly<I<T>>
-
-export const instance = axios.create({
-  baseURL: URL_API,
-})
-
-function header(): HeadersInit {
-  const head: HeadersInit = {
-    "Content-Type": "application/json",
-  }
-
-  const fullTokenString = authToken()
-
-  if (fullTokenString) {
-    head.Authorization = fullTokenString
-  }
-
-  return head
-}
+import { instance, instanceHeader } from "./instance"
 
 function returnData<P>(response: any): IReturnData<P> {
   return {
@@ -67,7 +41,7 @@ export const wrapperPost: MethodPost<any, any> = async ({ url, body }) => {
 
   const requestInit: RequestInit = {
     method: "POST",
-    headers: header(),
+    headers: instanceHeader(),
   }
 
   if (body) {
@@ -82,7 +56,7 @@ export const wrapperPatch: MethodPatch<any, any> = async ({ url, id, body, cache
 
   const requestInit: RequestInit = {
     method: "PATCH",
-    headers: header(),
+    headers: instanceHeader(),
     cache: cache || "default",
   }
 
@@ -98,74 +72,10 @@ export const wrapperDelete: MethodDelete = async ({ url, id }) => {
 
   const requestInit: RequestInit = {
     method: "DELETE",
-    headers: header(),
+    headers: instanceHeader(),
   }
 
   return returnWrapper(endpoint, requestInit)
-}
-
-const postForm: MethodUploadFile = async ({ url, file, onUploadProgress }) => {
-  const fullTokenString = authToken()
-
-  if (!fullTokenString) {
-    return {
-      data: null,
-      error: EStatusAuth.NOT_AUTHORIZATION,
-    }
-  }
-
-  const head: RawAxiosRequestHeaders = {
-    "Content-Type": "application/json",
-  }
-
-  if (fullTokenString) {
-    head.Authorization = fullTokenString
-  }
-
-  return instance
-    .postForm(url, file, {
-      headers: head,
-      onUploadProgress: (event) => {
-        if (onUploadProgress) {
-          onUploadProgress(event, file.get("caption"))
-        }
-      },
-    })
-    .then(({ data, status }) => {
-      clg("postForm", data)
-      if (status >= 200 && status < 300) {
-        return {
-          meta: data?.meta ?? null,
-          data: data?.data ?? null,
-          error: data?.error ?? null,
-        }
-      } else {
-        return {
-          meta: data?.meta ?? null,
-          data: data?.data ?? null,
-          error: data?.error ?? null,
-        }
-      }
-    })
-    .catch((error) => {
-      if (error instanceof AxiosError) {
-        const e = error?.response?.data?.error
-        return {
-          data: null,
-          error: e,
-        }
-      }
-
-      return {
-        data: null,
-        error: error,
-      }
-    })
-}
-
-interface IGet {
-  url: string
-  query?: object | any
 }
 
 interface IPatch extends IPost {}
@@ -281,102 +191,4 @@ const post = async ({ url, body }: IPost): Promise<IResponse<any>> => {
     })
 }
 
-const fetchGet = async ({ url, query }: IGet): Promise<IResponse> => {
-  const endpoint = new URL(`${URL_API}${url}`)
-  if (query && typeof query === "object") {
-    for (const [key, value] of Object.entries(query)) {
-      endpoint.searchParams.set(key, String(value))
-    }
-  }
-
-  const head: HeadersInit = {
-    "Content-Type": "application/json",
-  }
-
-  const fullTokenString = authToken()
-
-  if (fullTokenString) {
-    head.Authorization = fullTokenString
-  }
-
-  const dataRequestInit: RequestInit = {
-    method: "GET",
-    headers: head,
-  }
-
-  try {
-    const response = await fetch(endpoint, { ...dataRequestInit })
-
-    const { data, error, meta } = (await response.json()) as IResponse
-
-    return {
-      data: data,
-      error: error,
-      meta: meta,
-    }
-  } catch (e) {
-    console.log("catch: e:", e)
-    return {
-      data: null,
-      error: e,
-    }
-  }
-}
-
-const get = async ({ url, query }: IGet): Promise<IReturnData<any>> => {
-  let params = {}
-  if (query && typeof query === "object") {
-    const obj = Object.entries(query).reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
-    params = obj
-  }
-
-  const head: RawAxiosRequestHeaders = {
-    "Content-Type": "application/json",
-  }
-
-  const fullTokenString = authToken()
-
-  if (fullTokenString) {
-    head.Authorization = fullTokenString
-  }
-
-  return instance
-    .get(url, { headers: head, params: params })
-    .then(({ data, status }) => {
-      // console.log("url get: ", url)
-      // console.log("data get: ", data)
-      if (status >= 200 && status < 300) {
-        return {
-          ok: true,
-          meta: data?.meta || null,
-          res: data?.data || null,
-          error: data?.error || null,
-        }
-      } else {
-        return {
-          ok: false,
-          meta: data?.meta || null,
-          res: data?.data || null,
-          error: data?.error || null,
-        }
-      }
-    })
-    .catch((error) => {
-      // console.log("url get: ", url)
-      // console.log("error get: ", error)
-      if (error instanceof AxiosError) {
-        const e = error?.response?.data?.error
-        return {
-          ok: false,
-          error: e,
-        }
-      }
-
-      return {
-        ok: false,
-        error: error,
-      }
-    })
-}
-
-export { get, post, patch, postForm, fetchGet }
+export { post, patch, fetchGet }

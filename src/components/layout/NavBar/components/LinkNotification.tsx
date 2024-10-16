@@ -27,12 +27,12 @@ export const LinkNotification = ({ pathname }: { pathname: string }) => {
   })
 
   useEffect(() => {
-    if (data?.res && data?.res?.length > 0) {
+    if (data?.data && data?.data?.length > 0) {
       let count = 0
       const newArray: IResponseNotifications[] = []
       const oldArray: IResponseNotifications[] = []
 
-      for (const item of data?.res) {
+      for (const item of data?.data) {
         if (item.read) {
           oldArray.push(item)
         } else {
@@ -43,12 +43,12 @@ export const LinkNotification = ({ pathname }: { pathname: string }) => {
       setState({ new: newArray, old: oldArray })
       setCount(count || null)
     }
-  }, [data?.res])
+  }, [data?.data])
 
   function writingNotifications() {
-    if (data?.res) {
+    if (data?.data) {
       const notRead: number[] = []
-      data?.res?.forEach((item) => {
+      data?.data?.forEach((item) => {
         if (item.read === false) {
           notRead.push(item.id)
         }
@@ -89,7 +89,7 @@ export const LinkNotification = ({ pathname }: { pathname: string }) => {
           active ? "translate-y-0 opacity-100 visible" : "-translate-y-8 invisible opacity-0",
         )}
       >
-        {data?.res?.length ? (
+        {data?.data?.length ? (
           <ul className="w-full max-h-[calc(41.875rem_-_2.5rem)] h-min overflow-x-hidden overflow-y-auto p-6 flex flex-col gap-2.5">
             {state.new.length > 0 ? (
               <>

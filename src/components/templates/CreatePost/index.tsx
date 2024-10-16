@@ -25,7 +25,8 @@ import { handleImageChange, onProgress, onUploadProgress } from "./utils"
 import { fileUploadService, getGeocodeSearch, postAddress } from "@/services"
 import { dispatchModal, EModalData, useAuth, useCreatePost, useModal } from "@/store"
 import { transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
-import { LIMIT_DESCRIPTION, resolverCreatePost, resolverCreatePostMap, type TSchemaCreatePost } from "./schema"
+import { resolverCreatePost, resolverCreatePostMap, type TSchemaCreatePost } from "./schema"
+import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
 
 function CreatePost() {
   const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
@@ -270,20 +271,20 @@ function CreatePost() {
                     {...field}
                     placeholder="Создайте первую запись в серии — это может быть приглашение к участию, анонс или рассказ про процесс подготовки"
                     data-error={!!error}
-                    maxLength={LIMIT_DESCRIPTION + 2}
+                    maxLength={MAX_LENGTH_DESCRIPTION_NOTE + 2}
                     className={cx(
                       "whitespace-pre-wrap w-full font-normal outline-none h-full border border-solid resize-none focus:!border-text-accent px-3.5 pt-3.5 pb-6 text-text-primary placeholder:text-text-disabled text-sm rounded-2xl",
                       !!error ? "!border-text-error" : "!border-grey-stroke",
                     )}
                   />
                   <span
-                    data-error={field.value?.length + 20 >= LIMIT_DESCRIPTION}
+                    data-error={field.value?.length + 20 >= MAX_LENGTH_DESCRIPTION_NOTE}
                     className={cx(
                       "absolute bottom-1 right-3.5 text-right text-xs font-normal",
                       !!error ? "text-text-error" : "text-text-primary",
                     )}
                   >
-                    {field.value?.length || 0}/{LIMIT_DESCRIPTION}
+                    {field.value?.length || 0}/{MAX_LENGTH_DESCRIPTION_NOTE}
                   </span>
                 </div>
                 {!!error ? <i>{error.message}</i> : null}
@@ -313,7 +314,7 @@ function CreatePost() {
                     <div data-image data-input-plus className="border border-dashed border-grey-stroke-light focus:border-element-accent-1">
                       <input
                         type="file"
-                        accept="image/*"
+                        
                         onChange={async (event) => {
                           const dataValues = await handleImageChange(field.value, event)
                           field.onChange(dataValues)

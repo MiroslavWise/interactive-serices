@@ -1,9 +1,9 @@
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { schemaFeatureMember, schemaPostAddress } from "@/services/addresses/types/geocodeSearch"
+import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
 
 export const LIMIT_TITLE_POST = 144
-export const LIMIT_DESCRIPTION = 1024
 
 const regexContent = /[^a-z0-9а-яёй\s]/i
 
@@ -50,7 +50,7 @@ const description = z
   .trim()
   .min(1, { message: "Обязательное поле" })
   .min(3, { message: "Не менее 3-х символов в описании" })
-  .max(LIMIT_DESCRIPTION, { message: `Не более ${LIMIT_DESCRIPTION} символов` })
+  .max(MAX_LENGTH_DESCRIPTION_NOTE, { message: `Не более ${MAX_LENGTH_DESCRIPTION_NOTE} символов` })
   .default("")
 
 const file = z.object({

@@ -52,7 +52,7 @@ function FooterNewComment({ post }: { post: IPosts }) {
         id: userId!,
         image: user?.profile?.image!,
         firstName: user?.profile?.firstName ?? "Имя",
-        lastName: user?.profile?.lastName ?? "Фамилия",
+        lastName: user?.profile?.lastName ?? "",
         username: user?.profile?.username ?? "username",
         gender: user?.profile?.gender!,
       }

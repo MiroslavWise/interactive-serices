@@ -46,7 +46,8 @@ function NoFriends({ id, username }: IProps) {
           label="Пригласить друзей в Sheira"
           className="max-w-min px-5 py-2.5"
           onClick={() => {
-            const linkUser = `/user/${id}`
+            const userName = username && !username.includes("$") && !username.includes("/") ? `/${username}` : ""
+            const linkUser = `/user/${id}` + userName
             const url = `${env.server.host}${linkUser}`
             if (!!window.navigator.share!) {
               navigator.share({
