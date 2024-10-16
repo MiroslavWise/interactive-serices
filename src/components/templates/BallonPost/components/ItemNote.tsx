@@ -149,7 +149,13 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
       if (item.attributes.mime.includes("image")) {
         obj.img.push(item)
       } else {
-        obj.file.push(item)
+        obj.file.push({
+          ...item,
+          attributes: {
+            ...item.attributes,
+            url: item.attributes.url.split("?")[0],
+          },
+        })
       }
     }
 
