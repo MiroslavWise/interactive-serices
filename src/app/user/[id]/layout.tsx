@@ -12,7 +12,7 @@ export const generateMetadata = async ({ params }: { params: { id: string | numb
 
   const { profile } = data ?? {}
 
-  const name = `${profile?.firstName || "Имя"} ${profile?.lastName || "Фамилия"}`
+  const name = `${profile?.firstName || "Имя"} ${profile?.lastName ?? ""}`
 
   const title = `Профиль и предложения пользователя ${profile?.username ?? ""} на Sheira. Люди, услуги, события`
   const description = `Приглашаю присоединиться к Sheira, где мы вместе сможем помогать другим людям`

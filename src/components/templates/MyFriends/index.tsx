@@ -124,7 +124,7 @@ function MyFriends() {
                           className="w-full text-base text-left font-medium line-clamp-1 flex flex-row flex-nowrap gap-1 text-ellipsis cursor-pointer items-center"
                           target="_blank"
                         >
-                          {item?.firstName || "Имя"} {item.lastName || "Фамилия"}
+                          {item?.firstName || "Имя"} {item.lastName ?? ""}
                           <span className="relative w-5 h-5 p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-[1.125rem] *:h-[1.125rem]">
                             <IconVerifiedTick />
                           </span>
@@ -177,7 +177,7 @@ function MyFriends() {
                       className="w-full text-base text-left font-medium line-clamp-1 flex flex-row flex-nowrap gap-1 text-ellipsis cursor-pointer items-center"
                       target="_blank"
                     >
-                      {item?.firstName || "Имя"} {item.lastName || "Фамилия"}
+                      {item?.firstName || "Имя"} {item.lastName ?? ""}
                       <span className="relative w-5 h-5 p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-[1.125rem] *:h-[1.125rem]">
                         <IconVerifiedTick />
                       </span>

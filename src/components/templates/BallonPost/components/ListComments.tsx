@@ -32,7 +32,7 @@ function ListCommentsPost({ post, handleToNote }: { post: IPosts; handleToNote: 
                 <article className="w-full flex flex-col gap-0.5 pb-2.5 border-b border-solid border-grey-stroke-light">
                   <div className="flex flex-row items-center gap-2">
                     <p className="text-text-primary text-xs font-normal">
-                      {item?.user?.firstName || "Имя"} {item?.user?.lastName || "Фамилия"}
+                      {item?.user?.firstName || "Имя"} {item?.user?.lastName ?? ""}
                     </p>
                     <div className="relative w-3 h-3 p-1.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-3 *:h-3 *:z-20 -ml-1">
                       <IconVerifiedTick />

@@ -177,7 +177,7 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
       <article className="w-full flex flex-col items-start justify-center pr-2.5 overflow-hidden">
         <div className="w-full flex flex-row flex-nowrap items-center justify-between gap-2 ">
           <h4 className="text-text-primary font-medium text-ellipsis line-clamp-1 whitespace-nowrap">
-            {user?.firstName || "Имя"} {user?.lastName || "Фамилия"}
+            {user?.firstName || "Имя"} {user?.lastName ?? null}
           </h4>
           <div className="flex flex-nowrap flex-row items-center gap-0.5">
             {reading}

@@ -29,7 +29,7 @@ export function metadataPosts({ data }: IData): Metadata {
     meta.description = note?.description ?? `Описание: ${metaTitle ?? ""}`
   }
 
-  const name = `${user?.firstName ?? "Имя"} ${user?.lastName ?? "Фамилия"}`
+  const name = `${user?.firstName ?? "Имя"} ${user?.lastName ?? ""}`
 
   if (user) {
     meta.authors = {

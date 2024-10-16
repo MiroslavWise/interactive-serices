@@ -53,7 +53,7 @@ function DeleteFriend() {
         <h2>
           Вы хотите удалить&nbsp;
           <p className="text-text-accent contents">
-            {user?.firstName ?? "Имя"} {user?.lastName ?? "Фамилия"}
+            {user?.firstName ?? "Имя"} {user?.lastName ?? ""}
           </p>
           &nbsp;из друзей?
         </h2>

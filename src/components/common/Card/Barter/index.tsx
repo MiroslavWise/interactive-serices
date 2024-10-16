@@ -107,7 +107,7 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
           />
           <div data-inform className="flex flex-col gap-0.5">
             <span className="flex flex-nowrap text-text-primary text-sm font-medium">
-              {dataUser?.data?.profile?.firstName || "Имя"} {dataUser?.data?.profile?.lastName || "Фамилия"}&nbsp;
+              {dataUser?.data?.profile?.firstName || "Имя"} {dataUser?.data?.profile?.lastName ?? ""}&nbsp;
               <div className="relative w-4 h-4 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
                 <IconVerifiedTick />
               </div>

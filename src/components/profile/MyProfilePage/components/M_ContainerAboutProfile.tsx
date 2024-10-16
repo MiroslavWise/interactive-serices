@@ -102,7 +102,7 @@ export const MContainerAboutProfile = () => {
             ) : (
               <>
                 <h3 className="text-text-primary text-lg font-semibold">
-                  {firstName || "Имя"} {lastName || "Фамилия"}
+                  {firstName || "Имя"} {lastName ?? ""}
                 </h3>
                 {geoData ? (
                   <p className="text-text-secondary text-[0.8125rem] font-normal line-clamp-2 text-ellipsis leading-4">

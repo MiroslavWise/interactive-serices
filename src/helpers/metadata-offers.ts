@@ -31,7 +31,7 @@ export function metadataOffers({ data }: IData): Metadata {
   const metaImgs = metadataImages({ images: data.images })
   meta.icons = metaImgs.icons
 
-  const name = `${user?.firstName ?? "Имя"} ${user?.lastName ?? "Фамилия"}`
+  const name = `${user?.firstName ?? "Имя"} ${user?.lastName ?? ""}`
   if (user) {
     meta.authors = {
       name: name,

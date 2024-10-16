@@ -13,7 +13,7 @@ export const ItemProfile = ({ profile, geo }: { profile: IGetProfileIdResponse; 
       <div data-info>
         <div data-names>
           <h4>
-            {profile?.firstName || "Имя"} {profile?.lastName || "Фамилия"}
+            {profile?.firstName || "Имя"} {profile?.lastName ?? ""}
           </h4>
           <img src="/svg/verified-tick.svg" alt="verified" width={16} height={16} />
         </div>

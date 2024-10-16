@@ -65,7 +65,7 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
               prefetch={false}
               className="text-text-primary text-sm text-left font-medium text-ellipsis line-clamp-1"
             >
-              {firstName || "Имя"} {lastName || "Фамилия"}
+              {firstName || "Имя"} {lastName ?? ""}
             </Link>
             <div className="w-5 h-5 relative p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-[1.125rem] *:h-[1.125rem] *:z-30">
               <IconVerifiedTick />

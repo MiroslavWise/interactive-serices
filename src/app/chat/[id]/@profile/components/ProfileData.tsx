@@ -29,7 +29,7 @@ function ProfileData({ user }: { user: IUserResponse }) {
       </section>
       <div className="w-full flex flex-col gap-1 items-center">
         <h3 className="text-center text-xl font-semibold text-text-primary">
-          {firstName || "Имя"} {lastName || "Фамилия"}
+          {firstName || "Имя"} {lastName ?? ""}
         </h3>
         <OnlineStatus user={user} />
       </div>

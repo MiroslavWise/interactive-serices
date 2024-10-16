@@ -33,7 +33,7 @@ function ItemProfile({ user }: { user: IUserOffer }) {
     return Number(sum / count)
   }, [dataTestimonials?.data])
 
-  const name = `${firstName || "Имя"} ${lastName || "Фамилия"}`
+  const name = `${firstName || "Имя"} ${lastName ?? ""}`
 
   return (
     <section className="mt-1 w-full pt-2.5 border-t border-t-grey-stroke-light border-solid">

@@ -19,7 +19,7 @@ function ButtonComplaintMenuMobile({ user }: { user: IUserResponse }) {
       about: about || null,
       birthdate: birthdate || null,
       firstName: firstName || "Имя",
-      lastName: lastName || "Фамилия",
+      lastName: lastName ?? "",
       gender: gender || null,
       id: id,
       username: username || "",
