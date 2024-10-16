@@ -1,5 +1,5 @@
+import { type ReactNode, useState } from "react"
 import { useForm, Controller } from "react-hook-form"
-import { type ReactNode, memo, useState } from "react"
 
 import { resolverEmailSignIn, TSchemaEmailSignIn } from "../utils/email-sign-in.schema"
 
@@ -32,6 +32,7 @@ export const SignInEmail = ({ children, itemForgot }: { children: ReactNode; ite
 
       const response = await dispatchLoginTokenData({ email: value.email, password: value.password })
       clg("onEnter :", response, "error")
+      setLoading(false)
       if (!!response?.error?.message) {
         const errorMessage = String(response?.error?.message)?.toLowerCase()
         if (errorMessage === "password is not match" || errorMessage === "password is incorrect") {
@@ -58,8 +59,6 @@ export const SignInEmail = ({ children, itemForgot }: { children: ReactNode; ite
       if (!!response?.res) {
         dispatchCloseModalAuth()
       }
-
-      setLoading(false)
     }
   }
 

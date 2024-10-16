@@ -39,7 +39,7 @@ export const ContentSignUp: TContentSignUp = ({}) => {
       <article data-column>
         <p>
           Уже есть аккаунт?&nbsp;
-          <a data-a-on-sign-in-type onClick={() => dispatchAuthModal({ type: EnumSign.SignIn })}>
+          <a data-a-on-sign-in-type onClick={() => dispatchAuthModal({ type: EnumSign.SignIn, visible: true })}>
             Войти
           </a>
         </p>
