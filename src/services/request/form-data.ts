@@ -3,8 +3,8 @@ import { AxiosError, type RawAxiosRequestHeaders } from "axios"
 import { EStatusAuth } from "@/types/enum"
 import { type MethodUploadFile } from "./types"
 
-import { authToken } from "../auth/authService"
 import { instance } from "./instance"
+import { authToken } from "../auth/authService"
 
 export const postForm: MethodUploadFile = async ({ url, file, onUploadProgress }) => {
   const fullTokenString = authToken()
