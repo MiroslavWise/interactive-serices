@@ -36,7 +36,10 @@ function FooterButton({ user }: { user: IUserResponse }) {
         label="Поделиться"
         className="bg-btn-second-default !h-9 py-1.5 px-4 [&>span]:text-sm !rounded-[1.125rem]"
         onClick={() => {
-          const linkUser = `/user/${id}`
+          const linkUser =
+            `/user/${id}` + profile?.username && !profile?.username.includes(`$`) && !profile?.username.includes("/")
+              ? `/${profile?.username}`
+              : ""
           const url = `${env.server.host}${linkUser}`
           if (!!window.navigator.share!) {
             navigator.share({
