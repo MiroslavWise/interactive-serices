@@ -7,7 +7,7 @@ import OnlineStatus from "@/app/customer/[userId]/@profile/components/OnlineStat
 
 function ProfileData({ user }: { user: IUserResponse }) {
   const { profile } = user ?? {}
-  const { image, firstName, lastName } = profile ?? {}
+  const { image, firstName, lastName = "" } = profile ?? {}
 
   return (
     <article className="w-full flex flex-col gap-3 items-center pt-5 pb-2.5">
@@ -29,7 +29,7 @@ function ProfileData({ user }: { user: IUserResponse }) {
       </section>
       <div className="w-full flex flex-col gap-1 items-center">
         <h3 className="text-center text-xl font-semibold text-text-primary">
-          {firstName || "Имя"} {lastName ?? ""}
+          {firstName || "Имя"} {lastName}
         </h3>
         <OnlineStatus user={user} />
       </div>

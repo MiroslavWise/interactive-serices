@@ -1,15 +1,15 @@
-import Link from "next/link"
 import { useMemo } from "react"
 
 import type { TBlockTitle } from "./types/types"
 
-import { NextImageMotion, GeoTagging } from "@/components/common"
-import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
+import Avatar from "@avatar"
+import { GeoTagging } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import Avatar from "@avatar"
 
 export const BlockTitle: TBlockTitle = ({ profile, addresses, id: userId }) => {
+  const { firstName = "Имя", lastName = "" } = profile ?? {}
+
   const geo = useMemo(() => {
     if (!addresses) {
       return null
@@ -25,7 +25,7 @@ export const BlockTitle: TBlockTitle = ({ profile, addresses, id: userId }) => {
       <Avatar className={cx("w-11 h-11", profile?.image ? "rounded-xl" : "rounded-lg")} image={profile?.image} userId={userId} />
       <div className="w-full flex flex-col *:text-ellipsis *:line-clamp-1">
         <h4 className="text-text-primary text-base font-medium">
-          {profile?.firstName || "Имя"} {profile?.lastName ?? ""}
+          {firstName} {lastName}
         </h4>
         {geo ? <GeoTagging fontSize={12} location={geo} /> : null}
       </div>

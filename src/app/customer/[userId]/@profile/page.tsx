@@ -26,7 +26,7 @@ export default async ({ params }: IParamsCustomer) => {
     )
 
   const { created, profile } = data ?? {}
-  const { image, firstName, lastName } = profile ?? {}
+  const { image, firstName, lastName = "" } = profile ?? {}
 
   return (
     <aside className="w-full h-fit md:h-full rounded-2xl md:rounded-2 bg-BG-second flex flex-col md:justify-between md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_3rem)] md:overflow-y-auto gap-4 md:gap-6 max-md:p-4 md:px-5 md:pt-5">
@@ -52,7 +52,7 @@ export default async ({ params }: IParamsCustomer) => {
           </div>
           <section className={cx("w-full", "flex flex-col items-start md:items-center gap-1")}>
             <h3 className="text-text-primary text-xl font-semibold text-left md:text-center">
-              {firstName || "Имя"} {lastName ?? ""}
+              {firstName || "Имя"} {lastName}
             </h3>
             <OnlineStatus user={data} />
           </section>

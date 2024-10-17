@@ -165,7 +165,7 @@ function ProvideFeedback() {
           <div className="w-full flex flex-col gap-1">
             <div className="flex flex-row items-center gap-1">
               <p className="text-text-primary text-sm font-medium line-clamp-1 text-ellipsis">
-                {user?.profile?.firstName ?? "Имя"} {user?.profile?.lastName ?? ""}
+                {user?.profile?.firstName ?? "Имя"} {user?.profile?.lastName || ""}
               </p>
               <div className="relative w-5 h-5 p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5">
                 <IconVerifiedTick />

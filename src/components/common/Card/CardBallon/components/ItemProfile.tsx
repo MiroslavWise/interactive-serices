@@ -11,7 +11,7 @@ import IconRating from "@/components/icons/IconRating"
 import { getTestimonials } from "@/services"
 
 function ItemProfile({ user }: { user: IUserOffer }) {
-  const { id, firstName, lastName, image } = user ?? {}
+  const { id, firstName = "Имя", lastName = "", image } = user ?? {}
 
   const { data: dataTestimonials } = useQuery({
     queryFn: () => getTestimonials({ receiver: id!, order: "DESC" }),
@@ -33,7 +33,7 @@ function ItemProfile({ user }: { user: IUserOffer }) {
     return Number(sum / count)
   }, [dataTestimonials?.data])
 
-  const name = `${firstName || "Имя"} ${lastName ?? ""}`
+  const name = `${firstName} ${lastName}`
 
   return (
     <section className="mt-1 w-full pt-2.5 border-t border-t-grey-stroke-light border-solid">

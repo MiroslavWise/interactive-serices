@@ -23,7 +23,7 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
   const user = userInterlocutor({ m: thread?.emitter!, r: thread?.receivers!, userId: userId! })
   const users = useOnline(({ users }) => users)
   const message = thread?.messages?.length ? thread?.messages?.[0]?.message : null
-  const { firstName, lastName } = user ?? {}
+  const { firstName, lastName = "" } = user ?? {}
 
   const barterId = thread?.provider === EnumProviderThreads.BARTER ? thread?.barterId : null
   const { data: dataBarter } = useQuery({
@@ -65,7 +65,7 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
               prefetch={false}
               className="text-text-primary text-sm text-left font-medium text-ellipsis line-clamp-1"
             >
-              {firstName || "Имя"} {lastName ?? ""}
+              {firstName || "Имя"} {lastName}
             </Link>
             <div className="w-5 h-5 relative p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-[1.125rem] *:h-[1.125rem] *:z-30">
               <IconVerifiedTick />

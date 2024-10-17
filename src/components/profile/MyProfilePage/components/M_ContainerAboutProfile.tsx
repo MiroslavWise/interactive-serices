@@ -33,7 +33,7 @@ export const MContainerAboutProfile = () => {
 
   const { data: res } = dataUser ?? {}
   const { profile } = res ?? {}
-  const { image, firstName, lastName, about } = profile ?? {}
+  const { image, firstName = "Имя", lastName = "", about } = profile ?? {}
 
   const { data } = useQuery({
     queryFn: () => getFriends({}),
@@ -102,7 +102,7 @@ export const MContainerAboutProfile = () => {
             ) : (
               <>
                 <h3 className="text-text-primary text-lg font-semibold">
-                  {firstName || "Имя"} {lastName ?? ""}
+                  {firstName} {lastName}
                 </h3>
                 {geoData ? (
                   <p className="text-text-secondary text-[0.8125rem] font-normal line-clamp-2 text-ellipsis leading-4">

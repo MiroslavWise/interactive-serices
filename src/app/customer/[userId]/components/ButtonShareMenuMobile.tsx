@@ -21,7 +21,7 @@ function ButtonShareMenuMobile({ user }: { user: IUserResponse }) {
     const url = `${env.server.host}${linkUser}`
     if (!!window.navigator.share!) {
       navigator.share({
-        title: `${profile?.firstName || "Имя"} ${profile?.lastName ?? ""}`,
+        title: `${profile?.firstName || "Имя"} ${profile?.lastName || ""}`,
         text: profile?.about || "",
         url: url,
       })

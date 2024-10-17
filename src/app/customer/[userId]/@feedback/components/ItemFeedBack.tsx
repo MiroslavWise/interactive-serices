@@ -12,7 +12,7 @@ import ImagesFeedback from "./ImagesFeedback"
 async function ItemFeedBack(props: IResponseTestimonials) {
   const { rating, id, message, created, targetId, user, provider, images } = props ?? {}
 
-  const { image, firstName, lastName } = user ?? {}
+  const { image, firstName, lastName = "" } = user ?? {}
 
   return (
     <div className="py-4 flex flex-col gap-3 border-b border-solid border-grey-stroke-light last:!border-none">
@@ -21,7 +21,7 @@ async function ItemFeedBack(props: IResponseTestimonials) {
         <div className="w-full flex flex-col gap-1 justify-between items-start">
           <div className="w-full flex flex-row items-center gap-1">
             <p className=" text-text-primary text-sm font-medium line-clamp-1 overflow-ellipsis">
-              {firstName || "Имя"} {lastName ?? ""}
+              {firstName || "Имя"} {lastName}
             </p>
             <div className="w-5 h-5 flex items-center justify-center p-[0.0625rem]">
               <IconVerifiedTick />

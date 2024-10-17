@@ -46,7 +46,7 @@ function AbsoluteMenu({ thread }: { thread: IResponseThread }) {
         about: user?.about ?? "",
         birthdate: null,
         firstName: user?.firstName ?? "",
-        lastName: user?.lastName ?? "",
+        lastName: user?.lastName || "",
         image: user?.image!,
         username: user?.username ?? "",
         id: user?.id!,
