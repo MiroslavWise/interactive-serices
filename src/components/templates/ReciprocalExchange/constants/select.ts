@@ -12,7 +12,7 @@ interface IIncoming {
 
 const NEW_PROPOSALS_OBJ = ({ firstName = "" }: { firstName: string }): Record<ETypeOfNewCreated, I> => ({
   [ETypeOfNewCreated.interesting]: {
-    label: `Из категорий интересных для ${firstName}`,
+    label: `Из категорий интересных для ${firstName || "Имя"}`,
     value: ETypeOfNewCreated.interesting,
   },
   [ETypeOfNewCreated.their]: {

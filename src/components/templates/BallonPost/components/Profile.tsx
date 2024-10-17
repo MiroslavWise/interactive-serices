@@ -23,7 +23,7 @@ export function ComponentProfilePost({ post }: IProps) {
     enabled: !!id,
   })
 
-  const { image, firstName = "Имя", lastName = "" } = user ?? {}
+  const { image, firstName, lastName } = user ?? {}
   const firstAddress = addresses[0] ?? {}
   const additional = firstAddress?.additional?.replace(`${firstAddress?.country}, `, "").replace(`${firstAddress?.region}, `, "") ?? ""
 
@@ -37,7 +37,7 @@ export function ComponentProfilePost({ post }: IProps) {
       <article className="w-full flex flex-col items-start gap-1">
         <div className="flex flex-row flex-nowrap gap-1 items-center">
           <p className="text-sm text-text-primary font-medium">
-            {firstName} {lastName}
+            {firstName || "Имя"} {lastName || ""}
           </p>
           <div className="relative w-4 h-4 p-2 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4 *:z-20">
             <IconVerifiedTick />

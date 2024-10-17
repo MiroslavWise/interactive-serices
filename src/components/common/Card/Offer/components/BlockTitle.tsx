@@ -8,7 +8,7 @@ import { GeoTagging } from "@/components/common"
 import { cx } from "@/lib/cx"
 
 export const BlockTitle: TBlockTitle = ({ profile, addresses, id: userId }) => {
-  const { firstName = "Имя", lastName = "" } = profile ?? {}
+  const { firstName, lastName } = profile ?? {}
 
   const geo = useMemo(() => {
     if (!addresses) {
@@ -25,7 +25,7 @@ export const BlockTitle: TBlockTitle = ({ profile, addresses, id: userId }) => {
       <Avatar className={cx("w-11 h-11", profile?.image ? "rounded-xl" : "rounded-lg")} image={profile?.image} userId={userId} />
       <div className="w-full flex flex-col *:text-ellipsis *:line-clamp-1">
         <h4 className="text-text-primary text-base font-medium">
-          {firstName} {lastName}
+          {firstName || "Имя"} {lastName || ""}
         </h4>
         {geo ? <GeoTagging fontSize={12} location={geo} /> : null}
       </div>

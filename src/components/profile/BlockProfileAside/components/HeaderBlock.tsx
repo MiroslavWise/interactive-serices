@@ -22,7 +22,7 @@ export const HeaderBlock = () => {
 
   const { data: res } = data ?? {}
   const { profile, created } = res ?? {}
-  const { image, firstName = "Имя", lastName = "" } = profile ?? {}
+  const { image, firstName, lastName } = profile ?? {}
 
   if (isLoading)
     return (
@@ -56,7 +56,7 @@ export const HeaderBlock = () => {
       </div>
       <section data-test="block-profile-aside-section-info" className="flex flex-col items-center gap-1.5">
         <h4 data-test="block-profile-aside-section-info-h4" className="text-text-primary text-center text-xl font-semibold">
-          {firstName} {lastName}
+          {firstName || "Имя"} {lastName || ""}
         </h4>
         {created ? (
           <time

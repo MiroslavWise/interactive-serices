@@ -30,7 +30,7 @@ function PublicProfileUser() {
   const isOnline = users.some((_) => _.id === id)
 
   const { profile, updated } = data?.data ?? {}
-  const { firstName = "Имя", lastName = "", image } = profile ?? {}
+  const { firstName, lastName, image } = profile ?? {}
 
   const itemsAllBarters = data?.data?.barters?.filter((_) => _.status === EnumStatusBarter.COMPLETED) || []
   const itemsTestimonials = dataTestimonials?.data || []
@@ -71,7 +71,7 @@ function PublicProfileUser() {
         <section className="w-full flex flex-col gap-4 items-start">
           <div className="w-full gap-1 flex flex-col">
             <h4 className="text-text-primary text-xl font-semibold text-ellipsis line-clamp-1">
-              {firstName} {lastName}
+              {firstName || "Имя"} {lastName || ""}
             </h4>
             <div className="flex flex-row items-center gap-1.5 justify-start">
               {isOnline ? (

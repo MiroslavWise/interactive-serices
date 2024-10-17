@@ -15,7 +15,7 @@ function DeleteFriend() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [loading, setLoading] = useState(false)
 
-  const { firstName = "Имя", lastName = "" } = user ?? {}
+  const { firstName, lastName } = user ?? {}
 
   const { refetch } = useQuery({
     queryFn: () => getFriends({}),
@@ -55,7 +55,7 @@ function DeleteFriend() {
         <h2>
           Вы хотите удалить&nbsp;
           <p className="text-text-accent contents">
-            {firstName} {lastName}
+            {firstName || "Имя"} {lastName || ""}
           </p>
           &nbsp;из друзей?
         </h2>
