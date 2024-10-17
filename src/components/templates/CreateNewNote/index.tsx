@@ -164,7 +164,7 @@ function CreateNewNote() {
                     <div data-image data-input-plus className="border border-dashed border-grey-stroke-light focus:border-element-accent-1">
                       <input
                         type="file"
-                        accept="image/*,.pdf,.doc,.docx"
+                        
                         onChange={async (event) => {
                           const dataValues = await handleImageChange(field.value, event)
                           field.onChange(dataValues)

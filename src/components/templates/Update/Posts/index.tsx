@@ -250,7 +250,7 @@ function UpdatePost() {
                   >
                     <input
                       type="file"
-                      accept="image/*,.pdf,.doc,.docx"
+                      
                       className="absolute top-1/2 left-1/2 opacity-0 z-20 -translate-x-1/2 -translate-y-1/2 w-full h-full cursor-pointer"
                       onChange={async (event) => {
                         const dataValues = await handleImageChange(field.value, event)
