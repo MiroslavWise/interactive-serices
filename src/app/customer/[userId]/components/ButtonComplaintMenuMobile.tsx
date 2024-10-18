@@ -12,17 +12,17 @@ const LABEL = "Пожаловаться"
 function ButtonComplaintMenuMobile({ user }: { user: IUserResponse }) {
   const { id, profile } = user ?? {}
 
-  const { about, birthdate, firstName, lastName, gender, username, image } = profile ?? {}
+  const { about, birthdate, firstName, lastName = "", gender, username = "", image } = profile ?? {}
 
   function handle() {
     const data: IUserOffer = {
       about: about || null,
       birthdate: birthdate || null,
       firstName: firstName || "Имя",
-      lastName: lastName ?? "",
+      lastName: lastName,
       gender: gender || null,
       id: id,
-      username: username || "",
+      username: username,
       image: image,
     }
 

@@ -49,7 +49,7 @@ function FormAppendComment({ idOffersThread, setCurrentComments }: IProps) {
     about: profile?.about ?? "",
     birthdate: profile?.birthdate ?? "",
     firstName: profile?.firstName ?? "Имя",
-    lastName: profile?.lastName ?? "",
+    lastName: profile?.lastName || "",
     gender: profile?.gender!,
     id: user?.id!,
     username: profile?.username ?? "",

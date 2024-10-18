@@ -21,7 +21,7 @@ function MenuCustomer({ user, id }: { user: IUserResponse; id: string | number }
         about: profile?.about ?? "",
         birthdate: null,
         firstName: profile?.firstName ?? "",
-        lastName: profile?.lastName ?? "",
+        lastName: profile?.lastName || "",
         image: profile?.image!,
         username: profile?.username ?? "",
         id: user?.id!,

@@ -30,7 +30,7 @@ export const ContentCurrentUser = () => {
           <section className="w-full flex flex-col items-start">
             <div className="flex flex-row items-center w-full gap-1">
               <Link className="text-text-primary text-base font-medium" href={{ pathname: `/customer/${user?.id}` }} target="_blank">
-                {user?.profile?.firstName || "Имя"} {user?.profile?.lastName ?? ""}
+                {user?.profile?.firstName || "Имя"} {user?.profile?.lastName || ""}
               </Link>
               <div className="relative w-6 h-6 p-3 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
                 <IconVerifiedTick />

@@ -16,7 +16,7 @@ interface IProps {
 function ItemServiceData({ offer }: IProps) {
   const { created, user, description, images, urgent } = offer ?? {}
 
-  const { firstName, lastName, image } = user ?? {}
+  const { firstName, lastName = "", image } = user ?? {}
 
   return (
     <>
@@ -48,7 +48,7 @@ function ItemServiceData({ offer }: IProps) {
           <div className="w-full grid grid-cols-[1.5rem_minmax(0,1fr)] gap-2.5 items-center">
             <Avatar className="w-6 h-6 rounded-md p-3" image={image} />
             <p className="text-text-primary text-sm font-normal">
-              {firstName || "Имя"} {lastName ?? ""}
+              {firstName || "Имя"} {lastName}
             </p>
           </div>
         </article>

@@ -7,13 +7,15 @@ import { GeoTagging } from "@/components/common"
 import styles from "../styles/profile.module.scss"
 
 export const ItemProfile = ({ profile, geo }: { profile: IGetProfileIdResponse; geo: IAddressesResponse }) => {
+  const { firstName, lastName } = profile ?? {}
+
   return (
     <div className={styles.container}>
       <Avatar className="w-11 h-11 p-[1.375rem] rounded-.625" image={profile?.image} />
       <div data-info>
         <div data-names>
           <h4>
-            {profile?.firstName || "Имя"} {profile?.lastName ?? ""}
+            {firstName || "Имя"} {lastName || ""}
           </h4>
           <img src="/svg/verified-tick.svg" alt="verified" width={16} height={16} />
         </div>

@@ -259,7 +259,7 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
           <p>
             К сожалению,{" "}
             <span className="font-medium">
-              {data?.consigner?.user?.firstName || "Имя"} {data?.consigner?.user?.lastName ?? ""}
+              {data?.consigner?.user?.firstName || "Имя"} {data?.consigner?.user?.lastName || ""}
             </span>{" "}
             отклонил(а) ваш запрос на обмен «{data?.consigner?.category?.title || "Предложение"}». Давайте попробуем что-то другое!
           </p>
@@ -617,7 +617,7 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
         <section className="w-full pr-[1.625rem] flex flex-col gap-1">
           <article className="w-full flex flex-col gap-[0.0625rem]">
             <p className="text-text-primary text-sm font-normal line-clamp-4 text-ellipsis">
-              {userNotification?.firstName ?? "Имя"} {userNotification?.lastName ?? ""} оставил(а) комментарий к вашему посту: «
+              {userNotification?.firstName ?? "Имя"} {userNotification?.lastName || ""} оставил(а) комментарий к вашему посту: «
               {data?.message}»
             </p>
             <time dateTime={created} className="text-text-secondary text-xs text-left font-normal">

@@ -19,7 +19,7 @@ function FooterButton({ user }: { user: IUserResponse }) {
         about: profile?.about ?? "",
         birthdate: null,
         firstName: profile?.firstName ?? "",
-        lastName: profile?.lastName ?? "",
+        lastName: profile?.lastName || "",
         image: profile?.image!,
         username: profile?.username,
         id: id!,
@@ -37,13 +37,12 @@ function FooterButton({ user }: { user: IUserResponse }) {
         className="bg-btn-second-default !h-9 py-1.5 px-4 [&>span]:text-sm !rounded-[1.125rem]"
         onClick={() => {
           const linkUser =
-            `/user/${id}` + profile?.username && !profile?.username.includes(`$`) && !profile?.username.includes("/")
-              ? `/${profile?.username}`
-              : ""
+            `/user/${id}` +
+            (profile?.username && !profile?.username.includes(`$`) && !profile?.username.includes("/") ? `/${profile?.username}` : "")
           const url = `${env.server.host}${linkUser}`
           if (!!window.navigator.share!) {
             navigator.share({
-              title: `${profile?.firstName || "Имя"} ${profile?.lastName ?? ""}`,
+              title: `${profile?.firstName || "Имя"} ${profile?.lastName || ""}`,
               text: profile?.about || "",
               url: url,
             })

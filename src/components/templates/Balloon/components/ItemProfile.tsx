@@ -11,9 +11,9 @@ import { dispatchPublicProfile } from "@/store"
 const ItemProfile = ({ offer }: { offer: IResponseOffers }) => {
   const { created, user } = offer ?? {}
   const { isTablet } = useResize()
-  const { image, firstName, lastName = "", id: userId } = user ?? {}
+  const { image, firstName, lastName, id: userId } = user ?? {}
 
-  const name = `${firstName || "Имя"} ${lastName}`
+  const name = `${firstName ?? "Имя"} ${lastName ?? ""}`
 
   return (
     <div className="relative w-full grid grid-cols-[2.5rem_minmax(0,1fr)] items-start gap-2.5 !px-5 *:!px-0">

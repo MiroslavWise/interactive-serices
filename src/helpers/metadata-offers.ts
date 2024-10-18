@@ -31,7 +31,7 @@ export function metadataOffers({ data }: IData): Metadata {
   const metaImgs = metadataImages({ images: data.images })
   meta.icons = metaImgs.icons
 
-  const name = `${user?.firstName ?? "Имя"} ${user?.lastName ?? ""}`
+  const name = `${user?.firstName ?? "Имя"} ${user?.lastName || ""}`
   if (user) {
     const userName = user?.username && !user?.username.includes("$") && !user?.username.includes("/") ? `/${user?.username}` : ""
 
