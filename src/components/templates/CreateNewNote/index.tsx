@@ -18,6 +18,8 @@ import { dispatchBallonPost, dispatchCloseCreateNote, useAuth, useCreateNewNote 
 import { DEFAULT_VALUES, handleImageChange, onProgress, onUploadProgress, resolverCreateNote, type TSchemaCreateNote } from "./utils"
 import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
 import { clg } from "@console"
+import IconFile_06 from "@/components/icons/IconFile_06"
+import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
 function CreateNewNote() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -146,38 +148,96 @@ function CreateNewNote() {
           <Controller
             control={control}
             name="file"
-            render={({ field }) => (
-              <fieldset className="!gap-4">
-                <label htmlFor={field.name}>Фото</label>
-                <p className="-mt-3 text-text-disabled text-sm font-normal">Добавьте к записи фото, постер или афишу</p>
-                <div className="w-full grid justify-center gap-4 grid-cols-3 max-md:grid-cols-2 [&>img]:!border-none">
-                  {field.value.string.map((item, index) => (
-                    <CurrentImage
-                      key={`${index}-image`}
-                      item={item}
-                      index={index}
-                      field={field}
-                      progress={!loading ? null : onProgress({ files: field.value.file, index, progress })}
-                    />
-                  ))}
-                  {field.value.string.length < 9 ? (
-                    <div data-image data-input-plus className="border border-dashed border-grey-stroke-light focus:border-element-accent-1">
-                      <input
-                        type="file"
-                        onChange={async (event) => {
-                          const dataValues = await handleImageChange(field.value, event)
-                          field.onChange(dataValues)
-                          event.target.value = ""
-                        }}
-                        multiple
+            render={({ field }) => {
+              const _strings = {
+                images: [] as {
+                  img: string
+                  index: number
+                }[],
+                other: [] as {
+                  str: string
+                  index: number
+                }[],
+              }
+
+              for (let i = 0; i < field.value.string.length; i++) {
+                if (field.value.string[i].includes("data:image")) {
+                  _strings.images.push({
+                    img: field.value.string[i],
+                    index: i,
+                  })
+                } else {
+                  _strings.other.push({
+                    str: field.value.string[i],
+                    index: i,
+                  })
+                }
+              }
+
+              return (
+                <fieldset className="!gap-4">
+                  <label htmlFor={field.name}>Фото</label>
+                  <p className="-mt-3 text-text-disabled text-sm font-normal">Добавьте к записи фото, постер или афишу</p>
+                  <div className={cx("w-full flex flex-col gap-2", _strings.other.length > 0 ? "flex" : "hidden")}>
+                    {_strings.other.map((item) => (
+                      <article
+                        key={`:k:e:rT:${item.index}:`}
+                        className="w-fit grid grid-cols-[1.5rem_minmax(0,1fr)_1.5rem] gap-1 items-center bg-btn-second-default p-1.5 pr-2 rounded-[1.125rem]"
+                      >
+                        <div className="w-6 h-6 p-3 relative *:w-4 *:h-4">
+                          <IconFile_06 />
+                        </div>
+                        <span className="text-sm font-medium text-text-primary line-clamp-1 text-ellipsis">файл №{item.index + 1}</span>
+                        <button
+                          type="button"
+                          className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4"
+                          onClick={(event) => {
+                            event.stopPropagation()
+                            const newFiles = {
+                              file: field.value.file.filter((_, i) => item.index !== i),
+                              string: field.value.string.filter((_, i) => item.index !== i),
+                            }
+                            field.onChange(newFiles)
+                          }}
+                        >
+                          <IconTrashBlack />
+                        </button>
+                      </article>
+                    ))}
+                  </div>
+                  <div className="w-full grid justify-center gap-4 grid-cols-3 max-md:grid-cols-2 [&>img]:!border-none">
+                    {_strings.images.map((item) => (
+                      <CurrentImage
+                        key={`${item.index}-image`}
+                        item={item.img}
+                        index={item.index}
+                        field={field}
+                        progress={!loading ? null : onProgress({ files: field.value.file, index: item.index, progress })}
                       />
-                    </div>
-                  ) : null}
-                </div>
-                <i className="!text-text-disabled !-mt-3">Максимальный размер фото - 10 МБ</i>
-                <i className="!text-text-disabled !-mt-3">Не более 9 изображений</i>
-              </fieldset>
-            )}
+                    ))}
+                    {field.value.string.length < 9 ? (
+                      <div
+                        data-image
+                        data-input-plus
+                        className="border border-dashed border-grey-stroke-light focus:border-element-accent-1"
+                      >
+                        <input
+                          type="file"
+                          onChange={async (event) => {
+                            const dataValues = await handleImageChange(field.value, event)
+                            field.onChange(dataValues)
+                            event.target.value = ""
+                          }}
+                          multiple
+                        />
+                      </div>
+                    ) : null}
+                  </div>
+                  <i className="!text-text-disabled !-mt-3">Максимальный размер фото - 10 МБ</i>
+                  <i className="!text-text-disabled !-mt-3">Не более 9 изображений</i>
+                </fieldset>
+              )
+            }}
           />
           <Controller
             name="is"

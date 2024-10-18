@@ -16,6 +16,7 @@ import { handleImageChange, updatePatch } from "./utils"
 import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
 import { dispatchBallonPost, dispatchUpdatePost, useAuth, useUpdatePost } from "@/store"
 import { LIMIT_TITLE_POST, resolverCreatePostUpdate, type TSchemaCreatePostUpdate } from "../../CreatePost/schema"
+import IconFile_06 from "@/components/icons/IconFile_06"
 
 function UpdatePost() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -170,101 +171,154 @@ function UpdatePost() {
           <Controller
             name="file"
             control={control}
-            render={({ field }) => (
-              <fieldset className="w-full flex flex-col gap-4">
-                <label htmlFor={field.name} className="text-text-primary text-sm font-medium">
-                  Фото
-                </label>
-                <p className="-mt-3 text-text-disabled text-sm font-normal">Добавьте к записи фото, постер или афишу</p>
-                <div className="w-full grid justify-center gap-4 grid-cols-3 max-md:grid-cols-2">
-                  {images.map((item) => (
+            render={({ field }) => {
+              const _strings = {
+                images: [] as {
+                  img: string
+                  index: number
+                }[],
+                other: [] as {
+                  str: string
+                  index: number
+                }[],
+              }
+
+              for (let i = 0; i < field.value.string.length; i++) {
+                if (field.value.string[i].includes("data:image")) {
+                  _strings.images.push({
+                    img: field.value.string[i],
+                    index: i,
+                  })
+                } else {
+                  _strings.other.push({
+                    str: field.value.string[i],
+                    index: i,
+                  })
+                }
+              }
+
+              return (
+                <fieldset className="w-full flex flex-col gap-4">
+                  <label htmlFor={field.name} className="text-text-primary text-sm font-medium">
+                    Фото
+                  </label>
+                  <p className="-mt-3 text-text-disabled text-sm font-normal">Добавьте к записи фото, постер или афишу</p>
+                  <div className={cx("w-full flex flex-col gap-2", _strings.other.length > 0 ? "flex" : "hidden")}>
+                    {_strings.other.map((item) => (
+                      <article
+                        key={`:k:e:rT:${item.index}:`}
+                        className="w-fit grid grid-cols-[1.5rem_minmax(0,1fr)_1.5rem] gap-1 items-center bg-btn-second-default p-1.5 pr-2 rounded-[1.125rem]"
+                      >
+                        <div className="w-6 h-6 p-3 relative *:w-4 *:h-4">
+                          <IconFile_06 />
+                        </div>
+                        <span className="text-sm font-medium text-text-primary line-clamp-1 text-ellipsis">файл №{item.index + 1}</span>
+                        <button
+                          type="button"
+                          className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4"
+                          onClick={(event) => {
+                            event.stopPropagation()
+                            const newFiles = {
+                              file: field.value.file.filter((_, i) => item.index !== i),
+                              string: field.value.string.filter((_, i) => item.index !== i),
+                            }
+                            field.onChange(newFiles)
+                          }}
+                        >
+                          <IconTrashBlack />
+                        </button>
+                      </article>
+                    ))}
+                  </div>
+                  <div className="w-full grid justify-center gap-4 grid-cols-3 max-md:grid-cols-2">
+                    {images.map((item) => (
+                      <div
+                        className={cx(
+                          "w-full h-auto rounded-2xl bg-BG-second flex items-center justify-center relative overflow-hidden aspect-[152/196]",
+                          watch("deletesImages").includes(item.id) ? "grayscale" : "grayscale-0",
+                        )}
+                        key={`:--${item.id}--image--:`}
+                      >
+                        <NextImageMotion
+                          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-auto aspect-[152/196]"
+                          src={item.attributes.url}
+                          alt={item.attributes.alt}
+                          width={200}
+                          height={200}
+                        />
+                        <button
+                          type="button"
+                          className="absolute top-1.5 right-1.5 w-8 h-8 rounded-full bg-BG-second *:w-4 *:h-4 p-2 flex items-center justify-center [&>svg>path]:fill-text-primary"
+                          onClick={(event) => {
+                            event.stopPropagation()
+                            const ids = watch("deletesImages")
+                            if (ids.includes(item.id)) {
+                              setValue(
+                                "deletesImages",
+                                ids.filter((_) => _ !== item.id),
+                              )
+                            } else {
+                              setValue("deletesImages", [...ids, item.id])
+                            }
+                          }}
+                        >
+                          <IconTrashBlack />
+                        </button>
+                      </div>
+                    ))}
+                    {_strings.images.map((item) => (
+                      <div
+                        className="w-full h-auto rounded-2xl bg-BG-second flex items-center justify-center relative overflow-hidden aspect-[152/196]"
+                        key={`:${item.index}_image:`}
+                      >
+                        <ImageStatic
+                          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-auto aspect-[152/196]"
+                          src={item.img}
+                          alt="offer-image"
+                          width={200}
+                          height={200}
+                        />
+                        <button
+                          type="button"
+                          className="absolute top-1.5 right-1.5 w-8 h-8 rounded-full bg-BG-second *:w-4 *:h-4 p-2 flex items-center justify-center [&>svg>path]:fill-text-primary"
+                          onClick={(event) => {
+                            event.stopPropagation()
+                            field.onChange({
+                              file: field.value.file.filter((_, i) => i !== item.index),
+                              string: field.value.string.filter((_, i) => i !== item.index),
+                            })
+                          }}
+                        >
+                          <IconTrashBlack />
+                        </button>
+                      </div>
+                    ))}
                     <div
                       className={cx(
-                        "w-full h-auto rounded-2xl bg-BG-second flex items-center justify-center relative overflow-hidden aspect-[152/196]",
-                        watch("deletesImages").includes(item.id) ? "grayscale" : "grayscale-0",
+                        "w-full h-auto rounded-2xl bg-BG-second relative overflow-hidden aspect-[152/196] border border-dashed border-grey-stroke-light focus:border-element-accent-1",
+                        field.value.string.length + images.length - watch("deletesImages").length >= 9
+                          ? "hidden"
+                          : "flex items-center justify-center",
                       )}
-                      key={`:--${item.id}--image--:`}
+                      data-input-plus
                     >
-                      <NextImageMotion
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-auto aspect-[152/196]"
-                        src={item.attributes.url}
-                        alt={item.attributes.alt}
-                        width={200}
-                        height={200}
-                      />
-                      <button
-                        type="button"
-                        className="absolute top-1.5 right-1.5 w-8 h-8 rounded-full bg-BG-second *:w-4 *:h-4 p-2 flex items-center justify-center [&>svg>path]:fill-text-primary"
-                        onClick={(event) => {
-                          event.stopPropagation()
-                          const ids = watch("deletesImages")
-                          if (ids.includes(item.id)) {
-                            setValue(
-                              "deletesImages",
-                              ids.filter((_) => _ !== item.id),
-                            )
-                          } else {
-                            setValue("deletesImages", [...ids, item.id])
-                          }
+                      <input
+                        type="file"
+                        className="absolute top-1/2 left-1/2 opacity-0 z-20 -translate-x-1/2 -translate-y-1/2 w-full h-full cursor-pointer"
+                        onChange={async (event) => {
+                          const dataValues = await handleImageChange(field.value, event)
+                          field.onChange(dataValues)
+                          event.target.value = ""
                         }}
-                      >
-                        <IconTrashBlack />
-                      </button>
-                    </div>
-                  ))}
-                  {field.value.string.map((item, index) => (
-                    <div
-                      className="w-full h-auto rounded-2xl bg-BG-second flex items-center justify-center relative overflow-hidden aspect-[152/196]"
-                      key={`:${index}_image:`}
-                    >
-                      <ImageStatic
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-auto aspect-[152/196]"
-                        src={item}
-                        alt="offer-image"
-                        width={200}
-                        height={200}
+                        multiple
                       />
-                      <button
-                        type="button"
-                        className="absolute top-1.5 right-1.5 w-8 h-8 rounded-full bg-BG-second *:w-4 *:h-4 p-2 flex items-center justify-center [&>svg>path]:fill-text-primary"
-                        onClick={(event) => {
-                          event.stopPropagation()
-                          field.onChange({
-                            file: field.value.file.filter((_, i) => i !== index),
-                            string: field.value.string.filter((_, i) => i !== index),
-                          })
-                        }}
-                      >
-                        <IconTrashBlack />
-                      </button>
                     </div>
-                  ))}
-                  <div
-                    className={cx(
-                      "w-full h-auto rounded-2xl bg-BG-second relative overflow-hidden aspect-[152/196] border border-dashed border-grey-stroke-light focus:border-element-accent-1",
-                      field.value.string.length + images.length - watch("deletesImages").length >= 9
-                        ? "hidden"
-                        : "flex items-center justify-center",
-                    )}
-                    data-input-plus
-                  >
-                    <input
-                      type="file"
-                      
-                      className="absolute top-1/2 left-1/2 opacity-0 z-20 -translate-x-1/2 -translate-y-1/2 w-full h-full cursor-pointer"
-                      onChange={async (event) => {
-                        const dataValues = await handleImageChange(field.value, event)
-                        field.onChange(dataValues)
-                        event.target.value = ""
-                      }}
-                      multiple
-                    />
                   </div>
-                </div>
-                <p className="!text-text-disabled !-mt-3 text-xs font-normal">Максимальный размер фото - 10 МБ</p>
-                <p className="!text-text-disabled !-mt-3 text-xs font-normal">Не более 9 изображений</p>
-              </fieldset>
-            )}
+                  <p className="!text-text-disabled !-mt-3 text-xs font-normal">Максимальный размер фото - 10 МБ</p>
+                  <p className="!text-text-disabled !-mt-3 text-xs font-normal">Не более 9 изображений</p>
+                </fieldset>
+              )
+            }}
           />
           <footer className="fixed md:absolute bottom-0 left-0 right-0 w-full !max-w-full pt-2.5 px-5 pb-[1.875rem] bg-BG-second flex flex-row items-center justify-center md:rounded-b-2 md:*:max-w-[26.25rem] z-50">
             <Button type="submit" className="" typeButton="fill-primary" label="Сохранить" loading={loading} disabled={loading} />
