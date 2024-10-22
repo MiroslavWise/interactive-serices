@@ -39,7 +39,7 @@ export const ServicesComponent = ({ parentRef }: { parentRef: RefObject<HTMLULis
   const { data, isLoading: isLoadingPost } = useQuery({
     queryFn: () => getPosts({ order: "DESC" }),
     queryKey: ["posts", { order: "DESC" }],
-    enabled: (providers === "all" || providers === EnumTypeProvider.post) && activeFilters.length === 0,
+    enabled: (providers === "all" || providers === EnumTypeProvider.POST) && activeFilters.length === 0,
     select: ({ data }) => data?.filter((item) => (!!urgent ? !!item?.urgent : true)),
   })
 

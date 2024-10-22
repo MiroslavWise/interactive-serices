@@ -48,7 +48,7 @@ function ContainerPosts({ posts }: IProps) {
         ))}
       </nav>
       <p className="text-text-secondary text-sm font-medium text-left">
-        {length} {nameTitle(length, EnumTypeProvider.post)}
+        {length} {nameTitle(length, EnumTypeProvider.POST)}
       </p>
       {length > 0 ? (
         <ul className="w-full grid grid-cols-3 max-2xl:grid-cols-2 max-xl:grid-cols-1 z-10 pb-5 gap-2.5 md:gap-4">

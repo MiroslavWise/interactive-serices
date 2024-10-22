@@ -5,10 +5,12 @@ import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import { ServiceLoading } from "@/components/common"
+import ItemPost from "@/app/customer/[userId]/@offers/components/ItemPost"
 import ItemServiceData from "@/app/customer/[userId]/@offers/components/ItemService-data"
 
 import { cx } from "@/lib/cx"
 import { nameTitle } from "@/lib/names"
+import { getPosts } from "@/services/posts"
 import { getUserIdOffers } from "@/services"
 import { LINKS_PROVIDER_OFFERS } from "@/app/customer/[userId]/@links/page"
 import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchPublicProfile, usePublicProfile } from "@/store"
@@ -20,11 +22,20 @@ function PublicProfileServices() {
   const { data: dataOffers, isLoading } = useQuery({
     queryFn: () => getUserIdOffers(id!, { provider: state, order: "DESC" }),
     queryKey: ["offers", { userId: id, provider: state }],
-    enabled: !!id!,
+    enabled: !!id! && [EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(state),
+  })
+
+  const { data: dataPosts, isLoading: isLoadingPosts } = useQuery({
+    queryFn: () => getPosts({ order: "DESC", user: id! }),
+    queryKey: ["posts", { userId: id, order: "DESC" }],
+    enabled: !!id! && state === EnumTypeProvider.POST,
   })
 
   const itemsOffers = dataOffers?.data || []
   const length = itemsOffers.length
+
+  const itemsPosts = dataPosts?.data || []
+  const lengthPosts = itemsPosts.length
 
   const name = nameTitle(length, state)
 
@@ -60,13 +71,15 @@ function PublicProfileServices() {
           </a>
         ))}
       </nav>
-      {isLoading ? (
+      {isLoading || isLoadingPosts ? (
         <ul className="loading-screen w-full flex flex-col gap-3">
           {[`key-load-${state}-1`, `key-load-${state}-2`, `key-load-${state}-3`, `key-load-${state}-4`].map((item) => (
             <ServiceLoading key={`:key:load:${item}:--`} />
           ))}
         </ul>
-      ) : length === 0 ? (
+      ) : state === EnumTypeProvider.POST && lengthPosts === 0 ? (
+        <p className="text-text-primary text-sm font-normal text-center whitespace-nowrap mt-16">Нет постов</p>
+      ) : [EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(state) && length === 0 ? (
         <p className="text-text-primary text-sm font-normal text-center whitespace-nowrap mt-16">
           {state === EnumTypeProvider.discussion
             ? "Нет обсуждений"
@@ -77,19 +90,21 @@ function PublicProfileServices() {
       ) : (
         <ul className="w-full flex flex-col gap-3">
           <p className="text-text-secondary text-sm text-left font-medium">
-            {length} {name}
+            {state === EnumTypeProvider.POST ? lengthPosts : length} {name}
           </p>
-          {itemsOffers.map((item) => (
-            <li
-              key={`:key:${item.id}:${item.provider}:`}
-              onClick={() => {
-                handle(item)
-              }}
-              className="relative w-full px-4 pt-3 pb-4 bg-BG-second rounded-2xl flex flex-col gap-4 cursor-pointer"
-            >
-              <ItemServiceData offer={item} />
-            </li>
-          ))}
+          {state === EnumTypeProvider.POST
+            ? itemsPosts.map((item) => <ItemPost post={item} key={`:d:s:Dg:a:s:${item.id}:`} />)
+            : itemsOffers.map((item) => (
+                <li
+                  key={`:key:${item.id}:${item.provider}:`}
+                  onClick={() => {
+                    handle(item)
+                  }}
+                  className="relative w-full px-4 pt-3 pb-4 bg-BG-second rounded-2xl flex flex-col gap-4 cursor-pointer"
+                >
+                  <ItemServiceData offer={item} />
+                </li>
+              ))}
         </ul>
       )}
     </section>

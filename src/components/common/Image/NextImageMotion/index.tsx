@@ -1,6 +1,7 @@
 "use client"
 
 import NextImage from "next/image"
+import { blurhashToBase64 } from "blurhash-base64"
 
 import { type IProps } from "./types"
 
@@ -18,6 +19,8 @@ type TTypes = typeof NextImage.defaultProps & IProps
 
 export const NextImageMotion = (props: TTypes) => {
   const { src, ref, alt, hash, className, height, width, ...rest } = props ?? {}
+
+  const blur64 = blurhashToBase64("")
 
   return typeof src === "string" && src?.includes("http") ? (
     <NextImage

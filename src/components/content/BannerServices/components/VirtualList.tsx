@@ -40,7 +40,7 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
 
   const isAll = providers === "all"
   const isOffersAnd = [EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(providers as EnumTypeProvider)
-  const isPosts = EnumTypeProvider.post === providers
+  const isPosts = EnumTypeProvider.POST === providers
 
   interface IListAll {
     type: EnumTypeProvider
@@ -60,7 +60,7 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
       }
       for (const item of listPosts) {
         obj.push({
-          type: EnumTypeProvider.post,
+          type: EnumTypeProvider.POST,
           post: item,
         })
       }
@@ -69,14 +69,14 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
     obj.sort(
       (a, b) =>
         getMillisecond(
-          b?.type === EnumTypeProvider.post
+          b?.type === EnumTypeProvider.POST
             ? b?.post?.created
             : [EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(b.type)
             ? b?.offer?.created
             : undefined,
         ) -
         getMillisecond(
-          a?.type === EnumTypeProvider.post
+          a?.type === EnumTypeProvider.POST
             ? a?.post?.created
             : [EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(a.type)
             ? a?.offer?.created
@@ -117,7 +117,7 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
       >
         {isAll
           ? itemsAll.map((virtualRow) =>
-              listAll[virtualRow.index].type === EnumTypeProvider.post ? (
+              listAll[virtualRow.index].type === EnumTypeProvider.POST ? (
                 <CardPost
                   key={`:key:${virtualRow.key}:all:`}
                   post={listAll[virtualRow.index]?.post!}

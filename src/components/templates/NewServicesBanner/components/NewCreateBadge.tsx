@@ -22,7 +22,7 @@ const NewCreateBadge: TNewCreateBadge = ({ value, label }) => {
   const init = useNewServicesBannerMap(({ addressInit }) => addressInit)
 
   function handleType() {
-    if (value === EnumTypeProvider.post) {
+    if (value === EnumTypeProvider.POST) {
       if (!!init) {
         dispatchCreatePostMap(init)
       } else {

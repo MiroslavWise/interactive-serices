@@ -106,19 +106,17 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
       )}
     >
       <div className={cx(images.length === 0 ? "hidden" : "flex flex-row flex-nowrap gap-0.5")}>
-        {images
-          .filter((_, i) => i < 2)
-          .map((item) => (
-            <div
-              key={`key::img::list::${item.id}::`}
-              className={cx(
-                "relative w-4 h-4 rounded-[0.0625rem] p-2 overflow-hidden",
-                "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4",
-              )}
-            >
-              <NextImageMotion src={item.attributes.url!} alt="offer-image" width={20} height={20} />
-            </div>
-          ))}
+        {images.slice(0, 2).map((item) => (
+          <div
+            key={`key::img::list::${item.id}::`}
+            className={cx(
+              "relative w-4 h-4 rounded-[0.0625rem] p-2 overflow-hidden",
+              "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4",
+            )}
+          >
+            <NextImageMotion src={item.attributes.url!} alt="offer-image" width={20} height={20} />
+          </div>
+        ))}
       </div>
       <p
         className={cx(

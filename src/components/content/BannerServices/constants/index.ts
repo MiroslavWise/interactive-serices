@@ -16,7 +16,7 @@ export const SERVICES: ISegmentValues<TServicesFilter>[] = [
     label: "Обсуждения",
   },
   {
-    value: EnumTypeProvider.post,
+    value: EnumTypeProvider.POST,
     label: "Посты",
   },
   {

@@ -34,7 +34,7 @@ const titleEmpty: Map<EnumTypeProvider, string> = new Map([
     "Случилось что‑то важное и хотите предупредить других? Или у вас случилась проблема и нужна помощь? Давайте создадим SOS-сообщение",
   ],
   [
-    EnumTypeProvider.post,
+    EnumTypeProvider.POST,
     "У вас есть мероприятие, которое вы хотите анонсировать, обсудить, осветить в процессе и опубликовать к нему фотоотчет? Создайте пост — и добавляйте к нему новые записи.",
   ],
 ])
@@ -52,7 +52,7 @@ export const ContainerSuggestions = () => {
   const { data: dataPosts, isLoading: isLoadingPosts } = useQuery({
     queryFn: () => getPosts({ order: "DESC", user: userId! }),
     queryKey: ["posts", { userId: userId!, order: "DESC" }],
-    enabled: !!userId && stateProvider === EnumTypeProvider.post,
+    enabled: !!userId && stateProvider === EnumTypeProvider.POST,
   })
 
   const items = data?.data || []
@@ -66,13 +66,13 @@ export const ContainerSuggestions = () => {
       [EnumTypeProvider.offer, "Создать предложение"],
       [EnumTypeProvider.discussion, "Создать обсуждение"],
       [EnumTypeProvider.alert, "Создать SOS"],
-      [EnumTypeProvider.post, "Создать пост"],
+      [EnumTypeProvider.POST, "Создать пост"],
     ])
 
     return {
       title: title.get(stateProvider)!,
       func: () => {
-        if (stateProvider == EnumTypeProvider.post) {
+        if (stateProvider == EnumTypeProvider.POST) {
           dispatchCreatePost(true)
         } else {
           openCreateOffers(stateProvider)
@@ -84,7 +84,7 @@ export const ContainerSuggestions = () => {
 
   if (
     ([EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(stateProvider) && isLoading) ||
-    (stateProvider === EnumTypeProvider.post && isLoadingPosts)
+    (stateProvider === EnumTypeProvider.POST && isLoadingPosts)
   )
     return (
       <ul className={cx(CN_UL, "loading-screen")}>
@@ -108,7 +108,7 @@ export const ContainerSuggestions = () => {
 
   if (
     ([EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(stateProvider) && length === 0) ||
-    (stateProvider === EnumTypeProvider.post && lengthPosts === 0)
+    (stateProvider === EnumTypeProvider.POST && lengthPosts === 0)
   )
     return (
       <section className="w-full h-full rounded-2xl bg-BG-second flex flex-col items-center py-5 md:pt-[4.375rem] px-5 md:mb-6">
@@ -126,7 +126,7 @@ export const ContainerSuggestions = () => {
                 <IconAlertCirlceRed />
               ) : stateProvider === EnumTypeProvider.offer ? (
                 <IconOfferBalloon />
-              ) : stateProvider === EnumTypeProvider.post ? (
+              ) : stateProvider === EnumTypeProvider.POST ? (
                 <IconPost />
               ) : null}
             </div>
@@ -155,7 +155,7 @@ export const ContainerSuggestions = () => {
       </ul>
     )
 
-  if (stateProvider === EnumTypeProvider.post) return <ContainerPosts posts={itemsPost} />
+  if (stateProvider === EnumTypeProvider.POST) return <ContainerPosts posts={itemsPost} />
 
   return null
 }

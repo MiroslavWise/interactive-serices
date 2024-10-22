@@ -24,7 +24,7 @@ export const ServicesMobile = memo(({ input, parentRef }: { input: string; paren
   const { data } = useQuery({
     queryFn: () => getPosts({ order: "DESC" }),
     queryKey: ["posts", { order: "DESC" }],
-    enabled: providers === "all" || providers === EnumTypeProvider.post,
+    enabled: providers === "all" || providers === EnumTypeProvider.POST,
     select: ({ data }) => data?.filter((item) => (!!urgent ? !!item?.urgent : true)),
   })
 

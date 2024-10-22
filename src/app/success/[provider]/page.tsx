@@ -33,7 +33,7 @@ export default ({ params }: { params: { provider: EnumTypeProvider } }) => {
       <section
         className={cx(
           "flex flex-col gap-3 items-center p-5 rounded-2 border border-solid",
-          provider === EnumTypeProvider.post && "border-card-border-yellow bg-card-yellow",
+          provider === EnumTypeProvider.POST && "border-card-border-yellow bg-card-yellow",
           provider === EnumTypeProvider.alert && "border-card-border-red bg-card-red",
           provider === EnumTypeProvider.discussion && "border-card-border-blue bg-card-border-blue",
           provider === EnumTypeProvider.offer && "border-grey-stroke-light",
@@ -43,7 +43,7 @@ export default ({ params }: { params: { provider: EnumTypeProvider } }) => {
         <div
           className={cx(
             "w-full h-4 rounded-lg border border-solid relative overflow-hidden",
-            provider === EnumTypeProvider.post && "border-card-border-yellow",
+            provider === EnumTypeProvider.POST && "border-card-border-yellow",
             provider === EnumTypeProvider.alert && "border-card-border-red",
             provider === EnumTypeProvider.discussion && "border-card-border-blue",
             provider === EnumTypeProvider.offer && "border-grey-stroke-light",
@@ -52,7 +52,7 @@ export default ({ params }: { params: { provider: EnumTypeProvider } }) => {
           <span
             className={cx(
               "w-full h-full rounded-lg absolute top-0 bottom-0 left-0 transition-transform duration-200",
-              provider === EnumTypeProvider.post && "bg-card-border-yellow",
+              provider === EnumTypeProvider.POST && "bg-card-border-yellow",
               provider === EnumTypeProvider.alert && "bg-card-border-red",
               provider === EnumTypeProvider.discussion && "bg-card-border-blue",
               provider === EnumTypeProvider.offer && "bg-text-secondary",
