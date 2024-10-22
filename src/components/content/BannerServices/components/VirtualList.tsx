@@ -1,4 +1,4 @@
-import { memo, useMemo, type RefObject } from "react"
+import { useMemo, type RefObject } from "react"
 import { useVirtualizer } from "@tanstack/react-virtual"
 
 import { EnumTypeProvider } from "@/types/enum"
@@ -8,8 +8,8 @@ import { type IResponseOffers } from "@/services/offers/types"
 import CardPost from "@/components/common/Card/CardPost"
 import CardBallon from "@/components/common/Card/CardBallon"
 
-import { useFiltersServices } from "@/store"
 import { getMillisecond } from "@/helpers"
+import { useFiltersServices } from "@/store"
 
 interface IProps {
   parentRef: RefObject<HTMLUListElement>
@@ -160,4 +160,4 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
 }
 
 VirtualList.displayName = "VirtualList"
-export default memo(VirtualList)
+export default VirtualList
