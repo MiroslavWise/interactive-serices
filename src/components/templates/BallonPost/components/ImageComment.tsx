@@ -11,9 +11,17 @@ function ImageComment({ item }: { item: IImageData }) {
         width={80}
         height={80}
         className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-[0.0625rem]"
+        hash={item?.attributes?.blur}
       />
       <article className="left-1/2 -translate-x-1/2 -top-0.5 -translate-y-3/4 group-hover:-translate-y-full w-16 h-16 rounded-md overflow-hidden border border-solid border-grey-stroke-light flex opacity-0 -z-10 group-hover:z-20 group-hover:opacity-100 transition-all">
-        <NextImageMotion src={item.attributes.url} alt="offer-image" width={80} height={80} className="w-16 h-16" />
+        <NextImageMotion
+          src={item.attributes.url}
+          alt="offer-image"
+          width={80}
+          height={80}
+          className="w-16 h-16"
+          hash={item?.attributes?.blur}
+        />
       </article>
     </div>
   )

@@ -33,6 +33,7 @@ export function FooterPhotos() {
             onClick={() => {
               dispatchCurrentPhoto({ currentPhoto: item })
             }}
+            hash={item?.hash}
           />
         </li>
       ))}

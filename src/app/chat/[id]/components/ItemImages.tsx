@@ -20,6 +20,7 @@ function ItemImages({ images, children, strings }: IProps) {
     const photos = images.map((item) => ({
       url: item?.attributes?.url!,
       id: item?.id,
+      hash: item?.attributes?.blur,
     }))
     dispatchPhotoCarousel({
       visible: true,
@@ -72,6 +73,7 @@ function ItemImages({ images, children, strings }: IProps) {
             width={380}
             height={380}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full"
+            hash={item.attributes?.blur}
           />
         </div>
       ))}

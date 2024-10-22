@@ -1,9 +1,8 @@
 import { type Dispatch } from "react"
 import { type INotes } from "@/services/notes/types"
 
-import { NextImageMotion } from "@/components/common"
-import { useContextPostsComments } from "./ContextComments"
 import ImageComment from "./ImageComment"
+import { useContextPostsComments } from "./ContextComments"
 
 function ItemCommentNote({ note, handleToNote }: { note?: INotes; handleToNote: Dispatch<number> }) {
   const { onNoteCurrent } = useContextPostsComments()

@@ -84,6 +84,7 @@ export const MContainerAboutProfile = () => {
                   alt="avatar"
                   width={100}
                   height={100}
+                  hash={image?.attributes?.blur}
                 />
                 <div className="absolute -bottom-1 -right-1 w-5 h-5 z-10 *:w-5 *:h-5">
                   <IconVerifiedTick />

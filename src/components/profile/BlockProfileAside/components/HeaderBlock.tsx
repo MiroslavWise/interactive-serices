@@ -46,6 +46,7 @@ export const HeaderBlock = () => {
             alt="avatar"
             width={100}
             height={100}
+            hash={image?.attributes?.blur}
           />
         ) : (
           <IconEmptyProfile className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12" />

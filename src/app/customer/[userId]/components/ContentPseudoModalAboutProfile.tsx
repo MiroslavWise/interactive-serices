@@ -19,7 +19,14 @@ async function ContentPseudoModalAboutProfile({ userId }: { userId: string | num
           className={`w-20 h-20 rounded-2xl relative [&>img]:w-full [&>img]:h-full ${!image && "bg-grey-stroke-light !p-2 rounded-.625"}`}
         >
           {!!image ? (
-            <NextImageMotion className="rounded-2xl overflow-hidden" src={image?.attributes?.url} alt="avatar" width={100} height={100} />
+            <NextImageMotion
+              className="rounded-2xl overflow-hidden"
+              src={image?.attributes?.url}
+              alt="avatar"
+              width={100}
+              height={100}
+              hash={image?.attributes?.blur}
+            />
           ) : (
             <IconEmptyProfile className="w-12 h-12" />
           )}

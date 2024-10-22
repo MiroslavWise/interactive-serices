@@ -1,4 +1,5 @@
 interface IPhoto {
+  hash?: string
   url: string
   id: number
 }

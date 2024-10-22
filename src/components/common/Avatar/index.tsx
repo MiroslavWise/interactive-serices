@@ -48,6 +48,7 @@ function Avatar({ className, image, userId }: IProps) {
             alt="avatar"
             width={60}
             height={60}
+            hash={image?.attributes?.blur}
           />
         ) : (
           <IconEmptyProfile className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full scale-50" />
@@ -64,6 +65,7 @@ function Avatar({ className, image, userId }: IProps) {
           alt="avatar"
           width={60}
           height={60}
+          hash={image?.attributes?.blur}
         />
       ) : (
         <IconEmptyProfile className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full scale-50" />

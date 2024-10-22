@@ -41,6 +41,7 @@ function ItemServiceImagesClient({ images }: { images: IImageData[] }) {
             const photos = images.map((item) => ({
               url: item?.attributes?.url!,
               id: item?.id,
+              hash: item?.attributes?.blur,
             }))
             dispatchPhotoCarousel({
               visible: true,
@@ -48,6 +49,7 @@ function ItemServiceImagesClient({ images }: { images: IImageData[] }) {
               idPhoto: item?.id!,
             })
           }}
+          hash={item.attributes?.blur}
         />
       ))}
     </section>

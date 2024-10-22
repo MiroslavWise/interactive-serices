@@ -245,6 +245,7 @@ function UpdatePost() {
                           alt={item.attributes.alt}
                           width={200}
                           height={200}
+                          hash={item?.attributes?.blur}
                         />
                         <button
                           type="button"
