@@ -40,9 +40,15 @@ export const useMapOffers = () => {
 
     const mainSlug = Array.from(new Set(activeFilters.map((item) => categories.find((find) => find.id === item)?.slug!)))
 
-    const filters = categories?.filter((item) => mainSlug.includes(item?.slug) || mainSlug.includes(item.provider))
+    const array: number[] = []
 
-    return filters.map((item) => item.id)
+    for (const item of categories) {
+      if (mainSlug.includes(item?.slug) || mainSlug.includes(item.provider)) {
+        array.push(item.id)
+      }
+    }
+
+    return array
   }, [categories, activeFilters])
 
   const obj = activeCategories.length && ["all", EnumTypeProvider.offer].includes(providers) ? { category: activeCategories.join(",") } : {}
