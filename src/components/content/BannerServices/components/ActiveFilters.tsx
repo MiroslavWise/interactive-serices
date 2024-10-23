@@ -23,7 +23,7 @@ function ActiveFilters() {
 
   const itemCategory = useCallback((id: number) => categories.find((item) => item.id === id), [categories])
 
-  if (activeFilters.length && ["all", EnumTypeProvider.offer].includes(providers))
+  if (activeFilters.length > 0)
     return (
       <div data-filters-category data-test="filters-category-banner-services" className="w-full flex flex-row items-start">
         {activeFilters.map((item) => (
