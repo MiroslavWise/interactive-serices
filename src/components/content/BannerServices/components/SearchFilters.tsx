@@ -143,7 +143,7 @@ export const SearchFilters = memo(function () {
             ? visibleBanner
               ? "h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem_-_var(--height-banner))]"
               : "h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem)]"
-            : "h-[5.5rem]",
+            : "h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem)]",
         )}
       >
         <header className="px-5 pt-5 pb-2 w-full items-center relative">

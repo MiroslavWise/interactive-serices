@@ -14,7 +14,7 @@ import { ServiceLoading } from "@/components/common"
 import { getPosts } from "@/services/posts"
 import { EXCEPTION_POST_MAP } from "@/config/exception"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
-import { useBounds, useFiltersScreen, useFiltersServices, useUrgentFilter } from "@/store"
+import { useBounds, useFiltersScreen, useFiltersServices, useSearchFilters, useUrgentFilter } from "@/store"
 
 const DAY = 86_400_000
 const WEEK = DAY * 7
@@ -35,6 +35,7 @@ export const ServicesComponent = ({ parentRef }: { parentRef: RefObject<HTMLULis
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
   const urgent = useUrgentFilter(({ urgent }) => urgent)
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
+  const idSearch = useSearchFilters(({ id }) => id)
 
   const { data, isLoading: isLoadingPost } = useQuery({
     queryFn: () => getPosts({ order: "DESC" }),
@@ -46,17 +47,15 @@ export const ServicesComponent = ({ parentRef }: { parentRef: RefObject<HTMLULis
   const itemsPost = data || []
 
   const itemsFilterPosts = useMemo(() => {
-    if (!itemsPost.length) {
+    if (!itemsPost.length || !!idSearch || activeFilters.length > 0) {
       return []
     }
-    if (activeFilters.length > 0) {
-      return []
-    }
+
+    const array: IPosts[] = []
+
     if (bounds && itemsPost) {
       const minCoords = bounds[0]
       const maxCoors = bounds[1]
-
-      const array: IPosts[] = []
 
       for (const item of itemsPost) {
         if (!EXCEPTION_POST_MAP.includes(item.id)) {
@@ -80,20 +79,19 @@ export const ServicesComponent = ({ parentRef }: { parentRef: RefObject<HTMLULis
           }
         }
       }
-
-      return array
     }
 
-    return []
-  }, [itemsPost, bounds, timesFilter, activeFilters])
+    return array
+  }, [itemsPost, bounds, timesFilter, activeFilters, idSearch])
 
   const items = useMemo(() => {
     if (!itemsOffers.length) {
       return []
     }
-    if (bounds && itemsOffers) {
-      const array: IResponseOffers[] = []
 
+    const array: IResponseOffers[] = []
+
+    if (bounds && itemsOffers) {
       const minCoords = bounds[0]
       const maxCoors = bounds[1]
 
@@ -121,12 +119,10 @@ export const ServicesComponent = ({ parentRef }: { parentRef: RefObject<HTMLULis
           }
         }
       }
-
-      return array
     }
 
-    return []
-  }, [itemsOffers, bounds, timesFilter])
+    return array
+  }, [itemsOffers, bounds, timesFilter, idSearch])
 
   if (isLoading || isLoadingPost)
     return (
