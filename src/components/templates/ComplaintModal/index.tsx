@@ -42,7 +42,7 @@ export default function ComplaintModal() {
         receiverId: !!user ? user?.id! : !!post ? post?.id! : offer?.id!,
         message: `${values.type === "other" ? values.text! : MENU_COMPLAINT.find((item) => item.value === values.type)?.label!}`,
         enabled: true,
-        provider: !!offer ? offer.provider : !!post ? EnumTypeProvider.post : EnumTypeProvider.profile,
+        provider: !!offer ? offer.provider : !!post ? EnumTypeProvider.POST : EnumTypeProvider.profile,
       }
 
       postComplain(valuesData).then((response) => {

@@ -71,6 +71,7 @@ function ItemImages({ images, notTouch }: { images: IImageData[]; notTouch?: boo
               const photos = images.map((item) => ({
                 url: item?.attributes?.url!,
                 id: item?.id,
+                hash: item?.attributes?.blur,
               }))
               if (!notTouch) {
                 dispatchPhotoCarousel({
@@ -80,6 +81,7 @@ function ItemImages({ images, notTouch }: { images: IImageData[]; notTouch?: boo
                 })
               }
             }}
+            hash={item?.attributes?.blur}
           />
         ))}
       </div>

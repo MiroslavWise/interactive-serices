@@ -38,6 +38,7 @@ async function PlaqueFriends({ id }: { id: number | string }) {
                   alt="avatar"
                   width={40}
                   height={40}
+                  hash={_.image?.attributes?.blur}
                 />
               ) : (
                 <IconEmptyProfile className="w-5 h-5 rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />

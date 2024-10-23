@@ -37,7 +37,10 @@ export const HeaderExchangeOffers = () => {
 
   const images = useMemo(() => {
     if (dataUsers?.some((some) => !some?.isLoading) && !isLoading) {
-      return dataUsers?.map((item) => item?.data?.data?.profile?.image?.attributes?.url!)
+      return dataUsers?.map((item) => ({
+        url: item?.data?.data?.profile?.image?.attributes?.url!,
+        blur: item?.data?.data?.profile?.image?.attributes?.blur!,
+      }))
     }
 
     return []
@@ -84,7 +87,7 @@ export const HeaderExchangeOffers = () => {
                   index !== 0 && "-ml-1.5",
                 )}
               >
-                <NextImageMotion className="w-7 h-7 rounded-full" src={item!} alt="avatar" width={28} height={28} />
+                <NextImageMotion className="w-7 h-7 rounded-full" src={item!?.url} alt="avatar" width={28} height={28} hash={item?.blur} />
               </div>
             ))}
           </div>

@@ -4,6 +4,7 @@ import { memo, type RefObject, useEffect, Fragment, type Dispatch, type SetState
 import { type IMessages } from "./Page"
 import { EnumProviderThreads } from "@/types/enum"
 import { type IResponseThread } from "@/services/threads/types"
+import { type IResponseMessage } from "@/services/messages/types"
 
 import ItemBarter from "./ItemBarter"
 import ItemMessage from "./ItemMessage"
@@ -13,8 +14,8 @@ import ExchangeStatus from "./ExchangeStatus"
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
 import { useWebSocket } from "@/context"
-import { getMessages, postReadMessage } from "@/services"
 import ItemCompletedBarter from "./ItemCompletedBarter"
+import { getMessages, postReadMessage } from "@/services"
 
 interface IProps {
   messages: IMessages[]
@@ -62,10 +63,20 @@ function ListMessages({ thread, ferUl, setMessages, messages }: IProps) {
 
   useEffect(() => {
     if (items && userId && Array.isArray(items)) {
-      if (items.length) {
-        const notMyMessages = items?.filter((item) => item.receiverIds.includes(userId))
-        const notReading = notMyMessages?.filter((item) => !item?.readIds?.includes(userId))?.map((item) => item?.id)
-        Promise.all(notReading.map((item) => postReadMessage(item)))
+      if (items.length > 0) {
+        const array: number[] = []
+
+        for (const item of items) {
+          if (item.receiverIds.includes(userId)) {
+            if (!item?.readIds?.includes(userId)) {
+              array.push(item.id)
+            }
+          }
+        }
+
+        if (array.length > 0) {
+          Promise.all(array.map((item) => postReadMessage(item)))
+        }
       }
     }
   }, [userId, items])

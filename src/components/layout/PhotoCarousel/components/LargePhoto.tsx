@@ -33,6 +33,7 @@ export function LargePhoto() {
         alt="offer-image"
         height={590}
         width={960}
+        hash={item.hash}
       />
     </div>
   ))

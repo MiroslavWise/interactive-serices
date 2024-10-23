@@ -27,5 +27,6 @@ export interface IImageData {
     size: number
     url: string
     width: number
+    blur: string
   }
 }

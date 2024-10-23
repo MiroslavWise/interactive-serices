@@ -31,7 +31,7 @@ function ItemFormAddNote() {
                 className="relative h-4 w-4 p-2 rounded-[0.0625rem] overflow-hidden *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4"
                 key={`:key:img:${item.id}:`}
               >
-                <NextImageMotion src={item.attributes.url} alt="offer-image" width={40} height={40} />
+                <NextImageMotion src={item.attributes.url} alt="offer-image" width={40} height={40} hash={item?.attributes?.blur} />
               </div>
             ))}
           </article>

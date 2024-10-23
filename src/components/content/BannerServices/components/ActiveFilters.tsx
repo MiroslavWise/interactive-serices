@@ -1,4 +1,4 @@
-import { memo, useCallback } from "react"
+import { useCallback } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { ImageCategory } from "@/components/common"
@@ -56,4 +56,4 @@ function ActiveFilters() {
 }
 
 ActiveFilters.displayName = "ActiveFilters"
-export default memo(ActiveFilters)
+export default ActiveFilters

@@ -45,7 +45,7 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
         height:
           (["all", EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(providers)
             ? virtualizer.getTotalSize()
-            : 0) + (["all", EnumTypeProvider.post].includes(providers) ? virtualizerPost.getTotalSize() : 0),
+            : 0) + (["all", EnumTypeProvider.POST].includes(providers) ? virtualizerPost.getTotalSize() : 0),
       }}
     >
       <div
@@ -62,7 +62,7 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
               />
             ))
           : null}
-        {["all", EnumTypeProvider.post].includes(providers)
+        {["all", EnumTypeProvider.POST].includes(providers)
           ? itemsPost.map((virtualRow) => (
               <CardPost
                 key={`:key:${virtualRow.key}:post:`}

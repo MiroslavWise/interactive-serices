@@ -271,7 +271,14 @@ export default function UpdateOffer() {
                 key={`${item.id}-photo-state`}
                 data-delete={deleteIdPhotos.includes(item.id!)}
               >
-                <NextImageMotion src={item.attributes.url} alt="offer-image" width={400} height={400} data-image />
+                <NextImageMotion
+                  src={item.attributes.url}
+                  alt="offer-image"
+                  width={400}
+                  height={400}
+                  data-image
+                  hash={item?.attributes?.blur}
+                />
                 <div
                   className="absolute top-1.5 right-1.5 h-8 w-8 rounded-full bg-BG-second shadow-menu-absolute flex items-center justify-center *:w-4 *:h-4 [&>svg>path]:fill-text-primary cursor-pointer"
                   onClick={() => {

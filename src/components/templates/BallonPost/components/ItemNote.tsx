@@ -262,6 +262,7 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
             <NextImageMotion
               key={`::${item.id}::photo::post::`}
               src={item?.attributes?.url!}
+              height={180}
               width={160}
               alt={"offer-image"}
               className="rounded-lg cursor-pointer"
@@ -270,6 +271,7 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
                 const photos = files.img.map((item) => ({
                   url: item?.attributes?.url!,
                   id: item?.id,
+                  hash: item?.attributes?.blur,
                 }))
                 dispatchPhotoCarousel({
                   visible: true,
@@ -277,6 +279,7 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
                   idPhoto: item?.id!,
                 })
               }}
+              hash={item?.attributes?.blur}
             />
           ))}
         </div>

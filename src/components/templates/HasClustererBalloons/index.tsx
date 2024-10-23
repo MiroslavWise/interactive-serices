@@ -64,7 +64,7 @@ export const HasClustererBalloons = memo(() => {
         <div data-container className="h-full w-full overflow-hidden md:rounded-l-2">
           <ul className="w-full h-full p-3 md:p-4 flex flex-col gap-3 md:gap-4 overflow-x-hidden overflow-y-auto">
             {allItems.map((item) => {
-              if (item.type === EnumTypeProvider.post) return <CardPost key={`ket:post:has:${item.id}`} post={item as unknown as IPosts} />
+              if (item.type === EnumTypeProvider.POST) return <CardPost key={`ket:post:has:${item.id}`} post={item as unknown as IPosts} />
               if ([EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(item.type))
                 return <CardBallon key={`ket:${item.type}:has:${item.id}`} offer={item as unknown as IResponseOffers} />
               return null

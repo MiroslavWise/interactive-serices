@@ -53,7 +53,7 @@ function ItemsPosts({ id }: { id: number }) {
       {length ? (
         <>
           <p className="text-text-secondary text-[0.8125rem] leading-[1.125rem] font-normal">
-            {length}&nbsp;{nameTitle(length, EnumTypeProvider.post)}
+            {length}&nbsp;{nameTitle(length, EnumTypeProvider.POST)}
           </p>
           <ul className="w-full grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
             {items.map((item) => (

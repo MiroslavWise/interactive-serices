@@ -549,6 +549,7 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
           alt="avatar"
           width={44}
           height={44}
+          hash={profile?.image?.attributes?.blur}
         />
       ) : (
         <IconEmptyProfile className="w-6 h-6 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
@@ -561,6 +562,13 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
           : data?.consigner?.userId === userId
           ? data?.initiator?.user?.image?.attributes?.url
           : null
+
+      const blur =
+        data?.initiator?.userId === userId
+          ? data?.consigner?.user?.image?.attributes?.blur
+          : data?.consigner?.userId === userId
+          ? data?.initiator?.user?.image?.attributes?.blur
+          : null
       return image ? (
         <NextImageMotion
           className="w-10 h-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -568,6 +576,7 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
           alt="avatar"
           width={44}
           height={44}
+          hash={blur!}
         />
       ) : (
         <IconEmptyProfile className="w-6 h-6 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />

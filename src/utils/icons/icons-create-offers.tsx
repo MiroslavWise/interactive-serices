@@ -18,5 +18,5 @@ export const mapIconCreateOffer = new Map([
   ],
   [EnumTypeProvider.offer, <IconOfferBalloon key={`::item::key::offer::svg::`} />],
   [EnumTypeProvider.discussion, <IconDiscussionBalloon key={`::item::key::discussion::svg::`} />],
-  [EnumTypeProvider.post, <IconPost key={`::item::key::post::svg::`} />],
+  [EnumTypeProvider.POST, <IconPost key={`::item::key::post::svg::`} />],
 ])

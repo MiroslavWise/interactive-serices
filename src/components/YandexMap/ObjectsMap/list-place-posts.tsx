@@ -34,7 +34,7 @@ function ListPlacePosts() {
   const marks: IPlacemarkCurrent[] = useMemo(() => {
     const array: IPlacemarkCurrent[] = []
 
-    if (items && Array.isArray(items) && ["all", EnumTypeProvider.post].includes(providers)) {
+    if (items && Array.isArray(items) && ["all", EnumTypeProvider.POST].includes(providers)) {
       items?.forEach((item) => {
         if (!Array.isArray(item.addresses) || item.addresses.length === 0 || EXCEPTION_POST_MAP.includes(item.id)) {
           return
@@ -79,7 +79,7 @@ function ListPlacePosts() {
     return array
   }, [items, timesFilter, providers])
 
-  if (["all", EnumTypeProvider.post].includes(providers))
+  if (["all", EnumTypeProvider.POST].includes(providers))
     return marks.map((item) => <RefPlaceMark {...item} key={`${item.post.id}-${item.post.slug}-list`} />)
 
   return null
@@ -89,7 +89,7 @@ const RefPlaceMark = (item: IPlacemarkCurrent) => (
   <Placemark
     defaultOptions={{
       iconLayout: "default#image",
-      iconImageHref: item?.post?.urgent ? TYPE_ICON_URGENT[EnumTypeProvider.post] : TYPE_ICON[EnumTypeProvider.post],
+      iconImageHref: item?.post?.urgent ? TYPE_ICON_URGENT[EnumTypeProvider.POST] : TYPE_ICON[EnumTypeProvider.POST],
       iconImageSize: [18.92 * 2, 18.92 * 2.2],
       zIndex: 45,
       zIndexActive: 50,

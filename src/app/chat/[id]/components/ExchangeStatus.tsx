@@ -7,8 +7,7 @@ import { type IResponseThread } from "@/services/threads/types"
 
 import IconReAccent from "@/components/icons/IconReAccent"
 import LoadingExchangeStatus from "./LoadingExchangeStatus"
-import { Button, NextImageMotion } from "@/components/common"
-import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
+import { Button } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { useWebSocket } from "@/context"

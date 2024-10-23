@@ -19,7 +19,7 @@ const TABS = (isMobile: boolean): ISegmentValues<EnumTypeProvider>[] => [
   },
   {
     label: "Посты",
-    value: EnumTypeProvider.post,
+    value: EnumTypeProvider.POST,
   },
   {
     label: "SOS",
