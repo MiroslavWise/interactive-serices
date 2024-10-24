@@ -69,6 +69,7 @@ export const SearchFilters = memo(function () {
   function onValue(id: number, title: string) {
     dispatchValueSearchFilters(title, id)
     close()
+    setValue("input", "")
   }
 
   function submit(values: IValues) {
