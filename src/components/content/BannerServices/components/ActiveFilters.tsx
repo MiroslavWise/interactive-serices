@@ -5,7 +5,6 @@ import { ImageCategory } from "@/components/common"
 import { IconXClose } from "@/components/icons/IconXClose"
 
 import { cx } from "@/lib/cx"
-import { EnumTypeProvider } from "@/types/enum"
 import { getOffersCategories } from "@/services"
 import { dispatchDataFilterScreen, useFiltersScreen, useFiltersServices } from "@/store"
 
