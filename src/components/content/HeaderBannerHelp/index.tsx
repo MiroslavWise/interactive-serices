@@ -24,7 +24,7 @@ function HeaderBannerHelp({ is }: { is: boolean }) {
           <IconHelp />
         </div>
         <div className="flex flex-col items-start md:flex-row md:items-center md:gap-6">
-          <p className="text-text-button text-base md:text-sm font-semibold">Помощь Курску</p>
+          <p className="text-text-button text-base md:text-sm font-semibold">Безвозмездная помощь</p>
           <Link href={linkPromo} target="_blank" className="flex flex-row gap-1 items-center">
             <span className="text-text-button text-[0.8125rem] md:text-sm max-md:leading-4 font-normal">Как помочь</span>
             <div className="relative w-4 h-4 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4 [&>svg>path]:fill-text-button">

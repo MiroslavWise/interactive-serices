@@ -1,8 +1,10 @@
+import { type PropsWithChildren } from "react"
+
 import { cx } from "@/lib/cx"
 
 import styles from "./layout.module.scss"
 
-export default ({ children }: { children: React.ReactNode }) => (
+export default ({ children }: PropsWithChildren) => (
   <main
     className={cx(
       styles.main,
