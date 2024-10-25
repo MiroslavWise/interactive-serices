@@ -61,7 +61,7 @@ export const TIMES: { label: string; value: EnumTimesFilter }[] = [
 ]
 
 const OBJ_URGENT: Record<EnumHelper, string> = {
-  [EnumHelper.HELP_KURSK]: "Безвозмездная помощь",
+  [EnumHelper.HELP_KURSK]: "Щедрое сердце",
 }
 
 export const MAP_URGENT = Object.entries(OBJ_URGENT) as [EnumHelper, string][]

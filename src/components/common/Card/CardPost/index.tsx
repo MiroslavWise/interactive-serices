@@ -39,7 +39,7 @@ function CardPost({ post, dataIndex, ref }: IProps) {
         <div className="w-4 h-4 relative">
           <IconHelp />
         </div>
-        <span className="text-text-button text-xs font-medium">Безвозмездная помощь</span>
+        <span className="text-text-button text-xs font-medium">Щедрое сердце</span>
       </header>
       <section
         className={cx(

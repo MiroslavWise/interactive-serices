@@ -29,7 +29,7 @@ function ItemServiceData({ offer }: IProps) {
         <div className="w-4 h-4 relative">
           <IconHelp />
         </div>
-        <span className="text-text-button text-xs font-medium">Безвозмездная помощь</span>
+        <span className="text-text-button text-xs font-medium">Щедрое сердце</span>
       </article>
       <section className="w-full px-4 pt-3 pb-4 flex flex-col gap-4">
         <article className="w-full flex flex-col gap-3">

@@ -38,7 +38,7 @@ function ItemPost({ post }: { post: IPosts }) {
         <div className="w-4 h-4 relative">
           <IconHelp />
         </div>
-        <span className="text-text-button text-xs font-medium">Безвозмездная помощь</span>
+        <span className="text-text-button text-xs font-medium">Щедрое сердце</span>
       </article>
       <section className="w-full h-full flex flex-col gap-3 p-4">
         <ItemHeaderPost post={post} />

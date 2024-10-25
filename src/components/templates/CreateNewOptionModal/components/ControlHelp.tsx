@@ -55,7 +55,7 @@ function ControlHelp({ control }: IProps) {
                 </g>
               </svg>
             </div>
-            <span className={cx("text-sm font-medium", field.value ? "text-text-button" : "text-text-primary")}>Безвозмездная помощь</span>
+            <span className={cx("text-sm font-medium", field.value ? "text-text-button" : "text-text-primary")}>Щедрое сердце</span>
           </span>
           <button
             type="button"
