@@ -1,8 +1,9 @@
 import { Control, Controller } from "react-hook-form"
 
 import { cx } from "@/lib/cx"
+import { type IValues } from "./types"
 import { useOutsideClickEvent } from "@/helpers"
-import { IValues } from "./types"
+import { HELP_TEXT } from "@/helpers/constants/help-text"
 
 interface IProps {
   control: Control<IValues, any>
@@ -53,7 +54,7 @@ function ControlHelp({ control }: IProps) {
                 </g>
               </svg>
             </div>
-            <span className={cx("text-sm font-medium", field.value ? "text-text-button" : "text-text-primary")}>Помощь Курску</span>
+            <span className={cx("text-sm font-medium", field.value ? "text-text-button" : "text-text-primary")}>Щедрое сердце</span>
           </span>
           <button
             type="button"
@@ -106,10 +107,7 @@ function ControlHelp({ control }: IProps) {
                   open ? "opacity-100 visible" : "opacity-0 invisible",
                 )}
               >
-                <p className="text-text-primary text-[0.8125rem] font-normal text-left">
-                  Если вы хотите помочь жителям Курской области, активируйте этот переключатель — и ваше предложение станет заметнее. Помощь
-                  жителям Курской области оказывается на безвозмездной основе.
-                </p>
+                <p className="text-text-primary text-[0.8125rem] font-normal text-left">{HELP_TEXT}</p>
               </article>
             </section>
           </button>

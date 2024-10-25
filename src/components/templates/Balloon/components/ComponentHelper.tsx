@@ -13,7 +13,7 @@ function ComponentHelper({ urgent }: { urgent: boolean }) {
       <div className="w-5 h-5 relative *:w-5 *:h-5">
         <IconHelp />
       </div>
-      <span className="text-text-button text-sm font-medium">Помощь Курску</span>
+      <span className="text-text-button text-sm font-medium">Щедрое сердце</span>
     </article>
   )
 }

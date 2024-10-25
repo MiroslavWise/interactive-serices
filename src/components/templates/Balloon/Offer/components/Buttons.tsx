@@ -119,8 +119,8 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
       ) : null}
       {children}
       {!!urgent ? (
-        <div className="w-full px-5">
-          {userId ? (
+        !!userId ? (
+          <div className="w-full px-5">
             <Button
               type="button"
               className={cx("w-full h-11", (!userId || userId === offer.userId) && "!opacity-50 !cursor-no-drop")}
@@ -134,16 +134,25 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
                 }
               }}
             />
-          ) : (
-            <Button
-              type="button"
-              className="w-full h-11"
-              typeButton="fill-primary"
-              label="Войти"
-              onClick={() => dispatchAuthModal({ visible: true, type: EnumSign.SignIn })}
-            />
-          )}
-        </div>
+          </div>
+        ) : (
+          <div className="w-full px-5 pt-5 flex items-center overflow-hidden border-t border-solid border-grey-stroke-light">
+            <p className="w-full text-center text-sm font-medium">
+              <span
+                className="text-text-accent cursor-pointer"
+                onClick={() => {
+                  dispatchAuthModal({
+                    visible: true,
+                    type: EnumSign.SignUp,
+                  })
+                }}
+              >
+                Войдите в аккаунт
+              </span>
+              , чтобы написать сообщение
+            </p>
+          </div>
+        )
       ) : (
         <div data-buttons className="w-full flex flex-row items-center gap-2.5 *:md:h-11 *:md:rounded-[1.375rem]">
           <Button
@@ -200,3 +209,11 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
 
 Buttons.displayName = "Buttons"
 export default Buttons
+
+// <Button
+//   type="button"
+//   className="w-full h-11"
+//   typeButton="fill-primary"
+//   label="Войти"
+//   onClick={() => dispatchAuthModal({ visible: true, type: EnumSign.SignIn })}
+// />

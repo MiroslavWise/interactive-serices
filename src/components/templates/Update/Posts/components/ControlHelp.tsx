@@ -2,6 +2,7 @@ import { Control, Controller } from "react-hook-form"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
+import { HELP_TEXT } from "@/helpers/constants/help-text"
 import { TSchemaCreatePostUpdate } from "@/components/templates/CreatePost/schema"
 
 interface IProps {
@@ -53,7 +54,7 @@ function ControlHelp({ control }: IProps) {
                 </g>
               </svg>
             </div>
-            <span className={cx("text-sm font-medium", field.value ? "text-text-button" : "text-text-primary")}>Помощь Курску</span>
+            <span className={cx("text-sm font-medium", field.value ? "text-text-button" : "text-text-primary")}>Щедрое сердце</span>
           </span>
           <button
             type="button"
@@ -77,25 +78,25 @@ function ControlHelp({ control }: IProps) {
                   d="M7.9987 14.6663C11.6806 14.6663 14.6654 11.6816 14.6654 7.99967C14.6654 4.31778 11.6806 1.33301 7.9987 1.33301C4.3168 1.33301 1.33203 4.31778 1.33203 7.99967C1.33203 11.6816 4.3168 14.6663 7.9987 14.6663Z"
                   stroke="var(--text-disabled)"
                   className="stroke-text-disabled"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
                 <path
                   d="M8 5.33301V7.99967"
                   stroke="var(--text-disabled)"
                   className="stroke-text-disabled"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
                 <path
                   d="M8 10.667H8.00667"
                   stroke="var(--text-disabled)"
                   className="stroke-text-disabled"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </g>
             </svg>
@@ -106,10 +107,7 @@ function ControlHelp({ control }: IProps) {
                   open ? "opacity-100 visible" : "opacity-0 invisible",
                 )}
               >
-                <p className="text-text-primary text-[0.8125rem] font-normal text-left">
-                  Если вы хотите помочь жителям Курской области, активируйте этот переключатель — и ваше предложение станет заметнее. Помощь
-                  жителям Курской области оказывается на безвозмездной основе.
-                </p>
+                <p className="text-text-primary text-[0.8125rem] font-normal text-left">{HELP_TEXT}</p>
               </article>
             </section>
           </button>
