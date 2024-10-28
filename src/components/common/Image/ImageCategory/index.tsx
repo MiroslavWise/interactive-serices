@@ -11,7 +11,7 @@ interface IProps {
 export function ImageCategory({ id, slug, provider }: IProps) {
   if (!id) return null
 
-  const src = slug === "kursk" ? "/png/category/kursk.png" : provider === "kursk" ? "/png/category/kursk.png" : IconCategory(id!)!
+  const src = slug === "heart" ? "/png/category/kursk.png" : provider === "heart" ? "/png/category/kursk.png" : IconCategory(id!)!
 
   return (
     <img
