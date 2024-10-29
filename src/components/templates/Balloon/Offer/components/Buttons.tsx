@@ -1,10 +1,10 @@
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useMemo, useState, type ReactNode } from "react"
 import { useQuery } from "@tanstack/react-query"
+import { useMemo, useState, type ReactNode } from "react"
 
 import { EnumStatusBarter } from "@/types/enum"
-import { IPostThreads } from "@/services/threads/types"
+import { type IPostThreads } from "@/services/threads/types"
 import { EnumProviderThreads, EnumSign } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
@@ -13,7 +13,7 @@ import { Button } from "@/components/common"
 import { cx } from "@/lib/cx"
 import { getBarters, postThread } from "@/services"
 import { providerIsAscending } from "@/lib/sortIdAscending"
-import { dispatchAuthModal, dispatchModalClose, dispatchReciprocalExchange, useAuth } from "@/store"
+import { dispatchAuthModal, dispatchHasBalloon, dispatchModalClose, dispatchReciprocalExchange, useAuth } from "@/store"
 
 function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactNode }) {
   const { id, urgent } = offer ?? {}
@@ -47,6 +47,7 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
       prefetch(`/chat?offer-pay=${offer?.id}:${offer?.userId}`)
       push(`/chat?offer-pay=${offer?.id}:${offer?.userId}`)
       dispatchModalClose()
+      closeHasBalloons()
       return
     }
   }
@@ -104,9 +105,12 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
       const { res } = await postThread(data_)
       push(`/chat/${res?.id}`)
       dispatchModalClose()
+      closeHasBalloons()
       setLoadingChat(false)
     }
   }
+
+  const closeHasBalloons = () => dispatchHasBalloon({ visibleHasBalloon: false })
 
   return (
     <>
@@ -178,7 +182,10 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
               className="relative w-9 p-[1.125rem] rounded-[1.125rem] md:w-11 md:p-[1.375rem] bg-[var(--btn-second-default)]"
               data-circle
               href={{ pathname: "/chat", query: { user: offer?.userId } }}
-              onClick={dispatchModalClose}
+              onClick={() => {
+                dispatchModalClose()
+                closeHasBalloons()
+              }}
             >
               <svg
                 width="20"
