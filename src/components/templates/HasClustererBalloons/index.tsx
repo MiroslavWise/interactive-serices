@@ -1,6 +1,6 @@
 "use client"
 
-import { memo, useEffect } from "react"
+import { memo, useEffect, useMemo } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { type IPosts } from "@/services/posts/types"
@@ -45,6 +45,15 @@ export const HasClustererBalloons = memo(() => {
 
   const allItems = items as (IResponseOffers & { type: EnumTypeProvider })[] & (IPosts & { type: EnumTypeProvider })[]
 
+  const mapping = useMemo(() => {
+    return allItems.map((item) => {
+      if (item.type === EnumTypeProvider.POST) return <CardPost key={`ket:post:has:${item.id}`} post={item as unknown as IPosts} />
+      if ([EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(item.type))
+        return <CardBallon key={`ket:${item.type}:has:${item.id}`} offer={item as unknown as IResponseOffers} />
+      return null
+    })
+  }, [allItems])
+
   return (
     <div
       className={cx(
@@ -62,14 +71,7 @@ export const HasClustererBalloons = memo(() => {
           <h3 className="text-text-primary text-center text-2xl font-semibold">{title}</h3>
         </header>
         <div data-container className="h-full w-full overflow-hidden md:rounded-l-2">
-          <ul className="w-full h-full p-3 md:p-4 flex flex-col gap-3 md:gap-4 overflow-x-hidden overflow-y-auto">
-            {allItems.map((item) => {
-              if (item.type === EnumTypeProvider.POST) return <CardPost key={`ket:post:has:${item.id}`} post={item as unknown as IPosts} />
-              if ([EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(item.type))
-                return <CardBallon key={`ket:${item.type}:has:${item.id}`} offer={item as unknown as IResponseOffers} />
-              return null
-            })}
-          </ul>
+          <ul className="w-full h-full p-3 md:p-4 flex flex-col gap-3 md:gap-4 overflow-x-hidden overflow-y-auto">{mapping}</ul>
         </div>
       </section>
     </div>
