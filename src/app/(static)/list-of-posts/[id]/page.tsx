@@ -4,7 +4,8 @@ import { redirect } from "next/navigation"
 import { metadataPosts } from "@/helpers/metadata-post"
 import { getServerData } from "@/helpers/server-data"
 
-export async function generateMetadata({ params: { id } }: IParams): Promise<Metadata> {
+export async function generateMetadata({ params }: IParams): Promise<Metadata> {
+  const { id } = params
   const current = (await getServerData.posts)?.data?.find((item) => Number(item.id) === Number(id))
 
   return metadataPosts({ data: current! })
@@ -17,5 +18,5 @@ export async function generateStaticParams() {
 export default ({ params: { id } }: IParams) => (id ? redirect(`/post/${id}`) : redirect("/"))
 
 interface IParams {
-  params: { id: number | string }
+  params: { id: string }
 }

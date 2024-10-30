@@ -1,9 +1,7 @@
-import { Metadata } from "next"
+import { Suspense } from "react"
+import { type Metadata } from "next"
 
 import env from "@/config/environment"
-
-export const dynamic = "force-static"
-export const dynamicParams = false
 
 export const metadata: Metadata = {
   title: "Регистрация",
@@ -28,6 +26,4 @@ export const metadata: Metadata = {
   },
 }
 
-export default function LayoutTerms({ children }: { children: React.ReactNode }) {
-  return children
-}
+export default ({ children }: React.PropsWithChildren) => <Suspense fallback={null}>{children}</Suspense>

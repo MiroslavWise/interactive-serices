@@ -262,8 +262,8 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
             <NextImageMotion
               key={`::${item.id}::photo::post::`}
               src={item?.attributes?.url!}
-              height={180}
-              width={160}
+              height={540}
+              width={480}
               alt={"offer-image"}
               className="rounded-lg cursor-pointer"
               onClick={(event) => {

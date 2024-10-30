@@ -4,7 +4,7 @@ import { type PropsWithChildren } from "react"
 import { getUserId } from "@/services"
 import { keyWords } from "@/config/environment"
 
-export const generateMetadata = async ({ params }: { params: { id: string | number } }): Promise<Metadata> => {
+export const generateMetadata = async ({ params }: { params: { id: string } }): Promise<Metadata> => {
   const { id } = params ?? {}
   if (!id) return {}
   const { data } = await getUserId(id)

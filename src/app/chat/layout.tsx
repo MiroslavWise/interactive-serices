@@ -1,12 +1,6 @@
 import { type ReactNode } from "react"
 
-export interface IPropsChat {
-  params: {
-    id: number | string
-  }
-}
-
-interface IProps extends IPropsChat {
+interface IProps {
   children: ReactNode
   list: ReactNode
 }

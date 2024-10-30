@@ -1,9 +1,7 @@
-import { Metadata } from "next"
+import { type Metadata } from "next"
+import { Suspense, type PropsWithChildren } from "react"
 
 import env from "@/config/environment"
-
-export const dynamic = "force-static"
-export const dynamicParams = false
 
 export const metadata: Metadata = {
   title: "Вход",
@@ -14,10 +12,10 @@ export const metadata: Metadata = {
     statusBarStyle: "default",
   },
   openGraph: {
-    url: `${env.server.host!}/registration`,
+    url: `${env.server.host!}/login`,
     siteName: "Sheira | Вход",
   },
-  category: "people, register, вход, услуги",
+  category: "people, login, логин, вход, услуги",
   robots: {
     index: true,
     follow: true,
@@ -28,6 +26,4 @@ export const metadata: Metadata = {
   },
 }
 
-export default function LayoutTerms({ children }: { children: React.ReactNode }) {
-  return children
-}
+export default ({ children }: PropsWithChildren) => <Suspense fallback={null}>{children}</Suspense>

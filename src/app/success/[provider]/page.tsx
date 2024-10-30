@@ -1,15 +1,15 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useSearchParams } from "next/navigation"
+import { useParams, useSearchParams } from "next/navigation"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { cx } from "@/lib/cx"
 
 const defaultTime = 3000
 
-export default ({ params }: { params: { provider: EnumTypeProvider } }) => {
-  const { provider } = params ?? {}
+export default () => {
+  const { provider } = useParams()
   const id = useSearchParams().get("id") as string | number
 
   const [time, setTime] = useState(defaultTime + 1)

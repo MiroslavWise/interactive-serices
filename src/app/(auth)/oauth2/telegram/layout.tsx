@@ -15,5 +15,5 @@ export const metadata: Metadata = {
 }
 
 export default function LayoutVK({ children }: { children: ReactNode }) {
-  return <Suspense fallback={false}>{children}</Suspense>
+  return <Suspense fallback={null}>{children}</Suspense>
 }

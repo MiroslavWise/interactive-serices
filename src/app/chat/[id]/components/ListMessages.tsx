@@ -1,27 +1,26 @@
 import { useQuery } from "@tanstack/react-query"
-import { memo, type RefObject, useEffect, Fragment, type Dispatch, type SetStateAction, useMemo } from "react"
+import { type RefObject, useEffect, Fragment, type Dispatch, type SetStateAction, useMemo } from "react"
 
-import { type IMessages } from "./Page"
+import { type IMessages } from "../page"
 import { EnumProviderThreads } from "@/types/enum"
 import { type IResponseThread } from "@/services/threads/types"
-import { type IResponseMessage } from "@/services/messages/types"
 
 import ItemBarter from "./ItemBarter"
 import ItemMessage from "./ItemMessage"
 import LoadingList from "./LoadingList"
 import ExchangeStatus from "./ExchangeStatus"
+import ItemCompletedBarter from "./ItemCompletedBarter"
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
 import { useWebSocket } from "@/context"
-import ItemCompletedBarter from "./ItemCompletedBarter"
 import { getMessages, postReadMessage } from "@/services"
 
 interface IProps {
   messages: IMessages[]
-  setMessages: Dispatch<SetStateAction<IMessages[]>>
   thread: IResponseThread
   ferUl: RefObject<HTMLUListElement>
+  setMessages: Dispatch<SetStateAction<IMessages[]>>
 }
 
 function ListMessages({ thread, ferUl, setMessages, messages }: IProps) {
@@ -89,7 +88,14 @@ function ListMessages({ thread, ferUl, setMessages, messages }: IProps) {
     }
   }, [socket, thread?.id, userId])
 
-  const firstNotRead = useMemo(() => items.findIndex((_) => !_.readIds.length && _.emitterId !== userId), [items.length, userId])
+  const firstNotRead = useMemo(() => {
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].readIds.length === 0 && items[i].emitterId !== userId) {
+        return i
+      }
+    }
+    return null
+  }, [items.length, userId])
 
   if (isLoading || !thread) return <LoadingList />
 
@@ -142,4 +148,4 @@ function ListMessages({ thread, ferUl, setMessages, messages }: IProps) {
 }
 
 ListMessages.displayName = "ListMessages"
-export default memo(ListMessages)
+export default ListMessages
