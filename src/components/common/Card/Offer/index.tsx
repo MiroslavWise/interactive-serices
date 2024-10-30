@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useMemo } from "react"
+import { type UrlObject } from "url"
 import { useQuery } from "@tanstack/react-query"
 
 import type { TCardOffer } from "./types"
@@ -30,6 +31,17 @@ export const CardOffer: TCardOffer = ({ id, threadId, created, status, initiator
     enabled: !!idUser,
   })
 
+  const href: UrlObject = !!threadId
+    ? { pathname: `/chat/${threadId}` }
+    : !!id
+    ? {
+        pathname: `/chat`,
+        query: {
+          "barter-id": `${id}-${idUser}`,
+        },
+      }
+    : {}
+
   return (
     <li className="w-full flex flex-col gap-2 p-3 h-min rounded-2xl bg-BG-second border border-solid border-grey-stroke-light z-[2]">
       <section className="relative w-full flex flex-col gap-4">
@@ -42,29 +54,14 @@ export const CardOffer: TCardOffer = ({ id, threadId, created, status, initiator
         </time>
         {!["completed", "destroyed"]?.includes(status) ? (
           <Link
-            href={
-              !!threadId
-                ? {
-                    pathname: `/chat/${threadId}`,
-                  }
-                : id
-                ? {
-                    pathname: `/chat`,
-                    query: {
-                      "barter-id": `${id}-${idUser}`,
-                    },
-                  }
-                : {}
-            }
+            href={href}
             onClick={(event) => {
               event.stopPropagation()
               if (isTablet) {
                 dispatchExchanges({ visible: false })
               }
             }}
-            className={`relative h-7 w-7 p-3.5 rounded-full bg-element-white border border-solid border-grey-stroke-light ${
-              !!threadId || !!id ? "cursor-no-drop" : "cursor-pointer"
-            }`}
+            className="relative h-7 w-7 p-3.5 rounded-full bg-element-white border border-solid border-grey-stroke-light"
           >
             <img
               src="/svg/message-dots-circle-primary.svg"
