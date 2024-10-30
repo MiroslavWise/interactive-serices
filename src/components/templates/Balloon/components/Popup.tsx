@@ -1,24 +1,17 @@
 "use client"
 
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 
-import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import IconMap from "@/components/icons/IconMap"
 import IconActivity from "@/components/icons/IconActivity"
 import IconAlertCircle from "@/components/icons/IconAlertCircle"
 
-import {
-  dispatchBallonAlert,
-  dispatchBallonDiscussion,
-  dispatchBallonOffer,
-  dispatchComplaintModalOffer,
-  dispatchMapCoordinates,
-} from "@/store"
 import { cx } from "@/lib/cx"
 import env from "@/config/environment"
 import { useToast } from "@/helpers/hooks/useToast"
+import { dispatchComplaintModalOffer, dispatchMapCoordinates } from "@/store"
 
 const LABEL_MAP = "Показать на карте"
 const LABEL_SHARE = "Поделиться"
@@ -28,8 +21,9 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
   const { user, id, addresses, title, slug } = offer ?? {}
   const { onSimpleMessage } = useToast()
   const pathname = usePathname()
+  const { push } = useRouter()
 
-  const isMap = pathname !== "/"
+  const isMap = pathname === "/"
   const geoData = offer?.addresses?.length > 0 ? offer?.addresses[0] : null
 
   function handle() {
@@ -54,22 +48,16 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
         title={LABEL_MAP}
         aria-label={LABEL_MAP}
         aria-labelledby={LABEL_MAP}
-        className={isMap ? "" : "!hidden"}
+        className={(isMap && "!hidden") || undefined}
         onClick={() => {
-          if (offer.provider === EnumTypeProvider.offer) {
-            dispatchBallonOffer({ offer })
-          }
-          if (offer.provider === EnumTypeProvider.discussion) {
-            dispatchBallonDiscussion({ offer })
-          }
-          if (offer.provider === EnumTypeProvider.alert) {
-            dispatchBallonAlert({ offer })
-          }
           if (geoData) {
             dispatchMapCoordinates({
               zoom: 17,
               coordinates: geoData?.coordinates?.split(" ")?.map(Number),
             })
+          }
+          if (!isMap) {
+            push("/", { scroll: false })
           }
         }}
       >

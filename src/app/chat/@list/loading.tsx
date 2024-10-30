@@ -1,4 +1,5 @@
 import { cx } from "@/lib/cx"
+
 import LoadingItem from "./components/LoadingItem"
 
 export default () => (
