@@ -28,7 +28,7 @@ function ListCommentsPost({ post, handleToNote }: { post: IPosts; handleToNote: 
           <ul className="w-full flex flex-col gap-2.5 pb-16 md:pb-20">
             {list.map((item) => (
               <li key={`key:comment:${item.id}:`} className="w-full grid grid-cols-[2rem_minmax(0,1fr)] gap-3">
-                <Avatar className="w-8 h-8 p-4 rounded-full" image={item?.user?.image} />
+                <Avatar className="w-8 h-8 p-4 rounded-full" image={item?.user?.image} userId={item?.userId} />
                 <article className="w-full flex flex-col gap-0.5 pb-2.5 border-b border-solid border-grey-stroke-light">
                   <div className="flex flex-row items-center gap-2">
                     <p className="text-text-primary text-xs font-normal">
