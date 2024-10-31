@@ -1,6 +1,7 @@
 import Script from "next/script"
 import dynamic from "next/dynamic"
 import { Inter } from "next/font/google"
+import NextTopLoader from "nextjs-toploader"
 import { type PropsWithChildren } from "react"
 import { type Viewport, type Metadata } from "next"
 
@@ -216,6 +217,7 @@ export default ({ children }: PropsWithChildren) => (
       </noscript>
     </head>
     <body className={cx(inter.className, inter.variable)} id="body-layout">
+      <NextTopLoader />
       <Providers>
         <NavBarProfile />
         {children}

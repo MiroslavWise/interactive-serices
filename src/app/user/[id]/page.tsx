@@ -1,4 +1,3 @@
-import { permanentRedirect } from "next/navigation"
+import { permanentRedirect, RedirectType } from "next/navigation"
 
-export default async ({ params: { id } }: { params: { id: string } }) =>
-  id ? permanentRedirect(`/customer/${id}`) : permanentRedirect("/")
+export default async ({ params: { id } }: { params: { id: string } }) => permanentRedirect(`/customer/${id}`, RedirectType.replace)

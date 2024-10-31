@@ -8,16 +8,10 @@ const TITLE = "Сообщения"
 export const LinkMessages = ({ pathname }: { pathname: string }) => {
   const { count } = useCountMessagesNotReading()
 
+  const is = pathname?.includes("/chat")
+
   return (
-    <Link
-      key="::messages::link::"
-      data-active={pathname?.includes("/chat")}
-      href="/chat"
-      prefetch
-      title={TITLE}
-      aria-label={TITLE}
-      aria-labelledby={TITLE}
-    >
+    <Link key="::messages::link::" data-active={is} title={TITLE} aria-label={TITLE} aria-labelledby={TITLE} href={{ pathname: "/chat" }}>
       {MENU_ICONS.message}
       <span>{TITLE}</span>
       {count ? (

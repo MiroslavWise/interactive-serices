@@ -2,15 +2,13 @@
 import { type Metadata } from "next"
 import { type PropsWithChildren } from "react"
 
-import { type IResponseOffersCategories } from "@/services/offers-categories/types"
-
 import { keyWords } from "@/config/environment"
 import { getOffersCategoriesPROD } from "@/services"
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const { id } = params
   const { data } = await getOffersCategoriesPROD()
-  const items = (data as IResponseOffersCategories[]) || []
+  const items = data ?? []
 
   if (items.length === 0 || !items.some((_) => _.id === Number(id))) {
     return {}
