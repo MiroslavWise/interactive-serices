@@ -168,7 +168,6 @@ export default ({ children }: PropsWithChildren) => (
               `,
         }}
       />
-      {!env!?.server!?.host.includes("dev") && <Script src="https://s.sdelka.biz/20431827.js" />}
       <noscript>
         <div>
           <img

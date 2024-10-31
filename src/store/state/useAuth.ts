@@ -7,9 +7,8 @@ import { type TSchemaEmailSignIn } from "@/components/templates/ModalSign/utils/
 
 import { clg } from "@console"
 import { queryClient } from "@/context"
+import { NAME_STORAGE_USE_AUTH } from "@/config/persist-name"
 import { getLogout, getUser, login, refresh } from "@/services"
-
-const NAME_STORAGE_USE_AUTH = "::---sheira-auth---::"
 
 export const useAuth = create(
   persist<IStateUseAuth>(
@@ -72,26 +71,22 @@ export const dispatchRefresh = async () => {
   return refresh().then((response) => {
     const { ok, res } = response
     if (ok) {
-      ;(function () {
-        useAuth.setState((_) => ({
-          ..._,
-          auth: res as TAuth,
-          isAuth: true,
-        }))
-      })()
+      useAuth.setState((_) => ({
+        ..._,
+        auth: res as TAuth,
+        isAuth: true,
+      }))
 
       return response
     } else {
-      ;(function () {
-        useAuth.setState(
-          (_) => ({
-            auth: null,
-            user: null,
-            isAuth: false,
-          }),
-          true,
-        )
-      })()
+      useAuth.setState(
+        (_) => ({
+          auth: null,
+          user: null,
+          isAuth: false,
+        }),
+        true,
+      )
 
       return response
     }

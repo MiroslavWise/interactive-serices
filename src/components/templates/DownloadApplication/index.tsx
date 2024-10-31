@@ -17,8 +17,11 @@ function DownloadApplication() {
 
   return (
     <div
+      style={{
+        paddingTop: "4.375rem",
+      }}
       className={cx(
-        "hidden md:flex flex-col md:items-center fixed md:inset-0 md:w-full md:h-full bg-translucent pt-[4.375rem]",
+        "hidden md:flex flex-col md:items-center fixed md:inset-0 md:w-full md:h-full bg-translucent",
         visible ? "opacity-100 visible z-[1000]" : " opacity-0 invisible -z-10",
       )}
     >
@@ -31,14 +34,22 @@ function DownloadApplication() {
           <IconXClose />
         </button>
         <article
+          style={{
+            gap: "3.875rem",
+          }}
           className={cx(
-            "w-full h-full overflow-hidden rounded-2 flex flex-col gap-[3.875rem] relative",
+            "w-full h-full overflow-hidden rounded-2 flex flex-col relative",
             styles.article,
             "after:transition-all after:duration-200 before:transition-all before:duration-200",
             visible ? "after:scale-100 before:scale-100" : "after:scale-50 before:scale-50",
           )}
         >
-          <section className="w-full px-10 pt-6 relative z-10 pr-[3.0625rem] flex flex-row items-start justify-between">
+          <section
+            style={{
+              paddingRight: "3.0625rem",
+            }}
+            className="w-full px-10 pt-6 relative z-10 flex flex-row items-start justify-between"
+          >
             <article
               className={cx(
                 "w-full flex flex-col gap-5 max-w-80 pt-4 transition-all duration-200",
@@ -52,32 +63,59 @@ function DownloadApplication() {
               </p>
             </article>
             <article
+              style={{
+                width: "9.31869rem",
+                height: "19.1135rem",
+                aspectRatio: "9.31869/19.1135",
+                borderRadius: "1.76044rem",
+              }}
               className={cx(
-                "relative z-20 w-[9.31869rem] h-[19.1135rem] aspect-[9.31869/19.1135] rounded-[1.76044rem] bg-[#ffffff33] border border-solid border-[#ffffff66] transition-all duration-200",
+                "relative z-20 bg-[#ffffff33] border border-solid border-[#ffffff66] transition-all duration-200",
                 visible ? "translate-x-0 opacity-100 scale-100" : "translate-x-20 opacity-40 scale-150",
               )}
             >
               <ImageStatic
-                src="/png/apps-map.png"
+                src="/png/apps-map.webp"
                 alt="map"
                 height={134}
                 width={292}
-                className="absolute rounded-[1.467rem] w-[8.36638rem] h-[18.22925rem] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20"
+                style={{
+                  width: "8.36638rem",
+                  height: "18.22925rem",
+                  borderRadius: "1.467rem",
+                }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20"
               />
               <BadgesImMobile />
             </article>
           </section>
-          <section className="w-full grid grid-cols-2 items-start gap-20 px-10 pb-[6.875rem] relative z-10">
+          <section
+            className="w-full grid grid-cols-2 items-start gap-20 px-10relative z-10"
+            style={{
+              paddingBottom: "6.875rem",
+            }}
+          >
             <article
               className={cx(
                 "w-full gap-4 grid items-start grid-cols-[1.875rem_minmax(0,1fr)] transition-all duration-200",
                 visible ? "translate-x-0 opacity-100 scale-100" : "-translate-x-20 opacity-40 scale-150",
               )}
             >
-              <div className="mt-1 w-[1.875rem] aspect-square h-auto flex items-center justify-center bg-element-white rounded-[0.3125rem]">
+              <div
+                style={{
+                  borderRadius: "0.3125rem",
+                  width: "1.875rem",
+                }}
+                className="mt-1 aspect-square h-auto flex items-center justify-center bg-element-white"
+              >
                 <span className="text-text-accent text-lg font-semibold">1</span>
               </div>
-              <section className="w-full max-w-[10.875rem] flex flex-col gap-5">
+              <section
+                className="w-full flex flex-col gap-5"
+                style={{
+                  maxWidth: "10.875rem",
+                }}
+              >
                 <h3 className="text-text-button text-base text-left">Наведите телефон на QR-код</h3>
                 <div className="aspect-square w-[6.25rem] h-auto">
                   <QRCode
@@ -95,15 +133,24 @@ function DownloadApplication() {
                 visible ? "translate-x-0 opacity-100 scale-100" : "translate-x-20 opacity-40 scale-150",
               )}
             >
-              <div className="mt-1 w-[1.875rem] aspect-square h-auto flex items-center justify-center bg-element-white rounded-[0.3125rem]">
+              <div
+                style={{
+                  width: "1.875rem",
+                  borderRadius: "0.3125rem",
+                }}
+                className="mt-1 aspect-square h-auto flex items-center justify-center bg-element-white"
+              >
                 <span className="text-text-accent text-lg font-semibold">2</span>
               </div>
               <section className="w-full max-w-[10.875rem] flex flex-col gap-5">
                 <h3 className="text-text-button text-base text-left">Или скачайте из магазина</h3>
                 <div className="w-full flex flex-col gap-4">
                   <Link
+                    style={{
+                      width: "6.3125rem",
+                    }}
                     href={URL_APPLE_APP}
-                    className="relative w-[6.3125rem] h-[1.875rem] *:w-[6.3125rem] *:h-[1.875rem] cursor-pointer"
+                    className="relative h-[1.875rem] *:w-[6.3125rem] *:h-[1.875rem] cursor-pointer"
                     target="_blank"
                   >
                     <IconAppleApps />

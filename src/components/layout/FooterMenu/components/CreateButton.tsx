@@ -4,6 +4,8 @@ import { cx } from "@/lib/cx"
 import { useSign } from "../hooks/useSign"
 import { dispatchNewServicesBanner, useAuth } from "@/store"
 
+const TITLE = "Создать"
+
 export const CreateButton = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
   const handleAuthModal = useSign()
@@ -37,7 +39,7 @@ export const CreateButton = () => {
         >
           <IconPlus />
         </div>
-        <p className="mt-auto justify-end text-center text-[0.6875rem] leading-[1.125rem] font-medium text-text-secondary">Создать</p>
+        <p className="mt-auto justify-end text-center text-[0.6875rem] leading-[1.125rem] font-medium text-text-secondary">{TITLE}</p>
       </section>
     </a>
   )

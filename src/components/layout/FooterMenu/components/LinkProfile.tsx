@@ -14,6 +14,8 @@ export const LinkProfile = ({ pathname }: { pathname: string }) => {
 
   const isActive = pathname.includes(ITEMS_LINK_FOOTER.profile)
 
+  const TITLE = isAuth ? "Профиль" : "Войти"
+
   return (
     <Link
       href={isAuth ? { pathname: ITEMS_LINK_FOOTER.profile } : {}}
@@ -27,6 +29,9 @@ export const LinkProfile = ({ pathname }: { pathname: string }) => {
         }
       }}
       data-test="link-footer-menu-mobile-profile"
+      title={TITLE}
+      aria-label={TITLE}
+      aria-labelledby={TITLE}
     >
       <section className="h-full flex flex-col items-center gap-[0.1875rem]">
         <article className="relative w-6 h-6 p-3 *:absolute *:top-1/2 *:left-1/2 *:h-6 *:w-6 *:-translate-x-1/2 *:-translate-y-1/2">
@@ -38,7 +43,7 @@ export const LinkProfile = ({ pathname }: { pathname: string }) => {
             isActive ? "text-text-accent" : "text-text-secondary",
           )}
         >
-          {isAuth ? "Профиль" : "Войти"}
+          {TITLE}
         </p>
       </section>
     </Link>
