@@ -33,8 +33,8 @@
   }
 }
 
-[data-tablet="true"] {
-  .wrapper {
+.wrapper {
+  @media screen and (max-width: 768px) {
     padding: 0;
     & > section {
       max-width: 100%;

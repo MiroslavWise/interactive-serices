@@ -5,7 +5,7 @@
     z-index: 1220;
   }
 
-  &[data-mobile="false"] {
+  @media screen and (min-width: 768px) {
     background: rgba(0, 0, 0, 0.62);
     backdrop-filter: blur(2.5px);
     padding: 15px;
@@ -30,17 +30,15 @@
   }
 }
 
-[data-tablet="true"] {
-  .wrapper {
+.wrapper {
+  @media screen and (max-width: 768px) {
     background: var(--background);
 
     & > ul {
       position: relative;
-      &[data-tablet="true"] {
-        padding: 0 0 14px;
-        align-items: center;
-        justify-content: center;
-      }
+      padding: 0 0 14px;
+      align-items: center;
+      justify-content: center;
     }
   }
 }

@@ -175,8 +175,8 @@
   }
 }
 
-[data-tablet="true"] {
-  .wrapperStart {
+.wrapperStart {
+  @media screen and (max-width: 768px) {
     padding: 0;
     justify-content: flex-end;
     & > section {

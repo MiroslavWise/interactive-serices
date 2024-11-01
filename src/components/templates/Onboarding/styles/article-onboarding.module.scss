@@ -110,8 +110,8 @@
   }
 }
 
-[data-tablet="true"] {
-  .container {
+.container {
+  @media screen and (max-width: 768px) {
     position: static;
     max-width: 100%;
     transform: none;

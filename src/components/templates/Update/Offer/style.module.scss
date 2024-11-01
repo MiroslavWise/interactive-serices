@@ -113,7 +113,7 @@
 
       [data-photos] {
         & > [data-upload] {
-          &[data-tablet="true"] {
+          @media screen and (max-width: 768px) {
             aspect-ratio: 3/4;
           }
         }
