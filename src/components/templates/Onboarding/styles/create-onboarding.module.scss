@@ -112,8 +112,8 @@
   }
 }
 
-[data-tablet="true"] {
-  .wrapper {
+.wrapper {
+  @media screen and (max-width: 768px) {
     &::after {
       border-width: 1px;
     }

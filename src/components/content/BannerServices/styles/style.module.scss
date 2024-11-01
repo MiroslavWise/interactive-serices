@@ -144,8 +144,8 @@
   }
 }
 
-[data-tablet="true"] {
-  .container {
+.container {
+  @media screen and (max-width: 768px) {
     & > ul {
       -webkit-overflow-scrolling: touch;
     }

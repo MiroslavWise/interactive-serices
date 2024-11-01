@@ -11,7 +11,7 @@ export const useCookies = create(
   }),
 )
 
-export const dispatchCookiesVisible = (value: boolean) => useCookies.setState((_) => ({ ..._, visible: value }), true)
+export const dispatchCookiesVisible = () => useCookies.setState((_) => ({ ..._, visible: true }), true)
 export const dispatchCookies = () => useCookies.setState((_) => ({ ..._, isUse: true, visible: false }), true)
 
 interface IStateCookies {

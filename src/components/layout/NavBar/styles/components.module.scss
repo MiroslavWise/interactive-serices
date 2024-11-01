@@ -1,5 +1,5 @@
-[data-tablet="true"] {
-  .logo {
+.logo {
+  @media screen and (max-width: 768px) {
     margin-left: -2rem;
     margin-top: -0.125rem;
 

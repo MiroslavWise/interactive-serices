@@ -177,8 +177,8 @@
   }
 }
 
-[data-tablet="true"] {
-  .content {
+.content {
+  @media screen and (max-width: 768px) {
     max-width: 100%;
     gap: 1.875rem;
     padding-inline: 1.25rem;

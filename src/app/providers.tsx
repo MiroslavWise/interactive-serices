@@ -6,43 +6,29 @@ import { type ReactNode, useEffect } from "react"
 import Containers from "@/context/Containers"
 import { WebSocketProvider, NextThemesProvider, QueryClientProviderContext } from "@/context"
 
-import { useResize } from "@/helpers"
-import { dispatchCookiesVisible, dispatchRefresh, useAdvertisingBanner, useCookies } from "@/store"
+import { clg } from "@console"
 import { Wait } from "@/lib/ex-ids"
+import { dispatchCookiesVisible, dispatchRefresh, useCookies } from "@/store"
 
 const YMapsProvider = dynamic(() => import("@/context/YMapsProvider"), {
   ssr: false,
 })
 
 export default ({ children }: { children: ReactNode }) => {
-  const visibleAdvertisingBanner = useAdvertisingBanner(({ visible }) => visible)
-  const isUse = useCookies(({ isUse }) => isUse)
-  const { isMobile, isTablet } = useResize()
-
-  useEffect(() => {
-    document.documentElement.dataset.headerIsBanner = `${visibleAdvertisingBanner}`
-  }, [visibleAdvertisingBanner])
-
-  useEffect(() => {
-    if (!isUse) {
-      dispatchCookiesVisible(true)
-    }
-  }, [isUse])
-
   useEffect(() => {
     dispatchRefresh()
     let vh = window.innerHeight * 0.01
     document.documentElement.style.setProperty("--vh", `${vh}px`)
     document.documentElement.style.height = window.innerHeight.toString() + "px"
     Wait()
+    requestAnimationFrame(() => {
+      const is = useCookies.getState().isUse
+      clg("dispatchCookiesVisible: ", is)
+      if (typeof is !== "undefined" && !is) {
+        dispatchCookiesVisible()
+      }
+    })
   }, [])
-
-  useEffect(() => {
-    document.documentElement.dataset.mobile = `${isMobile}`
-  }, [isMobile])
-  useEffect(() => {
-    document.documentElement.dataset.tablet = `${isTablet}`
-  }, [isTablet])
 
   return (
     <YMapsProvider>
