@@ -10,6 +10,7 @@ import ItemMessageChat from "./ItemMessageChat"
 import { cx } from "@/lib/cx"
 import { useSelectChat } from "@/store"
 import { getMillisecond, useCountMessagesNotReading } from "@/helpers"
+import { IResponseThreads } from "@/services/threads/types"
 
 function ListMessages() {
   const select = useSelectChat(({ select }) => select)
@@ -18,7 +19,16 @@ function ListMessages() {
   const items = data || []
 
   const filters = useMemo(() => {
-    const ITEMS = items.filter((_) => (_.provider === EnumProviderThreads.PERSONAL ? !!_.messages.length : true))
+    const ITEMS = []
+    for (const item of items) {
+      if (item.provider === EnumProviderThreads.PERSONAL) {
+        if (item.messages.length > 0) {
+          ITEMS.push(item)
+        }
+      } else {
+        ITEMS.push(item)
+      }
+    }
     ITEMS.sort((prev, next) => {
       const prevNumber = prev.messages?.[0]?.created! ? getMillisecond(prev.messages?.[0]?.created!) : getMillisecond(prev?.created!)
       const nextNumber = next.messages?.[0]?.created! ? getMillisecond(next.messages?.[0]?.created!) : getMillisecond(next?.created!)
@@ -28,7 +38,19 @@ function ListMessages() {
     return ITEMS
   }, [items])
 
-  const filterNavigate = useMemo(() => (select === "all" ? filters : filters.filter((_) => _.provider === select)), [select, filters])
+  const filterNavigate = useMemo(() => {
+    const array: IResponseThreads[] = []
+    if (select === "all") {
+      return filters
+    } else {
+      for (const item of filters) {
+        if (item.provider === select) {
+          array.push(item)
+        }
+      }
+    }
+    return array
+  }, [select, filters])
 
   if (isLoading)
     return (

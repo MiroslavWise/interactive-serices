@@ -1,5 +1,5 @@
 import { type Metadata } from "next"
-import { Suspense, type ReactNode } from "react"
+import { type PropsWithChildren, Suspense } from "react"
 
 export const metadata: Metadata = {
   title: "Верификация",
@@ -13,4 +13,4 @@ export const metadata: Metadata = {
 
 export const dynamicParams = true
 
-export default ({ children }: { children: ReactNode }) => <Suspense fallback={false}>{children}</Suspense>
+export default ({ children }: PropsWithChildren) => <Suspense fallback={null}>{children}</Suspense>

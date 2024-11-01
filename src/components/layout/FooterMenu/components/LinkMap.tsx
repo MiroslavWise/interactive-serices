@@ -6,6 +6,8 @@ import { MENU_ICONS } from "../../NavBar/constants/menu-icons"
 
 import styles from "../styles/link.module.scss"
 
+const TITLE = "Карта"
+
 export const LinkMap = ({ pathname }: { pathname: string }) => {
   const isActive = pathname === ITEMS_LINK_FOOTER.map
 
@@ -15,6 +17,9 @@ export const LinkMap = ({ pathname }: { pathname: string }) => {
       data-active={isActive}
       className={cx(styles.link, "h-full flex-[1] flex-shrink-0 flex pt-1 pb-[0.1875rem] px-[0.0625rem] flex-col no-underline relative")}
       data-test="link-footer-menu-mobile-map"
+      title={TITLE}
+      aria-label={TITLE}
+      aria-labelledby={TITLE}
     >
       <section className="h-full flex flex-col items-center gap-[0.1875rem]">
         <article className="relative w-6 h-6 p-3 *:absolute *:top-1/2 *:left-1/2 *:h-6 *:w-6 *:-translate-x-1/2 *:-translate-y-1/2">
@@ -26,7 +31,7 @@ export const LinkMap = ({ pathname }: { pathname: string }) => {
             isActive ? "text-text-accent" : "text-text-secondary",
           )}
         >
-          Карта
+          {TITLE}
         </p>
       </section>
     </Link>

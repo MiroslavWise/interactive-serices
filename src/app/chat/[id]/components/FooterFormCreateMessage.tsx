@@ -1,13 +1,14 @@
 "use client"
 
+import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 import { type ChangeEvent, type Dispatch, memo, type RefObject, SetStateAction, useCallback, useEffect, useRef, useState } from "react"
 
-import { type IMessages } from "./Page"
-import { EnumProviderThreads, EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
+import { type IMessages } from "../page"
 import { type IResponseThread } from "@/services/threads/types"
 import { type IRequestPostMessages } from "@/services/messages/types"
+import { EnumProviderThreads, EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 
 import SendingPhotos from "./SendingPhotos"
 import LoadingFooter from "../../components/LoadingFooter"
@@ -17,23 +18,22 @@ import { useDebounce } from "@/helpers"
 import { resolver, type TTypeSchema } from "../utils/schema"
 import { deCrypted, dispatchMessageDraft, useAuth, useDraftChat } from "@/store"
 import { fileUploadService, getBarterId, getMessages, postMessage } from "@/services"
-import Link from "next/link"
 
 const MAX_FILE_SIZE = 9.9 * 1024 * 1024
 const sleep = () => new Promise((r) => setTimeout(r, 50))
 
 function FooterFormCreateMessage({
-  thread,
+  id,
   ferUl,
+  thread,
   setMessages,
   isLoadingThread,
-  id,
 }: {
+  id: number | string
   thread: IResponseThread
   isLoadingThread: boolean
   ferUl: RefObject<HTMLUListElement>
   setMessages: Dispatch<SetStateAction<IMessages[]>>
-  id: number | string
 }) {
   const message = useDraftChat((chats) => chats[id])
   const textRef = useRef<HTMLTextAreaElement>(null)

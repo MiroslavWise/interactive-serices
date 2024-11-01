@@ -1,3 +1,7 @@
-import Page from "./components/Page"
+import dynamic from "next/dynamic"
 
-export default () => <Page />
+import Loading from "./loading"
+
+const Page = dynamic(() => import("./components/Page"), { loading: Loading })
+
+export default Page

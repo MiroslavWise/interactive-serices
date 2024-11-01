@@ -1,5 +1,5 @@
-import { type ReactNode } from "react"
+import { type PropsWithChildren } from "react"
 
 import WrapperContext from "./components/ContextChats"
 
-export default ({ children }: { children: ReactNode }) => <WrapperContext>{children}</WrapperContext>
+export default ({ children }: PropsWithChildren) => <WrapperContext>{children}</WrapperContext>

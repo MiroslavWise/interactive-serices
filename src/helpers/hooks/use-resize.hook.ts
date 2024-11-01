@@ -6,9 +6,11 @@ const SCREEN_MOBILE = 576
 const SCREEN_TABLET = 768
 
 export const useResize = () => {
-  const [width, setWidth] = useState(window.innerWidth ?? 1280)
+  const [width, setWidth] = useState(1280)
 
   useEffect(() => {
+    setWidth(window.innerWidth ?? 1280)
+
     const handleResize = (event: any) => {
       setWidth(event.target.innerWidth)
     }

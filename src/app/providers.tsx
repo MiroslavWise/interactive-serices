@@ -24,7 +24,7 @@ export default ({ children }: { children: ReactNode }) => {
   }, [visibleAdvertisingBanner])
 
   useEffect(() => {
-    if (!isUse && typeof isUse !== "undefined") {
+    if (!isUse) {
       dispatchCookiesVisible(true)
     }
   }, [isUse])

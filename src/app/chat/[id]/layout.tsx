@@ -1,8 +1,10 @@
-import { type ReactNode } from "react"
+import dynamic from "next/dynamic"
 
-import ClientLayout from "./components/ClientLayout"
+import { type PropsWithChildren, type ReactNode } from "react"
 
-export default ({ children, profile }: { children: ReactNode; profile: ReactNode }) => (
+const ClientLayout = dynamic(() => import("./components/ClientLayout"))
+
+export default ({ children, profile }: PropsWithChildren<{ profile: ReactNode }>) => (
   <ClientLayout>
     {children}
     {profile}

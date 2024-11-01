@@ -1,9 +1,14 @@
 "use client"
 
+import dynamic from "next/dynamic"
 import { useParams } from "next/navigation"
 
-import ListMessages from "./ListMessages"
-import HeaderAndNavigation from "./HeaderAndNavigation"
+const ListMessages = dynamic(() => import("./ListMessages"), {
+  ssr: false,
+})
+const HeaderAndNavigation = dynamic(() => import("./HeaderAndNavigation"), {
+  ssr: false,
+})
 
 import { cx } from "@/lib/cx"
 

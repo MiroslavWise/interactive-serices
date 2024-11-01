@@ -12,6 +12,8 @@ import { useOutsideClickEvent } from "@/helpers"
 import { serviceNotifications } from "@/services"
 import { MENU_ICONS } from "../constants/menu-icons"
 
+const TITLE = "Уведомления"
+
 export const LinkNotification = ({ pathname }: { pathname: string }) => {
   const [count, setCount] = useState<number | null>(null)
   const [state, setState] = useState<{ new: IResponseNotifications[]; old: IResponseNotifications[] }>({ new: [], old: [] })
@@ -73,9 +75,12 @@ export const LinkNotification = ({ pathname }: { pathname: string }) => {
         event.stopPropagation()
       }}
       ref={ref}
+      title={TITLE}
+      aria-label={TITLE}
+      aria-labelledby={TITLE}
     >
       {MENU_ICONS.notifications}
-      <span>Уведомления</span>
+      <span>{TITLE}</span>
       {count ? (
         <div data-count>
           <span>{count > 9 ? "9+" : count}</span>

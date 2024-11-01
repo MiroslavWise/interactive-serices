@@ -12,7 +12,7 @@ export const ItemComment = (props: ICommentsResponse) => {
 
   return (
     <div className="w-full grid grid-cols-[2rem_minmax(0,1fr)] gap-3 items-start justify-start px-5">
-      <Avatar className="rounded-full w-8 h-8 p-4" image={image} />
+      <Avatar className="rounded-full w-8 h-8 p-4" image={image} userId={user?.id} />
       <div className="w-full flex flex-col">
         <h5 className="flex flex-row items-center flex-nowrap text-text-primary font-normal text-xs text-left w-full whitespace-nowrap text-ellipsis line-clamp-1">
           {firstName || "Имя"} {lastName || ""}&nbsp;

@@ -1,4 +1,4 @@
-import { type IServiceOffersCategories, type TPostOfferCategory } from "./types"
+import { IResponseOffersCategories, type IServiceOffersCategories, type TPostOfferCategory } from "./types"
 
 import { fetchGet, wrapperPost } from "../request"
 
@@ -11,7 +11,7 @@ export const getOffersCategoriesPROD = async () => {
     const response = await fetch("https://sheira.ru/api/v1/offers-categories", { method: "GET" })
     const { data, error, meta } = await response.json()
     return {
-      data,
+      data: data as IResponseOffersCategories[],
       meta,
       error,
     }

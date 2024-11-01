@@ -179,7 +179,7 @@ export default function CreateNewOptionModal() {
                 dispatchModal(EModalData.SuccessNewOptional)
                 dispatchOnboarding("close")
                 reset()
-                window.open(`/success/${typeAdd}?id=${id}`)
+                // window.open(`/success/${typeAdd}?id=${id}`)
               })
             } else {
               refetch()
@@ -188,7 +188,7 @@ export default function CreateNewOptionModal() {
               dispatchModal(EModalData.SuccessNewOptional)
               dispatchOnboarding("close")
               reset()
-              window.open(`/success/${typeAdd}?id=${id}`)
+              // window.open(`/success/${typeAdd}?id=${id}`)
             }
           })
         }

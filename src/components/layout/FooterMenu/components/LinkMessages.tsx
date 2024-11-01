@@ -29,6 +29,7 @@ export const LinkMessages = ({ pathname }: { pathname: string }) => {
         }
       }}
       data-test="link-footer-menu-mobile-messages"
+      prefetch
     >
       <section className="h-full flex flex-col items-center gap-[0.1875rem]">
         <article className="relative w-6 h-6 p-3 *:absolute *:top-1/2 *:left-1/2 *:h-6 *:w-6 *:-translate-x-1/2 *:-translate-y-1/2">

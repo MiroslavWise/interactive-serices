@@ -1,12 +1,12 @@
 import Script from "next/script"
 import dynamic from "next/dynamic"
 import { Inter } from "next/font/google"
-
+import NextTopLoader from "nextjs-toploader"
 import { type PropsWithChildren } from "react"
 import { type Viewport, type Metadata } from "next"
 
-const Providers = dynamic(() => import("./providers"), { ssr: false })
-const NavBarProfile = dynamic(() => import("@/components/layout/NavBar"), { ssr: false })
+const Providers = dynamic(() => import("./providers"))
+const NavBarProfile = dynamic(() => import("@/components/layout/NavBar"))
 
 import { cx } from "@/lib/cx"
 import env, { APPLE_ID, APPLE_NAME, keyWords, URL_APPLE_APP } from "@/config/environment"
@@ -112,17 +112,16 @@ export function generateMetadata(): Metadata {
   return meta
 }
 
-export default function Layout({ children }: PropsWithChildren) {
-  return (
-    <html lang="ru">
-      <head>
-        <link rel="preconnect" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}`} />
-        <link rel="canonical" key="canonical" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}/categories`} />
-        <Script
-          id={env!?.server!?.host!?.includes("dev") ? `yandex-metrics-dev` : `yandex-metrics-prod`}
-          dangerouslySetInnerHTML={{
-            __html: env!?.server!?.host!?.includes("dev")
-              ? `
+export default ({ children }: PropsWithChildren) => (
+  <html lang="ru">
+    <head>
+      <link rel="preconnect" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}`} />
+      <link rel="canonical" key="canonical" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}/categories`} />
+      <Script
+        id={env!?.server!?.host!?.includes("dev") ? `yandex-metrics-dev` : `yandex-metrics-prod`}
+        dangerouslySetInnerHTML={{
+          __html: env!?.server!?.host!?.includes("dev")
+            ? `
                 ;(function (m, e, t, r, i, k, a) {
                   m[i] =
                     m[i] ||
@@ -145,7 +144,7 @@ export default function Layout({ children }: PropsWithChildren) {
                   webvisor: true,
                 })
               `
-              : `
+            : `
                 ;(function (m, e, t, r, i, k, a) {
                   m[i] =
                     m[i] ||
@@ -168,23 +167,22 @@ export default function Layout({ children }: PropsWithChildren) {
                   webvisor: true,
                 })
               `,
-          }}
-        />
-        {!env!?.server!?.host.includes("dev") && <Script src="https://s.sdelka.biz/20431827.js" />}
-        <noscript>
-          <div>
-            <img
-              src={env!?.server!?.host!?.includes("dev") ? "https://mc.yandex.ru/watch/95807492" : "https://mc.yandex.ru/watch/95807535"}
-              style={{ position: "absolute", left: -9999 }}
-              alt="-"
-            />
-          </div>
-        </noscript>
-        {!env!?.server!?.host!?.includes("dev") ? (
-          <Script
-            id="mail-ru-metrics"
-            dangerouslySetInnerHTML={{
-              __html: `
+        }}
+      />
+      <noscript>
+        <div>
+          <img
+            src={env!?.server!?.host!?.includes("dev") ? "https://mc.yandex.ru/watch/95807492" : "https://mc.yandex.ru/watch/95807535"}
+            style={{ position: "absolute", left: -9999 }}
+            alt="-"
+          />
+        </div>
+      </noscript>
+      {!env!?.server!?.host!?.includes("dev") ? (
+        <Script
+          id="mail-ru-metrics"
+          dangerouslySetInnerHTML={{
+            __html: `
                   var _tmr = window._tmr || (window._tmr = [])
                   _tmr.push({ id: "3519466", type: "pageView", start: new Date().getTime() })
                   ;(function (d, w, id) {
@@ -205,25 +203,25 @@ export default function Layout({ children }: PropsWithChildren) {
                     }
                   })(document, window, "tmr-code")
                 `,
-            }}
+          }}
+        />
+      ) : null}
+      <noscript>
+        <div>
+          <img
+            src="https://top-fwz1.mail.ru/counter?id=3519466;js=na"
+            style={{ position: "absolute", left: "-9999px" }}
+            alt="Top.Mail.Ru"
           />
-        ) : null}
-        <noscript>
-          <div>
-            <img
-              src="https://top-fwz1.mail.ru/counter?id=3519466;js=na"
-              style={{ position: "absolute", left: "-9999px" }}
-              alt="Top.Mail.Ru"
-            />
-          </div>
-        </noscript>
-      </head>
-      <body className={cx(inter.className, inter.variable)} id="body-layout">
-        <Providers>
-          <NavBarProfile />
-          {children}
-        </Providers>
-      </body>
-    </html>
-  )
-}
+        </div>
+      </noscript>
+    </head>
+    <body className={cx(inter.className, inter.variable)} id="body-layout">
+      <NextTopLoader />
+      <Providers>
+        <NavBarProfile />
+        {children}
+      </Providers>
+    </body>
+  </html>
+)

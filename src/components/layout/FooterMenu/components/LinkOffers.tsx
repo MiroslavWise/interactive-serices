@@ -12,6 +12,8 @@ import { MENU_ICONS } from "../../NavBar/constants/menu-icons"
 
 import styles from "../styles/link.module.scss"
 
+const TITLE = "Обмен"
+
 export const LinkOffers = ({ pathname }: { pathname: string }) => {
   const handleAuthModal = useSign()
   const isAuth = useAuth(({ isAuth }) => isAuth)
@@ -44,6 +46,9 @@ export const LinkOffers = ({ pathname }: { pathname: string }) => {
         }
       }}
       data-test="link-footer-menu-mobile-offers"
+      title={TITLE}
+      aria-label={TITLE}
+      aria-labelledby={TITLE}
     >
       <section className="h-full flex flex-col items-center gap-[0.1875rem]">
         <article className="relative w-6 h-6 p-3 *:absolute *:top-1/2 *:left-1/2 *:h-6 *:w-6 *:-translate-x-1/2 *:-translate-y-1/2">
@@ -55,10 +60,9 @@ export const LinkOffers = ({ pathname }: { pathname: string }) => {
             isActive ? "text-text-accent" : "text-text-secondary",
           )}
         >
-          Обмен
+          {TITLE}
         </p>
       </section>
-
       <div
         className={cx(
           "absolute top-[0.35rem] left-[calc(50%_+_0.125rem)] h-[1.1375rem] min-w-[1.1375rem] w-min justify-center items-center px-[0.4rem] bg-element-accent-1 rounded-[0.56875rem]",

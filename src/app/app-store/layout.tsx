@@ -1,5 +1,5 @@
 import { type Metadata } from "next"
-import { type ReactNode } from "react"
+import { type PropsWithChildren } from "react"
 
 import { URL_APPLE_APP } from "@/config/environment"
 
@@ -21,4 +21,4 @@ export const metadata: Metadata = {
   },
 }
 
-export default ({ children }: { children: ReactNode }) => children
+export default ({ children }: PropsWithChildren) => children

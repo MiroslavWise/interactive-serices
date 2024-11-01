@@ -7,6 +7,8 @@ import { useAuth } from "@/store"
 import { getBarterUserIdReceiver } from "@/services"
 import { MENU_ICONS } from "../constants/menu-icons"
 
+const TITLE = "Предложения обменов"
+
 export const LinkOffers = ({ pathname }: { pathname: string }) => {
   const { id } = useAuth(({ auth }) => auth) ?? {}
   const { data } = useQuery({
@@ -22,9 +24,17 @@ export const LinkOffers = ({ pathname }: { pathname: string }) => {
   })
 
   return (
-    <Link key="::offers::link::" data-active={pathname?.includes("/offers")} href="/offers" prefetch>
+    <Link
+      key="::offers::link::"
+      data-active={pathname?.includes("/offers")}
+      href="/offers"
+      prefetch
+      title={TITLE}
+      aria-label={TITLE}
+      aria-labelledby={TITLE}
+    >
       {MENU_ICONS.offers}
-      <span>Предложения обменов</span>
+      <span>{TITLE}</span>
       {data?.data?.length ? (
         <div data-count>
           <span>{data?.data?.length > 9 ? "9+" : data?.data?.length || 0}</span>

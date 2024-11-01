@@ -1,6 +1,6 @@
-import { memo, useMemo } from "react"
+import { useMemo } from "react"
 
-import { type IMessages } from "./Page"
+import { type IMessages } from "../page"
 
 import ItemImages from "./ItemImages"
 
@@ -93,4 +93,4 @@ function ItemMessage({ message }: { message: IMessages }) {
 }
 
 ItemMessage.displayName = "ItemMessage"
-export default memo(ItemMessage)
+export default ItemMessage

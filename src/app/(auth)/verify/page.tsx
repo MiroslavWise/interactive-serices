@@ -9,8 +9,6 @@ import { useToast } from "@/helpers/hooks/useToast"
 import { getUserId, RegistrationService } from "@/services"
 import { dispatchAuthToken, dispatchClearAuth, dispatchOnboarding } from "@/store"
 
-export const dynamicParams = true
-
 export default function PageVerify() {
   const verifyToken = useSearchParams()?.get("token")
   const { on } = useToast()
