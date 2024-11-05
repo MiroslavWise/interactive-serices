@@ -15,3 +15,5 @@ export const IconVerifiedTick = () => (
     </g>
   </svg>
 )
+
+export default IconVerifiedTick

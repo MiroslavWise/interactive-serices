@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 import { EnumStatusBarter } from "@/types/enum"
 import { type IUserResponse } from "@/services/users/types"
 
-import { badges, ICON } from "@/app/customer/[userId]/components/Accomplishments"
+import { badges, ICON } from "@/app/(layout)/customer/[userId]/components/Accomplishments"
 
 import { getTestimonials } from "@/services"
 

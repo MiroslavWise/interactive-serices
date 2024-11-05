@@ -23,7 +23,7 @@ const BannerSign = dynamic(() => import("@/components/content/BannerSign"), {
 const BannerServices = dynamic(() => import("@/components/content/BannerServices"), {
   ssr: false,
 })
-const YandexMap = dynamic(() => import("../components/YandexMap"), {
+const YandexMap = dynamic(() => import("../../components/YandexMap"), {
   ssr: false,
   loading: () => <div className="--loader--empty-screen--" />,
 })
