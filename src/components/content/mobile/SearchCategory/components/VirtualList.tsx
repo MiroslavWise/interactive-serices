@@ -68,7 +68,7 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
                 key={`:key:${virtualRow.key}:post:`}
                 post={listPosts[virtualRow.index]}
                 dataIndex={virtualRow.index}
-                ref={virtualizer.measureElement}
+                ref={virtualizerPost.measureElement}
               />
             ))
           : null}
