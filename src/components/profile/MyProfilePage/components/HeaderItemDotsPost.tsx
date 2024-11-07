@@ -20,7 +20,7 @@ const TITLE_ARCHIVE = "В архив"
 
 function HeaderItemDotsPost({ post }: IProps) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { slug, id, addresses, title, userId: userIdPost, archive } = post ?? {}
+  const { id, addresses, title, userId: userIdPost, archive } = post ?? {}
   const [open, setOpen, ref] = useOutsideClickEvent()
   const { onSimpleMessage } = useToast()
 
@@ -38,7 +38,7 @@ function HeaderItemDotsPost({ post }: IProps) {
       </button>
       <article
         className={cx(
-          "absolute top-[calc(100%_+_0.25rem)] right-0 md:w-[13.5rem] flex flex-col gap-0.5 rounded-xl bg-BG-second shadow-box-down p-5 md:p-3",
+          "absolute top-[calc(100%_+_0.25rem)] right-0 w-[13.5rem] flex flex-col gap-0.5 rounded-xl bg-BG-second shadow-box-down p-5 md:p-3",
           open ? "!z-10 !opacity-100 !visible" : "-z-10 opacity-0 invisible",
         )}
       >
