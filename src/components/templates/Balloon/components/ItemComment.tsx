@@ -21,7 +21,7 @@ export const ItemComment = (props: ICommentsResponse) => {
             href: isTablet ? `/customer/${user?.id}` : undefined,
             target: isTablet ? "_blank" : undefined,
             className:
-              "flex flex-row items-center flex-nowrap text-text-primary font-normal text-xs text-left w-full whitespace-nowrap text-ellipsis line-clamp-1",
+              "flex flex-row items-center flex-nowrap text-text-primary font-normal text-xs text-left w-full whitespace-nowrap text-ellipsis line-clamp-1 cursor-pointer",
             onClick() {
               if (!isTablet) {
                 dispatchPublicProfile(user?.id)

@@ -35,7 +35,7 @@ function ListCommentsPost({ post, handleToNote }: { post: IPosts; handleToNote: 
                   <div className="flex flex-row items-center gap-2">
                     <a
                       {...{
-                        className: "text-text-primary text-xs font-normal",
+                        className: "text-text-primary text-xs font-normal cursor-pointer",
                         href: isTablet ? `/customer/${item?.userId}` : undefined,
                         target: isTablet ? "_blank" : undefined,
                         onClick() {
