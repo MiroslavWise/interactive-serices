@@ -24,21 +24,15 @@ function Avatar({ className, image, userId }: IProps) {
   if (!!userId)
     return (
       <Link
-        className={cx("relative flex overflow-hidden cursor-pointer", className, !!image ? "bg-BG-second" : "bg-grey-stroke-light")}
-        href={
-          !isTablet
-            ? {}
-            : {
-                pathname: `/customer/${userId}`,
-              }
-        }
-        onClick={() => {
-          if (!isTablet) {
-            dispatchPublicProfile(userId!)
-          }
-        }}
         {...{
           target: isTablet ? "_blank" : undefined,
+          href: isTablet ? { pathname: `/customer/${userId}` } : {},
+          className: cx("relative flex overflow-hidden cursor-pointer", className, !!image ? "bg-BG-second" : "bg-grey-stroke-light"),
+          onClick() {
+            if (!isTablet) {
+              dispatchPublicProfile(userId!)
+            }
+          },
         }}
       >
         {!!image ? (
