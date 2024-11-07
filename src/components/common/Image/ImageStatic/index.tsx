@@ -7,7 +7,7 @@ import { type IPropsImageStatic } from "./types"
 type TImage = typeof Image.defaultProps & IPropsImageStatic
 
 export function ImageStatic(props: TImage) {
-  const { src, alt, onClick } = props ?? {}
+  const { src, alt, onClick, style } = props ?? {}
 
   return (
     <Image
@@ -22,6 +22,7 @@ export function ImageStatic(props: TImage) {
       loading={undefined}
       style={{
         objectFit: "cover",
+        ...style,
       }}
       unoptimized
     />
