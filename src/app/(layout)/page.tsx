@@ -34,6 +34,7 @@ const BannerMainPage = dynamic(() => import("@/components/content/BannerMainPage
 import { useAuth } from "@/store"
 import { useResize } from "@/helpers"
 import useUtm from "@/helpers/use-utm"
+// import PageVideo from "./Video"
 
 export default () => {
   useUtm()
@@ -65,6 +66,7 @@ export default () => {
             <ButtonCollapseServices />
           </>
         )}
+        {/* <PageVideo /> */}
       </main>
     </>
   )

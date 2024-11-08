@@ -11,15 +11,16 @@ import { ServiceLoading } from "@/components/common"
 
 import { getPosts } from "@/services/posts"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
-import { useBounds, useFiltersServices, useUrgentFilter } from "@/store"
+import { useBounds, useFiltersScreen, useFiltersServices, useSearchFilters, useUrgentFilter } from "@/store"
 import { EXCEPTION_POST_MAP } from "@/config/exception"
 import { IPosts } from "@/services/posts/types"
+import { IResponseOffers } from "@/services/offers/types"
 
 const DAY = 86_400_000
 const WEEK = DAY * 7
 const MONTH = DAY * 31
-
 const now = new Date().valueOf()
+const time = (created: string | Date) => new Date(created).valueOf()
 
 const OBJ_TIME = {
   [EnumTimesFilter.DAYS]: DAY,
@@ -33,17 +34,23 @@ export const ServicesMobile = memo(({ input, parentRef }: { input: string; paren
   const providers = useFiltersServices(({ providers }) => providers)
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
   const urgent = useUrgentFilter(({ urgent }) => urgent)
+  const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
+  const idSearch = useSearchFilters(({ id }) => id)
 
-  const { data } = useQuery({
+  const { data, isLoading: isLoadingPost } = useQuery({
     queryFn: () => getPosts({ order: "DESC" }),
     queryKey: ["posts", { order: "DESC" }],
-    enabled: providers === "all" || providers === EnumTypeProvider.POST,
+    enabled: (providers === "all" || providers === EnumTypeProvider.POST) && activeFilters.length === 0,
     select: ({ data }) => data?.filter((item) => (!!urgent ? !!item?.urgent : true)),
   })
 
-  const itemsPost = data ?? []
+  const itemsPost = data || []
 
   const itemsFilterPosts = useMemo(() => {
+    if (!itemsPost.length || !!idSearch || activeFilters.length > 0) {
+      return []
+    }
+
     const array: IPosts[] = []
 
     if (bounds && itemsPost) {
@@ -51,82 +58,73 @@ export const ServicesMobile = memo(({ input, parentRef }: { input: string; paren
       const maxCoors = bounds[1]
 
       for (const item of itemsPost) {
-        if (item.addresses.length === 0 || EXCEPTION_POST_MAP.includes(item.id)) {
-          continue
-        }
-
-        const coordinates = item?.addresses[0]?.coordinates?.split(" ").map(Number).filter(Boolean)
-        if (coordinates.length !== 2) {
-          continue
-        }
-        if (
-          coordinates[0] < maxCoors[0] &&
-          coordinates[0] > minCoords[0] &&
-          coordinates[1] < maxCoors[1] &&
-          coordinates[1] > minCoords[1]
-        ) {
-          continue
-        }
-        if (timesFilter === EnumTimesFilter.ALL) {
-          array.push(item)
-        } else {
-          const time = new Date(item.created).valueOf()
-          const b = time + OBJ_TIME[timesFilter] - now > 0
-          if (b) {
-            array.push(item)
+        if (!EXCEPTION_POST_MAP.includes(item.id)) {
+          if (item?.addresses && item?.addresses.length > 0) {
+            const coordinates = item?.addresses[0]?.coordinates?.split(" ").map(Number).filter(Boolean)
+            if (
+              coordinates[0] < maxCoors[0] &&
+              coordinates[0] > minCoords[0] &&
+              coordinates[1] < maxCoors[1] &&
+              coordinates[1] > minCoords[1]
+            ) {
+              if (timesFilter === EnumTimesFilter.ALL) {
+                array.push(item)
+              } else {
+                const time_ = time(item.created)
+                if (time_ + OBJ_TIME[timesFilter] - now > 0) {
+                  array.push(item)
+                }
+              }
+            }
           }
         }
       }
     }
 
     return array
-  }, [itemsPost, bounds, timesFilter])
+  }, [itemsPost, bounds, timesFilter, activeFilters, idSearch])
 
   const items = useMemo(() => {
     if (!itemsOffers.length) {
       return []
     }
+
+    const array: IResponseOffers[] = []
+
     if (bounds && itemsOffers) {
       const minCoords = bounds[0]
       const maxCoors = bounds[1]
 
-      const dataAllItems =
-        itemsOffers?.filter((item) => {
-          if (!item?.addresses?.length) {
-            return false
+      for (const item of itemsOffers) {
+        if (item?.addresses) {
+          if (item?.addresses.length > 0) {
+            const coordinates = item?.addresses[0]?.coordinates?.split(" ").map(Number).filter(Boolean)
+            if (coordinates.length > 0) {
+              if (
+                coordinates[0] < maxCoors[0] &&
+                coordinates[0] > minCoords[0] &&
+                coordinates[1] < maxCoors[1] &&
+                coordinates[1] > minCoords[1]
+              ) {
+                if (timesFilter === EnumTimesFilter.ALL) {
+                  array.push(item)
+                } else {
+                  const time_ = time(item.created)
+                  if (time_ + OBJ_TIME[timesFilter] - now > 0) {
+                    array.push(item)
+                  }
+                }
+              }
+            }
           }
-          const coordinates = item?.addresses[0]?.coordinates?.split(" ").map(Number).filter(Boolean)
-          if (!coordinates) {
-            return false
-          }
-
-          if (
-            coordinates[0] < maxCoors[0] &&
-            coordinates[0] > minCoords[0] &&
-            coordinates[1] < maxCoors[1] &&
-            coordinates[1] > minCoords[1]
-          ) {
-            return true
-          }
-
-          return false
-        }) || []
-
-      if (timesFilter === EnumTimesFilter.ALL) {
-        return dataAllItems || []
-      } else {
-        return dataAllItems.filter((item) => {
-          const time = new Date(item.created).valueOf()
-
-          return time + OBJ_TIME[timesFilter] - now > 0
-        })
+        }
       }
     }
 
-    return []
-  }, [itemsOffers, bounds, timesFilter])
+    return array
+  }, [itemsOffers, bounds, timesFilter, idSearch])
 
-  if (isLoading)
+  if (isLoading || isLoadingPost)
     return (
       <ul className="w-full p-5 flex flex-col gap-4 pb-[calc(var(--height-mobile-footer-nav)_+_2.875rem)] *:bg-BG-first">
         {[1, 2, 3].map((item) => (
