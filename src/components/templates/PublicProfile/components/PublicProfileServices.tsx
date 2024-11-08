@@ -5,14 +5,14 @@ import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import { ServiceLoading } from "@/components/common"
-import ItemPost from "@/app/customer/[userId]/@offers/components/ItemPost"
-import ItemServiceData from "@/app/customer/[userId]/@offers/components/ItemService-data"
+import ItemPost from "@/app/(layout)/customer/[userId]/@offers/components/ItemPost"
+import ItemServiceData from "@/app/(layout)/customer/[userId]/@offers/components/ItemService-data"
 
 import { cx } from "@/lib/cx"
 import { nameTitle } from "@/lib/names"
 import { getPosts } from "@/services/posts"
 import { getUserIdOffers } from "@/services"
-import { LINKS_PROVIDER_OFFERS } from "@/app/customer/[userId]/@links/page"
+import { LINKS_PROVIDER_OFFERS } from "@/app/(layout)/customer/[userId]/@links/page"
 import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchPublicProfile, usePublicProfile } from "@/store"
 
 function PublicProfileServices() {

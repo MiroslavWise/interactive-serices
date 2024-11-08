@@ -8,8 +8,8 @@ export const useBanner = create(
     }),
     {
       name: "::banner-help::",
-      storage: createJSONStorage(() => sessionStorage),
-      version: 1,
+      storage: createJSONStorage(() => localStorage),
+      version: 2,
     },
   ),
 )

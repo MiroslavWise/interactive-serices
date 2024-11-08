@@ -3,7 +3,7 @@ import { type IUserResponse } from "@/services/users/types"
 import { NextImageMotion } from "@/components/common"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
-import OnlineStatus from "@/app/customer/[userId]/@profile/components/OnlineStatus"
+import OnlineStatus from "@/app/(layout)/customer/[userId]/@profile/components/OnlineStatus"
 
 function ProfileData({ user }: { user: IUserResponse }) {
   const { profile } = user ?? {}

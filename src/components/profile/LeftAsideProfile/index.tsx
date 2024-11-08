@@ -2,12 +2,12 @@ import { FooterAsideLeft } from "./components/Footer"
 import { BlockProfileAside, BlockDesiredServices, ButtonFriends } from "@/components/profile"
 
 import { cx } from "@/lib/cx"
-import { useBanner } from "@/store"
+// import { useBanner } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
 function LeftAsideProfile({ isCollapsed = false, isBanner = false }: { isCollapsed?: boolean; isBanner?: boolean }) {
-  const visibleBanner = useBanner(({ visible }) => visible)
+  // const visibleBanner = useBanner(({ visible }) => visible)
 
   return (
     <aside
@@ -15,7 +15,8 @@ function LeftAsideProfile({ isCollapsed = false, isBanner = false }: { isCollaps
         styles.asideLeft,
         "max-md:!hidden fixed left-0 bottom-6 w-full rounded-2 translate-x-6 flex flex-col justify-between items-center gap-5 bg-BG-second z-[2]",
         isCollapsed && "!-translate-x-[17.5rem]",
-        visibleBanner ? styles.banner : styles.default,
+        // visibleBanner ? styles.banner :
+        styles.default,
       )}
       data-test="left-aside-profile"
       data-is-banner={isBanner}

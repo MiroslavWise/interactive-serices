@@ -1,9 +1,10 @@
 import { create } from "zustand"
 import { createJSONStorage, persist } from "zustand/middleware"
 
+import { EnumHelper } from "@/types/enum"
+
 import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
 import { TServicesFilter } from "@/components/content/BannerServices/types/types"
-import { EnumHelper } from "@/types/enum"
 
 export const useFiltersServices = create(
   persist<IFilterServices>(
@@ -13,7 +14,7 @@ export const useFiltersServices = create(
     }),
     {
       name: "::sheira-time-and-provider-filter::",
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => sessionStorage),
       version: 1,
     },
   ),
@@ -29,7 +30,7 @@ export const useUrgentFilter = create(
     }),
     {
       name: "::sheira-urgent-filter::",
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => sessionStorage),
       version: 1,
     },
   ),

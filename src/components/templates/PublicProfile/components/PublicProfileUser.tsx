@@ -11,7 +11,7 @@ import { cx } from "@/lib/cx"
 import { fromNow } from "@/helpers"
 import { useOnline, usePublicProfile } from "@/store"
 import { getTestimonials, getUserId } from "@/services"
-import { badges, ICON } from "@/app/customer/[userId]/components/Accomplishments"
+import { badges, ICON } from "@/app/(layout)/customer/[userId]/components/Accomplishments"
 
 function PublicProfileUser() {
   const id = usePublicProfile(({ id }) => id)

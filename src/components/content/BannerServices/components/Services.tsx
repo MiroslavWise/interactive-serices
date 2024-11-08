@@ -16,7 +16,7 @@ import { EXCEPTION_POST_MAP } from "@/config/exception"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import { useBounds, useFiltersScreen, useFiltersServices, useSearchFilters, useUrgentFilter } from "@/store"
 
-const DAY = 86_400_000
+const DAY = 86_400_000 
 const WEEK = DAY * 7
 const MONTH = DAY * 31
 const now = new Date().valueOf()

@@ -1,4 +1,4 @@
-import { EProviderLinkCustomer } from "@/app/customer/[userId]/components/LinkService"
+import { EProviderLinkCustomer } from "@/app/(layout)/customer/[userId]/components/LinkService"
 import { EnumTypeProvider } from "@/types/enum"
 
 export function nameTitle(length: number, provider: EProviderLinkCustomer | EnumTypeProvider) {

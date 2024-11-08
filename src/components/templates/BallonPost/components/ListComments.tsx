@@ -9,10 +9,12 @@ import IconComment from "@/components/icons/IconComment"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { cx } from "@/lib/cx"
-import { daysAgo } from "@/helpers"
+import { daysAgo, useResize } from "@/helpers"
+import { dispatchPublicProfile } from "@/store"
 import { useContextPostsComments } from "./ContextComments"
 
 function ListCommentsPost({ post, handleToNote }: { post: IPosts; handleToNote: Dispatch<number> }) {
+  const { isTablet } = useResize()
   const { list, isLoading } = useContextPostsComments()
 
   return (
@@ -31,9 +33,20 @@ function ListCommentsPost({ post, handleToNote }: { post: IPosts; handleToNote: 
                 <Avatar className="w-8 h-8 p-4 rounded-full" image={item?.user?.image} userId={item?.userId} />
                 <article className="w-full flex flex-col gap-0.5 pb-2.5 border-b border-solid border-grey-stroke-light">
                   <div className="flex flex-row items-center gap-2">
-                    <p className="text-text-primary text-xs font-normal">
+                    <a
+                      {...{
+                        className: "text-text-primary text-xs font-normal cursor-pointer",
+                        href: isTablet ? `/customer/${item?.userId}` : undefined,
+                        target: isTablet ? "_blank" : undefined,
+                        onClick() {
+                          if (!isTablet) {
+                            dispatchPublicProfile(item?.userId)
+                          }
+                        },
+                      }}
+                    >
                       {item?.user?.firstName || "Имя"} {item?.user?.lastName || ""}
-                    </p>
+                    </a>
                     <div className="relative w-3 h-3 p-1.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-3 *:h-3 *:z-20 -ml-1">
                       <IconVerifiedTick />
                     </div>

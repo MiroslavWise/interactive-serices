@@ -9,7 +9,10 @@ import type { IResponseNotifications } from "@/services/notifications/types"
 import { ItemNotification } from "@/components/notifications"
 
 import { cx } from "@/lib/cx"
-import { useAuth, useBanner } from "@/store"
+import {
+  useAuth,
+  // useBanner
+} from "@/store"
 import { serviceNotifications } from "@/services"
 import {
   DESCRIPTION_NOTIFICATIONS_EMPTY,
@@ -21,7 +24,7 @@ import styles from "./layout.module.scss"
 import main from "../layout.module.scss"
 
 export default function Notifications() {
-  const visibleBanner = useBanner(({ visible }) => visible)
+  // const visibleBanner = useBanner(({ visible }) => visible)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [status, setStatus] = useState<TTypeWaiting>("all")
 
@@ -76,7 +79,7 @@ export default function Notifications() {
     <section
       className={cx(
         main.wrapperInsideContainer,
-        visibleBanner && main.bannerNotification,
+        // visibleBanner && main.bannerNotification,
         "md:h-[calc(100vh_-_var(--height-header-nav-bar))] hidden md:flex flex-col gap-4 pt-6 !-mt-6 overflow-x-hidden overflow-y-auto",
       )}
     >

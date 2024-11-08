@@ -9,7 +9,7 @@ const OffersMobile = dynamic(() => import("@/components/screens/offers"), { ssr:
 import { ContainerHeader, ContainerOffersNow } from "@/components/profile"
 
 import { cx } from "@/lib/cx"
-import { useBanner } from "@/store"
+// import { useBanner } from "@/store"
 import { useResize } from "@/helpers"
 
 import main from "../layout.module.scss"
@@ -25,7 +25,7 @@ function reducer(_: IStateOffers, action: IActionOffers) {
 }
 
 export default function OffersPage() {
-  const visible = useBanner(({ visible }) => visible)
+  // const visible = useBanner(({ visible }) => visible)
   const [state, dispatch] = useReducer(reducer, initialState)
   const { isTablet } = useResize()
 
@@ -36,7 +36,7 @@ export default function OffersPage() {
           main.wrapperInsideContainer,
           "flex flex-col overflow-y-auto w-full h-full gap-6 p-4",
           "__container-offer-page__",
-          visible ? main.banner : "",
+          // visible ? main.banner : "",
         )}
         data-none-scroll
       >
@@ -48,7 +48,8 @@ export default function OffersPage() {
     <ul
       className={cx(
         main.wrapperInsideContainer,
-        visible ? main.banner : main.default,
+        // visible ? main.banner :
+        main.default,
         "flex flex-col overflow-y-auto gap-4",
         "__container-offer-page__",
         "!-mt-6",

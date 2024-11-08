@@ -6,7 +6,6 @@ import { type PropsWithChildren } from "react"
 import { type Viewport, type Metadata } from "next"
 
 const Providers = dynamic(() => import("./providers"))
-const NavBarProfile = dynamic(() => import("@/components/layout/NavBar"))
 
 import { cx } from "@/lib/cx"
 import env, { APPLE_ID, APPLE_NAME, keyWords, URL_APPLE_APP } from "@/config/environment"
@@ -113,7 +112,7 @@ export function generateMetadata(): Metadata {
 }
 
 export default ({ children }: PropsWithChildren) => (
-  <html lang="ru">
+  <html lang="ru" suppressHydrationWarning>
     <head>
       <link rel="preconnect" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}`} />
       <link rel="canonical" key="canonical" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}/categories`} />
@@ -216,12 +215,9 @@ export default ({ children }: PropsWithChildren) => (
         </div>
       </noscript>
     </head>
-    <body className={cx(inter.className, inter.variable)} id="body-layout">
+    <body className={cx(inter.className, inter.variable)} id="body-layout" suppressHydrationWarning>
       <NextTopLoader />
-      <Providers>
-        <NavBarProfile />
-        {children}
-      </Providers>
+      <Providers>{children}</Providers>
     </body>
   </html>
 )

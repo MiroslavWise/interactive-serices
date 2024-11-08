@@ -68,9 +68,11 @@ function DownloadApplication() {
                 height: "19.1135rem",
                 aspectRatio: "9.31869/19.1135",
                 borderRadius: "1.76044rem",
+                backgroundColor: "rgba(255, 255, 255, 0.2)",
+                borderColor: "rgba(255, 255, 255, 0.4)",
               }}
               className={cx(
-                "relative z-20 bg-[#ffffff33] border border-solid border-[#ffffff66] transition-all duration-200",
+                "relative z-20 border border-solid transition-all duration-200",
                 visible ? "translate-x-0 opacity-100 scale-100" : "translate-x-20 opacity-40 scale-150",
               )}
             >
@@ -90,7 +92,7 @@ function DownloadApplication() {
             </article>
           </section>
           <section
-            className="w-full grid grid-cols-2 items-start gap-20 px-10relative z-10"
+            className="w-full grid grid-cols-2 items-start gap-20 px-10 relative z-10"
             style={{
               paddingBottom: "6.875rem",
             }}
@@ -118,12 +120,7 @@ function DownloadApplication() {
               >
                 <h3 className="text-text-button text-base text-left">Наведите телефон на QR-код</h3>
                 <div className="aspect-square w-[6.25rem] h-auto">
-                  <QRCode
-                    size={256}
-                    style={{ height: "auto", width: "100%", aspectRatio: "1/1" }}
-                    value={URL_APPLE_APP}
-                    viewBox={`0 0 256 256`}
-                  />
+                  <QRCode size={256} className="aspect-square w-full h-auto" value={URL_APPLE_APP} viewBox={`0 0 256 256`} />
                 </div>
               </section>
             </article>
@@ -148,9 +145,10 @@ function DownloadApplication() {
                   <Link
                     style={{
                       width: "6.3125rem",
+                      height: "1.875rem",
                     }}
                     href={URL_APPLE_APP}
-                    className="relative h-[1.875rem] *:w-[6.3125rem] *:h-[1.875rem] cursor-pointer"
+                    className="relative *:w-[6.3125rem] *:h-[1.875rem] cursor-pointer"
                     target="_blank"
                   >
                     <IconAppleApps />
