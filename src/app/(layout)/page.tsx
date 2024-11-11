@@ -17,6 +17,9 @@ import Navigation from "@/components/content/mobile/Navigation"
 const BannerSign = dynamic(() => import("@/components/content/BannerSign"), {
   ssr: false,
 })
+const HasClustererBalloons = dynamic(() => import("@/components/templates/HasClustererBalloons"), {
+  ssr: false,
+})
 const BannerServices = dynamic(() => import("@/components/content/BannerServices"), {
   ssr: false,
 })
@@ -31,16 +34,15 @@ const BannerMainPage = dynamic(() => import("@/components/content/BannerMainPage
   ssr: false,
 })
 
-import { useAuth } from "@/store"
+import { useAuth, useHasBalloons } from "@/store"
 import { useResize } from "@/helpers"
 import useUtm from "@/helpers/use-utm"
-// import PageVideo from "./Video"
 
 export default () => {
   useUtm()
-
   const isAuth = useAuth(({ isAuth }) => isAuth)
   const { isTablet } = useResize()
+  const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
 
   return (
     <>
@@ -66,8 +68,8 @@ export default () => {
             <ButtonCollapseServices />
           </>
         )}
-        {/* <PageVideo /> */}
       </main>
+      {visibleHasBalloon && <HasClustererBalloons />}
     </>
   )
 }

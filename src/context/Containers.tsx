@@ -7,7 +7,6 @@ import {
   WelcomeModal,
   AboutSheiraPopup,
   NotificationsMobile,
-  HasClustererBalloons,
   MobileFiltersMap,
   Onboarding,
   ReasonBarters,
@@ -20,7 +19,6 @@ import {
 } from "@/components/templates"
 
 import {
-  useHasBalloons,
   useVisibleNotifications,
   useReasonBarters,
   useAddingPhoneNumber,
@@ -57,7 +55,6 @@ function Containers() {
   const isAuth = useAuth(({ isAuth }) => isAuth)
   const visibleReasonBarters = useReasonBarters(({ visible }) => visible)
   const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
-  const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
   const visibleAddingPhoneNumber = useAddingPhoneNumber(({ visible }) => visible)
   const visibleAddEmail = useAddEmail(({ visible }) => visible)
   const visibleCheckTheMail = useCheckTheMail(({ visible }) => visible)
@@ -88,7 +85,6 @@ function Containers() {
       <DownloadApplication />
       <ToastContainer limit={1} />
       {isTablet && <MobileFiltersMap />}
-      {visibleHasBalloon && <HasClustererBalloons />}
       {isAuth && (
         <>
           <MyFriends />
