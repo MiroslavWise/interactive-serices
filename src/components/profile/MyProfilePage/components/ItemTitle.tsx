@@ -20,7 +20,7 @@ const TITLE_SHARE = "Поделиться"
 const TITLE_TO_MAP = "Показать на карте"
 
 function ItemTitle({ offer }: { offer: IResponseOffers }) {
-  const { title, category, provider, categoryId } = offer ?? {}
+  const { title, category, provider, categoryId, urgent } = offer ?? {}
   const [open, setOpen, ref] = useOutsideClickEvent(close)
   const { onSimpleMessage } = useToast()
 
@@ -39,7 +39,7 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
     <section className="w-full gap-2.5 grid grid-cols-[1.5rem_minmax(0,1fr)_1.5rem]">
       <div className="relative w-6 h-6 p-3 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:h-6 *:w-6">
         {provider === EnumTypeProvider.offer ? (
-          <ImageCategory id={categoryId!} slug={category?.slug} provider={category?.provider} />
+          <ImageCategory id={categoryId!} slug={category?.slug} provider={category?.provider} isUrgent={!!urgent} />
         ) : provider === EnumTypeProvider.discussion ? (
           <IconDiscussionBalloon />
         ) : provider === EnumTypeProvider.alert ? (
