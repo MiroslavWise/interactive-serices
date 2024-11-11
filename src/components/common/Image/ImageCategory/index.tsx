@@ -22,8 +22,8 @@ export function ImageCategory({ id, slug, provider, isUrgent }: IProps) {
   return (
     <img
       alt={`${id!}::`}
-      width={16}
-      height={16}
+      width={32}
+      height={32}
       src={src}
       onError={(error: any) => {
         if (error?.target) {
