@@ -13,9 +13,7 @@ import IconArrowRight from "@/components/icons/IconArrowRight"
 import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
-import env from "@/config/environment"
 import { useOutsideClickEvent } from "@/helpers"
-import { useToast } from "@/helpers/hooks/useToast"
 import {
   dispatchBallonAlert,
   dispatchBallonDiscussion,
@@ -23,6 +21,7 @@ import {
   dispatchComplaintModalOffer,
   dispatchMapCoordinates,
 } from "@/store"
+import { useNavigator } from "@/helpers/hooks/use-navigator"
 
 const TITLE_TO_MAP = "Показать на карте"
 const TITLE_COMPLAINT = "Пожаловаться"
@@ -30,9 +29,13 @@ const TITLE_SHARE = "Поделиться"
 
 function ButtonShare({ offer }: { offer: IResponseOffers }) {
   const [open, setOpen, ref] = useOutsideClickEvent(close)
-  const { onSimpleMessage } = useToast()
 
   const geoData = offer?.addresses?.length > 0 ? offer?.addresses[0] : null
+
+  const onShare = useNavigator({
+    url: `/offer/${offer.id}/${offer.slug ? String(offer.slug).replaceAll("/", "-") : ""}`,
+    title: offer?.title ?? "",
+  })
 
   function close() {}
 
@@ -93,25 +96,7 @@ function ButtonShare({ offer }: { offer: IResponseOffers }) {
           </div>
           <span>{TITLE_TO_MAP}</span>
         </Link>
-        <a
-          title={TITLE_SHARE}
-          aria-label={TITLE_SHARE}
-          aria-labelledby={TITLE_SHARE}
-          onClick={(event) => {
-            const url = `${env.server.host}/offer/${offer.id}/${offer.slug ? String(offer.slug).replaceAll("/", "-") : ""}`
-            if (!!window.navigator.share!) {
-              navigator.share({
-                title: offer.title!,
-                text: offer?.addresses[0] ? offer.addresses[0]?.additional! : "",
-                url: url,
-              })
-            } else {
-              navigator.clipboard.writeText(url)
-              onSimpleMessage("Ссылка скопирована")
-            }
-            event.stopPropagation()
-          }}
-        >
+        <a title={TITLE_SHARE} aria-label={TITLE_SHARE} aria-labelledby={TITLE_SHARE} onClick={onShare}>
           <div>
             <IconShare />
           </div>

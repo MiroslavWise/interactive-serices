@@ -9,8 +9,7 @@ import IconActivity from "@/components/icons/IconActivity"
 import IconAlertCircle from "@/components/icons/IconAlertCircle"
 
 import { cx } from "@/lib/cx"
-import env from "@/config/environment"
-import { useToast } from "@/helpers/hooks/useToast"
+import { useNavigator } from "@/helpers/hooks/use-navigator"
 import { dispatchComplaintModalOffer, dispatchMapCoordinates } from "@/store"
 
 const LABEL_MAP = "Показать на карте"
@@ -19,12 +18,12 @@ const LABEL_COMPLAIN = "Пожаловаться"
 
 export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visible: boolean }) => {
   const { user, id, addresses, title, slug } = offer ?? {}
-  const { onSimpleMessage } = useToast()
+
   const pathname = usePathname()
   const { push } = useRouter()
 
   const isMap = pathname === "/"
-  const geoData = offer?.addresses?.length > 0 ? offer?.addresses[0] : null
+  const geoData = addresses?.length > 0 ? addresses[0] : null
 
   function handle() {
     if (user) {
@@ -34,6 +33,11 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
       return
     }
   }
+
+  const onShare = useNavigator({
+    url: `/offer/${id}/${slug ? String(slug).replaceAll("/", "-") : ""}`,
+    title: title! ?? "",
+  })
 
   return (
     <article
@@ -71,25 +75,7 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
         </div>
         <span className="text-text-primary text-sm font-normal text-left">{LABEL_MAP}</span>
       </a>
-      <a
-        title={LABEL_SHARE}
-        aria-label={LABEL_SHARE}
-        aria-labelledby={LABEL_SHARE}
-        onClick={(event) => {
-          const url = `${env.server.host}/offer/${id}/${String(slug).replaceAll("/", "-")}`
-          if (!!window.navigator.share!) {
-            navigator.share({
-              title: title!,
-              text: addresses[0] ? addresses[0]?.additional! : "",
-              url: url,
-            })
-          } else {
-            navigator.clipboard.writeText(url)
-            onSimpleMessage("Ссылка скопирована")
-          }
-          event.stopPropagation()
-        }}
-      >
+      <a title={LABEL_SHARE} aria-label={LABEL_SHARE} aria-labelledby={LABEL_SHARE} onClick={onShare}>
         <div
           className={cx(
             "w-5 h-5 flex items-center justify-center relative p-2.5",

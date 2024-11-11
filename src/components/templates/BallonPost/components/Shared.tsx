@@ -6,30 +6,32 @@ import IconComplaint from "@/components/icons/IconComplaint"
 import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
-import env from "@/config/environment"
 import { useOutsideClickEvent } from "@/helpers"
-import { useToast } from "@/helpers/hooks/useToast"
+import { useNavigator } from "@/helpers/hooks/use-navigator"
 import { dispatchArchivePost, dispatchComplaintModalPost, dispatchUpdatePost, useAuth } from "@/store"
 
 interface IProps {
   post: IPosts
 }
 
-const TITLE_UPDATE = "Редактировать"
 const TITLE_SHARE = "Поделиться"
 const TITLE_ARCHIVE = "В архив"
+const TITLE_UPDATE = "Редактировать"
 const TITLE_COMPLAINT = "Пожаловаться"
 
 function SharedDotsPost({ post }: IProps) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { addresses, title, id, slug, userId: userIdPost, archive } = post ?? {}
+  const { title, id, userId: userIdPost, archive } = post ?? {}
   const [open, set, ref] = useOutsideClickEvent()
-  const { onSimpleMessage } = useToast()
-  const geoData = addresses[0] ?? {}
 
   function handleArchive() {
     dispatchArchivePost(post)
   }
+
+  const onShare = useNavigator({
+    url: `/post/${id}`,
+    title: title! ?? "",
+  })
 
   return (
     <div className="absolute -top-1 -right-1 w-6 h-6 flex" ref={ref}>
@@ -92,17 +94,7 @@ function SharedDotsPost({ post }: IProps) {
           aria-labelledby={TITLE_SHARE}
           className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field"
           onClick={(event) => {
-            const url = `${env.server.host}/post/${id}`
-            if (!!window.navigator.share!) {
-              navigator.share({
-                title: title!,
-                text: geoData?.additional! ?? `${title}`,
-                url: url,
-              })
-            } else {
-              navigator.clipboard.writeText(url)
-              onSimpleMessage("Ссылка скопирована")
-            }
+            onShare()
             event.stopPropagation()
             set(false)
           }}

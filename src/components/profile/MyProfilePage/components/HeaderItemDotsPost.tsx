@@ -5,9 +5,8 @@ import IconActivity from "@/components/icons/IconActivity"
 import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
-import env from "@/config/environment"
 import { useOutsideClickEvent } from "@/helpers"
-import { useToast } from "@/helpers/hooks/useToast"
+import { useNavigator } from "@/helpers/hooks/use-navigator"
 import { dispatchArchivePost, dispatchUpdatePost, useAuth } from "@/store"
 
 interface IProps {
@@ -20,9 +19,13 @@ const TITLE_ARCHIVE = "В архив"
 
 function HeaderItemDotsPost({ post }: IProps) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { id, addresses, title, userId: userIdPost, archive } = post ?? {}
+  const { id, title, userId: userIdPost, archive } = post ?? {}
   const [open, setOpen, ref] = useOutsideClickEvent()
-  const { onSimpleMessage } = useToast()
+
+  const onShare = useNavigator({
+    url: `/post/${id}`,
+    title: title! ?? "",
+  })
 
   return (
     <div className="w-6 h-6 relative flex" ref={ref}>
@@ -79,20 +82,7 @@ function HeaderItemDotsPost({ post }: IProps) {
           title={LABEL_SHARE}
           aria-label={LABEL_SHARE}
           aria-labelledby={LABEL_SHARE}
-          onClick={(event) => {
-            const url = `${env.server.host}/post/${id}`
-            if (!!window.navigator.share!) {
-              navigator.share({
-                title: title!,
-                text: addresses[0] ? addresses[0]?.additional! : "",
-                url: url,
-              })
-            } else {
-              navigator.clipboard.writeText(url)
-              onSimpleMessage("Ссылка скопирована")
-            }
-            event.stopPropagation()
-          }}
+          onClick={onShare}
           className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field cursor-pointer"
         >
           <div

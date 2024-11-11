@@ -4,13 +4,17 @@ import { type IResponseOffers } from "@/services/offers/types"
 
 import IconActivity from "@/components/icons/IconActivity"
 
-import env from "@/config/environment"
-import { useToast } from "@/helpers/hooks/useToast"
+import { useNavigator } from "@/helpers/hooks/use-navigator"
 
 const LABEL = "Поделиться"
 
 export const ButtonActivity = ({ offer }: { offer: IResponseOffers }) => {
-  const { onSimpleMessage } = useToast()
+  const { id, slug, title } = offer ?? {}
+
+  const onShare = useNavigator({
+    url: `/offer/${id}/${slug ? String(slug).replaceAll("/", "-") : ""}`,
+    title: title! ?? "",
+  })
 
   return (
     <>
@@ -18,20 +22,7 @@ export const ButtonActivity = ({ offer }: { offer: IResponseOffers }) => {
         type="button"
         data-activity
         className="relative z-[2]"
-        onClick={(event) => {
-          const url = `${env.server.host}/offer/${offer.id}/${offer.slug ? String(offer.slug).replaceAll("/", "-") : ""}`
-          if (!!window.navigator.share!) {
-            navigator.share({
-              title: offer.title!,
-              text: offer?.addresses[0] ? offer.addresses[0]?.additional! : "",
-              url: url,
-            })
-          } else {
-            navigator.clipboard.writeText(url)
-            onSimpleMessage("Ссылка скопирована")
-          }
-          event.stopPropagation()
-        }}
+        onClick={onShare}
         title={LABEL}
         aria-label={LABEL}
         aria-labelledby={LABEL}

@@ -1,5 +1,6 @@
 import { Button } from "@/components/common"
 import env from "@/config/environment"
+import { useNavigator } from "@/helpers/hooks/use-navigator"
 import { useToast } from "@/helpers/hooks/useToast"
 
 interface IProps {
@@ -9,6 +10,14 @@ interface IProps {
 
 function NoFriends({ id, username }: IProps) {
   const { onSimpleMessage } = useToast()
+
+  const userName = username && !username.includes("$") && !username.includes("/") ? `/${username}` : ""
+  const linkUser = `/user/${id}` + userName
+
+  const onShare = useNavigator({
+    url: linkUser,
+    title: `Приглашаю присоединиться к Sheira, где мы вместе сможем помогать другим людям`,
+  })
 
   return (
     <article className="w-full px-5 flex flex-col items-center py-20">
@@ -45,25 +54,7 @@ function NoFriends({ id, username }: IProps) {
           typeButton="fill-primary"
           label="Пригласить друзей в Sheira"
           className="max-w-min px-5 py-2.5"
-          onClick={() => {
-            const userName = username && !username.includes("$") && !username.includes("/") ? `/${username}` : ""
-            const linkUser = `/user/${id}` + userName
-            const url = `${env.server.host}${linkUser}`
-            if (!!window.navigator.share!) {
-              navigator.share({
-                title: `Приглашаю присоединиться к Sheira, где мы вместе сможем помогать другим людям`,
-                text: `Приглашаю присоединиться к Sheira, где мы вместе сможем помогать другим людям`,
-                url: url,
-              })
-            } else {
-              navigator.clipboard.writeText(`
-              Приглашаю присоединиться к Sheira, где мы вместе сможем помогать другим людям
-              
-              ${url}
-            `)
-              onSimpleMessage("Ссылка скопирована")
-            }
-          }}
+          onClick={onShare}
         />
       </div>
     </article>
