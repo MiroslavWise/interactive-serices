@@ -2,6 +2,7 @@
 
 import env from "@/config/environment"
 import { useToast } from "./useToast"
+import { useResize } from "./use-resize.hook"
 
 interface IProps {
   url: string
@@ -10,12 +11,12 @@ interface IProps {
 
 export const useNavigator = ({ url, title }: IProps) => {
   const { onSimpleMessage } = useToast()
+  const { isTablet } = useResize()
 
   function onShare() {
     const fullUrl = `${env.server.host}${url}`
-    const platform = /macos/.test(navigator?.userAgent?.toLowerCase())
 
-    if (!!window.navigator.share || !platform) {
+    if (isTablet && !!window.navigator.share) {
       navigator.share({
         title: title,
         url: url,
