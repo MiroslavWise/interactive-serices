@@ -15,17 +15,11 @@
 
       * > {
         height: 12.5rem;
-      }
-
-      & > img {
         aspect-ratio: 11.25/12.5;
         width: 11.25rem;
       }
 
       & > [data-video] {
-        aspect-ratio: 15.25/12.5;
-        width: auto;
-
         &::after {
           content: "";
           position: absolute;
@@ -51,9 +45,6 @@
 
         * > {
           height: 19.375rem;
-        }
-
-        & > img {
           width: 17.5rem;
           aspect-ratio: 17.5/19.375;
         }
