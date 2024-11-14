@@ -24,12 +24,12 @@ function FooterNewNote() {
           type="button"
           typeButton="fill-primary"
           label="Стать участником"
-          onClick={() =>
-            dispatchAuthModal({
-              visible: true,
-              type: EnumSign.SignIn,
-            })
-          }
+          onClick={() => {
+            // dispatchAuthModal({
+            //   visible: true,
+            //   type: EnumSign.SignIn,
+            // })
+          }}
         />
       </footer>
     )

@@ -3,7 +3,6 @@ import { Dispatch, type ReactNode, createContext, useCallback, useContext, useEf
 
 import { type INotes } from "@/services/notes/types"
 
-import { Wait } from "@/lib/ex-ids"
 import { useAuth, useBalloonPost } from "@/store"
 import { getPostsComments, type IPostsComment } from "@/services/posts-comments"
 
@@ -28,14 +27,7 @@ function ContextComments({ children }: { children: ReactNode }) {
   const [writeResponse, setWriteResponse] = useState<INotes | null>(null)
   const [noteCurrent, setNoteCurrent] = useState<number | null>(null)
 
-  const { data: dataKeys } = useQuery({
-    queryFn: Wait,
-    queryKey: ["keys-ids--"],
-  })
-
-  const idsIs = dataKeys!?.includes(post?.id!)
-
-  const isBecomeMember = !userId && !post?.archive && idsIs
+  const isBecomeMember = !post?.archive && !!post?.isParticipants && (!userId || (!!userId && userId !== post?.userId))
 
   const { data, isLoading } = useQuery({
     queryFn: () => getPostsComments({ post: post?.id! }),
