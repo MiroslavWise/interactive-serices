@@ -13,10 +13,26 @@
       -ms-overflow-style: none;
       scrollbar-width: none;
 
+      * > {
+        height: 12.5rem;
+      }
+
       & > img {
         aspect-ratio: 11.25/12.5;
-        height: 12.5rem;
         width: 11.25rem;
+      }
+
+      & > [data-video] {
+        aspect-ratio: 15.25/12.5;
+        width: auto;
+
+        &::after {
+          content: "";
+          position: absolute;
+          z-index: 10;
+          inset: 0;
+          background-color: var(--translucent);
+        }
       }
     }
 
@@ -32,9 +48,13 @@
       overscroll-behavior-y: inherit;
       & > div {
         overscroll-behavior-y: inherit;
+
+        * > {
+          height: 19.375rem;
+        }
+
         & > img {
           width: 17.5rem;
-          height: 19.375rem;
           aspect-ratio: 17.5/19.375;
         }
       }

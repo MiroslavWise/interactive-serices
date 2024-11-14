@@ -40,8 +40,9 @@ import UpdatePost from "@/components/templates/Update/Posts"
 import ModalSign from "@/components/templates/ModalSign"
 
 const Modal = dynamic(() => import("@/components/templates/Modal"), { ssr: false })
-const DeleteNote = dynamic(() => import("@/components/templates/DeleteNote"), { ssr: false })
+const VideoModal = dynamic(() => import("@/components/layout/VideoModal"), { ssr: false })
 const CookiesToast = dynamic(() => import("@/components/templates/Cookies"), { ssr: false })
+const DeleteNote = dynamic(() => import("@/components/templates/DeleteNote"), { ssr: false })
 const PhotoCarousel = dynamic(() => import("@/components/layout/PhotoCarousel"), { ssr: false })
 const PublicProfile = dynamic(() => import("@/components/templates/PublicProfile"), { ssr: false })
 const CreateNewCategory = dynamic(() => import("@/components/templates/CreateNewCategory"), { ssr: false })
@@ -70,8 +71,9 @@ function Containers() {
   return (
     <>
       <Modal />
-      <PhotoCarousel />
+      <VideoModal />
       <WelcomeModal />
+      <PhotoCarousel />
       {isAuth === false && (
         <>
           <Intro />

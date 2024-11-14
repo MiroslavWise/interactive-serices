@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
 import { type DispatchWithoutAction, useEffect, useMemo, useRef, useState } from "react"
 
@@ -7,6 +8,7 @@ import DeletePopup from "./DeletePopup"
 import IconLike from "@/components/icons/IconLike"
 import { NextImageMotion } from "@/components/common"
 import IconComment from "@/components/icons/IconComment"
+import IconFile_06 from "@/components/icons/IconFile_06"
 import IconChevronDown from "@/components/icons/IconChevronDown"
 
 import { cx } from "@/lib/cx"
@@ -14,10 +16,9 @@ import { daysAgo } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { useContextPostsComments } from "./ContextComments"
 import { getLikes, getLikeTargetId, postLike } from "@/services"
-import { dispatchPhotoCarousel, useAuth, useBalloonPost } from "@/store"
+import { dispatchPhotoCarousel, dispatchVideoStream, useAuth, useBalloonPost } from "@/store"
 import { IImageData } from "@/types/type"
-import Link from "next/link"
-import IconFile_06 from "@/components/icons/IconFile_06"
+import IconPlayCircle from "@/components/icons/IconPlayCircle"
 
 function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: DispatchWithoutAction }) {
   const { archive } = useBalloonPost(({ data }) => data) ?? {}
@@ -146,16 +147,10 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
     }
 
     for (const item of images) {
-      if (item.attributes.mime.includes("image")) {
+      if (item.attributes.mime.includes("image") || item.attributes.mime.includes("video")) {
         obj.img.push(item)
       } else {
-        obj.file.push({
-          ...item,
-          attributes: {
-            ...item.attributes,
-            url: item.attributes.url.split("?")[0],
-          },
-        })
+        obj.file.push(item)
       }
     }
 
@@ -258,30 +253,58 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
           <IconChevronDown />
         </button>
         <div className="w-full flex flex-row gap-2 overflow-hidden overflow-x-scroll px-4" ref={refImages}>
-          {files.img.map((item) => (
-            <NextImageMotion
-              key={`::${item.id}::photo::post::`}
-              src={item?.attributes?.url!}
-              height={540}
-              width={480}
-              alt={"offer-image"}
-              className="rounded-lg cursor-pointer"
-              onClick={(event) => {
-                event.stopPropagation()
-                const photos = files.img.map((item) => ({
-                  url: item?.attributes?.url!,
-                  id: item?.id,
-                  hash: item?.attributes?.blur,
-                }))
-                dispatchPhotoCarousel({
-                  visible: true,
-                  photos: photos,
-                  idPhoto: item?.id!,
-                })
-              }}
-              hash={item?.attributes?.blur}
-            />
-          ))}
+          {files.img.map((item) => {
+            if (item.attributes.mime.includes("image"))
+              return (
+                <NextImageMotion
+                  key={`::${item.id}::photo::post::`}
+                  src={item?.attributes?.url!}
+                  height={540}
+                  width={480}
+                  alt={"offer-image"}
+                  className="rounded-lg cursor-pointer"
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    const photos = []
+                    for (const item of files.img) {
+                      if (item.attributes.mime.includes("image")) {
+                        photos.push({
+                          url: item?.attributes?.url!,
+                          id: item?.id,
+                          hash: item?.attributes?.blur,
+                        })
+                      }
+                    }
+                    dispatchPhotoCarousel({
+                      visible: true,
+                      photos: photos,
+                      idPhoto: item?.id!,
+                    })
+                  }}
+                  hash={item?.attributes?.blur}
+                />
+              )
+
+            if (item.attributes.mime.includes("video"))
+              return (
+                <div key={`:d:s:a:${item.id}:p:p:`} className="relative rounded-lg overflow-hidden" data-video>
+                  <video className="w-full h-full cursor-pointer">
+                    <source src={item.attributes.url.replace("?format=webp", "")} type={item.attributes.mime} />
+                  </video>
+                  <button
+                    type="button"
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-12 h-12 *:w-12 *:h-12"
+                    onClick={() => {
+                      dispatchVideoStream(item.attributes.url, item.attributes.mime)
+                    }}
+                  >
+                    <IconPlayCircle />
+                  </button>
+                </div>
+              )
+
+            return null
+          })}
         </div>
       </div>
       <div className="w-full flex flex-row flex-nowrap gap-3 mt-1">
