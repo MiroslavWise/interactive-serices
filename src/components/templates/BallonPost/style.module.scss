@@ -13,7 +13,7 @@
       -ms-overflow-style: none;
       scrollbar-width: none;
 
-      * > {
+      & > * {
         height: 12.5rem;
         aspect-ratio: 11.25/12.5;
         width: 11.25rem;
@@ -43,7 +43,7 @@
       & > div {
         overscroll-behavior-y: inherit;
 
-        * > {
+        & > * {
           height: 19.375rem;
           width: 17.5rem;
           aspect-ratio: 17.5/19.375;

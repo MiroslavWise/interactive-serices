@@ -288,7 +288,7 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
             if (item.attributes.mime.includes("video"))
               return (
                 <div key={`:d:s:a:${item.id}:p:p:`} className="relative rounded-lg overflow-hidden" data-video>
-                  <video className="w-full h-full cursor-pointer">
+                  <video className="w-full h-full cursor-pointer object-cover">
                     <source src={item.attributes.url.replace("?format=webp", "")} type={item.attributes.mime} />
                   </video>
                   <button

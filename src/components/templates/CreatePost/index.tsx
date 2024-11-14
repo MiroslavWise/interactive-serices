@@ -307,19 +307,21 @@ function CreatePost() {
                   index: number
                 }[],
                 other: [] as {
+                  name: string
                   str: string
                   index: number
                 }[],
               }
 
-              for (let i = 0; i < field.value.string.length; i++) {
-                if (field.value.string[i].includes("data:image")) {
+              for (let i = 0; i < field.value.file.length; i++) {
+                if (field.value.file[i].type.includes("image")) {
                   _strings.images.push({
                     img: field.value.string[i],
                     index: i,
                   })
                 } else {
                   _strings.other.push({
+                    name: field.value.file[i].name,
                     str: field.value.string[i],
                     index: i,
                   })
@@ -339,7 +341,7 @@ function CreatePost() {
                         <div className="w-6 h-6 p-3 relative *:w-4 *:h-4">
                           <IconFile_06 />
                         </div>
-                        <span className="text-sm font-medium text-text-primary line-clamp-1 text-ellipsis">файл №{item.index + 1}</span>
+                        <span className="text-sm font-medium text-text-primary line-clamp-1 text-ellipsis">{item.name}</span>
                         <button
                           type="button"
                           className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4"

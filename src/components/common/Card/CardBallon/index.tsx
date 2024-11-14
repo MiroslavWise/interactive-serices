@@ -18,6 +18,7 @@ import {
 } from "@/store"
 
 import styles from "./styles/style.module.scss"
+import { useMemo } from "react"
 interface IProps {
   offer: IResponseOffers
   ref?: any
@@ -46,7 +47,17 @@ function CardBallon({ offer, ref, dataIndex }: IProps) {
     dispatchMobileSearchCategoryVisible(false)
   }
 
-  //
+  const replaceImageFiles = useMemo(() => {
+    const array = []
+
+    for (const item of images) {
+      if (item.attributes.mime.includes("image") || item.attributes.mime.includes("video")) {
+        array.push(item)
+      }
+    }
+
+    return array
+  }, [images])
 
   return (
     <article
@@ -89,7 +100,7 @@ function CardBallon({ offer, ref, dataIndex }: IProps) {
         <section className="overflow-hidden w-full">
           <p className="text-text-primary text-sm font-normal line-clamp-4">{description}</p>
         </section>
-        {images?.length ? <ItemImages images={images} /> : null}
+        {replaceImageFiles.length > 0 ? <ItemImages images={replaceImageFiles} /> : null}
         <GeoData offer={offer} />
         <ItemProfile user={user} />
       </section>
