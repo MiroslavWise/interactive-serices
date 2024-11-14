@@ -29,6 +29,7 @@ import { resolverCreatePost, resolverCreatePostMap, type TSchemaCreatePost } fro
 import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
 import IconFile_06 from "@/components/icons/IconFile_06"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import ControlParticipant from "./components/ControlParticipant"
 
 function CreatePost() {
   const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
@@ -63,6 +64,7 @@ function CreatePost() {
         file: [],
         string: [],
       },
+      isParticipants: false,
       address: stateModal === EModalData.CREATE_POST_MAP ? initMapAddress?.additional : "",
       initAddress: stateModal === EModalData.CREATE_POST_MAP ? initMapAddress : undefined,
     },
@@ -79,6 +81,7 @@ function CreatePost() {
       title,
       slug,
       addresses: [],
+      isParticipants: values.isParticipants,
     }
 
     if (help) {
@@ -389,6 +392,7 @@ function CreatePost() {
               )
             }}
           />
+          <ControlParticipant control={control} />
           <footer className="w-full pt-2.5 mt-auto bg-BG-second">
             <Button
               type="submit"

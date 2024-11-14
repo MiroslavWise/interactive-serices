@@ -67,6 +67,7 @@ const schema = z.object({
   addressFeature: addressFeature,
   file,
   help,
+  isParticipants: z.boolean().default(false),
 })
 
 const schemaInitAddress = z.object({
@@ -76,6 +77,7 @@ const schemaInitAddress = z.object({
   initAddress: initAddress,
   file,
   help,
+  isParticipants: z.boolean().default(false),
 })
 
 const extendSchema = schema.merge(schemaInitAddress)

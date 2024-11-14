@@ -11,6 +11,7 @@ export interface IBodyPost {
   addresses: number[]
   archive?: boolean
   urgent?: EnumHelper | ""
+  isParticipants?: boolean
 }
 
 export interface IPosts {
