@@ -1,28 +1,47 @@
 import { type IImageData } from "@/types/type"
 
 import { NextImageMotion } from "@/components/common"
+import { dispatchPhotoCarousel } from "@/store"
 
-function ImageComment({ item }: { item: IImageData }) {
+interface IProps {
+  images: IImageData[]
+}
+
+function ImageComment({ images }: IProps) {
+  if (images.length === 0) return null
+
   return (
-    <div className="group relative h-4 w-4 p-2 rounded-[0.0625rem] *:absolute">
-      <NextImageMotion
-        src={item.attributes.url}
-        alt="offer-image"
-        width={80}
-        height={80}
-        className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-[0.0625rem]"
-        hash={item?.attributes?.blur}
-      />
-      <article className="left-1/2 -translate-x-1/2 -top-0.5 -translate-y-3/4 group-hover:-translate-y-full w-16 h-16 rounded-md overflow-hidden border border-solid border-grey-stroke-light flex opacity-0 -z-10 group-hover:z-20 group-hover:opacity-100 transition-all">
-        <NextImageMotion
-          src={item.attributes.url}
-          alt="offer-image"
-          width={80}
-          height={80}
-          className="w-16 h-16"
-          hash={item?.attributes?.blur}
-        />
-      </article>
+    <div className="w-full flex flex-row items-center gap-1 flex-nowrap">
+      {images.map((item) => (
+        <div
+          className="relative h-12 w-12 p-2 rounded-md overflow-hidden"
+          key={`:d:SD:fA:${item.id}:`}
+          onClick={() => {
+            const photos = []
+            for (const item of images) {
+              photos.push({
+                url: item?.attributes?.url!,
+                id: item?.id,
+                hash: item?.attributes?.blur,
+              })
+            }
+            dispatchPhotoCarousel({
+              visible: true,
+              photos: photos,
+              idPhoto: item?.id!,
+            })
+          }}
+        >
+          <NextImageMotion
+            src={item.attributes.url}
+            alt="offer-image"
+            width={80}
+            height={80}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-12 w-12"
+            hash={item?.attributes?.blur}
+          />
+        </div>
+      ))}
     </div>
   )
 }

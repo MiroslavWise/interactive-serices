@@ -1,8 +1,10 @@
+import { type INotes } from "../notes/types"
+import { type IImageData } from "@/types/type"
+import { type IUserOffer } from "../offers/types"
+import { type IResponse } from "../request/types"
 import { type TTypeStatusComments } from "../comments/types"
-import { INotes } from "../notes/types"
-import { IUserOffer } from "../offers/types"
+
 import { fetchGet, post } from "../request"
-import { IResponse } from "../request/types"
 
 export interface IBodyPostComment {
   parentId?: number
@@ -11,6 +13,7 @@ export interface IBodyPostComment {
   message: string
   status: TTypeStatusComments
   enabled: boolean
+  images?: number[]
 }
 
 export interface IPostsComment {
@@ -23,6 +26,7 @@ export interface IPostsComment {
   created: string
   user: IUserOffer
   note?: INotes
+  images: IImageData[]
 }
 
 interface IQueries {

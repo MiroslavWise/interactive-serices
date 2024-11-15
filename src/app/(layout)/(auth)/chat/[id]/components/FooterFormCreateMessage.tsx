@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
-import { type ChangeEvent, type Dispatch, memo, type RefObject, SetStateAction, useCallback, useEffect, useRef, useState } from "react"
+import { type ChangeEvent, type Dispatch, memo, type RefObject, type SetStateAction, useCallback, useEffect, useRef, useState } from "react"
 
 import { type IMessages } from "../page"
 import { type IResponseThread } from "@/services/threads/types"
@@ -12,6 +12,7 @@ import { EnumProviderThreads, EnumStatusBarter, EnumTypeProvider } from "@/types
 
 import SendingPhotos from "./SendingPhotos"
 import LoadingFooter from "../../components/LoadingFooter"
+import IconPaperClip from "@/components/icons/IconPaperClip"
 
 import { cx } from "@/lib/cx"
 import { useDebounce } from "@/helpers"
@@ -281,7 +282,7 @@ function FooterFormCreateMessage({
               <input
                 type="file"
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 max-w-6 h-6 opacity-0 cursor-pointer z-30 disabled:cursor-no-drop"
-                accept="image/png, image/gif, image/jpeg, image/*, .png, .jpg, .jpeg"
+                accept="image/*"
                 multiple
                 onChange={async (event) => {
                   const dataValues = await handleImageChange(event)
@@ -291,22 +292,7 @@ function FooterFormCreateMessage({
                 }}
                 disabled={disabledBarterCompleted}
               />
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                className="w-5 h-5 pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20"
-              >
-                <path
-                  d="M17.8666 9.2081L10.2082 16.8664C9.27005 17.8046 7.99757 18.3317 6.67075 18.3317C5.34393 18.3317 4.07145 17.8046 3.13325 16.8664C2.19505 15.9282 1.66797 14.6558 1.66797 13.3289C1.66797 12.0021 2.19505 10.7296 3.13325 9.79144L10.7916 2.1331C11.4171 1.50763 12.2654 1.15625 13.1499 1.15625C14.0345 1.15625 14.8828 1.50763 15.5082 2.1331C16.1337 2.75857 16.4851 3.60689 16.4851 4.49144C16.4851 5.37598 16.1337 6.2243 15.5082 6.84977L7.84158 14.5081C7.52885 14.8208 7.10469 14.9965 6.66242 14.9965C6.22014 14.9965 5.79598 14.8208 5.48325 14.5081C5.17051 14.1954 4.99482 13.7712 4.99482 13.3289C4.99482 12.8867 5.17051 12.4625 5.48325 12.1498L12.5582 5.0831"
-                  stroke="var(--element-grey-light)"
-                  className="stroke-element-grey-light"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+              <IconPaperClip />
             </div>
           </div>
         )}
