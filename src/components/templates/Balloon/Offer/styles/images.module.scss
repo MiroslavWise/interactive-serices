@@ -7,6 +7,8 @@
     scroll-behavior: smooth;
     overscroll-behavior-y: none;
     overscroll-behavior-x: contain;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 
     & > * {
       height: 5.625rem;
@@ -27,9 +29,6 @@
         background-color: var(--translucent);
       }
     }
-
-    -ms-overflow-style: none;
-    scrollbar-width: none;
   }
 }
 

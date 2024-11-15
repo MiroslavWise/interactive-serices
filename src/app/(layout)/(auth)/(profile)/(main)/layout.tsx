@@ -1,19 +1,20 @@
-import { cx } from "@/lib/cx"
+import dynamic from "next/dynamic"
+import { type PropsWithChildren } from "react"
 
-// import BannerMainPage from "@/components/content/BannerMainPage"
+const RightHistory = dynamic(() => import("./components/RightHistory"), { ssr: false })
+const AsideLeftProfile = dynamic(() => import("./components/AsideLeftProfile"), { ssr: false })
+
+import { cx } from "@/lib/cx"
 
 import styles from "@/scss/page.module.scss"
 
-type TRoutes = "children" | "left" | "history"
-
-export default ({ children, left, history }: Record<TRoutes, React.ReactNode>) => {
+export default ({ children }: PropsWithChildren) => {
   return (
     <>
-      {/* <BannerMainPage /> */}
       <div className={cx(styles.containerProfile)}>
-        {left}
+        <AsideLeftProfile />
         {children}
-        {history}
+        <RightHistory />
       </div>
     </>
   )
