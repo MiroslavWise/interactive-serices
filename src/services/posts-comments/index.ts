@@ -37,8 +37,10 @@ interface IQueries {
 
 type TPostPostsComment = (body: IBodyPostComment) => Promise<IResponse<{ id: number }>>
 type TGetPostsComments = (query: IQueries) => Promise<IResponse<IPostsComment[]>>
+type TGetPostsCommentId = (id: number) => Promise<IResponse<IPostsComment>>
 
 const url = "/posts-comments"
 
 export const postPostsComment: TPostPostsComment = (body) => post({ url, body })
 export const getPostsComments: TGetPostsComments = (query) => fetchGet({ url, query })
+export const getPostsCommentId: TGetPostsCommentId = (id) => fetchGet({ url: `${url}/${id}` })

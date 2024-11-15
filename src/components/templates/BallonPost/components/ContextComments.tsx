@@ -15,6 +15,7 @@ const defaultDataContext: IContext = {
   onUpdate() {},
   onWriteResponse() {},
   onNoteCurrent() {},
+  onUpdateCurrent() {},
   countCommentNote: () => 0,
 }
 
@@ -38,6 +39,12 @@ function ContextComments({ children }: { children: ReactNode }) {
 
   function onUpdate(value: IPostsComment) {
     setList((_) => [..._, value])
+  }
+
+  function onUpdateCurrent(id: number, value: IPostsComment) {
+    console.log("onUpdateCurrent: id", id)
+    console.log("onUpdateCurrent: value", value)
+    setList((_) => _.map((item) => (item.id === id ? value : item)))
   }
 
   function onWriteResponse(value: INotes | null) {
@@ -68,6 +75,7 @@ function ContextComments({ children }: { children: ReactNode }) {
         noteCurrent,
         onNoteCurrent,
         countCommentNote,
+        onUpdateCurrent,
       }}
     >
       {children}
@@ -88,6 +96,7 @@ interface IContext {
   noteCurrent: number | null
   onUpdate: Dispatch<IPostsComment>
   onNoteCurrent: Dispatch<number | null>
+  onUpdateCurrent: (id: number, value: IPostsComment) => void
   onWriteResponse: Dispatch<INotes | null>
   countCommentNote: (value: number) => number
 }

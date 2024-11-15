@@ -17,14 +17,14 @@ import { dispatchAuthModal, useAuth } from "@/store"
 import { dispatchDelete, handleImageChange } from "../utils/comment"
 import { useContextPostsComments } from "./ContextComments"
 import { MAX_LENGTH_COMMENT, resolver, type TSchema } from "../utils/schema"
-import { type IBodyPostComment, postPostsComment } from "@/services/posts-comments"
+import { getPostsCommentId, type IBodyPostComment, postPostsComment } from "@/services/posts-comments"
 
 function FooterNewComment({ post }: { post: IPosts }) {
   const textRef = useRef<HTMLTextAreaElement>(null)
   const [loading, setLoading] = useState(false)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const user = useAuth(({ user }) => user)
-  const { onUpdate, writeResponse, onWriteResponse } = useContextPostsComments()
+  const { onUpdate, writeResponse, onWriteResponse, onUpdateCurrent } = useContextPostsComments()
   const [errorPost, setErrorPost] = useState(false)
   const { on } = useToast()
 
@@ -57,8 +57,11 @@ function FooterNewComment({ post }: { post: IPosts }) {
 
       const miniUser = getMiniUser(user!)
 
+      const ID_UPDATE = Math.random()
+      clg("onUpdate: ID_UPDATE", ID_UPDATE)
+
       onUpdate({
-        id: Math.random(),
+        id: ID_UPDATE,
         userId: userId!,
         postId: post.id,
         noteId: writeResponse?.id ?? undefined,
@@ -96,7 +99,6 @@ function FooterNewComment({ post }: { post: IPosts }) {
       }
 
       const response = await postPostsComment(body)
-      clg("response: postPostsComment", response, "warning")
       if (response?.data) {
         onWriteResponse(null)
         resetField("comment")
@@ -108,6 +110,14 @@ function FooterNewComment({ post }: { post: IPosts }) {
       } else {
         setErrorPost(true)
         on({ message: "Извините, ваш комментарий не был отправлен. У нас какие-то проблемы, мы разбираемся" })
+      }
+      const id = response.data?.id
+      if (id && images.length > 0) {
+        const responseID = await getPostsCommentId(id!)
+        if (responseID?.data) {
+          clg("onUpdateCurrent ID_UPDATE: ", ID_UPDATE)
+          onUpdateCurrent(ID_UPDATE, responseID?.data!)
+        }
       }
       setLoading(false)
     }
