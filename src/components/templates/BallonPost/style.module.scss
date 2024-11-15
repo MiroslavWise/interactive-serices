@@ -20,6 +20,8 @@
       }
 
       & > [data-video] {
+        padding-inline: 5.625rem;
+        
         &::after {
           content: "";
           position: absolute;
@@ -47,6 +49,10 @@
           height: 19.375rem;
           width: 17.5rem;
           aspect-ratio: 17.5/19.375;
+        }
+
+        & > [data-video] {
+          padding-inline: 8.75rem;
         }
       }
     }

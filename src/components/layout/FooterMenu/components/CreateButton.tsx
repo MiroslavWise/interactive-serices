@@ -2,13 +2,14 @@ import IconPlus from "@/components/icons/IconPlus"
 
 import { cx } from "@/lib/cx"
 import { useSign } from "../hooks/useSign"
-import { dispatchNewServicesBanner, useAuth } from "@/store"
+import { dispatchNewServicesBanner, EModalData, useAuth, useModal } from "@/store"
 
 const TITLE = "Создать"
 
 export const CreateButton = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
   const handleAuthModal = useSign()
+  const isCreateModal = useModal(({ data }) => data === EModalData.NewServicesBanner)
 
   return (
     <a
@@ -33,7 +34,8 @@ export const CreateButton = () => {
         <div
           className={cx(
             "relative w-5 h-6 rounded-full flex items-center justify-center p-3 bg-BG-filter",
-            "*:absolute *:top-1/2 *:left-1/2 *:w-3.5 *:h-3.5 *:-translate-x-1/2 *:-translate-y-1/2 [&>svg>path]:fill-text-button",
+            "[&>svg>path]:fill-text-button *:transition-transform *:duration-200",
+            isCreateModal ? "*:rotate-180" : "*:rotate-0",
           )}
           id="id-create-menu-footer"
         >

@@ -17,6 +17,8 @@
     }
 
     & > [data-video] {
+      padding-inline: 2.5rem;
+
       &::after {
         content: "";
         position: absolute;
