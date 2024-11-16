@@ -6,6 +6,7 @@ export enum EnumTypeProvider {
   barter = "barter",
   threads = "threads",
   POST = "post",
+  POST_COMMENT = "post-commentaries",
   NOTE = "note",
   TESTIMONIAL = "testimonial",
 }

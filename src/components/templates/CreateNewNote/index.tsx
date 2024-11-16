@@ -176,8 +176,8 @@ function CreateNewNote() {
 
               return (
                 <fieldset className="!gap-4">
-                  <label htmlFor={field.name}>Фото</label>
-                  <p className="-mt-3 text-text-disabled text-sm font-normal">Добавьте к записи фото, постер или афишу</p>
+                  <label htmlFor={field.name}>Фото или видео</label>
+                  <p className="-mt-3 text-text-disabled text-sm font-normal">Добавьте к посту фото, видео или постер</p>
                   <div className={cx("w-full flex flex-col gap-2", _strings.other.length > 0 ? "flex" : "hidden")}>
                     {_strings.other.map((item) => (
                       <article
@@ -233,8 +233,8 @@ function CreateNewNote() {
                       </div>
                     ) : null}
                   </div>
-                  <i className="!text-text-disabled !-mt-3">Максимальный размер фото - 10 МБ</i>
-                  <i className="!text-text-disabled !-mt-3">Не более 9 изображений</i>
+                  <i className="!text-text-disabled !-mt-3">Максимальный размер фото - 10 Мб, видео - 50 Мб</i>
+                  <i className="!text-text-disabled !-mt-3">Не более 9 файлов</i>
                 </fieldset>
               )
             }}

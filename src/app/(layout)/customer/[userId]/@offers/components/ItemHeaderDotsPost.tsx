@@ -8,9 +8,8 @@ import IconComplaint from "@/components/icons/IconComplaint"
 import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
-import env from "@/config/environment"
 import { useOutsideClickEvent } from "@/helpers"
-import { useToast } from "@/helpers/hooks/useToast"
+import { useNavigator } from "@/helpers/hooks/use-navigator"
 import { dispatchMapCoordinates, dispatchUpdatePost, useAuth } from "@/store"
 
 interface IProps {
@@ -24,9 +23,13 @@ const TITLE_SHARE = "Поделиться"
 
 function ItemHeaderDotsPost({ post }: IProps) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { slug, id, addresses, title, userId: userIdPost, archive } = post ?? {}
+  const { id, addresses, title, userId: userIdPost, archive } = post ?? {}
   const [open, setOpen, ref] = useOutsideClickEvent()
-  const { onSimpleMessage } = useToast()
+
+  const onShare = useNavigator({
+    url: `/post/${id}`,
+    title: title ?? "",
+  })
 
   const geoData = addresses[0] ?? {}
 
@@ -105,25 +108,7 @@ function ItemHeaderDotsPost({ post }: IProps) {
           </div>
           <span>{TITLE_TO_MAP}</span>
         </Link>
-        <a
-          title={TITLE_SHARE}
-          aria-label={TITLE_SHARE}
-          aria-labelledby={TITLE_SHARE}
-          onClick={(event) => {
-            const url = `${env.server.host}/post/${id}`
-            if (!!window.navigator.share!) {
-              navigator.share({
-                title: title!,
-                text: geoData?.additional! ?? `${title}`,
-                url: url,
-              })
-            } else {
-              navigator.clipboard.writeText(url)
-              onSimpleMessage("Ссылка скопирована")
-            }
-            event.stopPropagation()
-          }}
-        >
+        <a title={TITLE_SHARE} aria-label={TITLE_SHARE} aria-labelledby={TITLE_SHARE} onClick={onShare}>
           <div
             className={cx(
               "w-5 h-5 flex items-center justify-center relative p-2.5",

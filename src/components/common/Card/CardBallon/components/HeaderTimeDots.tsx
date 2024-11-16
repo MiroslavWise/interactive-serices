@@ -7,17 +7,20 @@ import IconComplaint from "@/components/icons/IconComplaint"
 import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
-import env from "@/config/environment"
-import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchComplaintModalOffer } from "@/store"
 import { daysAgo, useOutsideClickEvent } from "@/helpers"
+import { useNavigator } from "@/helpers/hooks/use-navigator"
 
 const TITLE_SHARE = "Поделиться"
 const TITLE_COMPLAINT = "Пожаловаться"
 
 function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
   const [visible, setVisible, ref] = useOutsideClickEvent()
-  const { onSimpleMessage } = useToast()
+
+  const onShare = useNavigator({
+    url: `/offer/${offer.id}/${offer.slug ? String(offer.slug).replaceAll("/", "-") : ""}`,
+    title: offer.title! ?? "",
+  })
 
   return (
     <div data-time-dots className="w-full h-auto flex items-center justify-between">
@@ -49,25 +52,7 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
             visible ? "opacity-100 visible -z-10" : "opacity-0 invisible z-[120]",
           )}
         >
-          <a
-            title={TITLE_SHARE}
-            aria-label={TITLE_SHARE}
-            aria-labelledby={TITLE_SHARE}
-            onClick={(event) => {
-              const url = `${env.server.host}/offer/${offer.id}/${offer.slug ? String(offer.slug).replaceAll("/", "-") : ""}`
-              if (!!window.navigator.share!) {
-                navigator.share({
-                  title: offer.title!,
-                  text: offer?.addresses[0] ? offer.addresses[0]?.additional! : "",
-                  url: url,
-                })
-              } else {
-                navigator.clipboard.writeText(url)
-                onSimpleMessage("Ссылка скопирована")
-              }
-              event.stopPropagation()
-            }}
-          >
+          <a title={TITLE_SHARE} aria-label={TITLE_SHARE} aria-labelledby={TITLE_SHARE} onClick={onShare}>
             <div>
               <IconShare />
             </div>

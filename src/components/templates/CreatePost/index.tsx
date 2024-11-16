@@ -29,6 +29,7 @@ import { resolverCreatePost, resolverCreatePostMap, type TSchemaCreatePost } fro
 import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
 import IconFile_06 from "@/components/icons/IconFile_06"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import ControlParticipant from "./components/ControlParticipant"
 
 function CreatePost() {
   const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
@@ -63,6 +64,7 @@ function CreatePost() {
         file: [],
         string: [],
       },
+      isParticipants: false,
       address: stateModal === EModalData.CREATE_POST_MAP ? initMapAddress?.additional : "",
       initAddress: stateModal === EModalData.CREATE_POST_MAP ? initMapAddress : undefined,
     },
@@ -79,6 +81,7 @@ function CreatePost() {
       title,
       slug,
       addresses: [],
+      isParticipants: values.isParticipants,
     }
 
     if (help) {
@@ -254,7 +257,7 @@ function CreatePost() {
                   {...field}
                   onChange={(event) => field.onChange(event.target.value.replace(/\s{2,}/g, " "))}
                   type="text"
-                  placeholder="Например, спортивный турнир или рок-фестиваль"
+                  placeholder="Например, мастер-класс или фото природы"
                   data-error={!!error}
                   className="font-normal"
                 />
@@ -304,19 +307,21 @@ function CreatePost() {
                   index: number
                 }[],
                 other: [] as {
+                  name: string
                   str: string
                   index: number
                 }[],
               }
 
-              for (let i = 0; i < field.value.string.length; i++) {
-                if (field.value.string[i].includes("data:image")) {
+              for (let i = 0; i < field.value.file.length; i++) {
+                if (field.value.file[i].type.includes("image")) {
                   _strings.images.push({
                     img: field.value.string[i],
                     index: i,
                   })
                 } else {
                   _strings.other.push({
+                    name: field.value.file[i].name,
                     str: field.value.string[i],
                     index: i,
                   })
@@ -325,8 +330,8 @@ function CreatePost() {
 
               return (
                 <fieldset className="!gap-4">
-                  <label htmlFor={field.name}>Фото</label>
-                  <p className="-mt-3 text-text-disabled text-sm font-normal">Добавьте к посту фото, постер или афишу</p>
+                  <label htmlFor={field.name}>Фото или видео</label>
+                  <p className="-mt-3 text-text-disabled text-sm font-normal">Добавьте к посту фото, видео или постер</p>
                   <div className={cx("w-full flex flex-col gap-2", _strings.other.length > 0 ? "flex" : "hidden")}>
                     {_strings.other.map((item) => (
                       <article
@@ -336,7 +341,7 @@ function CreatePost() {
                         <div className="w-6 h-6 p-3 relative *:w-4 *:h-4">
                           <IconFile_06 />
                         </div>
-                        <span className="text-sm font-medium text-text-primary line-clamp-1 text-ellipsis">файл №{item.index + 1}</span>
+                        <span className="text-sm font-medium text-text-primary line-clamp-1 text-ellipsis">{item.name}</span>
                         <button
                           type="button"
                           className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4"
@@ -383,12 +388,13 @@ function CreatePost() {
                       </div>
                     ) : null}
                   </div>
-                  <i className="!text-text-disabled !-mt-3">Максимальный размер фото - 10 МБ</i>
-                  <i className="!text-text-disabled !-mt-3">Не более 9 изображений</i>
+                  <i className="!text-text-disabled !-mt-3">Максимальный размер фото - 10 Мб, видео - 50 Мб</i>
+                  <i className="!text-text-disabled !-mt-3">Не более 9 файлов</i>
                 </fieldset>
               )
             }}
           />
+          <ControlParticipant control={control} />
           <footer className="w-full pt-2.5 mt-auto bg-BG-second">
             <Button
               type="submit"

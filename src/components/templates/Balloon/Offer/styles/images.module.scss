@@ -7,8 +7,10 @@
     scroll-behavior: smooth;
     overscroll-behavior-y: none;
     overscroll-behavior-x: contain;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 
-    & > img {
+    & > * {
       height: 5.625rem;
       width: 5rem;
       aspect-ratio: 80/90;
@@ -16,9 +18,17 @@
       cursor: pointer;
     }
 
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    & > [data-video] {
+      padding-inline: 2.5rem;
 
+      &::after {
+        content: "";
+        position: absolute;
+        z-index: 10;
+        inset: 0;
+        background-color: var(--translucent);
+      }
+    }
   }
 }
 

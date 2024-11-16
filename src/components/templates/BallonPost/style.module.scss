@@ -13,10 +13,22 @@
       -ms-overflow-style: none;
       scrollbar-width: none;
 
-      & > img {
-        aspect-ratio: 11.25/12.5;
+      & > * {
         height: 12.5rem;
+        aspect-ratio: 11.25/12.5;
         width: 11.25rem;
+      }
+
+      & > [data-video] {
+        padding-inline: 5.625rem;
+        
+        &::after {
+          content: "";
+          position: absolute;
+          z-index: 10;
+          inset: 0;
+          background-color: var(--translucent);
+        }
       }
     }
 
@@ -32,10 +44,15 @@
       overscroll-behavior-y: inherit;
       & > div {
         overscroll-behavior-y: inherit;
-        & > img {
-          width: 17.5rem;
+
+        & > * {
           height: 19.375rem;
+          width: 17.5rem;
           aspect-ratio: 17.5/19.375;
+        }
+
+        & > [data-video] {
+          padding-inline: 8.75rem;
         }
       }
     }

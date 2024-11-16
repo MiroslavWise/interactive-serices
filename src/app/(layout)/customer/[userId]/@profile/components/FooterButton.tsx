@@ -8,10 +8,20 @@ import { cx } from "@/lib/cx"
 import env from "@/config/environment"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchComplaintModalUser } from "@/store"
+import { useNavigator } from "@/helpers/hooks/use-navigator"
 
 function FooterButton({ user }: { user: IUserResponse }) {
   const { profile, id } = user ?? {}
   const { onSimpleMessage } = useToast()
+
+  const linkUser =
+    `/user/${id}` +
+    (profile?.username && !profile?.username.includes(`$`) && !profile?.username.includes("/") ? `/${profile?.username}` : "")
+
+  const onShare = useNavigator({
+    url: linkUser,
+    title: user?.profile?.firstName ?? "Имя",
+  })
 
   function onComplaint() {
     dispatchComplaintModalUser({
@@ -35,22 +45,7 @@ function FooterButton({ user }: { user: IUserResponse }) {
         typeButton="regular-primary"
         label="Поделиться"
         className="bg-btn-second-default !h-9 py-1.5 px-4 [&>span]:text-sm !rounded-[1.125rem]"
-        onClick={() => {
-          const linkUser =
-            `/user/${id}` +
-            (profile?.username && !profile?.username.includes(`$`) && !profile?.username.includes("/") ? `/${profile?.username}` : "")
-          const url = `${env.server.host}${linkUser}`
-          if (!!window.navigator.share!) {
-            navigator.share({
-              title: `${profile?.firstName || "Имя"} ${profile?.lastName || ""}`,
-              text: profile?.about || "",
-              url: url,
-            })
-          } else {
-            navigator.clipboard.writeText(url)
-            onSimpleMessage("Ссылка скопирована")
-          }
-        }}
+        onClick={onShare}
       />
       <button
         className="aspect-square relative w-9 h-9 p-2 flex items-center justify-center border-none outline-none bg-btn-second-default rounded-[1.125rem] [&>article]:hover:!opacity-100 [&>article]:hover:!visible"

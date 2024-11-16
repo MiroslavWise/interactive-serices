@@ -3,6 +3,7 @@
 import { memo, useMemo } from "react"
 
 import { EnumProviderThreads } from "@/types/enum"
+import { type IResponseThreads } from "@/services/threads/types"
 
 import LoadingItem from "./LoadingItem"
 import ItemMessageChat from "./ItemMessageChat"
@@ -10,7 +11,6 @@ import ItemMessageChat from "./ItemMessageChat"
 import { cx } from "@/lib/cx"
 import { useSelectChat } from "@/store"
 import { getMillisecond, useCountMessagesNotReading } from "@/helpers"
-import { IResponseThreads } from "@/services/threads/types"
 
 function ListMessages() {
   const select = useSelectChat(({ select }) => select)
@@ -30,8 +30,8 @@ function ListMessages() {
       }
     }
     ITEMS.sort((prev, next) => {
-      const prevNumber = prev.messages?.[0]?.created! ? getMillisecond(prev.messages?.[0]?.created!) : getMillisecond(prev?.created!)
-      const nextNumber = next.messages?.[0]?.created! ? getMillisecond(next.messages?.[0]?.created!) : getMillisecond(next?.created!)
+      const prevNumber = prev.messages?.length > 0 ? getMillisecond(prev.messages?.[0]?.created!) : getMillisecond(prev?.created!)
+      const nextNumber = next.messages?.length > 0 ? getMillisecond(next.messages?.[0]?.created!) : getMillisecond(next?.created!)
       return nextNumber - prevNumber
     })
 

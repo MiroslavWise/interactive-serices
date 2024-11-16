@@ -11,18 +11,16 @@ import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
-import env from "@/config/environment"
 import { useOutsideClickEvent } from "@/helpers"
-import { useToast } from "@/helpers/hooks/useToast"
+import { useNavigator } from "@/helpers/hooks/use-navigator"
 import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchMapCoordinates } from "@/store"
 
 const TITLE_SHARE = "Поделиться"
 const TITLE_TO_MAP = "Показать на карте"
 
 function ItemTitle({ offer }: { offer: IResponseOffers }) {
-  const { title, category, provider, categoryId } = offer ?? {}
+  const { title, category, provider, categoryId, urgent } = offer ?? {}
   const [open, setOpen, ref] = useOutsideClickEvent(close)
-  const { onSimpleMessage } = useToast()
 
   const titleH2 =
     provider === EnumTypeProvider.alert
@@ -35,11 +33,16 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
 
   const geoData = offer?.addresses?.length > 0 ? offer?.addresses[0] : null
 
+  const onShare = useNavigator({
+    url: `/offer/${offer.id}/${offer.slug ? String(offer.slug).replaceAll("/", "-") : ""}`,
+    title: titleH2! ?? "",
+  })
+
   return (
     <section className="w-full gap-2.5 grid grid-cols-[1.5rem_minmax(0,1fr)_1.5rem]">
       <div className="relative w-6 h-6 p-3 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:h-6 *:w-6">
         {provider === EnumTypeProvider.offer ? (
-          <ImageCategory id={categoryId!} slug={category?.slug} provider={category?.provider} />
+          <ImageCategory id={categoryId!} slug={category?.slug} provider={category?.provider} isUrgent={!!urgent} />
         ) : provider === EnumTypeProvider.discussion ? (
           <IconDiscussionBalloon />
         ) : provider === EnumTypeProvider.alert ? (
@@ -103,25 +106,7 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
             </div>
             <span>{TITLE_TO_MAP}</span>
           </Link>
-          <a
-            title={TITLE_SHARE}
-            aria-label={TITLE_SHARE}
-            aria-labelledby={TITLE_SHARE}
-            onClick={(event) => {
-              const url = `${env.server.host}/offer/${offer.id}/${offer.slug ? String(offer.slug).replaceAll("/", "-") : ""}`
-              if (!!window.navigator.share!) {
-                navigator.share({
-                  title: offer.title!,
-                  text: offer?.addresses[0] ? offer.addresses[0]?.additional! : "",
-                  url: url,
-                })
-              } else {
-                navigator.clipboard.writeText(url)
-                onSimpleMessage("Ссылка скопирована")
-              }
-              event.stopPropagation()
-            }}
-          >
+          <a title={TITLE_SHARE} aria-label={TITLE_SHARE} aria-labelledby={TITLE_SHARE} onClick={onShare}>
             <div>
               <IconShare />
             </div>

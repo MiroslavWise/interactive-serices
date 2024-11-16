@@ -66,7 +66,7 @@ export const OffersMy = memo(({ loading }: IProps) => {
                 <span>{categoryMyOffer(item.categoryId!)?.title || ""}</span>
               </div>
               <p>{item.title}</p>
-              {item?.images?.length > 0 ? <ItemImages images={item?.images} notTouch /> : null}
+              {item?.images?.length > 0 ? <ItemImages images={item?.images} /> : null}
             </a>
           ))
         : null}

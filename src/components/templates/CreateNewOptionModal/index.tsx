@@ -11,7 +11,6 @@ import { type IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import { type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
 import ControlHelp from "./components/ControlHelp"
-import CurrentImage from "./components/CurrentImage"
 import { Button, WalletPay } from "@/components/common"
 import { ArticleOnboarding } from "@/components/templates"
 import { IconXClose } from "@/components/icons/IconXClose"
@@ -44,17 +43,9 @@ import {
   resolverOffer,
   resolverOfferMap,
 } from "./utils/create.schema"
+import { headerTitle, placeholderDescription, titleContent, description, titlePlaceholderContent } from "./constants/titles"
 import { getUserIdOffers, patchOffer, postOffer, fileUploadService, getGeocodeSearch, getOffersCategories, postAddress } from "@/services"
-import {
-  descriptionImages,
-  headerTitle,
-  placeholderDescription,
-  titleContent,
-  description,
-  titlePlaceholderContent,
-} from "./constants/titles"
-
-const sleep = () => new Promise((r) => setTimeout(r, 50))
+import ControlFileAppend from "./components/ControlFileAppend"
 
 export default function CreateNewOptionModal() {
   const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
@@ -67,12 +58,12 @@ export default function CreateNewOptionModal() {
   const visible = useOnboarding(({ visible }) => visible)
   const typeAdd = useAddCreateModal(({ typeAdd }) => typeAdd)
   const { refetch: refetchDataMap } = useMapOffers()
-  const { on } = useToast()
   const { data: c } = useQuery({
     queryFn: () => getOffersCategories(),
     queryKey: ["categories"],
+    select: (data) => data?.data || [],
   })
-  const categories = c?.data || []
+  const categories = c ?? []
   const stateModal = useModal(({ data }) => data)
   const initMapAddress = useNewServicesBannerMap(({ addressInit }) => addressInit)
 
@@ -125,17 +116,6 @@ export default function CreateNewOptionModal() {
         : resolverOfferMap
       : undefined,
   })
-
-  const onProgress = (files: File[], index: number): number => {
-    const file = files[index]
-    const name = file?.name
-
-    if (Object.hasOwn(progress, name)) {
-      return (progress[name].loaded / (progress[name].total! || 1)) * 100
-    }
-
-    return 0
-  }
 
   useEffect(() => {
     function onUnLoad(event: any) {
@@ -232,12 +212,7 @@ export default function CreateNewOptionModal() {
     if (typeAdd === EnumTypeProvider.offer && values?.categoryId) {
       const title = categories.find((_) => _.id === values.categoryId)?.title
       data.slug = transliterateAndReplace(title || description.slice(0, 144)).slice(0, 254)
-
-      if (title) {
-        data.title = title.slice(0, 143)
-      } else {
-        data.title = description.slice(0, 144)
-      }
+      data.title = (title || description.slice(0, 144)).slice(0, 143)
     }
 
     if (values?.categoryId) {
@@ -297,55 +272,6 @@ export default function CreateNewOptionModal() {
   }, [valuesAddresses])
 
   const onSubmit = handleSubmit(submit)
-
-  async function handleImageChange(
-    current: {
-      file: File[]
-      string: string[]
-    },
-    event: ChangeEvent<HTMLInputElement>,
-  ) {
-    const files = event.target.files
-
-    let filesReady = {
-      file: [...current.file] as File[],
-      string: [...current.string] as string[],
-    }
-
-    if (files) {
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i]
-
-        if (file) {
-          if (file.size < 9.9 * 1024 * 1024) {
-            const is = current.file.some((_) => _.size === file.size && _.name === file.name)
-
-            if (is) {
-              on({ message: "Вы можете прикрепить одну копию одного изображения" })
-              continue
-            }
-
-            const reader = new FileReader()
-            reader.readAsDataURL(file)
-            reader.onload = function (f) {
-              filesReady = {
-                ...filesReady,
-                file: [...filesReady.file, file],
-                string: [...filesReady.string, f!.target!.result as string],
-              }
-            }
-          }
-        }
-      }
-    }
-
-    await sleep()
-
-    return Promise.resolve({
-      file: filesReady.file.splice(0, 9),
-      string: filesReady.string.splice(0, 9),
-    })
-  }
 
   function handleClose() {
     if (!visible) {
@@ -502,50 +428,7 @@ export default function CreateNewOptionModal() {
           />
           <ControlHelp control={control} />
           {visible && step === 3 && <ArticleOnboarding />}
-          <Controller
-            name="file"
-            control={control}
-            render={({ field }) => (
-              <fieldset
-                data-photos
-                id="fieldset-create-option-modal-photos"
-                data-disabled={visible && step !== 3}
-                data-test="fieldset-create-new-option-images"
-              >
-                <label htmlFor={field.name}>Фото или видео</label>
-                <p>{descriptionImages(typeAdd!)}</p>
-                <div data-images data-focus={visible && step === 4}>
-                  {field.value.string.map((item, index) => (
-                    <CurrentImage
-                      key={`${index}-image`}
-                      item={item}
-                      index={index}
-                      //@ts-ignore
-                      field={field}
-                      progress={!loading ? null : onProgress(field.value.file, index)}
-                    />
-                  ))}
-                  {field.value.string.length < 9 ? (
-                    <div data-image data-input-plus>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={async (event) => {
-                          const dataValues = await handleImageChange(field.value, event)
-                          field.onChange(dataValues)
-                          event.target.value = ""
-                        }}
-                        disabled={visible && step !== 4}
-                        multiple
-                      />
-                    </div>
-                  ) : null}
-                </div>
-                <i>Максимальный размер фото - 10 МБ</i>
-                <i>Не более 9 изображений</i>
-              </fieldset>
-            )}
-          />
+          <ControlFileAppend control={control} visible={visible} step={step} loading={loading} typeAdd={typeAdd!} progress={progress} />
           {visible && [4, 5].includes(step) && <ArticleOnboarding />}
           {typeAdd === "offer" && !watch("help") ? <WalletPay /> : null}
           <div data-footer>

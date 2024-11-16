@@ -5,9 +5,8 @@ import IconComplaint from "@/components/icons/IconComplaint"
 import IconDotsHorizontal from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
-import env from "@/config/environment"
-import { useToast } from "@/helpers/hooks/useToast"
 import { daysAgo, useOutsideClickEvent } from "@/helpers"
+import { useNavigator } from "@/helpers/hooks/use-navigator"
 import { dispatchComplaintModalPost, dispatchUpdatePost, useAuth } from "@/store"
 
 const TITLE_UPDATE = "Редактировать"
@@ -20,9 +19,13 @@ interface IProps {
 
 function ComponentDots({ post }: IProps) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { created, id, slug, addresses, title, userId: userIdPost, archive } = post ?? {}
+  const { created, id, title, userId: userIdPost, archive } = post ?? {}
   const [visible, setVisible, ref] = useOutsideClickEvent()
-  const { onSimpleMessage } = useToast()
+
+  const onShare = useNavigator({
+    url: `/post/${id}`,
+    title: title! ?? "",
+  })
 
   return (
     <div data-time-dots className="w-full h-auto flex items-center justify-between relative">
@@ -93,25 +96,7 @@ function ComponentDots({ post }: IProps) {
             </div>
             <span>{TITLE_UPDATE}</span>
           </a>
-          <a
-            title={TITLE_SHARE}
-            aria-label={TITLE_SHARE}
-            aria-labelledby={TITLE_SHARE}
-            onClick={(event) => {
-              const url = `${env.server.host}/post/${id}`
-              if (!!window.navigator.share!) {
-                navigator.share({
-                  title: title!,
-                  text: addresses[0] ? addresses[0]?.additional! : title,
-                  url: url,
-                })
-              } else {
-                navigator.clipboard.writeText(url)
-                onSimpleMessage("Ссылка скопирована")
-              }
-              event.stopPropagation()
-            }}
-          >
+          <a title={TITLE_SHARE} aria-label={TITLE_SHARE} aria-labelledby={TITLE_SHARE} onClick={onShare}>
             <div>
               <IconShare />
             </div>

@@ -7,13 +7,15 @@ import { EnumSign } from "@/types/enum"
 import { Button } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { dispatchAuthModal, dispatchDownloadApplication, dispatchNewServicesBanner, useAuth } from "@/store"
+import { dispatchAuthModal, dispatchDownloadApplication, dispatchNewServicesBanner, EModalData, useAuth, useModal } from "@/store"
 
 import styles from "../styles/button-download-app.module.scss"
+import IconPlus from "@/components/icons/IconPlus"
 
 export const Buttons = () => {
   const isAuth = useAuth(({ isAuth }) => isAuth)
   const pathname = usePathname()
+  const isCreateModal = useModal(({ data }) => data === EModalData.NewServicesBanner)
 
   if (pathname.includes("/legal/")) return null
 
@@ -26,7 +28,6 @@ export const Buttons = () => {
     <div className="relative flex flex-row gap-3">
       {isAuth ? (
         <>
-          {/* <Button type="button" label="Создать офферы" typeButton="white" onClick={() => createMoreAddress(userId!)} /> */}
           <Button
             type="button"
             label="Скачать приложение"
@@ -39,7 +40,16 @@ export const Buttons = () => {
             label="Создать"
             typeButton="fill-primary"
             className="min-w-[8.875rem]"
-            suffixIcon={<img src="/svg/plus.svg" alt="plus" width={24} height={24} />}
+            suffixIcon={
+              <div
+                className={cx(
+                  "relative w-6 h-6 *:w-6 :h-6 [&>svg>path]:fill-text-button *:transition-transform *:duration-200",
+                  isCreateModal ? "*:rotate-180" : "*:rotate-0",
+                )}
+              >
+                <IconPlus />
+              </div>
+            }
             style={{ width: "100%" }}
             onClick={dispatchNewServicesBanner}
             data-test="nav-bar-button-create"

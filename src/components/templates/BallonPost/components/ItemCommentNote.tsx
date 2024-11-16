@@ -1,7 +1,9 @@
 import { type Dispatch } from "react"
+
 import { type INotes } from "@/services/notes/types"
 
-import ImageComment from "./ImageComment"
+import ImageNoteComment from "./ImageNoteComment"
+
 import { useContextPostsComments } from "./ContextComments"
 
 function ItemCommentNote({ note, handleToNote }: { note?: INotes; handleToNote: Dispatch<number> }) {
@@ -29,7 +31,7 @@ function ItemCommentNote({ note, handleToNote }: { note?: INotes; handleToNote: 
       <span className="text-text-secondary text-xs font-normal">Запись: Фотографии</span>
       <article className="flex flex-row flex-nowrap gap-0.5">
         {images.map((item) => (
-          <ImageComment key={`:key:img:${item.id}:`} item={item} />
+          <ImageNoteComment key={`:key:img:${item.id}:`} item={item} />
         ))}
       </article>
     </div>

@@ -13,6 +13,7 @@ import CardBallon from "@/components/common/Card/CardBallon"
 import { cx } from "@/lib/cx"
 import { SERVICES } from "@/components/content/BannerServices/constants"
 import { dispatchHasBalloon, useFiltersServices, useHasBalloons } from "@/store"
+import { getMillisecond } from "@/helpers"
 
 const onTitle = (value: EnumTypeProvider | "all") => SERVICES.find((_) => _.value === value)!.label!
 
@@ -43,15 +44,24 @@ export const HasClustererBalloons = memo(() => {
     }
   }, [visibleHasBalloon])
 
+  useEffect(() => close, [])
+
   const allItems = items as (IResponseOffers & { type: EnumTypeProvider })[] & (IPosts & { type: EnumTypeProvider })[]
 
   const mapping = useMemo(() => {
-    return allItems.map((item) => {
-      if (item.type === EnumTypeProvider.POST) return <CardPost key={`ket:post:has:${item.id}`} post={item as unknown as IPosts} />
-      if ([EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(item.type))
-        return <CardBallon key={`ket:${item.type}:has:${item.id}`} offer={item as unknown as IResponseOffers} />
-      return null
-    })
+    return allItems
+      .sort((prev, next) => {
+        const prevNumber = getMillisecond(prev?.created)
+        const nextNumber = getMillisecond(next?.created)
+
+        return nextNumber - prevNumber
+      })
+      .map((item) => {
+        if (item.type === EnumTypeProvider.POST) return <CardPost key={`ket:post:has:${item.id}`} post={item as unknown as IPosts} />
+        if ([EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(item.type))
+          return <CardBallon key={`ket:${item.type}:has:${item.id}`} offer={item as unknown as IResponseOffers} />
+        return null
+      })
   }, [allItems])
 
   return (
@@ -77,3 +87,5 @@ export const HasClustererBalloons = memo(() => {
     </div>
   )
 })
+
+export default HasClustererBalloons

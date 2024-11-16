@@ -1,8 +1,10 @@
+import { type INotes } from "../notes/types"
+import { type IImageData } from "@/types/type"
+import { type IUserOffer } from "../offers/types"
+import { type IResponse } from "../request/types"
 import { type TTypeStatusComments } from "../comments/types"
-import { INotes } from "../notes/types"
-import { IUserOffer } from "../offers/types"
+
 import { fetchGet, post } from "../request"
-import { IResponse } from "../request/types"
 
 export interface IBodyPostComment {
   parentId?: number
@@ -11,6 +13,7 @@ export interface IBodyPostComment {
   message: string
   status: TTypeStatusComments
   enabled: boolean
+  images?: number[]
 }
 
 export interface IPostsComment {
@@ -23,6 +26,7 @@ export interface IPostsComment {
   created: string
   user: IUserOffer
   note?: INotes
+  images: IImageData[]
 }
 
 interface IQueries {
@@ -33,8 +37,10 @@ interface IQueries {
 
 type TPostPostsComment = (body: IBodyPostComment) => Promise<IResponse<{ id: number }>>
 type TGetPostsComments = (query: IQueries) => Promise<IResponse<IPostsComment[]>>
+type TGetPostsCommentId = (id: number) => Promise<IResponse<IPostsComment>>
 
 const url = "/posts-comments"
 
 export const postPostsComment: TPostPostsComment = (body) => post({ url, body })
 export const getPostsComments: TGetPostsComments = (query) => fetchGet({ url, query })
+export const getPostsCommentId: TGetPostsCommentId = (id) => fetchGet({ url: `${url}/${id}` })

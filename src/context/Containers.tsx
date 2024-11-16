@@ -7,7 +7,6 @@ import {
   WelcomeModal,
   AboutSheiraPopup,
   NotificationsMobile,
-  HasClustererBalloons,
   MobileFiltersMap,
   Onboarding,
   ReasonBarters,
@@ -20,7 +19,6 @@ import {
 } from "@/components/templates"
 
 import {
-  useHasBalloons,
   useVisibleNotifications,
   useReasonBarters,
   useAddingPhoneNumber,
@@ -42,8 +40,9 @@ import UpdatePost from "@/components/templates/Update/Posts"
 import ModalSign from "@/components/templates/ModalSign"
 
 const Modal = dynamic(() => import("@/components/templates/Modal"), { ssr: false })
-const DeleteNote = dynamic(() => import("@/components/templates/DeleteNote"), { ssr: false })
+const VideoModal = dynamic(() => import("@/components/layout/VideoModal"), { ssr: false })
 const CookiesToast = dynamic(() => import("@/components/templates/Cookies"), { ssr: false })
+const DeleteNote = dynamic(() => import("@/components/templates/DeleteNote"), { ssr: false })
 const PhotoCarousel = dynamic(() => import("@/components/layout/PhotoCarousel"), { ssr: false })
 const PublicProfile = dynamic(() => import("@/components/templates/PublicProfile"), { ssr: false })
 const CreateNewCategory = dynamic(() => import("@/components/templates/CreateNewCategory"), { ssr: false })
@@ -57,7 +56,6 @@ function Containers() {
   const isAuth = useAuth(({ isAuth }) => isAuth)
   const visibleReasonBarters = useReasonBarters(({ visible }) => visible)
   const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
-  const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
   const visibleAddingPhoneNumber = useAddingPhoneNumber(({ visible }) => visible)
   const visibleAddEmail = useAddEmail(({ visible }) => visible)
   const visibleCheckTheMail = useCheckTheMail(({ visible }) => visible)
@@ -73,8 +71,9 @@ function Containers() {
   return (
     <>
       <Modal />
-      <PhotoCarousel />
+      <VideoModal />
       <WelcomeModal />
+      <PhotoCarousel />
       {isAuth === false && (
         <>
           <Intro />
@@ -88,7 +87,6 @@ function Containers() {
       <DownloadApplication />
       <ToastContainer limit={1} />
       {isTablet && <MobileFiltersMap />}
-      {visibleHasBalloon && <HasClustererBalloons />}
       {isAuth && (
         <>
           <MyFriends />

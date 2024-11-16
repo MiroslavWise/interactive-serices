@@ -11,6 +11,7 @@ export interface IBodyPost {
   addresses: number[]
   archive?: boolean
   urgent?: EnumHelper | ""
+  isParticipants?: boolean
 }
 
 export interface IPosts {
@@ -29,6 +30,7 @@ export interface IPosts {
   archive: boolean //default - false
   archived: string //время, когда запись была отправлена в архив
   notes: INotes[]
+  isParticipants: boolean
 }
 
 interface IQuestionnaire {

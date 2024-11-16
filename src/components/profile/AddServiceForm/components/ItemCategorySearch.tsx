@@ -6,7 +6,7 @@ import { IResponseOffersCategories } from "@/services/offers-categories/types"
 import { ImageCategory } from "@/components/common"
 import { IconCheck } from "./ItemCategory"
 
-import { IconCategory } from "@/lib/icon-set"
+import { iconCategory } from "@/lib/icon-set"
 
 interface IProps {
   item: IResponseOffersCategories

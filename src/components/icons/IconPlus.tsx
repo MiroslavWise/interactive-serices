@@ -1,12 +1,5 @@
 const IconPlus = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-  >
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
     <path
       fill-rule="evenodd"
       clip-rule="evenodd"
@@ -16,5 +9,5 @@ const IconPlus = () => (
   </svg>
 )
 
-IconPlus.displayName = "IconPlus"
+IconPlus.displayNasvg= "IconPlus"
 export default IconPlus

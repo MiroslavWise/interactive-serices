@@ -1,28 +1,38 @@
 "use client"
 
-import { IconCategory } from "@/lib/icon-set"
+import { iconCategory } from "@/lib/icon-set"
 
 interface IProps {
   id: number | string
   slug?: string
   provider?: string
+  isUrgent?: boolean
 }
 
-export function ImageCategory({ id, slug, provider }: IProps) {
+export function ImageCategory({ id, slug, provider, isUrgent }: IProps) {
   if (!id) return null
 
-  const src = slug === "heart" ? "/png/category/kursk.png" : provider === "heart" ? "/png/category/kursk.png" : IconCategory(id!)!
+  const src =
+    slug === "heart"
+      ? "/png/category/heart.png"
+      : provider === "heart"
+      ? "/png/category/heart.png"
+      : iconCategory(id!, typeof isUrgent !== "undefined" && isUrgent)!
 
   return (
     <img
       alt={`${id!}::`}
-      width={16}
-      height={16}
+      width={32}
+      height={32}
       src={src}
       onError={(error: any) => {
         if (error?.target) {
           try {
-            error.target.src = `/svg/category/default.svg`
+            if (isUrgent) {
+              error.target.src = `/png/category/heart.png`
+            } else {
+              error.target.src = `/svg/category/default.svg`
+            }
           } catch (e) {
             console.log("catch e: ", e)
           }
