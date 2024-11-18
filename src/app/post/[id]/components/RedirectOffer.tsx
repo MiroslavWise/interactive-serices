@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 
 import { type IPosts } from "@/services/posts/types"
 
+import { clg } from "@console"
 import { dispatchBallonPost, dispatchMapCoordinates } from "@/store"
 
 function RedirectOffer({ post }: { post: IPosts }) {
@@ -12,6 +13,7 @@ function RedirectOffer({ post }: { post: IPosts }) {
 
   useEffect(() => {
     if (post) {
+      clg(`post: ${post.id}`, post)
       const geoData = post?.addresses?.length > 0 ? post?.addresses[0] : null
       if (geoData) {
         dispatchMapCoordinates({
