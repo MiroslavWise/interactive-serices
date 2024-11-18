@@ -31,6 +31,7 @@ import {
   useDeleteNote,
   useArchivePost,
   useUpdatePost,
+  useVideoModal,
 } from "@/store"
 import { useResize } from "@/helpers"
 import Friends from "@/components/templates/Friends"
@@ -65,15 +66,16 @@ function Containers() {
   const visibleDeleteNote = useDeleteNote(({ data }) => !!data)
   const visibleArchivePost = useArchivePost(({ data }) => !!data)
   const visibleUpdatePost = useUpdatePost(({ data }) => !!data)
+  const visibleVideo = useVideoModal(({ visible }) => visible)
 
   const { isTablet } = useResize()
 
   return (
     <>
       <Modal />
-      <VideoModal />
       <WelcomeModal />
       <PhotoCarousel />
+      {visibleVideo && <VideoModal />}
       {isAuth === false && (
         <>
           <Intro />

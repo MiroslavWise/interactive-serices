@@ -34,7 +34,7 @@ export default async ({ params: { id } }: { params: { id: string | number } }) =
             text: {
               color: "white",
               fontFamily: "Source Sans Pro",
-              fontSize: 120,
+              fontSize: 110,
               fontWeight: "bold",
               text: data?.title,
             },

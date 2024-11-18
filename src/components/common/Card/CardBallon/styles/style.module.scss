@@ -7,11 +7,16 @@
       height: 4.875rem;
       min-height: 4.875rem;
 
-      & > img {
+      & > img,
+      & > div {
         width: 4.375rem;
         height: 4.875rem;
         border-radius: 0.5rem;
         aspect-ratio: 4.375/4.875;
+      }
+
+      & > div {
+        padding-inline: 2.1875rem;
       }
     }
   }
