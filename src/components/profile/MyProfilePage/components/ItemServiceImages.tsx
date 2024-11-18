@@ -94,7 +94,8 @@ function ItemServiceImages({ images = [] }: { images: IImageData[] }) {
                 <button
                   type="button"
                   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-12 h-12 *:w-8 *:h-8"
-                  onClick={() => {
+                  onClick={(event) => {
+                    event.stopPropagation()
                     dispatchVideoStream(item.attributes.url, item.attributes.mime)
                   }}
                 >

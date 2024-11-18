@@ -23,3 +23,11 @@
     display: none !important;
   }
 }
+
+.vjs-control {
+  &.vjs-cloudinary-button {
+    &.vjs-button {
+      display: none !important;
+    }
+  }
+}

@@ -138,11 +138,13 @@ function ItemImages({ images }: IProps) {
                 <div key={`:d:s:a:${item.id}:p:p:`} className="relative rounded-lg overflow-hidden" data-video>
                   <video className="w-full h-full cursor-pointer object-cover absolute inset-0">
                     <source src={item.attributes.url.replace("?format=webp", "")} type={item.attributes.mime} />
+                    <source src={item.attributes.url.replace("?format=webp", "")} type="video/webm" />
                   </video>
                   <button
                     type="button"
                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-12 h-12 *:w-8 *:h-8"
-                    onClick={() => {
+                    onClick={(event) => {
+                      event.stopPropagation()
                       dispatchVideoStream(item.attributes.url, item.attributes.mime)
                     }}
                   >

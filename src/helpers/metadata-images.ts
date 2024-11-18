@@ -22,13 +22,15 @@ export function metadataImages({ images = [] }: IData) {
   if (images.length > 0) {
     for (const image of images) {
       if (Array.isArray(imagesAndIconsOpenGraph.images)) {
-        imagesAndIconsOpenGraph.images!?.push({
-          url: replaceURLImage(image.attributes.url),
-          alt: image.attributes.alt,
-          width: 1200,
-          height: 630,
-          type: "image/png",
-        })
+        if (image.attributes.mime.includes("image")) {
+          imagesAndIconsOpenGraph.images!?.push({
+            url: replaceURLImage(image.attributes.url),
+            alt: image.attributes.alt,
+            width: 1200,
+            height: 630,
+            type: "image/png",
+          })
+        }
       }
     }
 

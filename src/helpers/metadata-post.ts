@@ -59,7 +59,7 @@ export function metadataPosts({ data }: IData): Metadata {
     locale: "ru_RU",
     url: metadataBase,
     description: note?.description ?? `Описание: ${metaTitle ?? ""}`,
-    images: metaImgs.images.reverse(),
+    // images: metaImgs.images.reverse(),
   }
 
   meta.twitter = {
