@@ -24,6 +24,7 @@ function VideoModal() {
         {!!url && (
           <video controls className="w-full h-auto aspect-video object-cover">
             <source src={url} type={type} />
+            <source src={url} type="video/webm" />
           </video>
         )}
       </section>

@@ -136,7 +136,7 @@ function ItemImages({ images }: IProps) {
             if (item.attributes.mime.includes("video"))
               return (
                 <div key={`:d:s:a:${item.id}:p:p:`} className="relative rounded-lg overflow-hidden" data-video>
-                  <video className="w-full h-full cursor-pointer object-cover">
+                  <video className="w-full h-full cursor-pointer object-cover absolute inset-0">
                     <source src={item.attributes.url.replace("?format=webp", "")} type={item.attributes.mime} />
                   </video>
                   <button

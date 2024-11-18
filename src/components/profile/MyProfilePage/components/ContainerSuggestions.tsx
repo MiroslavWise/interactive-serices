@@ -55,10 +55,10 @@ export const ContainerSuggestions = () => {
     enabled: !!userId && stateProvider === EnumTypeProvider.POST,
   })
 
-  const items = data?.data || []
+  const items = data?.data ?? []
   const length = items.length
 
-  const itemsPost = dataPosts?.data || []
+  const itemsPost = dataPosts?.data ?? []
   const lengthPosts = itemsPost.length
 
   const functionAndTitle = useMemo(() => {
