@@ -1,10 +1,11 @@
 "use client"
 
+import { ButtonClose } from "@/components/common"
+
 import { cx } from "@/lib/cx"
 import { dispatchCloseVideoStream, useVideoModal } from "@/store"
 
 import styles from "./style.module.scss"
-import { ButtonClose } from "@/components/common"
 
 function VideoModal() {
   const url = useVideoModal(({ url }) => url)
@@ -21,11 +22,9 @@ function VideoModal() {
     >
       <ButtonClose onClick={dispatchCloseVideoStream} className="!right-5 !top-5 z-10" />
       <section className="relative w-5/6 md:w-1/2 h-auto aspect-video">
-        {!!url && (
-          <video controls className="w-full h-auto aspect-video object-cover">
-            <source src={url} type={type} />
-          </video>
-        )}
+        <video id="my-player" className="w-full h-auto aspect-video object-cover video-js" controls preload="auto" data-setup="{}">
+          {url && <source src={url} type={type} />}
+        </video>
       </section>
     </div>
   )
