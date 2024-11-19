@@ -4,6 +4,7 @@ import { type AxiosProgressEvent } from "axios"
 import { type ChangeEvent, type Dispatch, type SetStateAction } from "react"
 
 import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
+import { MAX_SIZE_IMAGE, MAX_SIZE_VIDEO } from "@/helpers/constants"
 
 const sleep = () => new Promise((r) => setTimeout(r, 50))
 
@@ -83,7 +84,7 @@ export async function handleImageChange(
       const file = files[i]
 
       if (file) {
-        if (file.size < 9.9 * 1024 * 1024) {
+        if ((file.type.includes("image") && file.size < MAX_SIZE_IMAGE) || (file.type.includes("video") && file.size < MAX_SIZE_VIDEO)) {
           const is = current.file.some((_) => _.size === file.size && _.name === file.name)
 
           if (is) {
@@ -96,7 +97,7 @@ export async function handleImageChange(
             filesReady = {
               ...filesReady,
               file: [...filesReady.file, file],
-              string: [...filesReady.string, f!.target!.result as string],
+              string: [...filesReady.string, file.type.includes("image") ? (f!.target!.result as string) : file.type],
             }
           }
         }

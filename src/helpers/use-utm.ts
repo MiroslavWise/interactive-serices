@@ -3,9 +3,22 @@
 import { useSearchParams, useRouter } from "next/navigation"
 import { type DispatchWithoutAction, useEffect } from "react"
 
-import { dispatchUTMData, type IStateUTM } from "@/store"
+import { EnumSign } from "@/types/enum"
 
-const useUtm = (stringReplace?: string, cd?: DispatchWithoutAction) => {
+import { dispatchAuthModal, dispatchUTMData, type IStateUTM } from "@/store"
+
+type TTypeAction = "login" | "registration"
+
+const dispatch: Record<TTypeAction, DispatchWithoutAction> = {
+  login() {
+    dispatchAuthModal({ visible: true, type: EnumSign.SignIn })
+  },
+  registration() {
+    dispatchAuthModal({ visible: true, type: EnumSign.SignUp })
+  },
+}
+
+const useUtm = (stringReplace?: string, action?: TTypeAction) => {
   const searchParams = useSearchParams()
   const { replace, push } = useRouter()
 
@@ -32,10 +45,10 @@ const useUtm = (stringReplace?: string, cd?: DispatchWithoutAction) => {
           data.utm_content = utm_content
         }
 
-        if (Object.values(data).length) {
+        if (Object.values(data).length > 0) {
           dispatchUTMData(data)
-          if (cd) {
-            cd()
+          if (action) {
+            dispatch[action]()
           }
           if (stringReplace) {
             push(stringReplace)

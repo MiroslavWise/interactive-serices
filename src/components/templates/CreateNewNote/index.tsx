@@ -7,19 +7,19 @@ import { type IBodyNote } from "@/services/notes/types"
 
 import { Button } from "@/components/common"
 import IconPost from "@/components/icons/IconPost"
+import IconFile_06 from "@/components/icons/IconFile_06"
+import IconTrashBlack from "@/components/icons/IconTrashBlack"
 import CurrentImage from "../CreateNewOptionModal/components/CurrentImage"
 
 import { cx } from "@/lib/cx"
+import { clg } from "@console"
 import { queryClient } from "@/context"
 import { getPostId } from "@/services/posts"
 import { fileUploadService } from "@/services"
 import { patchNote, postNote } from "@/services/notes"
+import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
 import { dispatchBallonPost, dispatchCloseCreateNote, useAuth, useCreateNewNote } from "@/store"
 import { DEFAULT_VALUES, handleImageChange, onProgress, onUploadProgress, resolverCreateNote, type TSchemaCreateNote } from "./utils"
-import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
-import { clg } from "@console"
-import IconFile_06 from "@/components/icons/IconFile_06"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
 function CreateNewNote() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -155,20 +155,20 @@ function CreateNewNote() {
                   index: number
                 }[],
                 other: [] as {
-                  str: string
+                  str: File
                   index: number
                 }[],
               }
 
-              for (let i = 0; i < field.value.string.length; i++) {
-                if (field.value.string[i].includes("data:image")) {
+              for (let i = 0; i < field.value.file.length; i++) {
+                if (field.value.file[i].type.includes("image")) {
                   _strings.images.push({
                     img: field.value.string[i],
                     index: i,
                   })
                 } else {
                   _strings.other.push({
-                    str: field.value.string[i],
+                    str: field.value.file[i],
                     index: i,
                   })
                 }
@@ -187,7 +187,7 @@ function CreateNewNote() {
                         <div className="w-6 h-6 p-3 relative *:w-4 *:h-4">
                           <IconFile_06 />
                         </div>
-                        <span className="text-sm font-medium text-text-primary line-clamp-1 text-ellipsis">файл №{item.index + 1}</span>
+                        <span className="text-sm font-medium text-text-primary line-clamp-1 text-ellipsis">{item.str.name ?? null}</span>
                         <button
                           type="button"
                           className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4"
