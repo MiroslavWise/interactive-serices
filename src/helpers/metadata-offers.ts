@@ -28,7 +28,10 @@ export function metadataOffers({ data }: IData): Metadata {
   }
   meta.description = description
 
-  const metaImgs = metadataImages({ images: data.images })
+  const metaImgs = metadataImages({
+    images: data.images,
+    // title: provider === EnumTypeProvider.offer ? category?.title : title
+  })
   meta.icons = metaImgs.icons
 
   const name = `${user?.firstName ?? "Имя"} ${user?.lastName || ""}`

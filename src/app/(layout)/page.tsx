@@ -34,9 +34,9 @@ const BannerMainPage = dynamic(() => import("@/components/content/BannerMainPage
   ssr: false,
 })
 
-import { useAuth, useHasBalloons } from "@/store"
 import { useResize } from "@/helpers"
 import useUtm from "@/helpers/use-utm"
+import { useAuth, useHasBalloons } from "@/store"
 
 export default () => {
   useUtm()

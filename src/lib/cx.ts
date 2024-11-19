@@ -4,8 +4,6 @@ export function cx(...classes: any[]): string {
   for (const _ of classes) {
     if (typeof _ === "string") {
       str += ` ${_}`
-    } else {
-      continue
     }
   }
 

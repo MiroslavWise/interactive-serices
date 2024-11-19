@@ -49,7 +49,10 @@ export function metadataPosts({ data }: IData): Metadata {
   const metadataBase = new URL(`${env.server.host}/post/${id}`)
   meta.metadataBase = metadataBase
 
-  const metaImgs = metadataImages({ images: note!?.images ?? [] })
+  const metaImgs = metadataImages({
+    images: note!?.images ?? [],
+    // title: metaTitle,
+  })
   meta.icons = metaImgs.icons
 
   meta.openGraph = {
@@ -59,7 +62,7 @@ export function metadataPosts({ data }: IData): Metadata {
     locale: "ru_RU",
     url: metadataBase,
     description: note?.description ?? `Описание: ${metaTitle ?? ""}`,
-    // images: metaImgs.images.reverse(),
+    images: metaImgs.images.reverse(),
   }
 
   meta.twitter = {
