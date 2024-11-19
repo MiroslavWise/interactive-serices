@@ -68,11 +68,7 @@ export async function updatePatch({ id, idNote, userId, images, defaultValues, n
   const newUrgent = !!newValues.help
 
   if (oldUrgent !== newUrgent) {
-    if (newUrgent) {
-      dataPost.urgent = EnumHelper.HELP_KURSK
-    } else {
-      dataPost.urgent = ""
-    }
+    dataPost.urgent = newUrgent
   }
 
   const newAddressFeature = newValues?.addressFeature

@@ -78,14 +78,16 @@ function CreatePost() {
     const help = values.help
 
     const data: IBodyPost = {
+      enabled: true,
       title,
       slug,
       addresses: [],
+      // isAuthRead: false,
       isParticipants: values.isParticipants,
     }
 
     if (help) {
-      data.urgent = EnumHelper.HELP_KURSK
+      data.urgent = true
     }
 
     if (!loading) {
@@ -98,7 +100,7 @@ function CreatePost() {
         data.addresses = [addressId]
       }
       const response = await postPosts(data)
-      clg("response post posts:", response.data)
+
       if (!!response.data) {
         const id = response.data!.id!
         const dataNote: IBodyNote = {

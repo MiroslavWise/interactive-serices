@@ -8,9 +8,11 @@ import { IResponse } from "../request/types"
 export interface IBodyPost {
   title: string
   slug: string
+  enabled: boolean
   addresses: number[]
   archive?: boolean
-  urgent?: EnumHelper | ""
+  // isAuthRead: boolean
+  urgent?: boolean
   isParticipants?: boolean
 }
 
