@@ -39,9 +39,9 @@ function VideoModal() {
       )}
     >
       <ButtonClose onClick={dispatchCloseVideoStream} className="!right-5 !top-5 z-10" />
-      <section className="relative w-5/6 md:w-1/2 h-auto aspect-video">
+      <section className="relative w-5/6 md:w-1/2 h-auto max-h-dvh">
         {url && (
-          <video id="my-player" className="w-full h-auto object-cover" controls preload="auto">
+          <video id="my-player" className="w-full h-auto object-cover max-h-dvh" controls preload="auto">
             <source src={url} type={type} />
           </video>
         )}
