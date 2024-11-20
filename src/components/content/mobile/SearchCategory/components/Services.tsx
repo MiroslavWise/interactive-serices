@@ -50,7 +50,7 @@ export const ServicesMobile = memo(({ input, parentRef }: { input: string; paren
     if (!itemsPost.length || !!idSearch || activeFilters.length > 0) {
       return []
     }
-
+ 
     const array: IPosts[] = []
 
     if (bounds && itemsPost) {
