@@ -46,6 +46,7 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
             type: "offer",
             createAt: list[index].created,
             item: item,
+            index: index,
           }))
         : []),
       ...(["all", EnumTypeProvider.POST].includes(providers)
@@ -53,6 +54,7 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
             type: "post",
             createAt: listPosts[index].created,
             item: item,
+            index: index,
           }))
         : []),
     ]
@@ -64,6 +66,14 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
       return nextNumber - prevNumber
     })
   }, [items, itemsPost, list, listPosts, providers])
+
+  const virtualizerAll = useVirtualizer({
+    count: all.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 270,
+    enabled: true,
+  })
+  const itemsAll = virtualizerAll.getVirtualItems()
 
   return (
     <ul
@@ -83,30 +93,42 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
         className="absolute p-5 pt-1 top-0 left-0 w-full flex flex-col *:mt-2.5 pb-[calc(var(--height-mobile-footer-nav)_+_2.875rem)]"
         style={{ transform: `translateY(${all[0]?.item?.start ?? 0}px)` }}
       >
-        {all.map((item) => {
-          // if (
-          //   ["all", EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(providers) &&
-          //   item.type === "offer"
-          // )
-          //   return (
-          //     <CardBallon
-          //       key={`:key:${item.item.key}:`}
-          //       offer={list[item.item.index]}
-          //       dataIndex={item.item.index}
-          //       ref={virtualizer.measureElement}
-          //     />
-          //   )
-          // if (["all", EnumTypeProvider.POST].includes(providers) && item.type === "post")
-          //   return (
-          //     <CardPost
-          //       key={`:key:${item.item.key}:post:`}
-          //       post={listPosts[item.item.index]}
-          //       dataIndex={item.item.index}
-          //       ref={virtualizerPost.measureElement}
-          //     />
-          //   )
-          return null
-        })}
+        {providers === "all"
+          ? itemsAll.map((row) => {
+              if (all[row.index].type === "offer")
+                return (
+                  <CardBallon
+                    key={`:key:${row.key}:`}
+                    offer={list[all[row.index].index]}
+                    dataIndex={row.index}
+                    ref={virtualizerAll.measureElement}
+                  />
+                )
+              if (all[row.index].type === "post")
+                return (
+                  <CardPost
+                    key={`:key:${row.key}:post:`}
+                    post={listPosts[all[row.index].index]}
+                    dataIndex={row.index}
+                    ref={virtualizerAll.measureElement}
+                  />
+                )
+              return null
+            })
+          : [EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(providers)
+          ? items.map((row) => (
+              <CardBallon key={`:key:${row.key}:`} offer={list[row.index]} dataIndex={row.index} ref={virtualizer.measureElement} />
+            ))
+          : providers === EnumTypeProvider.POST
+          ? itemsPost.map((row) => (
+              <CardPost
+                key={`:key:${row.key}:post:`}
+                post={listPosts[row.index]}
+                dataIndex={row.index}
+                ref={virtualizerPost.measureElement}
+              />
+            ))
+          : null}
       </div>
     </ul>
   )
