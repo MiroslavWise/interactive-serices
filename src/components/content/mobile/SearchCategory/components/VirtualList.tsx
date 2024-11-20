@@ -84,27 +84,27 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
         style={{ transform: `translateY(${all[0]?.item?.start ?? 0}px)` }}
       >
         {all.map((item) => {
-          if (
-            ["all", EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(providers) &&
-            item.type === "offer"
-          )
-            return (
-              <CardBallon
-                key={`:key:${item.item.key}:`}
-                offer={list[item.item.index]}
-                dataIndex={item.item.index}
-                ref={virtualizer.measureElement}
-              />
-            )
-          if (["all", EnumTypeProvider.POST].includes(providers) && item.type === "post")
-            return (
-              <CardPost
-                key={`:key:${item.item.key}:post:`}
-                post={listPosts[item.item.index]}
-                dataIndex={item.item.index}
-                ref={virtualizerPost.measureElement}
-              />
-            )
+          // if (
+          //   ["all", EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(providers) &&
+          //   item.type === "offer"
+          // )
+          //   return (
+          //     <CardBallon
+          //       key={`:key:${item.item.key}:`}
+          //       offer={list[item.item.index]}
+          //       dataIndex={item.item.index}
+          //       ref={virtualizer.measureElement}
+          //     />
+          //   )
+          // if (["all", EnumTypeProvider.POST].includes(providers) && item.type === "post")
+          //   return (
+          //     <CardPost
+          //       key={`:key:${item.item.key}:post:`}
+          //       post={listPosts[item.item.index]}
+          //       dataIndex={item.item.index}
+          //       ref={virtualizerPost.measureElement}
+          //     />
+          //   )
           return null
         })}
       </div>
