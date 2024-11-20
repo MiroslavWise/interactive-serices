@@ -25,13 +25,13 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
   const virtualizer = useVirtualizer({
     count: count,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 270,
+    estimateSize: () => 310,
     enabled: true,
   })
   const virtualizerPost = useVirtualizer({
     count: countPost,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 270,
+    estimateSize: () => 310,
     enabled: true,
   })
 
@@ -90,7 +90,7 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
   const virtualizerAll = useVirtualizer({
     count: listAll.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 240,
+    estimateSize: () => 310,
     enabled: true,
   })
   const itemsAll = virtualizerAll.getVirtualItems()
