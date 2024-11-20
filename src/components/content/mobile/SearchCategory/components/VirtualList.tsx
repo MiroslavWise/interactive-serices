@@ -1,14 +1,15 @@
-import { type RefObject } from "react"
+import { useMemo, type RefObject } from "react"
 import { useVirtualizer } from "@tanstack/react-virtual"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { type IPosts } from "@/services/posts/types"
 import { type IResponseOffers } from "@/services/offers/types"
 
+import CardPost from "@/components/common/Card/CardPost"
 import CardBallon from "@/components/common/Card/CardBallon"
 
 import { useFiltersServices } from "@/store"
-import CardPost from "@/components/common/Card/CardPost"
+import { getMillisecond } from "@/helpers"
 
 interface IProps {
   parentRef: RefObject<HTMLUListElement>
@@ -38,40 +39,74 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
   const items = virtualizer.getVirtualItems()
   const itemsPost = virtualizerPost.getVirtualItems()
 
+  const all = useMemo(() => {
+    const array = [
+      ...(["all", EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(providers)
+        ? items.map((item, index) => ({
+            type: "offer",
+            createAt: list[index].created,
+            item: item,
+          }))
+        : []),
+      ...(["all", EnumTypeProvider.POST].includes(providers)
+        ? itemsPost.map((item, index) => ({
+            type: "post",
+            createAt: listPosts[index].created,
+            item: item,
+          }))
+        : []),
+    ]
+
+    return array.sort((prev, next) => {
+      const prevNumber = getMillisecond(prev?.createAt)
+      const nextNumber = getMillisecond(next?.createAt)
+
+      return nextNumber - prevNumber
+    })
+  }, [items, itemsPost, list, listPosts, providers])
+
   return (
     <ul
       className="w-full relative h-full"
       style={{
         height:
-          (["all", EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(providers)
+          providers === "all"
+            ? virtualizer.getTotalSize() + virtualizerPost.getTotalSize()
+            : [EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(providers)
             ? virtualizer.getTotalSize()
-            : 0) + (["all", EnumTypeProvider.POST].includes(providers) ? virtualizerPost.getTotalSize() : 0),
+            : providers === EnumTypeProvider.POST
+            ? virtualizerPost.getTotalSize()
+            : 0,
       }}
     >
       <div
         className="absolute p-5 pt-1 top-0 left-0 w-full flex flex-col *:mt-2.5 pb-[calc(var(--height-mobile-footer-nav)_+_2.875rem)]"
-        style={{ transform: `translateY(${items[0]?.start ?? 0}px)` }}
+        style={{ transform: `translateY(${all[0].item?.start ?? 0}px)` }}
       >
-        {["all", EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(providers)
-          ? items.map((virtualRow) => (
+        {all.map((item) => {
+          if (
+            ["all", EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(providers) &&
+            item.type === "offer"
+          )
+            return (
               <CardBallon
-                key={`:key:${virtualRow.key}:`}
-                offer={list[virtualRow.index]}
-                dataIndex={virtualRow.index}
+                key={`:key:${item.item.key}:`}
+                offer={list[item.item.index]}
+                dataIndex={item.item.index}
                 ref={virtualizer.measureElement}
               />
-            ))
-          : null}
-        {["all", EnumTypeProvider.POST].includes(providers)
-          ? itemsPost.map((virtualRow) => (
+            )
+          if (["all", EnumTypeProvider.POST].includes(providers) && item.type === "post")
+            return (
               <CardPost
-                key={`:key:${virtualRow.key}:post:`}
-                post={listPosts[virtualRow.index]}
-                dataIndex={virtualRow.index}
+                key={`:key:${item.item.key}:post:`}
+                post={listPosts[item.item.index]}
+                dataIndex={item.item.index}
                 ref={virtualizerPost.measureElement}
               />
-            ))
-          : null}
+            )
+          return null
+        })}
       </div>
     </ul>
   )
