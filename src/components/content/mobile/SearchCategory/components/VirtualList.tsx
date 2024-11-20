@@ -81,7 +81,7 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
     >
       <div
         className="absolute p-5 pt-1 top-0 left-0 w-full flex flex-col *:mt-2.5 pb-[calc(var(--height-mobile-footer-nav)_+_2.875rem)]"
-        style={{ transform: `translateY(${all[0].item?.start ?? 0}px)` }}
+        style={{ transform: `translateY(${all[0]?.item?.start ?? 0}px)` }}
       >
         {all.map((item) => {
           if (
