@@ -1,4 +1,3 @@
-import { type Dispatch, type ChangeEvent } from "react"
 import { type AxiosProgressEvent } from "axios"
 import { type Control, Controller } from "react-hook-form"
 
@@ -9,61 +8,8 @@ import CurrentImage from "./CurrentImage"
 import IconFile_06 from "@/components/icons/IconFile_06"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
-import { clg } from "@console"
-import { useToast } from "@/helpers/hooks/useToast"
+import { onChangeFile } from "@/helpers"
 import { descriptionImages } from "../constants/titles"
-import { MAX_SIZE_IMAGE, MAX_SIZE_VIDEO } from "@/helpers/constants"
-
-async function handleImageChange(
-  current: {
-    file: File[]
-    string: string[]
-  },
-  event: ChangeEvent<HTMLInputElement>,
-  on: Dispatch<any>,
-) {
-  const files = event.target.files
-
-  let filesReady = {
-    file: [...current.file] as File[],
-    string: [...current.string] as string[],
-  }
-
-  if (files) {
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i]
-
-      if (file) {
-        clg("file: ", file)
-        if ((file.type.includes("image") && file.size < MAX_SIZE_IMAGE) || (file.type.includes("video") && file.size < MAX_SIZE_VIDEO)) {
-          const is = current.file.some((_) => _.size === file.size && _.name === file.name)
-
-          if (is) {
-            on({ message: "Вы можете прикрепить одну копию одного файла" })
-            continue
-          }
-
-          const reader = new FileReader()
-          reader.readAsDataURL(file)
-          reader.onload = function (f) {
-            filesReady = {
-              ...filesReady,
-              file: [...filesReady.file, file],
-              string: [...filesReady.string, file.type.includes("image") ? (f!.target!.result as string) : (file.type as string)],
-            }
-          }
-        }
-      }
-    }
-  }
-
-  await new Promise((r) => setTimeout(r, 50))
-
-  return Promise.resolve({
-    file: filesReady.file.splice(0, 9),
-    string: filesReady.string.splice(0, 9),
-  })
-}
 
 const onProgress = (files: File[], index: number, progress: Record<string, AxiosProgressEvent>): number => {
   const file = files[index]
@@ -86,8 +32,6 @@ interface IProps {
 }
 
 function ControlFileAppend({ control, visible, step, loading, typeAdd, progress }: IProps) {
-  const { on } = useToast()
-
   return (
     <Controller
       name="file"
@@ -172,7 +116,7 @@ function ControlFileAppend({ control, visible, step, loading, typeAdd, progress 
                     type="file"
                     accept="image/*,video/*"
                     onChange={async (event) => {
-                      const dataValues = await handleImageChange(field.value, event, on)
+                      const dataValues = await onChangeFile({ current: field.value, event })
                       field.onChange(dataValues)
                       event.target.value = ""
                     }}

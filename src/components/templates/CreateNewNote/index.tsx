@@ -14,12 +14,13 @@ import CurrentImage from "../CreateNewOptionModal/components/CurrentImage"
 import { cx } from "@/lib/cx"
 import { clg } from "@console"
 import { queryClient } from "@/context"
+import { onChangeFile } from "@/helpers"
 import { getPostId } from "@/services/posts"
 import { fileUploadService } from "@/services"
 import { patchNote, postNote } from "@/services/notes"
 import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
 import { dispatchBallonPost, dispatchCloseCreateNote, useAuth, useCreateNewNote } from "@/store"
-import { DEFAULT_VALUES, handleImageChange, onProgress, onUploadProgress, resolverCreateNote, type TSchemaCreateNote } from "./utils"
+import { DEFAULT_VALUES, onProgress, onUploadProgress, resolverCreateNote, type TSchemaCreateNote } from "./utils"
 
 function CreateNewNote() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -224,7 +225,7 @@ function CreateNewNote() {
                         <input
                           type="file"
                           onChange={async (event) => {
-                            const dataValues = await handleImageChange(field.value, event)
+                            const dataValues = await onChangeFile({ current: field.value, event })
                             field.onChange(dataValues)
                             event.target.value = ""
                           }}
