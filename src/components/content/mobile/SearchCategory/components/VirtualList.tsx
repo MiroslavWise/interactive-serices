@@ -25,14 +25,14 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
   const virtualizer = useVirtualizer({
     count,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 295,
+    estimateSize: () => 315,
     enabled: true,
   })
 
   const virtualizerPost = useVirtualizer({
     count: countPost,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 295,
+    estimateSize: () => 315,
     enabled: true,
   })
 
@@ -70,7 +70,7 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
   const virtualizerAll = useVirtualizer({
     count: all.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 295,
+    estimateSize: () => 315,
     enabled: true,
   })
   const itemsAll = virtualizerAll.getVirtualItems()
@@ -81,7 +81,7 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
       style={{
         height:
           providers === "all"
-            ? virtualizer.getTotalSize() + virtualizerPost.getTotalSize()
+            ? virtualizerAll.getTotalSize()
             : [EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(providers)
             ? virtualizer.getTotalSize()
             : providers === EnumTypeProvider.POST
@@ -91,7 +91,17 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
     >
       <div
         className="absolute p-5 pt-1 top-0 left-0 w-full flex flex-col *:mt-2.5 pb-[calc(var(--height-mobile-footer-nav)_+_2.875rem)]"
-        style={{ transform: `translateY(${all[0]?.item?.start ?? 0}px)` }}
+        style={{
+          transform: `translateY(${
+            providers === "all"
+              ? all[0]?.item?.start ?? 0
+              : [EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(providers)
+              ? items?.[0]?.start ?? 0
+              : providers === EnumTypeProvider.POST
+              ? itemsPost?.[0]?.start ?? 0
+              : 0
+          }px)`,
+        }}
       >
         {providers === "all"
           ? itemsAll.map((row) => {
