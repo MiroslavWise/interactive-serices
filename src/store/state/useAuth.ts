@@ -1,5 +1,6 @@
 import { z } from "zod"
 import { create } from "zustand"
+import { getMilliseconds, transpose } from "date-fns"
 import { createJSONStorage, persist } from "zustand/middleware"
 
 import { type IUserResponse } from "@/services/users/types"
@@ -132,7 +133,7 @@ interface IStateUseAuth {
 
 export function isTokenExpired(exp: number | undefined) {
   if (exp !== undefined) {
-    const currentTime: number = Date.now()
+    const currentTime: number = Date.now() + new Date().getTimezoneOffset() * 60 * 1000 - 25 * 60 * 1000
     return currentTime - exp > 0
   }
   return false

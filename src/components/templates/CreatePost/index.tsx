@@ -13,6 +13,9 @@ import { type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 import { Button } from "@/components/common"
 import ControlHelp from "./components/ControlHelp"
 import IconXClose from "@/components/icons/IconXClose"
+import IconFile_06 from "@/components/icons/IconFile_06"
+import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import ControlParticipant from "./components/ControlParticipant"
 import CurrentImage from "../CreateNewOptionModal/components/CurrentImage"
 
 import { cx } from "@/lib/cx"
@@ -20,16 +23,13 @@ import { clg } from "@console"
 import { queryClient } from "@/context"
 import { getPosts, postPosts } from "@/services/posts"
 import { patchNote, postNote } from "@/services/notes"
+import { onProgress, onUploadProgress } from "./utils"
 import { createAddress } from "@/helpers/address/create"
-import { handleImageChange, onProgress, onUploadProgress } from "./utils"
+import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
 import { fileUploadService, getGeocodeSearch, postAddress } from "@/services"
 import { dispatchModal, EModalData, useAuth, useCreatePost, useModal } from "@/store"
-import { transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
 import { resolverCreatePost, resolverCreatePostMap, type TSchemaCreatePost } from "./schema"
-import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
-import IconFile_06 from "@/components/icons/IconFile_06"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
-import ControlParticipant from "./components/ControlParticipant"
+import { onChangeFile, transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
 
 function CreatePost() {
   const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
@@ -381,7 +381,7 @@ function CreatePost() {
                         <input
                           type="file"
                           onChange={async (event) => {
-                            const dataValues = await handleImageChange(field.value, event)
+                            const dataValues = await onChangeFile({ current: field.value, event })
                             field.onChange(dataValues)
                             event.target.value = ""
                           }}
