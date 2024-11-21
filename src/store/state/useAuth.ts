@@ -133,7 +133,7 @@ interface IStateUseAuth {
 
 export function isTokenExpired(exp: number | undefined) {
   if (exp !== undefined) {
-    const currentTime: number = Date.now() + new Date().getTimezoneOffset() * 60 * 1000 - 25 * 60 * 1000
+    const currentTime: number = Date.now() + new Date().getTimezoneOffset() * 60 * 1000 - 120 * 60 * 1000
     return currentTime - exp > 0
   }
   return false
