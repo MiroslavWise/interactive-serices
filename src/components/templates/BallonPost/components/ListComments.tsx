@@ -3,6 +3,7 @@ import { type Dispatch } from "react"
 import { type IPosts } from "@/services/posts/types"
 
 import Avatar from "@avatar"
+import ImageComment from "./ImageComment"
 import ItemCommentNote from "./ItemCommentNote"
 import FooterNewComment from "./FooterNewComment"
 import IconComment from "@/components/icons/IconComment"
@@ -12,7 +13,6 @@ import { cx } from "@/lib/cx"
 import { daysAgo, useResize } from "@/helpers"
 import { dispatchPublicProfile } from "@/store"
 import { useContextPostsComments } from "./ContextComments"
-import ImageComment from "./ImageComment"
 
 function ListCommentsPost({ post, handleToNote }: { post: IPosts; handleToNote: Dispatch<number> }) {
   const { isTablet } = useResize()

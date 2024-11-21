@@ -10,12 +10,14 @@ import NavigationNoteAndComments from "./components/Navigation"
 import { cx } from "@/lib/cx"
 import { useBalloonPost } from "@/store"
 import ComponentHelper from "../Balloon/components/ComponentHelper"
+import { TTypeNavigatePost } from "./utils/schema"
+import ComponentParticipants from "./components/ComponentParticipants"
 
 function BallonPost() {
   const data = useBalloonPost(({ data }) => data)
-  const { title, archive, urgent } = data ?? {}
+  const { title, archive, urgent, id, isParticipants } = data ?? {}
 
-  const [state, setState] = useState<"notes" | "comments">("notes")
+  const [state, setState] = useState<TTypeNavigatePost>("notes")
 
   function handleToComments() {
     setState("comments")
@@ -52,6 +54,8 @@ function BallonPost() {
               <ListNotes handleToComments={handleToComments} />
             ) : state === "comments" ? (
               <ListCommentsPost post={data!} handleToNote={handleToNote} />
+            ) : state === "participants" ? (
+              <ComponentParticipants postUserId={data?.userId!} id={id!} title={title ?? ""} isParticipant={!!isParticipants} />
             ) : null}
           </ContextComments>
         </ul>

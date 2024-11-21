@@ -59,7 +59,7 @@ const List = memo(function ({
   return (
     <ul
       className={cx(
-        "w-full flex flex-col gap-2.5",
+        "w-full flex flex-col gap-2.5", 
         ((userIdPost === userId && !archive) || isBecomeMember) && "pb-16",
         !!archive && "pb-14",
       )}
