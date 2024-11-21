@@ -11,9 +11,7 @@ interface IProps {
 }
 
 function ControlParticipant({ control }: IProps) {
-return null  
-
-/* return (
+  return (
     <Controller
       name="isParticipants"
       control={control}
@@ -39,7 +37,7 @@ return null
         </section>
       )}
     />
-  ) */
+  )
 }
 
 ControlParticipant.displayName = "ControlParticipant"

@@ -20,3 +20,5 @@ const schema = object({ comment, file })
 
 export const resolver = zodResolver(schema)
 export type TSchema = z.infer<typeof schema>
+
+export type TTypeNavigatePost = "notes" | "comments" | "participants"
