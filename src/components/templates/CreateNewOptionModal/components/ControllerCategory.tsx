@@ -231,6 +231,7 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
                           setValueForm("help", true)
                         }
                         setValue("")
+                        setOpen(false)
                       }}
                     >
                       <span
@@ -278,6 +279,7 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
                           if (itemSub?.provider === "kursk") {
                             setValueForm("help", true)
                           }
+                          setOpen(false)
                           setValue("")
                         }}
                       >

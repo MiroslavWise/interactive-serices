@@ -1,16 +1,19 @@
+import { useState } from "react"
+
 import { Button } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { dispatchOpenCreateNote, useAuth, useBalloonPost } from "@/store"
-import { useContextPostsComments } from "./ContextComments"
 import { patchPost } from "@/services/posts"
-import { useState } from "react"
+import { useToast } from "@/helpers/hooks/useToast"
+import { useContextPostsComments } from "./ContextComments"
+import { dispatchOpenCreateNote, useAuth, useBalloonPost } from "@/store"
 
 function FooterNewNote() {
   const [loading, setLoading] = useState(false)
   const data = useBalloonPost(({ data }) => data)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { id, userId: userIdPost, title, archive } = data ?? {}
+  const { on } = useToast()
 
   const { isBecomeMember } = useContextPostsComments()
 
@@ -31,6 +34,9 @@ function FooterNewNote() {
               if (!loading) {
                 setLoading(true)
                 await patchPost(id!, {})
+                on({
+                  message: "Вы были добавлены в список учасников данного мероприятия",
+                })
                 setLoading(false)
               }
             } else {
