@@ -2,9 +2,11 @@ import { useQuery } from "@tanstack/react-query"
 import { memo, useCallback, useMemo, useState } from "react"
 import { type Control, Controller, UseFormSetValue } from "react-hook-form"
 
+import { type TSchemaCreate } from "../utils/create.schema"
+import { type IResponseOffersCategories } from "@/services/offers-categories/types"
+
 import { ImageCategory } from "@/components/common"
 import { IconXClose } from "@/components/icons/IconXClose"
-import { type TSchemaCreate } from "../utils/create.schema"
 import { IconChevron } from "@/components/icons/IconChevron"
 
 import { cx } from "@/lib/cx"
@@ -32,24 +34,59 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
   const categories = c?.data || []
   const trimValue = value.trim().toLowerCase()
 
-  const [expand, setExpand] = useState<number | null>(null)
+  const [expandSlug, setExpandSlug] = useState<string | null>(null)
+  const onExpandSlug = (slug: string) => setExpandSlug((_) => (_ === slug ? null : slug))
 
-  function onExpand(id: number | null) {
-    setExpand(id)
-  }
+  const main = useMemo(() => {
+    const array: IResponseOffersCategories[] = []
 
-  const main = useMemo(() => categories.filter((item) => item.provider === "main"), [categories])
-  const mainSlug = main.find((item) => item.id === expand)
-  const sub = useCallback((slug: string) => (slug ? categories.filter((item) => item.provider === slug) : []), [categories])
-  const searchList = useMemo(
-    () => (trimValue ? categories.filter((item) => item.title.toLowerCase().includes(trimValue)) : []),
-    [trimValue],
+    for (const item of categories) {
+      if (item.provider === "main") {
+        array.push(item)
+      }
+    }
+
+    return array
+  }, [categories])
+  const subs = useMemo(() => {
+    const array: IResponseOffersCategories[] = []
+
+    for (const item of categories) {
+      if (item.provider !== "main") {
+        array.push(item)
+      }
+    }
+
+    return array
+  }, [categories])
+  const searchList = useMemo(() => {
+    const array: IResponseOffersCategories[] = []
+
+    if (!!trimValue) {
+      for (const item of categories) {
+        if (item.title.toLowerCase().includes(trimValue)) {
+          array.push(item)
+        }
+      }
+    }
+
+    return array
+  }, [trimValue])
+
+  const subMainCategories = useCallback(
+    (slug: string) => {
+      const array: IResponseOffersCategories[] = []
+
+      for (const item of subs) {
+        if (item.provider === slug) {
+          array.push(item)
+        }
+      }
+
+      return array
+    },
+    [subs],
   )
-
-  // const list = useMemo(
-  //   () => categories.filter((_) => (!trimValue ? true : _.title.toLowerCase().includes(trimValue))),
-  //   [categories, trimValue],
-  // )
 
   const currentCategory = useCallback(
     (id: number | string) => (!!id ? categories.find((_) => Number(_.id) === Number(id)) : null),
@@ -135,29 +172,11 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
             )}
           >
             <ul className="w-full flex flex-col gap-0.5 py-3 px-1.5">
-              <article
-                className={cx(
-                  "p-1.5 w-full items-center gap-1 cursor-pointer z-50",
-                  expand ? "grid grid-cols-[1.25rem_minmax(0,1fr)]" : "hidden",
-                  searchList.length > 0 && "hidden",
-                )}
-                onClick={(event) => {
-                  event.stopPropagation()
-                  event.preventDefault()
-                  onExpand(null)
-                  setOpen(true)
-                }}
-              >
-                <a className="w-5 h-5 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-secondary *:rotate-180">
-                  <IconChevron />
-                </a>
-                <span className="text-text-secondary text-xs font-normal">Все категории</span>
-              </article>
-              {(searchList.length > 0 ? searchList : sub(mainSlug?.slug!)).map((item) => (
+              {(searchList.length > 0 ? searchList : []).map((item) => (
                 <li
                   className={cx(
                     "w-full p-1.5 gap-2 bg-BG-second hover:bg-grey-field rounded-md",
-                    searchList.length > 0 || expand ? "grid items-center" : "hidden",
+                    searchList.length > 0 ? "grid items-center" : "hidden",
                   )}
                   key={`key:item:main:${item.id}:`}
                 >
@@ -191,50 +210,91 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
                 </li>
               ))}
               {main.map((itemMain) => (
-                <li
-                  className={cx(
-                    "w-full p-1.5 gap-2 bg-BG-second hover:bg-grey-field rounded-md",
-                    searchList.length > 0 || expand ? "hidden" : "grid items-center",
-                  )}
-                  key={`key:item:main:${itemMain.id}:`}
-                >
-                  <a
-                    type="button"
+                <>
+                  <li
                     className={cx(
-                      "w-5 h-5 p-2.5 cursor-pointer relative rounded-full transition-all duration-200 flex z-50",
-                      field.value === itemMain.id ? "bg-element-accent-1" : "bg-grey-stroke",
+                      "w-full p-1.5 gap-2 bg-BG-second hover:bg-grey-field rounded-md grid",
+                      searchList.length > 0 ? "hidden" : "grid items-center",
                     )}
-                    onClick={(event) => {
-                      event.stopPropagation()
-                      field.onChange(itemMain.id)
-                      if (itemMain?.slug === "kursk") {
-                        setValueForm("help", true)
-                      }
-                      setValue("")
-                    }}
+                    key={`key:item:main:${itemMain.id}:`}
                   >
-                    <span
+                    <a
+                      type="button"
                       className={cx(
-                        "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full",
-                        field.value === itemMain.id ? "bg-text-button h-2.5 w-2.5" : "bg-BG-second w-4 h-4",
+                        "w-5 h-5 p-2.5 cursor-pointer relative rounded-full transition-all duration-200 flex z-50",
+                        field.value === itemMain.id ? "bg-element-accent-1" : "bg-grey-stroke",
                       )}
-                    />
-                  </a>
-                  <div className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
-                    <ImageCategory id={itemMain.id} slug={itemMain?.slug} provider={itemMain?.provider} />
-                  </div>
-                  <span className="text-text-primary text-sm font-normal text-ellipsis line-clamp-1">{itemMain.title}</span>
-                  <a
-                    onClick={(event) => {
-                      event.stopPropagation()
-                      onExpand(itemMain.id)
-                      setOpen(true)
-                    }}
-                    className="w-5 h-5 relative flex *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-secondary z-50 cursor-pointer"
-                  >
-                    <IconChevron />
-                  </a>
-                </li>
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        field.onChange(itemMain.id)
+                        if (itemMain?.slug === "kursk") {
+                          setValueForm("help", true)
+                        }
+                        setValue("")
+                      }}
+                    >
+                      <span
+                        className={cx(
+                          "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full",
+                          field.value === itemMain.id ? "bg-text-button h-2.5 w-2.5" : "bg-BG-second w-4 h-4",
+                        )}
+                      />
+                    </a>
+                    <div className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
+                      <ImageCategory id={itemMain.id} slug={itemMain?.slug} provider={itemMain?.provider} />
+                    </div>
+                    <span className="text-text-primary text-sm font-normal text-ellipsis line-clamp-1">{itemMain.title}</span>
+                    <a
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        onExpandSlug(itemMain.slug)
+                      }}
+                      className={cx(
+                        "w-5 h-5 relative flex *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-secondary z-50 cursor-pointer *:transition-transform *:duration-200",
+                        expandSlug === itemMain.slug ? "*:rotate-90" : "*:-rotate-90",
+                      )}
+                    >
+                      <IconChevron />
+                    </a>
+                  </li>
+                  {subMainCategories(itemMain.slug).map((itemSub) => (
+                    <li
+                      className={cx(
+                        "w-full p-1.5 pl-3 gap-2 bg-BG-second hover:bg-grey-field rounded-md",
+                        searchList.length > 0 || expandSlug !== itemMain.slug ? "hidden" : "grid items-center",
+                      )}
+                      key={`key:item:main:${itemSub.id}:`}
+                      data-sub
+                    >
+                      <a
+                        type="button"
+                        className={cx(
+                          "w-5 h-5 p-2.5 cursor-pointer relative rounded-full transition-all duration-200 flex z-50",
+                          field.value === itemSub.id ? "bg-element-accent-1" : "bg-grey-stroke",
+                        )}
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          field.onChange(itemSub.id)
+                          if (itemSub?.provider === "kursk") {
+                            setValueForm("help", true)
+                          }
+                          setValue("")
+                        }}
+                      >
+                        <span
+                          className={cx(
+                            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full",
+                            field.value === itemSub.id ? "bg-text-button h-2.5 w-2.5" : "bg-BG-second w-4 h-4",
+                          )}
+                        />
+                      </a>
+                      <div className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
+                        <ImageCategory id={itemSub.id} slug={itemSub?.slug} provider={itemSub?.provider} />
+                      </div>
+                      <span className="text-text-primary text-sm font-normal text-ellipsis line-clamp-1">{itemSub.title}</span>
+                    </li>
+                  ))}
+                </>
               ))}
             </ul>
           </div>
@@ -257,16 +317,6 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
     />
   )
 }
-
-// onClick={(event) => {
-//   event.stopPropagation()
-//   field.onChange(item.id)
-//   if (item?.provider === "kursk" || item?.slug === "kursk") {
-//     setValueForm("help", true)
-//   }
-//   setValue("")
-//   setOpen(false)
-// }}
 
 ControllerCategory.displayName = "ControllerCategory"
 export default memo(ControllerCategory)
