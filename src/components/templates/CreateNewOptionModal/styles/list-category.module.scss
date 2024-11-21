@@ -1,6 +1,5 @@
 .container {
   position: relative;
-  
 
   & > input {
     height: 3rem !important;
@@ -57,6 +56,10 @@
 
       & > li {
         grid-template-columns: 1.25rem 1.5rem minmax(0, 1fr) 1.25rem;
+
+        &[data-sub] {
+          grid-template-columns: 1.25rem 1.5rem minmax(0, 1fr);
+        }
       }
     }
   }

@@ -1,40 +1,29 @@
 import Link from "next/link"
-import { useQuery } from "@tanstack/react-query"
 import { type DispatchWithoutAction, useEffect, useMemo, useRef, useState } from "react"
 
+import { type IImageData } from "@/types/type"
 import { type INotes } from "@/services/notes/types"
 
 import DeletePopup from "./DeletePopup"
-import IconLike from "@/components/icons/IconLike"
 import { NextImageMotion } from "@/components/common"
+import ComponentButtonLike from "./ComponentButtonLike"
 import IconComment from "@/components/icons/IconComment"
 import IconFile_06 from "@/components/icons/IconFile_06"
+import IconPlayCircle from "@/components/icons/IconPlayCircle"
 import IconChevronDown from "@/components/icons/IconChevronDown"
 
 import { cx } from "@/lib/cx"
 import { daysAgo } from "@/helpers"
-import { useToast } from "@/helpers/hooks/useToast"
 import { useContextPostsComments } from "./ContextComments"
-import { getLikes, getLikeTargetId, postLike } from "@/services"
-import { dispatchPhotoCarousel, dispatchVideoStream, useAuth, useBalloonPost } from "@/store"
-import { IImageData } from "@/types/type"
-import IconPlayCircle from "@/components/icons/IconPlayCircle"
+import { dispatchPhotoCarousel, dispatchVideoStream, useBalloonPost } from "@/store"
 
 function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: DispatchWithoutAction }) {
   const { archive } = useBalloonPost(({ data }) => data) ?? {}
   const { description, created, images = [], id } = note ?? {}
-  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const getId = () => getLikeTargetId("post", id!)
-  const [count, setCount] = useState(0)
-  const [myLike, setMyLike] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const { on } = useToast()
   const refImages = useRef<HTMLDivElement>(null)
   const ref = useRef<HTMLLIElement>(null)
   const refP = useRef<HTMLParagraphElement>(null)
   const [expand, setExpand] = useState(false)
-  const [errorLike, setErrorLike] = useState(false)
-
   const { onWriteResponse, noteCurrent, countCommentNote } = useContextPostsComments()
 
   function to(value: boolean) {
@@ -52,61 +41,6 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
           behavior: "smooth",
         })
       }
-    }
-  }
-
-  const {
-    data: dataLikesMy,
-    isLoading: isLoadingLikesMy,
-    isPending: isPendingLikesMy,
-  } = useQuery({
-    queryFn: getLikes,
-    queryKey: ["likes", { userId: userId }],
-    enabled: !!userId,
-    refetchOnMount: true,
-  })
-
-  const { data, isLoading, isPending } = useQuery({
-    queryFn: getId,
-    queryKey: ["likes", { provider: "post", id: id }],
-    enabled: !!id,
-    refetchOnMount: true,
-  })
-
-  useEffect(() => {
-    if (!!data?.data) {
-      setCount(data?.data || 0)
-    }
-  }, [data])
-
-  useEffect(() => {
-    if (userId && dataLikesMy?.data && id) {
-      const isLike = dataLikesMy?.data?.some(
-        (item) => item.provider === "post" && item?.id === Number(id) && Number(item?.userId) === Number(userId),
-      )
-
-      setMyLike(isLike)
-    }
-  }, [userId, dataLikesMy?.data, id])
-
-  function handle() {
-    if (!loading && !!userId && !isLoading && !isLoadingLikesMy && !isPendingLikesMy && !isPending) {
-      setLoading(true)
-      postLike({
-        id: id!,
-        provider: "post",
-      }).then(async (response) => {
-        if (!!response?.data || typeof response?.data === "number") {
-          setCount((_) => (myLike ? _ - 1 : _ + 1))
-          setMyLike((_) => !_)
-        } else {
-          setErrorLike(true)
-          on({
-            message: "У нас какая-то ошибка. Мы работаем над исправлением",
-          })
-        }
-        setLoading(false)
-      })
     }
   }
 
@@ -308,21 +242,7 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
         </div>
       </div>
       <div className="w-full flex flex-row flex-nowrap gap-3 mt-1">
-        <button
-          type="button"
-          className="gap-1 flex flex-row items-center justify-start px-2.5 h-[1.875rem] rounded-[0.9375rem] bg-grey-field"
-          onClick={handle}
-        >
-          <div
-            className={cx(
-              "w-5 h-5 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5",
-              errorLike && "[&>svg>path]:fill-text-error",
-            )}
-          >
-            <IconLike is={myLike} />
-          </div>
-          <span className={cx("text-xs font-medium", myLike ? "text-text-accent" : "text-text-secondary")}>{count}</span>
-        </button>
+        <ComponentButtonLike id={id} />
         <button
           type="button"
           onClick={() => {
