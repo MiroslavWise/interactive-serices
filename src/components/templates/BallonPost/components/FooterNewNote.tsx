@@ -1,9 +1,9 @@
 import { Button } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { dispatchAuthModal, dispatchOpenCreateNote, useAuth, useBalloonPost } from "@/store"
-import { EnumSign } from "@/types/enum"
+import { dispatchOpenCreateNote, useAuth, useBalloonPost } from "@/store"
 import { useContextPostsComments } from "./ContextComments"
+import { patchPost } from "@/services/posts"
 
 function FooterNewNote() {
   const data = useBalloonPost(({ data }) => data)
@@ -25,10 +25,10 @@ function FooterNewNote() {
           typeButton="fill-primary"
           label="Стать участником"
           onClick={() => {
-            // dispatchAuthModal({
-            //   visible: true,
-            //   type: EnumSign.SignIn,
-            // })
+            if (!!userId) {
+              patchPost(id!, {})
+            } else {
+            }
           }}
         />
       </footer>
