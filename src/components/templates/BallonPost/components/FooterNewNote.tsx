@@ -4,8 +4,10 @@ import { cx } from "@/lib/cx"
 import { dispatchOpenCreateNote, useAuth, useBalloonPost } from "@/store"
 import { useContextPostsComments } from "./ContextComments"
 import { patchPost } from "@/services/posts"
+import { useState } from "react"
 
 function FooterNewNote() {
+  const [loading, setLoading] = useState(false)
   const data = useBalloonPost(({ data }) => data)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { id, userId: userIdPost, title, archive } = data ?? {}
@@ -24,9 +26,13 @@ function FooterNewNote() {
           type="button"
           typeButton="fill-primary"
           label="Стать участником"
-          onClick={() => {
+          onClick={async () => {
             if (!!userId) {
-              patchPost(id!, {})
+              if (!loading) {
+                setLoading(true)
+                await patchPost(id!, {})
+                setLoading(false)
+              }
             } else {
             }
           }}
