@@ -1,21 +1,21 @@
 "use client"
 
-import { MouseEvent, useCallback, useState } from "react"
+import { type MouseEvent } from "react"
 
 import IconPlus from "@/components/icons/IconPlus"
 import { IconMinus } from "@/components/icons/IconMinus"
 import { IconNavigate } from "@/components/icons/IconNavigate"
 
 import { cx } from "@/lib/cx"
-import { useAddress } from "@/helpers"
-import { dispatchMapCoordinates, dispatchMapCoordinatesZoom, useMapCoordinates, useVisibleMobileAbout } from "@/store"
+import { useToast } from "@/helpers/hooks/useToast"
+import { handleAddressLocation } from "@/helpers/functions/navigator-address-location"
+import { dispatchMapCoordinatesZoom, useMapCoordinates, useVisibleMobileAbout } from "@/store"
 
 import styles from "./style.module.scss"
 
 export default function Navigation() {
-  const { coordinatesAddresses } = useAddress()
   const visible = useVisibleMobileAbout(({ visible }) => visible)
-
+  const { on } = useToast()
   const zoom = useMapCoordinates(({ zoom }) => zoom) //10 20
 
   function handleZoom(event: MouseEvent<HTMLButtonElement>, type: "-" | "+") {
@@ -33,33 +33,6 @@ export default function Navigation() {
       }
     }
   }
-
-  const handleAddressLocation = useCallback(() => {
-    if ("geolocation" in navigator) {
-      navigator?.geolocation?.getCurrentPosition(
-        (position) => {
-          let latitude = position?.coords?.latitude
-          let longitude = position?.coords?.longitude
-
-          if (latitude && longitude) {
-            dispatchMapCoordinates({
-              coordinates: [longitude, latitude],
-            })
-          }
-        },
-        (error) => {
-          console.log("%c error location: ", "color: #f00", error)
-        },
-      )
-    } else {
-      if (!!coordinatesAddresses && coordinatesAddresses?.length) {
-        dispatchMapCoordinates({
-          coordinates: coordinatesAddresses?.[0]!,
-        })
-      }
-      console.error("%c Вы не дали доступ к геолокации", "color: #f00")
-    }
-  }, [coordinatesAddresses])
 
   return (
     <div
@@ -94,7 +67,7 @@ export default function Navigation() {
       <button
         onClick={(event) => {
           event.stopPropagation()
-          handleAddressLocation()
+          handleAddressLocation(on)
         }}
         className="aspect-square w-12 h-12 flex items-center justify-center p-3.5 bg-BG-second *:w-5 *:h-5"
       >

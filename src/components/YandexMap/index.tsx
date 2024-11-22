@@ -10,7 +10,6 @@ import { type IResponseOffers } from "@/services/offers/types"
 import HeaderMap from "./Header"
 import ListPlacemark from "./ObjectsMap"
 
-import { useAddress } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { getAddressCoords } from "@/helpers/get-address"
 import {
@@ -30,7 +29,6 @@ const COORD = [37.427698, 55.725864]
 
 function YandexMap() {
   const isAuth = useAuth(({ isAuth }) => isAuth)
-  const { coordinatesAddresses } = useAddress()
   const coordinates = useMapCoordinates(({ coordinates }) => coordinates)
   const zoom = useMapCoordinates(({ zoom }) => zoom)
   const instanceRef: TTypeInstantsMap = useRef()
@@ -74,17 +72,15 @@ function YandexMap() {
         },
       )
     } else {
-      if (!!coordinatesAddresses && coordinatesAddresses?.length) {
-        dispatchMapCoordinates({
-          coordinates: coordinatesAddresses[0]!,
-        })
-        if (instanceRef) {
-          instanceRef?.current?.setCenter(coordinatesAddresses[0]!)
-        }
+      dispatchMapCoordinates({
+        coordinates: COORD,
+      })
+      if (instanceRef) {
+        instanceRef?.current?.setCenter(COORD)
       }
       console.error("%c Вы не дали доступ к геолокации", "color: #f00")
     }
-  }, [coordinatesAddresses])
+  }, [])
 
   useEffect(() => {
     if (!coordinates) {
