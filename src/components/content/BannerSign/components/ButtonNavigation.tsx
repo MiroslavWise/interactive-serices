@@ -6,6 +6,7 @@ import { IconNavigate } from "@/components/icons/IconNavigate"
 
 import { cx } from "@/lib/cx"
 import { useAddress } from "@/helpers"
+import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchMapCoordinates, dispatchMapCoordinatesZoom, useAuth, useCollapsePersonalScreen, useMapCoordinates } from "@/store"
 
 import styles from "../styles/button-collapse.module.scss"
@@ -15,6 +16,7 @@ export const ButtonNavigation = memo(() => {
   const visible = useCollapsePersonalScreen(({ visible }) => visible)
   const zoom = useMapCoordinates(({ zoom }) => zoom) //10 20
   const { coordinatesAddresses } = useAddress()
+  const { on } = useToast()
 
   function handleZoom(event: MouseEvent<HTMLButtonElement>, type: "-" | "+") {
     event.stopPropagation()
@@ -47,14 +49,21 @@ export const ButtonNavigation = memo(() => {
         },
         (error) => {
           console.log("%c error location: ", "color: #f00", error)
+          if (error.code === 1) {
+            on({
+              message: "Вы не дали доступ к геолокации. Посмотрите в браузере разрешения к геолокации",
+            })
+          } else {
+            on({
+              message: "Вы не дали доступ к геолокации или у вас какая-то проблема с определением места локации",
+            })
+          }
         },
       )
     } else {
-      if (!!coordinatesAddresses && coordinatesAddresses?.length) {
-        dispatchMapCoordinates({
-          coordinates: coordinatesAddresses[0]!,
-        })
-      }
+      on({
+        message: "Ваш браузер не поддерживает поиск по геолокации. Посмотрите другие решения браузеров",
+      })
       console.error("%c Вы не дали доступ к геолокации", "color: #f00")
     }
   }, [coordinatesAddresses])
