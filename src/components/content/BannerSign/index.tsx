@@ -1,6 +1,5 @@
 "use client"
 
-import { ButtonNavigation } from "./components/ButtonNavigation"
 import LeftAsideProfile from "@/components/profile/LeftAsideProfile"
 
 import { cx } from "@/lib/cx"
@@ -39,7 +38,6 @@ function BannerSign() {
           height={12}
         />
       </button>
-      <ButtonNavigation />
     </>
   )
 }

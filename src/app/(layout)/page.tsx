@@ -37,6 +37,7 @@ const BannerMainPage = dynamic(() => import("@/components/content/BannerMainPage
 import { useResize } from "@/helpers"
 import useUtm from "@/helpers/use-utm"
 import { useAuth, useHasBalloons } from "@/store"
+import { ButtonNavigation } from "@/components/content/BannerSign/components/ButtonNavigation"
 
 export default () => {
   useUtm()
@@ -61,6 +62,7 @@ export default () => {
           </>
         ) : (
           <>
+            <ButtonNavigation />
             <SearchFilters />
             <FiltersScreen />
             <SearchAndFilters />

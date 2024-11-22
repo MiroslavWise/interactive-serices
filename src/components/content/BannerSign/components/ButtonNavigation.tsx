@@ -6,11 +6,12 @@ import { IconNavigate } from "@/components/icons/IconNavigate"
 
 import { cx } from "@/lib/cx"
 import { useAddress } from "@/helpers"
-import { dispatchMapCoordinates, dispatchMapCoordinatesZoom, useCollapsePersonalScreen, useMapCoordinates } from "@/store"
+import { dispatchMapCoordinates, dispatchMapCoordinatesZoom, useAuth, useCollapsePersonalScreen, useMapCoordinates } from "@/store"
 
 import styles from "../styles/button-collapse.module.scss"
 
 export const ButtonNavigation = memo(() => {
+  const isAuth = useAuth(({ isAuth }) => isAuth)
   const visible = useCollapsePersonalScreen(({ visible }) => visible)
   const zoom = useMapCoordinates(({ zoom }) => zoom) //10 20
   const { coordinatesAddresses } = useAddress()
@@ -59,7 +60,10 @@ export const ButtonNavigation = memo(() => {
   }, [coordinatesAddresses])
 
   return (
-    <div className={cx(styles.buttonNavigation, "fixed left-0 bottom-6 flex flex-col gap-2.5 z-[60] w-10")} data-collapse={visible}>
+    <div
+      className={cx(styles.buttonNavigation, "fixed left-0 bottom-6 flex flex-col gap-2.5 z-[60] w-10")}
+      data-collapse={isAuth ? visible : true}
+    >
       <section className="w-10 flex flex-col rounded-.625 bg-BG-second overflow-hidden">
         <button
           onClick={(event) => handleZoom(event, "+")}
