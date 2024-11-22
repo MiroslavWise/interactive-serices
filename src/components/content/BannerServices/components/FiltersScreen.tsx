@@ -37,7 +37,7 @@ export const FiltersScreen = () => {
       <button
         data-close
         onClick={close}
-        className="absolute top-5 right-5 bg-transparent p-3.5 flex items-center justify-center w-12 h-12 rounded-full border border-solid border-grey-stroke-light *:w-5 *:h-5"
+        className="absolute top-5 right-5 bg-transparent p-3.5 flex items-center justify-center w-12 h-12 rounded-full border border-solid border-grey-stroke-light *:w-5 *:h-5 z-50"
       >
         <IconXClose />
       </button>
