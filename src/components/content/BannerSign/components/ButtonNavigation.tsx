@@ -34,7 +34,7 @@ export const ButtonNavigation = memo(() => {
     }
   }
 
-  const handleAddressLocation = useCallback(() => {
+  function handleAddressLocation() {
     if ("geolocation" in navigator) {
       navigator?.geolocation?.getCurrentPosition(
         (position) => {
@@ -66,7 +66,7 @@ export const ButtonNavigation = memo(() => {
       })
       console.error("%c Вы не дали доступ к геолокации", "color: #f00")
     }
-  }, [coordinatesAddresses])
+  }
 
   return (
     <div
