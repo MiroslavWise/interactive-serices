@@ -68,7 +68,8 @@ export default function FilterCategory() {
                 handleCategory(item.id)
               }}
               className={cx(
-                "flex flex-col items-start justify-between h-24 w-full p-3 rounded-xl border border-grey-stroke-light bg-BG-second cursor-pointer",
+                "flex flex-col items-start justify-between h-24 w-full p-3 rounded-xl border-grey-stroke-light border-solid cursor-pointer",
+                state.some((some) => some === item.id) ? "border-none bg-gradient-to-r from-[#8b89f5] to-[#625ff9]" : "border bg-BG-second",
                 item?.slug === "kursk" &&
                   `border border-[var(--border-red)] [background:var(--linear-red-help-opacity)] hover:border-[var(--border-red-contrast)]`,
                 state.some((some) => some === item.id) && item?.slug === "kursk" && `border-none [background:var(--more-red-gradient)]`,
