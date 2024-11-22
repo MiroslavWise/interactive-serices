@@ -244,7 +244,15 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
                     <div className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
                       <ImageCategory id={itemMain.id} slug={itemMain?.slug} provider={itemMain?.provider} />
                     </div>
-                    <span className="text-text-primary text-sm font-normal text-ellipsis line-clamp-1">{itemMain.title}</span>
+                    <span
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        onExpandSlug(itemMain.slug)
+                      }}
+                      className="text-text-primary text-sm font-normal text-ellipsis line-clamp-1 cursor-pointer"
+                    >
+                      {itemMain.title}
+                    </span>
                     <a
                       onClick={(event) => {
                         event.stopPropagation()
