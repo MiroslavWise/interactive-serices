@@ -7,6 +7,9 @@ import { cx } from "@/lib/cx"
 import { useResize } from "@/helpers"
 import { dispatchPublicProfile, useAuth } from "@/store"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
+import { useQuery } from "@tanstack/react-query"
+import { getPostParticipants } from "@/services/posts"
+import { clg } from "@console"
 
 interface IProps {
   postUserId: number
@@ -25,7 +28,14 @@ function ComponentParticipants({ postUserId, id, title, isParticipant }: IProps)
     title: title! ?? "",
   })
 
-  const list: IUserOffer[] = []
+  const { data } = useQuery({
+    queryFn: () => getPostParticipants(id),
+    queryKey: ["participants", { id: id }],
+    enabled: isParticipant,
+    refetchOnMount: true,
+  })
+
+  const list: IUserOffer[] = data?.data?.participants ?? []
 
   return is ? (
     <section className={cx("w-full flex flex-col gap-5 h-full", list.length === 0 && "items-center justify-center")}>

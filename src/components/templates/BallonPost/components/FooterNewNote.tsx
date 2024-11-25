@@ -1,12 +1,15 @@
 import { useState } from "react"
+import { useQuery } from "@tanstack/react-query"
+
+import { EnumSign } from "@/types/enum"
 
 import { Button } from "@/components/common"
 
 import { cx } from "@/lib/cx"
-import { patchPost } from "@/services/posts"
 import { useToast } from "@/helpers/hooks/useToast"
 import { useContextPostsComments } from "./ContextComments"
-import { dispatchOpenCreateNote, useAuth, useBalloonPost } from "@/store"
+import { getPostParticipants, patchPost } from "@/services/posts"
+import { dispatchAuthModal, dispatchOpenCreateNote, useAuth, useBalloonPost } from "@/store"
 
 function FooterNewNote() {
   const [loading, setLoading] = useState(false)
@@ -17,7 +20,37 @@ function FooterNewNote() {
 
   const { isBecomeMember } = useContextPostsComments()
 
-  if (isBecomeMember) {
+  const {
+    data: dataP,
+    refetch,
+    isLoading,
+  } = useQuery({
+    queryFn: () => getPostParticipants(data?.id!),
+    queryKey: ["participants", { id: data?.id }],
+    enabled: data?.isParticipants && userId !== userIdPost && !!userId,
+    refetchOnMount: true,
+  })
+
+  const is = !!dataP?.data && dataP?.data?.participants?.length > 0 && dataP?.data?.participants.some((_) => _.id === userId)
+
+  if (isBecomeMember && !userId) {
+    return (
+      <footer className="flex flex-col gap-2.5 items-center justify-center my-auto fixed md:absolute bottom-0 left-0 right-0 bg-BG-second md:rounded-b-2 border-t border-solid border-grey-stroke-light">
+        <h4 className="text-text-primary text-lg font-semibold text-center">Желаете стать участником события?</h4>
+        <p className="text-text-secondary text-center text-sm font-normal">
+          <a onClick={() => dispatchAuthModal({ visible: true, type: EnumSign.SignIn })} className="text-element-accent-1">
+            Войдите
+          </a>{" "}
+          или{" "}
+          <a onClick={() => dispatchAuthModal({ visible: true, type: EnumSign.SignUp })} className="text-element-accent-1">
+            зарегистрируйтесь
+          </a>
+        </p>
+      </footer>
+    )
+  }
+
+  if (isBecomeMember && !is) {
     return (
       <footer
         className={cx(
@@ -31,17 +64,19 @@ function FooterNewNote() {
           label="Стать участником"
           onClick={async () => {
             if (!!userId) {
-              if (!loading) {
+              if (!loading && !is && !isLoading) {
                 setLoading(true)
                 await patchPost(id!, {})
                 on({
                   message: "Вы были добавлены в список учасников данного мероприятия",
                 })
+                await refetch()
                 setLoading(false)
               }
-            } else {
             }
           }}
+          loading={loading || isLoading}
+          disabled={loading || isLoading}
         />
       </footer>
     )
