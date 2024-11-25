@@ -44,13 +44,13 @@ export const ContainerSuggestions = () => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const { data, isLoading } = useQuery({
-    queryFn: () => getUserIdOffers(userId!, { provider: stateProvider, order: "DESC" }),
+    queryFn: () => getUserIdOffers(userId!, { provider: stateProvider, order: "DESC" }, true),
     queryKey: ["offers", { userId: userId, provider: stateProvider }],
     enabled: !!userId! && [EnumTypeProvider.alert, EnumTypeProvider.discussion, EnumTypeProvider.offer].includes(stateProvider),
   })
 
   const { data: dataPosts, isLoading: isLoadingPosts } = useQuery({
-    queryFn: () => getPosts({ order: "DESC", user: userId! }),
+    queryFn: () => getPosts({ order: "DESC", user: userId! }, true),
     queryKey: ["posts", { userId: userId!, order: "DESC" }],
     enabled: !!userId && stateProvider === EnumTypeProvider.POST,
   })

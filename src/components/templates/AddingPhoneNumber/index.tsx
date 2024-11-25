@@ -7,7 +7,7 @@ import { Button, ButtonClose } from "@/components/common"
 import InputCountry from "@/components/common/Forward/InputCountry"
 
 import { cx } from "@/lib/cx"
-import { postPhone } from "@/services/phones"
+import { postPhone } from "@/services/posts/phones"
 import { functionAuthErrors } from "@/services"
 import { dispatchAddingPhoneNumber, dispatchNumberConfirmation, dispatchStartTimerNumberConfirmation, useAddingPhoneNumber } from "@/store"
 

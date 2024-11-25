@@ -9,7 +9,7 @@ import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { functionAuthErrors, getUserId } from "@/services"
-import { postVerifyPhone } from "@/services/phones"
+import { postVerifyPhone } from "@/services/posts/phones"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchAddingPhoneNumber, dispatchNumberConfirmation, useAuth, useNumberConfirmation } from "@/store"
 

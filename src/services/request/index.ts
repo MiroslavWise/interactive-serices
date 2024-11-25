@@ -7,6 +7,7 @@ import { fetchGet } from "./get"
 import { URL_API } from "@/helpers"
 import { authToken } from "../auth/authService"
 import { instance, instanceHeader } from "./instance"
+import { invalidAccessTokenRefresh } from "@/helpers/functions/invalid-access-token-refresh"
 
 function returnData<P>(response: any): IReturnData<P> {
   return {
@@ -141,7 +142,7 @@ interface IPost {
   body: object | any
 }
 
-const post = async ({ url, body }: IPost): Promise<IResponse<any>> => {
+const post = async ({ url, body }: IPost, isInvalid?: boolean): Promise<IResponse<any>> => {
   const head: RawAxiosRequestHeaders = {
     "Content-Type": "application/json",
   }
@@ -160,14 +161,40 @@ const post = async ({ url, body }: IPost): Promise<IResponse<any>> => {
 
   return instance
     .post(url, { ...data }, { headers: head })
-    .then(({ data, status }) => {
+    .then(async ({ data, status }) => {
       if (status >= 200 && status < 300) {
+        if (isInvalid && data?.error?.code === 401) {
+          const { ok } = (await invalidAccessTokenRefresh()) ?? {}
+          if (ok) {
+            const newResponse = await post({ url, body })
+
+            return {
+              data: newResponse?.data ?? null,
+              error: newResponse?.error ?? null,
+              meta: newResponse?.meta,
+            }
+          }
+        }
+
         return {
           meta: data?.meta || null,
           data: data?.data || null,
           error: data?.error || null,
         }
       } else {
+        if (isInvalid && data?.error?.code === 401) {
+          const { ok } = (await invalidAccessTokenRefresh()) ?? {}
+          if (ok) {
+            const newResponse = await post({ url, body })
+
+            return {
+              data: newResponse?.data ?? null,
+              error: newResponse?.error ?? null,
+              meta: newResponse?.meta,
+            }
+          }
+        }
+
         return {
           meta: data?.meta || null,
           data: data?.data || null,

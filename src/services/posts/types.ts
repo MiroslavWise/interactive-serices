@@ -66,7 +66,7 @@ interface IQueries {
 
 export type TPostPosts = (body: IBodyPost) => Promise<IResponse<IPosts>>
 export type TPatchPost = (id: number, body: Partial<IBodyPost>) => Promise<IResponse<IPosts>>
-export type TGetPosts = ({}: IQueries) => Promise<IResponse<IPosts[]>>
+export type TGetPosts = ({}: IQueries, isInvalid?: boolean) => Promise<IResponse<IPosts[]>>
 export type TGetPostsFromUser = ({}: { query?: IQueries } & { userId: number }) => Promise<IResponse<IPosts[]>>
 export type TGetPostId = (id: number | string) => Promise<IResponse<IPosts>>
 export type TGetPostParticipants = (id: number) => Promise<IResponse<{ participants: IUserOffer[] }>>
