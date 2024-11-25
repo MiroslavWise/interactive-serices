@@ -19,6 +19,7 @@ import { cx } from "@/lib/cx"
 import { DATA_MODAL, ID_MODAL, STYLE_MODAL } from "../Data"
 
 import styles from "./style.module.scss"
+import { EnumTypeProvider } from "@/types/enum"
 
 function Modal() {
   const data = useModal(({ data }) => data)
@@ -101,8 +102,21 @@ function Modal() {
       return
     } else if (visibleOnboarding && EModalData.CreateNewOptionModal) {
       return
-    } else if (data === EModalData.CreateNewOptionModal || data === EModalData.CreateNewOptionModalMap) {
+    } else if (
+      [
+        EModalData.CreateNewOptionModal,
+        EModalData.CreateNewOptionModalMap,
+        EModalData.SUCCESS_CREATE_POST,
+        EModalData.CREATE_NEW_NOTE,
+      ].includes(data!)
+    ) {
       dispatchOpenPreCloseCreateService(typeAdd!)
+      return
+    } else if (data === EModalData.CREATE_NEW_NOTE) {
+      dispatchOpenPreCloseCreateService(EnumTypeProvider.NOTE)
+      return
+    } else if (data === EModalData.CREATE_POST) {
+      dispatchOpenPreCloseCreateService(EnumTypeProvider.POST)
       return
     } else {
       dispatchModalClose()

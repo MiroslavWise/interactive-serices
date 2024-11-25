@@ -10,17 +10,22 @@ import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 
 import { cx } from "@/lib/cx"
 import { closeCreateOffers, dispatchClosePreCloseCreateService, dispatchModalClose, usePreCloseCreateService } from "@/store"
+import IconPost from "@/components/icons/IconPost"
 
 const H: Map<EnumTypeProvider, string> = new Map([
   [EnumTypeProvider.offer, "Предложения"],
   [EnumTypeProvider.alert, "SOS-сообщения"],
   [EnumTypeProvider.discussion, "Обсуждения"],
+  [EnumTypeProvider.POST, "Пост"],
+  [EnumTypeProvider.NOTE, "Запись"],
 ])
 
 const ICON = new Map([
   [EnumTypeProvider.offer, IconOfferBalloon],
   [EnumTypeProvider.alert, IconAlertCirlceRed],
   [EnumTypeProvider.discussion, IconDiscussionBalloon],
+  [EnumTypeProvider.POST, IconPost],
+  [EnumTypeProvider.NOTE, IconPost],
 ])
 
 function PreCloseCreateService() {
