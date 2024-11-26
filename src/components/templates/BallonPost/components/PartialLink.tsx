@@ -21,7 +21,7 @@ function PartialLink({ state, setState, postUserId, isParticipants, id }: IProps
   const { data } = useQuery({
     queryFn: () => getPostParticipants(id),
     queryKey: ["participants", { id: id }],
-    enabled: isParticipants && !!id && userId !== postUserId && !!userId,
+    enabled: isParticipants && !!id && userId === postUserId && !!userId,
   })
 
   const count = (data?.data?.participants ?? []).length
