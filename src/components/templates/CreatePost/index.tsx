@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { type AxiosProgressEvent } from "axios"
 import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
@@ -27,7 +27,7 @@ import { onProgress, onUploadProgress } from "./utils"
 import { createAddress } from "@/helpers/address/create"
 import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
 import { fileUploadService, getGeocodeSearch, postAddress } from "@/services"
-import { dispatchModal, EModalData, useAuth, useCreatePost, useModal } from "@/store"
+import { dispatchClearInitCreatePostMap, dispatchModal, EModalData, useAuth, useCreatePost, useModal } from "@/store"
 import { resolverCreatePost, resolverCreatePostMap, type TSchemaCreatePost } from "./schema"
 import { onChangeFile, transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
 
@@ -169,6 +169,10 @@ function CreatePost() {
   const isEmptySearch = !loadingAddresses && Array.isArray(valuesAddresses?.response?.GeoObjectCollection?.featureMember)
   const focusAddress = () => setIsFocus(true)
   const blurAddress = () => setIsFocus(false)
+
+  useEffect(() => {
+    return () => dispatchClearInitCreatePostMap()
+  }, [])
 
   const disabled = !watch("title").trim() || !watch("address") || !watch("description").trim()
 

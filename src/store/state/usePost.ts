@@ -62,14 +62,11 @@ export const dispatchCreatePostMap = (init?: TPostAddress) => {
     dispatchModal(EModalData.CREATE_POST_MAP)
   } else {
     dispatchModalClose()
-    useCreatePost.setState(
-      (_) => ({
-        initAddress: undefined,
-      }),
-      true,
-    )
+    dispatchClearInitCreatePostMap()
   }
 }
+
+export const dispatchClearInitCreatePostMap = () => useCreatePost.setState(() => ({ initAddress: undefined }), true)
 
 export function dispatchBallonPostUpdate(value: Partial<IPosts>) {
   useBalloonPost.setState(
