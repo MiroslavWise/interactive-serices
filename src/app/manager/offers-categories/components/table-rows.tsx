@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 
 import { IQueryOffersCategories, IResponseOffersCategories } from "@/services/offers-categories/types"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 import IconEdit from "@/components/icons/IconEdit"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 

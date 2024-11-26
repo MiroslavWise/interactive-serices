@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query"
 
 import { EnumStatusBarter } from "@/types/enum"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 
 import { useCountMessagesNotReading } from "@/helpers"
 import { deleteThread, getBarterId, getThreadId, patchBarter } from "@/services"

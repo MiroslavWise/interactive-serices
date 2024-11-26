@@ -4,8 +4,9 @@ import { Controller, useForm } from "react-hook-form"
 
 import { type IValuesFormFilters } from "../types/types"
 
+import Button from "@/components/common/Button"
 import IconHelp from "@/components/icons/IconHelp"
-import { Button, ImageCategory } from "@/components/common"
+import { ImageCategory } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { getOffersCategories } from "@/services"
@@ -21,16 +22,14 @@ function FormFilterScreen() {
 
   const mainCategories = useMemo(() => categories?.filter((item) => item?.provider === "main") || [], [categories])
 
-  const { register, watch, handleSubmit, reset, setValue, control } = useForm<IValuesFormFilters>({
+  const { handleSubmit, reset, setValue, control } = useForm<IValuesFormFilters>({
     defaultValues: { actives: activeFilters || [] },
   })
 
-  function submit(values: IValuesFormFilters) {
+  const onSubmit = handleSubmit((values: IValuesFormFilters) => {
     dispatchDataFilterScreen(values.actives)
     close()
-  }
-
-  const onSubmit = handleSubmit(submit)
+  })
 
   function close() {
     dispatchActiveFilterScreen(false)

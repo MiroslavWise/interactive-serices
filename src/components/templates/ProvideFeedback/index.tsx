@@ -11,14 +11,15 @@ import IconStar from "@/components/icons/IconStar"
 import IconRepeat from "@/components/icons/IconRepeat"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
-import { Button, ImageCategory, ImageStatic } from "@/components/common"
+import { ImageCategory, ImageStatic } from "@/components/common"
+import Button from "@/components/common/Button"
 
 import { cx } from "@/lib/cx"
 import { clg } from "@console"
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchModal, dispatchModalClose, EModalData, useAddTestimonials, useAuth } from "@/store"
-import { fileUploadService, getBarterId, patchTestimonial, postTestimonial, serviceNotifications } from "@/services"
+import { dispatchModal, EModalData, useAddTestimonials, useAuth } from "@/store"
 import { handleImageChange, MAX_LENGTH, resolver, TFiles, type TSchema } from "./utils"
+import { fileUploadService, getBarterId, patchTestimonial, postTestimonial, serviceNotifications } from "@/services"
 
 import styles from "./style.module.scss"
 

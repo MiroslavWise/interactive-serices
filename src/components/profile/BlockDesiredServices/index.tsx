@@ -3,7 +3,8 @@
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import { Button, ImageCategory } from "@/components/common"
+import Button from "@/components/common/Button"
+import { ImageCategory } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { getUserId } from "@/services"

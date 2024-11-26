@@ -1,12 +1,12 @@
 import { useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 
+import { EnumStatusBarter } from "@/types/enum"
 import { type IResponseNotifications } from "@/services/notifications/types"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 
 import { getBarterId, patchBarter, serviceNotifications } from "@/services"
-import { useQuery } from "@tanstack/react-query"
-import { EnumStatusBarter } from "@/types/enum"
 import { dispatchReasonBarters, dispatchVisibleNotifications } from "@/store"
 
 interface IProps {

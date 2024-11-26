@@ -1,4 +1,4 @@
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 
 import { useOut } from "@/helpers"
 import { dispatchModalClose } from "@/store"

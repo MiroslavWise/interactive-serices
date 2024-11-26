@@ -1,16 +1,16 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { type AxiosProgressEvent } from "axios"
 import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 
+import { EnumTypeProvider } from "@/types/enum"
 import { type IBodyNote } from "@/services/notes/types"
 import { type IBodyPost } from "@/services/posts/types"
-import { EnumHelper, EnumTypeProvider } from "@/types/enum"
 import { type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 import ControlHelp from "./components/ControlHelp"
 import IconXClose from "@/components/icons/IconXClose"
 import IconFile_06 from "@/components/icons/IconFile_06"
@@ -27,9 +27,9 @@ import { onProgress, onUploadProgress } from "./utils"
 import { createAddress } from "@/helpers/address/create"
 import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
 import { fileUploadService, getGeocodeSearch, postAddress } from "@/services"
-import { dispatchModal, EModalData, useAuth, useCreatePost, useModal } from "@/store"
 import { resolverCreatePost, resolverCreatePostMap, type TSchemaCreatePost } from "./schema"
 import { onChangeFile, transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
+import { dispatchClearInitCreatePostMap, dispatchModal, EModalData, useAuth, useCreatePost, useModal } from "@/store"
 
 function CreatePost() {
   const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
@@ -41,6 +41,8 @@ function CreatePost() {
   const [progress, setProgress] = useState<Record<string, AxiosProgressEvent>>({})
   const stateModal = useModal(({ data }) => data)
   const initMapAddress = useCreatePost(({ initAddress }) => initAddress)
+
+  clg("initMapAddress: ", initMapAddress)
 
   const { refetch: refetchProfile } = useQuery({
     queryFn: () => getPosts({ order: "DESC", user: userId! }),
@@ -169,6 +171,14 @@ function CreatePost() {
   const isEmptySearch = !loadingAddresses && Array.isArray(valuesAddresses?.response?.GeoObjectCollection?.featureMember)
   const focusAddress = () => setIsFocus(true)
   const blurAddress = () => setIsFocus(false)
+
+  useEffect(
+    () => () => {
+      clg("destructor: dispatchClearInitCreatePostMap ", undefined, "warning")
+      dispatchClearInitCreatePostMap()
+    },
+    [],
+  )
 
   const disabled = !watch("title").trim() || !watch("address") || !watch("description").trim()
 

@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 
 import { cx } from "@/lib/cx"
 import { dispatchCookies, useCookies } from "@/store"

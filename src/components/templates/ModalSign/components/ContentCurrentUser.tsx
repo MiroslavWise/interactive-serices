@@ -3,8 +3,8 @@ import Link from "next/link"
 import { EnumSign } from "@/types/enum"
 
 import Avatar from "@avatar"
-import { Button } from "@/components/common"
-import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
+import Button from "@/components/common/Button"
+import IconVerifiedTick from "@/components/icons/IconVerifiedTick"
 
 import { cx } from "@/lib/cx"
 import { dispatchAuthModal, useModalAuth } from "@/store"

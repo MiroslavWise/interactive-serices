@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from "react"
 
+import { EnumTypeProvider } from "@/types/enum"
+
 import { ButtonClose } from "@/components/common"
 
 import {
@@ -101,8 +103,21 @@ function Modal() {
       return
     } else if (visibleOnboarding && EModalData.CreateNewOptionModal) {
       return
-    } else if (data === EModalData.CreateNewOptionModal || data === EModalData.CreateNewOptionModalMap) {
+    } else if (
+      [
+        EModalData.CreateNewOptionModal,
+        EModalData.CreateNewOptionModalMap,
+        EModalData.SUCCESS_CREATE_POST,
+        EModalData.CREATE_NEW_NOTE,
+      ].includes(data!)
+    ) {
       dispatchOpenPreCloseCreateService(typeAdd!)
+      return
+    } else if (data === EModalData.CREATE_NEW_NOTE) {
+      dispatchOpenPreCloseCreateService(EnumTypeProvider.NOTE)
+      return
+    } else if (data === EModalData.CREATE_POST) {
+      dispatchOpenPreCloseCreateService(EnumTypeProvider.POST)
       return
     } else {
       dispatchModalClose()

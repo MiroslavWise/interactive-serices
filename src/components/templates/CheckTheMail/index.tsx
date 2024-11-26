@@ -1,6 +1,7 @@
 "use client"
 
-import { Button, ButtonClose } from "@/components/common"
+import Button from "@/components/common/Button"
+import { ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { dispatchCheckTheMail, useCheckTheMail } from "@/store"

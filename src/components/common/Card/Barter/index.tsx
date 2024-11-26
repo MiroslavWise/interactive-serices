@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 import { EnumStatusBarter } from "@/types/enum"
 import { IBarterResponse, ISmallDataOfferBarter } from "@/services/barters/types"
 
-import { ButtonLink } from "../../Forward"
+import { ButtonLink } from "../../Button"
 import { ImageCategory } from "../../Image"
 import { LoadingProfile } from "../../Loading"
 import { BadgeStatus } from "./components/BadgeStatus"

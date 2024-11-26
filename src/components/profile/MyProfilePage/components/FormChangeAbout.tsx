@@ -1,12 +1,12 @@
 "use client"
 
+import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 import { Dispatch, SetStateAction, useState } from "react"
-import { useQuery } from "@tanstack/react-query"
 
 import { resolverAbout, TValidateSchemaAbout } from "../utils/about.schema"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"

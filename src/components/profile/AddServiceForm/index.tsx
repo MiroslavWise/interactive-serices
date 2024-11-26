@@ -6,7 +6,8 @@ import { useEffect, useMemo, useState } from "react"
 
 import type { IValuesCategories, IMainAndSubCategories } from "./types/types"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
+import IconXClose from "@/components/icons/IconXClose"
 import { ItemCategory } from "./components/ItemCategory"
 import ItemCategorySearch from "./components/ItemCategorySearch"
 
@@ -15,7 +16,6 @@ import { getOffersCategories, getUserId, patchUser } from "@/services"
 import { dispatchChangeService, useAuth, useChangeService } from "@/store"
 
 import styles from "./styles/style.module.scss"
-import { IconXClose } from "@/components/icons/IconXClose"
 
 export const ChangeService = () => {
   const [loading, setLoading] = useState(false)

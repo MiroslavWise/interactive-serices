@@ -1,5 +1,5 @@
 import { type TOrder } from "../types/general"
-import { type IUserOffer as IUserSmall } from "../offers/types"
+import { IUserOffer, type IUserOffer as IUserSmall } from "../offers/types"
 import { type IAddressesResponse } from "../addresses/types/serviceAddresses"
 import { INotes } from "../notes/types"
 import { EnumHelper } from "@/types/enum"
@@ -66,21 +66,7 @@ interface IQueries {
 
 export type TPostPosts = (body: IBodyPost) => Promise<IResponse<IPosts>>
 export type TPatchPost = (id: number, body: Partial<IBodyPost>) => Promise<IResponse<IPosts>>
-export type TGetPosts = ({}: IQueries) => Promise<IResponse<IPosts[]>>
+export type TGetPosts = ({}: IQueries, isInvalid?: boolean) => Promise<IResponse<IPosts[]>>
 export type TGetPostsFromUser = ({}: { query?: IQueries } & { userId: number }) => Promise<IResponse<IPosts[]>>
 export type TGetPostId = (id: number | string) => Promise<IResponse<IPosts>>
-
-// enum ENumAction {
-//   REGISTRATION = "registration", // Открыть модальное окно регистрации
-//   LOGIN = "login", // Открыть модальное окно логина
-//   CUSTOMER = "customer", // Перейти на страницу пользователя
-//   HREF = "href", //Переход на сторонний ресурс
-// }
-// interface ActiveButton {
-//   label: string // Лэйбел, который будет отображаться в именовании кнопки
-//   action: ENumAction // Активность, которую нужно вызвать (при создании - это выпадающий селектор)
-//   targetId?: number // Если действие вызывает переход на какую-то страницу или октрытие модалки с конкретными данными
-//   href?: string // Если выбрано действие, которое предполагает переход на сторонний ресурс
-//   type: TTypeButtonPrimary // Тип кнопки (при создании - выпадающий селектор)
-
-// }
+export type TGetPostParticipants = (id: number) => Promise<IResponse<{ participants: IUserOffer[] }>>

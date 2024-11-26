@@ -3,9 +3,10 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 
+import Button from "@/components/common/Button"
 import IconEye from "@/components/icons/IconEye"
+import { ButtonClose } from "@/components/common"
 import IconEyeOff from "@/components/icons/IconEyeOff"
-import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { patchEmailPasswordUser } from "@/services"

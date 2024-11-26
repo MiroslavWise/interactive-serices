@@ -85,5 +85,5 @@ export interface IServiceOffers {
   patch(value: IPatchOffers, id: number | string): IPromiseReturn<IResponseCreate>
   getId(id: number | string): Promise<IResponse<IResponseOffers>>
   delete(id: number | string): IPromiseReturn<IResponseCreate>
-  getUserId(id: number | string, value?: IQueriesOffers): Promise<IResponse<IResponseOffers[]>>
+  getUserId(id: number | string, value?: IQueriesOffers, isInvalid?: boolean): Promise<IResponse<IResponseOffers[]>>
 }

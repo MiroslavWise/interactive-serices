@@ -6,6 +6,7 @@ import { type INotes } from "@/services/notes/types"
 import { clg } from "@console"
 import { dispatchModal, dispatchModalClose, EModalData } from "./useModal"
 import { TPostAddress } from "@/services/addresses/types/geocodeSearch"
+import { useNewServicesBannerMap } from "./useNewServicesBanner"
 
 export const useUpdatePost = create<IStateBalloonPost>(() => ({ data: null }))
 export const useCreatePost = create<{ initAddress?: TPostAddress }>(() => ({}))
@@ -62,13 +63,13 @@ export const dispatchCreatePostMap = (init?: TPostAddress) => {
     dispatchModal(EModalData.CREATE_POST_MAP)
   } else {
     dispatchModalClose()
-    useCreatePost.setState(
-      (_) => ({
-        initAddress: undefined,
-      }),
-      true,
-    )
+    dispatchClearInitCreatePostMap()
   }
+}
+
+export const dispatchClearInitCreatePostMap = () => {
+  useCreatePost.setState(() => ({ initAddress: undefined }), true)
+  useNewServicesBannerMap.setState(() => ({ addressInit: undefined }), true)
 }
 
 export function dispatchBallonPostUpdate(value: Partial<IPosts>) {

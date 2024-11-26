@@ -1,11 +1,11 @@
-import { memo, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 
 import { serviceAuth } from "@/services"
 import { dispatchAuthModalCodeVerification, dispatchStartTimer, useModalAuth, useTimerModalAuth } from "@/store"
 
 const INITIAL_TIME = 120
 
-export const TimerData = memo(() => {
+function TimerData() {
   const [loading, setLoading] = useState(false)
   const phone = useModalAuth(({ phone }) => phone)
   const prevType = useModalAuth(({ prevType }) => prevType)
@@ -93,4 +93,7 @@ export const TimerData = memo(() => {
       )}
     </article>
   )
-})
+}
+
+TimerData.displayName = "TimerData"
+export default TimerData

@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 import IconXClose from "@/components/icons/IconXClose"
 import IconArchive from "@/components/icons/IconArchive"
 

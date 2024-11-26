@@ -3,12 +3,13 @@ import { type Dispatch, type SetStateAction } from "react"
 
 import { type IPosts } from "@/services/posts/types"
 
-import { cx } from "@/lib/cx"
-import { getNotes } from "@/services/notes"
-import { useContextPostsComments } from "./ContextComments"
-import { TTypeNavigatePost } from "../utils/schema"
-import { useAuth } from "@/store"
 import PartialLink from "./PartialLink"
+
+import { cx } from "@/lib/cx"
+import { useAuth } from "@/store"
+import { getNotes } from "@/services/notes"
+import { TTypeNavigatePost } from "../utils/schema"
+import { useContextPostsComments } from "./ContextComments"
 
 const NAV = ({
   countNotes,
@@ -71,7 +72,7 @@ function NavigationNoteAndComments({ post, state, setState }: IProps) {
           <span className="text-text-disabled text-sm font-normal">{item.count}</span>
         </a>
       ))}
-      <PartialLink state={state} setState={setState} postUserId={post?.userId} isParticipants={!!post?.isParticipants} />
+      <PartialLink state={state} setState={setState} postUserId={post?.userId} isParticipants={!!post?.isParticipants} id={post?.id!} />
     </nav>
   )
 }

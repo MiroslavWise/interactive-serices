@@ -2,8 +2,9 @@
 
 import { EnumTypeProvider } from "@/types/enum"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 import IconMark from "@/components/icons/IconMark"
+import IconPost from "@/components/icons/IconPost"
 import IconOfferBalloon from "@/components/icons/IconOfferBalloon"
 import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
 import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
@@ -15,12 +16,16 @@ const H: Map<EnumTypeProvider, string> = new Map([
   [EnumTypeProvider.offer, "Предложения"],
   [EnumTypeProvider.alert, "SOS-сообщения"],
   [EnumTypeProvider.discussion, "Обсуждения"],
+  [EnumTypeProvider.POST, "Пост"],
+  [EnumTypeProvider.NOTE, "Запись"],
 ])
 
 const ICON = new Map([
   [EnumTypeProvider.offer, IconOfferBalloon],
   [EnumTypeProvider.alert, IconAlertCirlceRed],
   [EnumTypeProvider.discussion, IconDiscussionBalloon],
+  [EnumTypeProvider.POST, IconPost],
+  [EnumTypeProvider.NOTE, IconPost],
 ])
 
 function PreCloseCreateService() {

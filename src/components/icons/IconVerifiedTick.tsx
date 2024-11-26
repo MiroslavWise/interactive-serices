@@ -16,4 +16,5 @@ export const IconVerifiedTick = () => (
   </svg>
 )
 
+IconVerifiedTick.displayName = "IconVerifiedTick"
 export default IconVerifiedTick

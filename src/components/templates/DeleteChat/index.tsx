@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
 import { cx } from "@/lib/cx"
@@ -14,7 +14,7 @@ import { dispatchCloseDeleteChat, useDeleteChat } from "@/store"
 function DeleteChat() {
   const [loading, setLoading] = useState(false)
   const id = useDeleteChat(({ id }) => id)
-  const { push, prefetch, replace } = useRouter()
+  const { prefetch, replace } = useRouter()
   const { refetchCountMessages } = useCountMessagesNotReading(false)
 
   function deleteChat() {

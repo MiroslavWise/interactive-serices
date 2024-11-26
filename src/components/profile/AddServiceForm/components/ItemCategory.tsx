@@ -1,4 +1,4 @@
-import { memo, useState } from "react"
+import { useState } from "react"
 import { UseFormSetValue } from "react-hook-form"
 
 import type { IMainAndSubCategories, IValuesCategories } from "../types/types"
@@ -11,9 +11,7 @@ export const IconCheck = () => (
   </svg>
 )
 
-export const ItemCategory = memo(function ItemCategory(
-  props: IMainAndSubCategories & { setValue: UseFormSetValue<IValuesCategories>; idsActive: number[] },
-) {
+export function ItemCategory(props: IMainAndSubCategories & { setValue: UseFormSetValue<IValuesCategories>; idsActive: number[] }) {
   const { main, subs, idsActive, setValue } = props ?? {}
   const [expand, setExpand] = useState(false)
 
@@ -93,4 +91,4 @@ export const ItemCategory = memo(function ItemCategory(
       </div>
     </a>
   )
-})
+}

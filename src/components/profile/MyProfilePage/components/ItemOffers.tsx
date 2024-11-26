@@ -1,9 +1,10 @@
 import Link from "next/link"
 
-import { EnumHelper, EnumTypeProvider } from "@/types/enum"
+import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import ItemTitle from "./ItemTitle"
+import Button from "@/components/common/Button"
 import IconHelp from "@/components/icons/IconHelp"
 import ItemServiceImages from "./ItemServiceImages"
 import IconMapWhite from "@/components/icons/IconMapWhite"
@@ -18,7 +19,6 @@ import {
   dispatchUpdateDiscussionAndAlert,
   dispatchUpdateOffer,
 } from "@/store"
-import { Button } from "@/components/common"
 import { cx } from "@/lib/cx"
 
 function ItemOffers({ offer }: { offer: IResponseOffers }) {

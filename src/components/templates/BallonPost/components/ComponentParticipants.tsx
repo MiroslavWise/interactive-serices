@@ -1,3 +1,5 @@
+import { useQuery } from "@tanstack/react-query"
+
 import { type IUserOffer } from "@/services/offers/types"
 
 import Avatar from "@avatar"
@@ -5,8 +7,10 @@ import IconVerifiedTick from "@/components/icons/IconVerifiedTick"
 
 import { cx } from "@/lib/cx"
 import { useResize } from "@/helpers"
+import { getPostParticipants } from "@/services/posts"
 import { dispatchPublicProfile, useAuth } from "@/store"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
+import { declensionAllQuantityParticipants } from "@/lib/declension"
 
 interface IProps {
   postUserId: number
@@ -25,7 +29,15 @@ function ComponentParticipants({ postUserId, id, title, isParticipant }: IProps)
     title: title! ?? "",
   })
 
-  const list: IUserOffer[] = []
+  const { data } = useQuery({
+    queryFn: () => getPostParticipants(id),
+    queryKey: ["participants", { id: id }],
+    enabled: isParticipant,
+    refetchOnMount: true,
+  })
+
+  const list = data?.data?.participants ?? []
+  const nameCount = declensionAllQuantityParticipants(list.length)
 
   return is ? (
     <section className={cx("w-full flex flex-col gap-5 h-full", list.length === 0 && "items-center justify-center")}>
@@ -33,7 +45,7 @@ function ComponentParticipants({ postUserId, id, title, isParticipant }: IProps)
         <>
           <div className="w-full flex flex-row items-center justify-start gap-2">
             <div className="relative w-5 h-5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"></div>
-            <span className="text-text-primary text-sm font-medium">{list.length} участников</span>
+            <span className="text-text-primary text-sm font-medium">{nameCount}</span>
           </div>
           <ul className="w-full flex flex-col gap-2.5">
             {list.map((item: IUserOffer) => (

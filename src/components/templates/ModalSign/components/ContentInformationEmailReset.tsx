@@ -1,6 +1,6 @@
 import { EnumSign } from "@/types/enum"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 
 import { useModalAuth, dispatchAuthModal, dispatchCloseModalAuth } from "@/store"
 

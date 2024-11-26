@@ -10,9 +10,10 @@ import { type TTypeIconCurrentNotification, type TTypeIconNotification } from ".
 
 import Avatar from "@avatar"
 import ButtonsToComplete from "./components/Button"
+import { NextImageMotion } from "@/components/common"
 import { ButtonsDots } from "./components/ButtonsDots"
+import Button, { ButtonLink } from "@/components/common/Button"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
-import { Button, ButtonLink, NextImageMotion } from "@/components/common"
 
 import { daysAgo } from "@/helpers"
 import {

@@ -4,7 +4,7 @@ import { Controller, useForm } from "react-hook-form"
 import { EnumSign } from "@/types/enum"
 import { TValidateSchemaPassword, resolverPassword } from "../utils/password.schema"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 
 import { useToast } from "@/helpers/hooks/useToast"
 import { useForgotPasswordHelper, usePush } from "@/helpers"

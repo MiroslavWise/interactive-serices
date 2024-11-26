@@ -1,9 +1,10 @@
 "use client"
 
-import { Button } from "@/components/common"
+import Link from "next/link"
+
+import Button from "@/components/common/Button"
 
 import { dispatchModal, dispatchOnboarding, EModalData } from "@/store"
-import Link from "next/link"
 
 export const FooterAsideLeft = () => {
   function handleOut() {

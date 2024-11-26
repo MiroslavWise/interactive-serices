@@ -1,13 +1,14 @@
 import { useRouter } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
-import { memo, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 
 import { EnumProviderThreads, EnumStatusBarter } from "@/types/enum"
 import { type IResponseThread } from "@/services/threads/types"
 
+import Avatar from "@avatar"
+import Button from "@/components/common/Button"
 import IconReAccent from "@/components/icons/IconReAccent"
 import LoadingExchangeStatus from "./LoadingExchangeStatus"
-import { Button } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { useWebSocket } from "@/context"
@@ -15,7 +16,6 @@ import { useCountMessagesNotReading } from "@/helpers"
 import { dispatchOpenCancelExchange, useAuth } from "@/store"
 import { userInterlocutor } from "@/helpers/user-interlocutor"
 import { deleteThread, getBarterId, patchBarter } from "@/services"
-import Avatar from "@avatar"
 
 function ExchangeStatus({ thread, isLoading }: { thread: IResponseThread; isLoading: boolean }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -183,4 +183,4 @@ function ExchangeStatus({ thread, isLoading }: { thread: IResponseThread; isLoad
   return null
 }
 
-export default memo(ExchangeStatus)
+export default ExchangeStatus

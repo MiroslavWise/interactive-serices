@@ -1,7 +1,8 @@
 import { EnumTypeProvider } from "@/types/enum"
 
+import Button from "@/components/common/Button"
+import { ButtonClose } from "@/components/common"
 import IconWarn from "@/components/icons/IconWarn"
-import { Button, ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { dispatchOnboarding, dispatchOnboardingContinue, useOnboarding } from "@/store"

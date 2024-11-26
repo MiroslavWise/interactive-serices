@@ -7,8 +7,8 @@ import { EnumSign } from "@/types/enum"
 
 import { resolverCodeVerification, type TSchemaCodeVerification } from "../utils/code-verification.schema"
 
-import { TimerData } from "./TimerData"
-import { Button } from "@/components/common"
+import TimerData from "./TimerData"
+import Button from "@/components/common/Button"
 
 import { cx } from "@/lib/cx"
 import { serviceAuth } from "@/services"

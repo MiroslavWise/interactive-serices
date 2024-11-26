@@ -4,8 +4,8 @@ import { DispatchWithoutAction, type ReactNode, useState } from "react"
 import { EnumSign } from "@/types/enum"
 import { resolverPhoneSigIn, TSchemaPhoneSignIn } from "../utils/phone-sign-in.schema"
 
-import { Button } from "@/components/common"
-import InputCountry from "@/components/common/Forward/InputCountry"
+import Button from "@/components/common/Button"
+import InputCountry from "@/components/common/InputCountry"
 
 import { functionAuthErrors, serviceAuth } from "@/services"
 import { dispatchAuthModal, dispatchAuthModalCodeVerification, dispatchStartTimer, useModalAuth } from "@/store"

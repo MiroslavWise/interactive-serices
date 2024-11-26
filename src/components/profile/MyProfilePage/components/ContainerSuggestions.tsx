@@ -6,8 +6,8 @@ import { useQuery } from "@tanstack/react-query"
 import { EnumTypeProvider } from "@/types/enum"
 
 import ItemOffers from "./ItemOffers"
-import { Button } from "@/components/common"
 import ContainerPosts from "./ContainerPosts"
+import Button from "@/components/common/Button"
 import IconPost from "@/components/icons/IconPost"
 import IconOfferBalloon from "@/components/icons/IconOfferBalloon"
 import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
@@ -44,13 +44,13 @@ export const ContainerSuggestions = () => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const { data, isLoading } = useQuery({
-    queryFn: () => getUserIdOffers(userId!, { provider: stateProvider, order: "DESC" }),
+    queryFn: () => getUserIdOffers(userId!, { provider: stateProvider, order: "DESC" }, true),
     queryKey: ["offers", { userId: userId, provider: stateProvider }],
     enabled: !!userId! && [EnumTypeProvider.alert, EnumTypeProvider.discussion, EnumTypeProvider.offer].includes(stateProvider),
   })
 
   const { data: dataPosts, isLoading: isLoadingPosts } = useQuery({
-    queryFn: () => getPosts({ order: "DESC", user: userId! }),
+    queryFn: () => getPosts({ order: "DESC", user: userId! }, true),
     queryKey: ["posts", { userId: userId!, order: "DESC" }],
     enabled: !!userId && stateProvider === EnumTypeProvider.POST,
   })

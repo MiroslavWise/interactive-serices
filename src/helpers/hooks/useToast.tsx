@@ -6,7 +6,8 @@ import { type DispatchWithoutAction } from "react"
 
 import { EnumStatusBarter } from "@/types/enum"
 
-import { ButtonCircleGradient, ButtonClose, Button, ButtonLink, NextImageMotion } from "@/components/common"
+import Button, { ButtonLink } from "@/components/common/Button"
+import { ButtonCircleGradient, ButtonClose, NextImageMotion } from "@/components/common"
 
 import { useResize } from "./use-resize.hook"
 

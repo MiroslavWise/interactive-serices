@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 
 import { useResize } from "@/helpers"
 import { CONTENT_ALERT, CONTENT_DISCUSSION, CONTENT_OFFER } from "../constants/steps"

@@ -1,19 +1,30 @@
+import { useQuery } from "@tanstack/react-query"
 import { type Dispatch, type SetStateAction } from "react"
 
 import { type TTypeNavigatePost } from "../utils/schema"
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
+import { getPostParticipants } from "@/services/posts"
 
 interface IProps {
   state: TTypeNavigatePost
   setState: Dispatch<SetStateAction<TTypeNavigatePost>>
   postUserId: number
   isParticipants: boolean
+  id: number
 }
 
-function PartialLink({ state, setState, postUserId, isParticipants }: IProps) {
+function PartialLink({ state, setState, postUserId, isParticipants, id }: IProps) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
+
+  const { data } = useQuery({
+    queryFn: () => getPostParticipants(id),
+    queryKey: ["participants", { id: id }],
+    enabled: isParticipants && !!id && userId === postUserId && !!userId,
+  })
+
+  const count = (data?.data?.participants ?? []).length
 
   if (!!userId && postUserId === userId && isParticipants)
     return (
@@ -32,6 +43,7 @@ function PartialLink({ state, setState, postUserId, isParticipants }: IProps) {
         >
           Участники
         </span>
+        <span className={cx("text-text-disabled text-sm font-normal", !count && "hidden")}>{count}</span>
       </a>
     )
 

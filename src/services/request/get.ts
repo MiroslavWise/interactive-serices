@@ -2,13 +2,15 @@ import { type IResponse } from "./types"
 
 import { URL_API } from "@/helpers"
 import { authToken } from "../auth/authService"
+import { clg } from "@console"
+import { invalidAccessTokenRefresh } from "@/helpers/functions/invalid-access-token-refresh"
 
 interface IGet {
   url: string
   query?: object | any
 }
 
-export async function fetchGet<T = any>({ url, query }: IGet): Promise<IResponse<T>> {
+export async function fetchGet<T = any>({ url, query }: IGet, isInvalid?: boolean): Promise<IResponse<T>> {
   const endpoint = new URL(`${URL_API}${url}`)
   if (query && typeof query === "object") {
     for (const [key, value] of Object.entries(query)) {
@@ -34,7 +36,24 @@ export async function fetchGet<T = any>({ url, query }: IGet): Promise<IResponse
   try {
     const response = await fetch(endpoint, { ...dataRequestInit })
 
-    const { data, error, meta } = (await response.json()) as IResponse
+    const responseAwait = (await response.json()) as IResponse
+
+    const { data, error, meta } = responseAwait
+
+    clg("responseAwait: ", responseAwait, "error")
+
+    if (isInvalid && error?.code === 401) {
+      const { ok } = (await invalidAccessTokenRefresh()) ?? {}
+      if (ok) {
+        const newResponse = await fetchGet({ url, query })
+
+        return {
+          data: newResponse?.data ?? null,
+          error: newResponse?.error ?? null,
+          meta: newResponse?.meta,
+        }
+      }
+    }
 
     return {
       data: data ?? null,

@@ -1,4 +1,4 @@
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 import IconCheck from "@/components/icons/IconCheck"
 
 import { cx } from "@/lib/cx"

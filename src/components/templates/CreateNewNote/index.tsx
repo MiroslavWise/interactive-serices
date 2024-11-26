@@ -5,7 +5,7 @@ import { Controller, useForm } from "react-hook-form"
 import { EnumTypeProvider } from "@/types/enum"
 import { type IBodyNote } from "@/services/notes/types"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 import IconPost from "@/components/icons/IconPost"
 import IconFile_06 from "@/components/icons/IconFile_06"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
