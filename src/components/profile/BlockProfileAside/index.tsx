@@ -1,9 +1,8 @@
 "use client"
 
-import { Button } from "@/components/common"
-import { HeaderBlock } from "./components/HeaderBlock"
+import Button from "@/components/common/Button"
+import HeaderBlock from "./components/HeaderBlock"
 
-import { cx } from "@/lib/cx"
 import { dispatchModal, EModalData } from "@/store"
 
 export const BlockProfileAside = () => {

@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from "react"
 
+import { EnumTypeProvider } from "@/types/enum"
+
 import { ButtonClose } from "@/components/common"
 
 import {
@@ -19,7 +21,6 @@ import { cx } from "@/lib/cx"
 import { DATA_MODAL, ID_MODAL, STYLE_MODAL } from "../Data"
 
 import styles from "./style.module.scss"
-import { EnumTypeProvider } from "@/types/enum"
 
 function Modal() {
   const data = useModal(({ data }) => data)

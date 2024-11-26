@@ -2,15 +2,15 @@
 
 import { EnumTypeProvider } from "@/types/enum"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 import IconMark from "@/components/icons/IconMark"
+import IconPost from "@/components/icons/IconPost"
 import IconOfferBalloon from "@/components/icons/IconOfferBalloon"
 import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
 import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 
 import { cx } from "@/lib/cx"
 import { closeCreateOffers, dispatchClosePreCloseCreateService, dispatchModalClose, usePreCloseCreateService } from "@/store"
-import IconPost from "@/components/icons/IconPost"
 
 const H: Map<EnumTypeProvider, string> = new Map([
   [EnumTypeProvider.offer, "Предложения"],

@@ -3,8 +3,9 @@
 import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
-import { Button, ButtonClose } from "@/components/common"
-import InputCountry from "@/components/common/Forward/InputCountry"
+import Button from "@/components/common/Button"
+import { ButtonClose } from "@/components/common"
+import InputCountry from "@/components/common/InputCountry"
 
 import { cx } from "@/lib/cx"
 import { postPhone } from "@/services/phones"

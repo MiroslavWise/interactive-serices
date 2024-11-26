@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation"
 
 import { EnumSign } from "@/types/enum"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 
 import { cx } from "@/lib/cx"
 import { dispatchAuthModal, dispatchDownloadApplication, dispatchNewServicesBanner, EModalData, useAuth, useModal } from "@/store"

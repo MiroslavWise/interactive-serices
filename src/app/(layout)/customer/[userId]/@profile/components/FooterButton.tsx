@@ -2,17 +2,15 @@
 
 import { type IUserResponse } from "@/services/users/types"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 
 import { cx } from "@/lib/cx"
-import env from "@/config/environment"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchComplaintModalUser } from "@/store"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
 
 function FooterButton({ user }: { user: IUserResponse }) {
   const { profile, id } = user ?? {}
-  const { onSimpleMessage } = useToast()
 
   const linkUser =
     `/user/${id}` +

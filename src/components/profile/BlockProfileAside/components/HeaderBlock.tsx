@@ -11,7 +11,7 @@ import { getUserId } from "@/services"
 
 import { cx } from "@/lib/cx"
 
-export const HeaderBlock = () => {
+function HeaderBlock() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const { data, isLoading } = useQuery({
@@ -72,3 +72,6 @@ export const HeaderBlock = () => {
     </header>
   )
 }
+
+HeaderBlock.displayName = "HeaderBlock"
+export default HeaderBlock

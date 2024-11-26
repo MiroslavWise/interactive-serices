@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form"
 
 import { resolverEmailSignIn, TSchemaEmailSignIn } from "../utils/email-sign-in.schema"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 
 import { clg } from "@console"
 import { useToast } from "@/helpers/hooks/useToast"

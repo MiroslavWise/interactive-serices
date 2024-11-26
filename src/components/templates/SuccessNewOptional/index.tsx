@@ -2,7 +2,7 @@
 
 import { EnumTypeProvider } from "@/types/enum"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 import IconCheck from "@/components/icons/IconCheck"
 import IconOffer3d from "@/components/icons/IconOffer3d"
 import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"

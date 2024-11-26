@@ -5,13 +5,13 @@ import { useForm, Controller } from "react-hook-form"
 
 import { EnumSign } from "@/types/enum"
 import type { TContentForgotPassword } from "../types/types"
-import { resolverForgotPassword, TSchemaForgotPassword } from "../utils/forgot-password.schema"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 
 import { functionAuthErrors } from "@/services"
 import { dispatchAuthModal, useModalAuth } from "@/store"
 import { useForgotPasswordHelper } from "@/helpers/auth/forgotPasswordHelper"
+import { resolverForgotPassword, type TSchemaForgotPassword } from "../utils/forgot-password.schema"
 
 import styles from "../styles/form.module.scss"
 

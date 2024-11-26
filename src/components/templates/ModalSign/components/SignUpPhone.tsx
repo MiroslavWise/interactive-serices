@@ -5,8 +5,8 @@ import { type ReactNode, memo, useState } from "react"
 import { EnumSign } from "@/types/enum"
 import { resolverPhoneSignUp, TSchemaPhoneSignUp } from "../utils/phone-sign-up.schema"
 
-import { Button } from "@/components/common"
-import InputCountry from "@/components/common/Forward/InputCountry"
+import Button from "@/components/common/Button"
+import InputCountry from "@/components/common/InputCountry"
 
 import { cx } from "@/lib/cx"
 import { functionAuthErrors, serviceAuth } from "@/services"

@@ -2,7 +2,7 @@
 
 import { useSwipeable } from "react-swipeable"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 
 import { cx } from "@/lib/cx"
 import {

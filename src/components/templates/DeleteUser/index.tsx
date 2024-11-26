@@ -2,10 +2,10 @@
 
 import { useState } from "react"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 
 import { useOut } from "@/helpers"
-import { deleteUser, patchUser } from "@/services"
+import { deleteUser } from "@/services"
 import { dispatchModal, dispatchModalClose, EModalData, useAuth } from "@/store"
 
 function DeleteUser() {

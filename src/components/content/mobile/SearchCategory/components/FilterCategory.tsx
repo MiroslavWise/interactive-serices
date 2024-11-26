@@ -1,15 +1,16 @@
 import { useMemo, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
+import Button from "@/components/common/Button"
+import IconHelp from "@/components/icons/IconHelp"
+import { ImageCategory } from "@/components/common"
 import { IconXClose } from "@/components/icons/IconXClose"
-import { Button, ImageCategory } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { getOffersCategories } from "@/services"
 import { dispatchActiveFilterScreen, dispatchDataFilterScreen, useFiltersScreen } from "@/store"
 
 import styles from "../styles/filter-category.module.scss"
-import IconHelp from "@/components/icons/IconHelp"
 
 export default function FilterCategory() {
   const visible = useFiltersScreen(({ visible }) => visible)

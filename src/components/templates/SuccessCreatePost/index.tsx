@@ -1,6 +1,6 @@
-import { Button } from "@/components/common"
-import IconCheck from "@/components/icons/IconCheck"
+import Button from "@/components/common/Button"
 import IconPost from "@/components/icons/IconPost"
+import IconCheck from "@/components/icons/IconCheck"
 
 import { cx } from "@/lib/cx"
 import { dispatchModalClose } from "@/store"

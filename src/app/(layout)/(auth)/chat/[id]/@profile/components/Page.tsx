@@ -9,7 +9,7 @@ import ProfileData from "./ProfileData"
 import BlockButtons from "./BlockButtons"
 import MenuCustomer from "./MenuCustomer"
 import Accomplishments from "./Accomplishments"
-import { ButtonLink } from "@/components/common"
+import { ButtonLink } from "@/components/common/Button"
 
 import { cx } from "@/lib/cx"
 import { useAuth, useCollapseChat } from "@/store"

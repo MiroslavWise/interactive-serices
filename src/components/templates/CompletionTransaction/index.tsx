@@ -4,10 +4,10 @@ import { useForm } from "react-hook-form"
 import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 import { type IValuesForm } from "./types/types"
+import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 
-import { Button, ButtonLink } from "@/components/common"
+import Button, { ButtonLink } from "@/components/common/Button"
 
 import { useToast } from "@/helpers/hooks/useToast"
 import { serviceNotifications, getBarterId, postTestimonial } from "@/services"

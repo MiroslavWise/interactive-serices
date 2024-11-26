@@ -9,13 +9,14 @@ import { type IPostDataBarter } from "@/services/barters/types"
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 import { type IPostOffers, type IResponseCreate } from "@/services/offers/types"
 
-import { IResponse } from "@/services/request/types"
+import { type IResponse } from "@/services/request/types"
 import { ETypeOfNewCreated, IFormValues } from "./types/types"
 
+import Button from "@/components/common/Button"
 import { ItemOffer } from "./components/ItemOffer"
 import { ChooseAnOffer } from "./components/Select"
+import { LoadingProfile } from "@/components/common"
 import { ItemProfile } from "./components/ItemProfile"
-import { Button, LoadingProfile } from "@/components/common"
 
 import { useWebSocket } from "@/context"
 import { transliterateAndReplace } from "@/helpers"

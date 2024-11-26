@@ -1,4 +1,5 @@
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
+
 import { dispatchModalClose } from "@/store"
 
 export const ButtonsFooter = ({ loading }: { loading: boolean }) => (

@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import Avatar from "@avatar"
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 
 import { clg } from "@console"
 import { deleteFriend, getFriends } from "@/services"

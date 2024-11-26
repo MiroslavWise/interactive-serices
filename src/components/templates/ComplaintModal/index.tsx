@@ -7,7 +7,7 @@ import { type IValuesForm } from "./types/types"
 import { type IPostComplains } from "@/services/complains/types"
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 
 import { cx } from "@/lib/cx"
 import { postComplain } from "@/services"

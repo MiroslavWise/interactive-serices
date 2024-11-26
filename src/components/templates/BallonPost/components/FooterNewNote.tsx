@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query"
 
 import { EnumSign } from "@/types/enum"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 
 import { cx } from "@/lib/cx"
 import { useToast } from "@/helpers/hooks/useToast"

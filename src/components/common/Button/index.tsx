@@ -7,7 +7,7 @@ import IconSpinner from "@/components/icons/IconSpinner"
 
 import { cx } from "@/lib/cx"
 
-export const Button = forwardRef(function Button(props: TTypeButton, ref?: LegacyRef<HTMLButtonElement>) {
+const Button = forwardRef(function Button(props: TTypeButton, ref?: LegacyRef<HTMLButtonElement>) {
   const { loading, label, suffixIcon, prefixIcon, typeButton = "fill-primary", className, title, ...rest } = props ?? {}
 
   return (
@@ -56,6 +56,9 @@ export const Button = forwardRef(function Button(props: TTypeButton, ref?: Legac
     </button>
   )
 })
+
+Button.displayName = "Button"
+export default Button
 
 export const ButtonLink = forwardRef(function Button(props: TTypeButtonLink & typeof Link.defaultProps) {
   const { label, href, suffixIcon, prefixIcon, title, typeButton, ...rest } = props ?? {}

@@ -9,8 +9,8 @@ import { type IUserOffer } from "@/services/offers/types"
 import { type IUserResponse } from "@/services/users/types"
 
 import ButtonMenuMobile from "./ButtonMenuMobile"
-import { Button, ButtonLink } from "@/components/common"
 import IconAccentChat from "@/components/icons/IconAccentChat"
+import Button, { ButtonLink } from "@/components/common/Button"
 import IconCheckAccent from "@/components/icons/IconCheckAccent"
 import IconCheckFriend from "@/components/icons/IconCheckFriend"
 

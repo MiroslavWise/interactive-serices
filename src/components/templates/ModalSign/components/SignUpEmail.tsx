@@ -4,7 +4,7 @@ import { ReactNode, memo, useState } from "react"
 
 import { resolverEmailSignUp, TSchemaEmailSignUp } from "../utils/email-sign-up.schema"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 
 import { cx } from "@/lib/cx"
 import { getUserEmail } from "@/services"

@@ -6,7 +6,8 @@ import { Controller, useForm } from "react-hook-form"
 
 import { LIMIT_LENGTH_ABOUT, MIN_LENGTH_ABOUT, resolverAboutSchema, TAboutSchema } from "./utils/about.schema"
 
-import { Button, ButtonClose } from "@/components/common"
+import Button from "@/components/common/Button"
+import { ButtonClose } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { getUserId, patchProfile } from "@/services"

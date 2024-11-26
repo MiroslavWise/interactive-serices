@@ -1,7 +1,6 @@
-import { Button } from "@/components/common"
-import env from "@/config/environment"
+import Button from "@/components/common/Button"
+
 import { useNavigator } from "@/helpers/hooks/use-navigator"
-import { useToast } from "@/helpers/hooks/useToast"
 
 interface IProps {
   id: number
@@ -9,8 +8,6 @@ interface IProps {
 }
 
 function NoFriends({ id, username }: IProps) {
-  const { onSimpleMessage } = useToast()
-
   const userName = username && !username.includes("$") && !username.includes("/") ? `/${username}` : ""
   const linkUser = `/user/${id}` + userName
 

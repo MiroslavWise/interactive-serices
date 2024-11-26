@@ -3,7 +3,7 @@
 import { useCallback, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 
 import { resolverPassword, TKeysPassword, TSchemaPassword } from "./utils/password.schema"
 

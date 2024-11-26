@@ -5,7 +5,7 @@ import { Controller, useForm } from "react-hook-form"
 import { EnumHelper, EnumTypeProvider } from "@/types/enum"
 import { type IPatchOffers } from "@/services/offers/types"
 
-import { Button } from "@/components/common"
+import Button from "@/components/common/Button"
 import ControlHelp from "./components/ControlHelp"
 
 import { cx } from "@/lib/cx"
