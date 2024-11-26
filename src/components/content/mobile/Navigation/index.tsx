@@ -1,38 +1,33 @@
 "use client"
 
-import { type MouseEvent } from "react"
-
-import IconPlus from "@/components/icons/IconPlus"
-import { IconMinus } from "@/components/icons/IconMinus"
 import { IconNavigate } from "@/components/icons/IconNavigate"
 
 import { cx } from "@/lib/cx"
 import { useToast } from "@/helpers/hooks/useToast"
 import { handleAddressLocation } from "@/helpers/functions/navigator-address-location"
-import { dispatchMapCoordinatesZoom, useMapCoordinates, useVisibleMobileAbout } from "@/store"
+import { useVisibleMobileAbout } from "@/store"
 
 import styles from "./style.module.scss"
 
 export default function Navigation() {
   const visible = useVisibleMobileAbout(({ visible }) => visible)
   const { on } = useToast()
-  const zoom = useMapCoordinates(({ zoom }) => zoom) //10 20
 
-  function handleZoom(event: MouseEvent<HTMLButtonElement>, type: "-" | "+") {
-    event.stopPropagation()
-    if (type === "+") {
-      if (zoom >= 20) {
-      } else {
-        dispatchMapCoordinatesZoom(zoom + 1)
-      }
-    }
-    if (type === "-") {
-      if (zoom <= 10) {
-      } else {
-        dispatchMapCoordinatesZoom(zoom - 1)
-      }
-    }
-  }
+  // function handleZoom(event: MouseEvent<HTMLButtonElement>, type: "-" | "+") {
+  //   event.stopPropagation()
+  //   if (type === "+") {
+  //     if (zoom >= 20) {
+  //     } else {
+  //       dispatchMapCoordinatesZoom(zoom + 1)
+  //     }
+  //   }
+  //   if (type === "-") {
+  //     if (zoom <= 10) {
+  //     } else {
+  //       dispatchMapCoordinatesZoom(zoom - 1)
+  //     }
+  //   }
+  // }
 
   return (
     <div
@@ -42,7 +37,7 @@ export default function Navigation() {
       )}
       data-transform={visible}
     >
-      <section className="w-full flex flex-col rounded-.625 bg-BG-second overflow-hidden">
+      {/* <section className="w-full flex flex-col rounded-.625 bg-BG-second overflow-hidden">
         <button
           onClick={(event) => handleZoom(event, "+")}
           disabled={zoom >= 20}
@@ -63,7 +58,7 @@ export default function Navigation() {
             <IconMinus />
           </div>
         </button>
-      </section>
+      </section> */}
       <button
         onClick={(event) => {
           event.stopPropagation()
