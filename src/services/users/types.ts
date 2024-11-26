@@ -1,12 +1,12 @@
+import { type TRole } from "../roles/types"
+import { EnumStatusBarter } from "@/types/enum"
+import { type IResponse } from "../request/types"
+import { type IResponsePhones } from "../phones/types"
 import type { IPromiseReturn } from "@/services/types/general"
 import type { IGetProfileIdResponse } from "@/services/profile/types"
 import type { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 import type { IResponseDataRegistration } from "@/services/auth/types/registrationService"
 import type { IResponseOffersCategories } from "@/services/offers-categories/types"
-import { IResponsePhones } from "../posts/phones/types"
-import { TRole } from "../roles/types"
-import { EnumStatusBarter } from "@/types/enum"
-import { IResponse } from "../request/types"
 
 interface IPostDataUser {
   email: string

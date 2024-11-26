@@ -28,3 +28,14 @@ export const DeclensionAllQuantityFeedback = (length: number) =>
     : length % 10 === 1
     ? `${length} отзыв`
     : `Нет отзывов`
+
+export const declensionAllQuantityParticipants = (length: number) =>
+  length >= 5 && length <= 20
+    ? `${length} участников`
+    : [5, 6, 7, 8, 9, 0].includes(length % 10)
+    ? `${length} участников`
+    : [2, 3, 4].includes(length)
+    ? `${length} участника`
+    : length % 10 === 1
+    ? `${length} участник`
+    : `Нет участников`

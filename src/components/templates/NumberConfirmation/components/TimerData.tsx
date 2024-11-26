@@ -1,6 +1,6 @@
 import { memo, useEffect, useState } from "react"
 
-import { postPhone } from "@/services/posts/phones"
+import { postPhone } from "@/services/phones"
 import { dayFormat, getMillisecond } from "@/helpers"
 import { dispatchStartTimerNumberConfirmation, useNumberConfirmation, useTimerNumberConfirmation } from "@/store"
 

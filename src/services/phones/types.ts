@@ -1,4 +1,4 @@
-import { IPromiseReturn } from "../../types/general"
+import { IPromiseReturn } from "../types/general"
 
 interface IRequestPhone {
   phone: string
