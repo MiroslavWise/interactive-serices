@@ -1,5 +1,6 @@
 import { useMemo, type RefObject } from "react"
 import { useVirtualizer } from "@tanstack/react-virtual"
+import { Virtuoso } from "react-virtuoso"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { type IPosts } from "@/services/posts/types"
@@ -10,6 +11,7 @@ import CardBallon from "@/components/common/Card/CardBallon"
 
 import { getMillisecond } from "@/helpers"
 import { useFiltersServices } from "@/store"
+import { clg } from "@console"
 
 interface IProps {
   parentRef: RefObject<HTMLUListElement>
@@ -22,21 +24,21 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
   const countPost = listPosts.length
   const providers = useFiltersServices(({ providers }) => providers)
 
-  const virtualizer = useVirtualizer({
-    count: count,
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => 310,
-    enabled: true,
-  })
-  const virtualizerPost = useVirtualizer({
-    count: countPost,
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => 310,
-    enabled: true,
-  })
+  // const virtualizer = useVirtualizer({
+  //   count: count,
+  //   getScrollElement: () => parentRef.current,
+  //   estimateSize: () => 310,
+  //   enabled: true,
+  // })
+  // const virtualizerPost = useVirtualizer({
+  //   count: countPost,
+  //   getScrollElement: () => parentRef.current,
+  //   estimateSize: () => 310,
+  //   enabled: true,
+  // })
 
-  const items = virtualizer.getVirtualItems()
-  const itemsPost = virtualizerPost.getVirtualItems()
+  // const items = virtualizer.getVirtualItems()
+  // const itemsPost = virtualizerPost.getVirtualItems()
 
   const isAll = providers === "all"
   const isOffersAnd = [EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(providers as EnumTypeProvider)
@@ -87,35 +89,50 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
     return obj
   }, [isAll, list, listPosts])
 
-  const virtualizerAll = useVirtualizer({
-    count: listAll.length,
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => 310,
-    enabled: true,
-  })
-  const itemsAll = virtualizerAll.getVirtualItems()
+  // const virtualizerAll = useVirtualizer({
+  //   count: listAll.length,
+  //   getScrollElement: () => parentRef.current,
+  //   estimateSize: () => 310,
+  //   enabled: true,
+  // })
+  // const itemsAll = virtualizerAll.getVirtualItems()
+
+  const totalCount = isAll ? listAll.length : isOffersAnd ? count : isPosts ? countPost : 0
+  const data: IListAll[] = isAll
+    ? listAll
+    : isOffersAnd
+    ? list.map((item) => ({
+        type: item.provider,
+        offer: item,
+      }))
+    : isPosts
+    ? listPosts.map((item) => ({
+        type: EnumTypeProvider.POST,
+        post: item,
+      }))
+    : []
 
   return (
-    <ul
-      className="relative w-full items-start"
-      data-test="ul-services-component"
-      style={{
-        height: isAll
-          ? virtualizerAll.getTotalSize()
-          : isOffersAnd
-          ? virtualizer.getTotalSize()
-          : isPosts
-          ? virtualizerPost.getTotalSize()
-          : 0,
-      }}
-    >
-      <div
-        className="absolute top-0 left-0 w-full flex flex-col *:mt-2.5 pb-2.5"
-        style={{
-          transform: `translateY(${isAll ? itemsAll[0]?.start : isOffersAnd ? items[0]?.start : isPosts ? itemsPost[0]?.start : 0}px)`,
+    <ul className="relative w-full h-full resize *:mt-4" data-test="ul-services-component">
+      <Virtuoso
+        totalCount={data.length}
+        data={data}
+        itemContent={(index, item) => {
+          if ([EnumTypeProvider.discussion, EnumTypeProvider.alert, EnumTypeProvider.offer].includes(item.type))
+            return <CardBallon key={`:k:of:${item?.offer?.id!}:l:`} offer={item?.offer!} />
+
+          if (item.type === EnumTypeProvider.POST) return <CardPost key={`:k:p:${item?.post?.id!}:a:`} post={item?.post!} />
+
+          return null
         }}
-      >
-        {isAll
+      />
+      {/* <div
+        className="absolute top-0 left-0 w-full flex flex-col *:mt-2.5 pb-2.5"
+        // style={{
+        //   transform: `translateY(${isAll ? itemsAll[0]?.start : isOffersAnd ? items[0]?.start : isPosts ? itemsPost[0]?.start : 0}px)`,
+        // }}
+      > */}
+      {/* {isAll
           ? itemsAll.map((virtualRow) =>
               listAll[virtualRow.index].type === EnumTypeProvider.POST ? (
                 <CardPost
@@ -153,8 +170,8 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
                 ref={virtualizer.measureElement}
               />
             ))
-          : null}
-      </div>
+          : null} */}
+      {/* </div> */}
     </ul>
   )
 }
