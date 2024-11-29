@@ -6,7 +6,6 @@ import { memo, type RefObject, useMemo } from "react"
 import { EnumTypeProvider } from "@/types/enum"
 import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
 
-import VirtualList from "./VirtualList"
 import { ServiceLoading } from "@/components/common"
 
 import { getPosts } from "@/services/posts"
@@ -15,6 +14,7 @@ import { useBounds, useFiltersScreen, useFiltersServices, useSearchFilters, useU
 import { EXCEPTION_POST_MAP } from "@/config/exception"
 import { IPosts } from "@/services/posts/types"
 import { IResponseOffers } from "@/services/offers/types"
+import VirtualList from "@/components/content/BannerServices/components/VirtualList"
 
 const DAY = 86_400_000
 const WEEK = DAY * 7
@@ -50,7 +50,7 @@ export const ServicesMobile = memo(({ input, parentRef }: { input: string; paren
     if (!itemsPost.length || !!idSearch || activeFilters.length > 0) {
       return []
     }
- 
+
     const array: IPosts[] = []
 
     if (bounds && itemsPost) {
@@ -126,12 +126,12 @@ export const ServicesMobile = memo(({ input, parentRef }: { input: string; paren
 
   if (isLoading || isLoadingPost)
     return (
-      <ul className="w-full p-5 flex flex-col gap-4 pb-[calc(var(--height-mobile-footer-nav)_+_2.875rem)] *:bg-BG-first">
+      <ul className="w-full h-full p-5 flex flex-col gap-4 pb-[calc(var(--height-mobile-footer-nav)_+_2.875rem)] *:bg-BG-first">
         {[1, 2, 3].map((item) => (
           <ServiceLoading key={`::item::loading::offers::${item}`} />
         ))}
       </ul>
     )
 
-  return <VirtualList parentRef={parentRef} list={items} listPosts={itemsFilterPosts} />
+  return <VirtualList list={items} listPosts={itemsFilterPosts} />
 })

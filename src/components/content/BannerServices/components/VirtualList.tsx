@@ -90,7 +90,7 @@ function VirtualList({ list, listPosts }: IProps) {
   return (
     <ul className="relative w-full h-full resize" data-test="ul-services-component">
       <Virtuoso
-        totalCount={data.length}
+        totalCount={totalCount}
         data={data}
         overscan={{
           main: 1200,
