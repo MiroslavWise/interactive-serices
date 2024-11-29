@@ -16,10 +16,10 @@ import { dispatchBallonPost } from "@/store"
 interface IProps {
   post: IPosts
   ref?: any
-  dataIndex?: number
+  className?: string
 }
 
-function CardPost({ post, dataIndex, ref }: IProps) {
+function CardPost({ post, className, ref }: IProps) {
   const { title, user, notes = [], id, urgent } = post ?? {}
 
   function handle() {
@@ -29,7 +29,7 @@ function CardPost({ post, dataIndex, ref }: IProps) {
   const description = notes.find((item) => item.main)?.description ?? title
 
   return (
-    <article className="w-full rounded-2xl cursor-pointer flex flex-col bg-card-yellow" onClick={handle} data-index={dataIndex} ref={ref}>
+    <article className={cx("w-full rounded-2xl cursor-pointer flex flex-col bg-card-yellow", className)} onClick={handle} ref={ref}>
       <header
         className={cx(
           "[background:var(--more-red-gradient)] w-full py-1.5 px-2.5 flex-row gap-2 items-center justify-center rounded-t-2xl",

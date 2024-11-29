@@ -14,31 +14,14 @@ import { useFiltersServices } from "@/store"
 import { clg } from "@console"
 
 interface IProps {
-  parentRef: RefObject<HTMLUListElement>
   list: IResponseOffers[]
   listPosts: IPosts[]
 }
 
-function VirtualList({ parentRef, list, listPosts }: IProps) {
+function VirtualList({ list, listPosts }: IProps) {
   const count = list.length
   const countPost = listPosts.length
   const providers = useFiltersServices(({ providers }) => providers)
-
-  // const virtualizer = useVirtualizer({
-  //   count: count,
-  //   getScrollElement: () => parentRef.current,
-  //   estimateSize: () => 310,
-  //   enabled: true,
-  // })
-  // const virtualizerPost = useVirtualizer({
-  //   count: countPost,
-  //   getScrollElement: () => parentRef.current,
-  //   estimateSize: () => 310,
-  //   enabled: true,
-  // })
-
-  // const items = virtualizer.getVirtualItems()
-  // const itemsPost = virtualizerPost.getVirtualItems()
 
   const isAll = providers === "all"
   const isOffersAnd = [EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(providers as EnumTypeProvider)
@@ -89,14 +72,6 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
     return obj
   }, [isAll, list, listPosts])
 
-  // const virtualizerAll = useVirtualizer({
-  //   count: listAll.length,
-  //   getScrollElement: () => parentRef.current,
-  //   estimateSize: () => 310,
-  //   enabled: true,
-  // })
-  // const itemsAll = virtualizerAll.getVirtualItems()
-
   const totalCount = isAll ? listAll.length : isOffersAnd ? count : isPosts ? countPost : 0
   const data: IListAll[] = isAll
     ? listAll
@@ -113,65 +88,29 @@ function VirtualList({ parentRef, list, listPosts }: IProps) {
     : []
 
   return (
-    <ul className="relative w-full h-full resize *:mt-4" data-test="ul-services-component">
+    <ul className="relative w-full h-full resize" data-test="ul-services-component">
       <Virtuoso
         totalCount={data.length}
         data={data}
-        itemContent={(index, item) => {
+        overscan={{
+          main: 1200,
+          reverse: 1200,
+        }}
+        increaseViewportBy={{
+          top: 1280,
+          bottom: 1280,
+        }}
+        className="scroll-no scroll-no-children"
+        itemContent={(_, item) => {
           if ([EnumTypeProvider.discussion, EnumTypeProvider.alert, EnumTypeProvider.offer].includes(item.type))
-            return <CardBallon key={`:k:of:${item?.offer?.id!}:l:`} offer={item?.offer!} />
+            return <CardBallon key={`:k:of:${item?.offer?.id!}:l:`} offer={item?.offer!} className="mt-4 last:mb-4" />
 
-          if (item.type === EnumTypeProvider.POST) return <CardPost key={`:k:p:${item?.post?.id!}:a:`} post={item?.post!} />
+          if (item.type === EnumTypeProvider.POST)
+            return <CardPost key={`:k:p:${item?.post?.id!}:a:`} post={item?.post!} className="mt-4 last:mb-4" />
 
           return null
         }}
       />
-      {/* <div
-        className="absolute top-0 left-0 w-full flex flex-col *:mt-2.5 pb-2.5"
-        // style={{
-        //   transform: `translateY(${isAll ? itemsAll[0]?.start : isOffersAnd ? items[0]?.start : isPosts ? itemsPost[0]?.start : 0}px)`,
-        // }}
-      > */}
-      {/* {isAll
-          ? itemsAll.map((virtualRow) =>
-              listAll[virtualRow.index].type === EnumTypeProvider.POST ? (
-                <CardPost
-                  key={`:key:${virtualRow.key}:all:`}
-                  post={listAll[virtualRow.index]?.post!}
-                  dataIndex={virtualRow.index}
-                  ref={virtualizer.measureElement}
-                />
-              ) : [EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(listAll[virtualRow.index].type) ? (
-                <CardBallon
-                  key={`:key:${virtualRow.key}:all:`}
-                  offer={listAll[virtualRow.index]?.offer!}
-                  dataIndex={virtualRow.index}
-                  ref={virtualizer.measureElement}
-                />
-              ) : null,
-            )
-          : null}
-        {isOffersAnd
-          ? items.map((virtualRow) => (
-              <CardBallon
-                key={`:key:${virtualRow.key}:`}
-                offer={list[virtualRow.index]}
-                dataIndex={virtualRow.index}
-                ref={virtualizer.measureElement}
-              />
-            ))
-          : null}
-        {isPosts
-          ? itemsPost.map((virtualRow) => (
-              <CardPost
-                key={`:key:${virtualRow.key}:post:`}
-                post={listPosts[virtualRow.index]}
-                dataIndex={virtualRow.index}
-                ref={virtualizer.measureElement}
-              />
-            ))
-          : null} */}
-      {/* </div> */}
     </ul>
   )
 }
