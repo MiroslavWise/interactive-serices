@@ -1,5 +1,4 @@
-import { useMemo, type RefObject } from "react"
-import { useVirtualizer } from "@tanstack/react-virtual"
+import { useMemo } from "react"
 import { Virtuoso } from "react-virtuoso"
 
 import { EnumTypeProvider } from "@/types/enum"
@@ -9,9 +8,9 @@ import { type IResponseOffers } from "@/services/offers/types"
 import CardPost from "@/components/common/Card/CardPost"
 import CardBallon from "@/components/common/Card/CardBallon"
 
+import { clg } from "@console"
 import { getMillisecond } from "@/helpers"
 import { useFiltersServices } from "@/store"
-import { clg } from "@console"
 
 interface IProps {
   list: IResponseOffers[]
