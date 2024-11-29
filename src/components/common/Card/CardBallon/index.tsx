@@ -22,10 +22,10 @@ import { useMemo } from "react"
 interface IProps {
   offer: IResponseOffers
   ref?: any
-  dataIndex?: number
+  className?: string
 }
 
-function CardBallon({ offer, ref, dataIndex }: IProps) {
+function CardBallon({ offer, ref, className }: IProps) {
   const { provider, description, images, addresses, user, urgent } = offer ?? {}
 
   function handleClick() {
@@ -67,12 +67,12 @@ function CardBallon({ offer, ref, dataIndex }: IProps) {
         provider === EnumTypeProvider.offer && "bg-BG-second",
         provider === EnumTypeProvider.alert && "bg-card-red",
         provider === EnumTypeProvider.discussion && "bg-card-blue",
+        className,
       )}
       onClick={(event) => {
         event.stopPropagation()
         handleClick()
       }}
-      data-index={dataIndex}
       ref={ref}
     >
       <header

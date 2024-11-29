@@ -16,7 +16,7 @@ import { EXCEPTION_POST_MAP } from "@/config/exception"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import { useBounds, useFiltersScreen, useFiltersServices, useSearchFilters, useUrgentFilter } from "@/store"
 
-const DAY = 86_400_000 
+const DAY = 86_400_000
 const WEEK = DAY * 7
 const MONTH = DAY * 31
 const now = new Date().valueOf()
@@ -28,7 +28,7 @@ const objTime = {
   [EnumTimesFilter.MONTH]: MONTH,
 }
 
-export const ServicesComponent = ({ parentRef }: { parentRef: RefObject<HTMLUListElement> }) => {
+export const ServicesComponent = () => {
   const { itemsOffers, isLoading } = useMapOffers()
   const bounds = useBounds(({ bounds }) => bounds)
   const providers = useFiltersServices(({ providers }) => providers)
@@ -133,5 +133,5 @@ export const ServicesComponent = ({ parentRef }: { parentRef: RefObject<HTMLULis
       </ul>
     )
 
-  return <VirtualList list={items} listPosts={itemsFilterPosts} parentRef={parentRef} />
+  return <VirtualList list={items} listPosts={itemsFilterPosts} />
 }

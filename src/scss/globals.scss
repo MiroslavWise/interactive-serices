@@ -317,6 +317,18 @@ h6 {
   }
 }
 
+.scroll-no-children {
+  * {
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar,
+    &::-webkit-scrollbar-thumb {
+      display: none !important;
+      width: 0px;
+    }
+  }
+}
+
 .not-y-scroll {
   overflow-x: scroll;
   scroll-behavior: smooth;

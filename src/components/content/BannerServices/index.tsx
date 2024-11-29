@@ -26,7 +26,6 @@ import styles from "./styles/style.module.scss"
 function BannerServices() {
   const visible = useCollapseServices(({ visible }) => visible)
   const visibleBanner = useBanner(({ visible }) => visible)
-  const parentRef = useRef<HTMLUListElement>(null)
 
   return (
     <div
@@ -42,14 +41,14 @@ function BannerServices() {
       data-test="banner-services"
     >
       <header className="w-full h-[4.875rem] sticky top-0" />
-      <ul ref={parentRef} data-test="ul-banner-services" className="relative w-full h-[calc(100%_-_4.875rem)] overflow-y-auto">
+      <ul data-test="ul-banner-services" className="relative w-full h-[calc(100%_-_4.875rem)] overflow-y-auto">
         <section data-test="ul-section-banner-services" className="w-full flex flex-col gap-[1.125rem] py-2.5 px-5">
           <ServiceFilters />
           <TimesFilter />
           <ActiveFilters />
         </section>
         <div data-test="ul-section-container-banner-services" className="h-full flex flex-col items-start gap-4 pt-1.5 px-5 pb-5">
-          <ServicesComponent parentRef={parentRef} />
+          <ServicesComponent />
         </div>
       </ul>
     </div>
