@@ -48,7 +48,7 @@ function BannerServices() {
           <TimesFilter />
           <ActiveFilters />
         </section>
-        <div data-test="ul-section-container-banner-services" className="flex flex-col items-start gap-4 pt-1.5 px-5 pb-5">
+        <div data-test="ul-section-container-banner-services" className="h-full flex flex-col items-start gap-4 pt-1.5 px-5 pb-5">
           <ServicesComponent parentRef={parentRef} />
         </div>
       </ul>

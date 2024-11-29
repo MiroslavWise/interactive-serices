@@ -98,6 +98,26 @@ function YandexMap() {
 
     return [newStart, newEnd]
   }
+
+  function actionend(events: any) {
+    const bounds: number[][] | undefined = events.originalEvent?.target?._bounds
+    const _zoom = (events.originalEvent?.target?._zoom as number) || zoom
+    const newB = boundsExpansion(bounds)
+    dispatchBounds(newB)
+    if (_zoom !== zoom) {
+      dispatchMapCoordinatesZoom(_zoom)
+    }
+  }
+
+  useEffect(() => {
+    if (instanceRef.current) {
+      return () => {
+        instanceRef.current?.events.remove("dblclick", onContextMenu)
+        instanceRef.current?.events.remove("actionend", actionend)
+      }
+    }
+  }, [])
+
   return (
     <>
       <HeaderMap />
@@ -113,19 +133,10 @@ function YandexMap() {
 
               dispatchBounds(newB)
             }
-            instanceRef.current?.events.add("dblclick", (events: any) => onContextMenu(events))
+            instanceRef.current?.events.add("dblclick", onContextMenu)
+            instanceRef.current?.events.add("actionend", actionend)
             instanceRef.current?.options.set({
               dblClickFloatZoom: true,
-            })
-
-            instanceRef.current?.events.add("actionend", (events: any) => {
-              const bounds: number[][] | undefined = events.originalEvent?.target?._bounds
-              const _zoom = (events.originalEvent?.target?._zoom as number) || zoom
-              const newB = boundsExpansion(bounds)
-              dispatchBounds(newB)
-              if (_zoom !== zoom) {
-                dispatchMapCoordinatesZoom(_zoom)
-              }
             })
           })
         }}
