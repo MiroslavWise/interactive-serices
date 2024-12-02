@@ -30,9 +30,6 @@ const YandexMap = dynamic(() => import("../../components/YandexMap"), {
 const SearchCategory = dynamic(() => import("@/components/content/mobile/SearchCategory"), {
   ssr: false,
 })
-const BannerMainPage = dynamic(() => import("@/components/content/BannerMainPage"), {
-  ssr: false,
-})
 
 import { useResize } from "@/helpers"
 import useUtm from "@/helpers/use-utm"
@@ -47,7 +44,6 @@ export default () => {
 
   return (
     <>
-      <BannerMainPage />
       <main className="relative flex flex-col items-center justify-between h-full w-full overflow-hidden bg-transparent z-20">
         <YandexMap />
         {isAuth && !isTablet && <BannerSign />}

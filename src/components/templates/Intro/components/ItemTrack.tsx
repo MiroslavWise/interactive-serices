@@ -9,7 +9,7 @@ export const ItemTrack: TItemTrack = ({ index }) => {
 
   return (
     <li data-full={index < page} data-active={index === page} data-null={index > page}>
-      {page === index ? <TimeDiv index={index} /> : null}
+      {page === index ? <div /> : null}
     </li>
   )
 }
