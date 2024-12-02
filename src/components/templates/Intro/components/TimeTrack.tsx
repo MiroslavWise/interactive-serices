@@ -5,8 +5,6 @@ import { useIntro } from "@/store"
 import styles from "../styles/time-track.module.scss"
 
 export const TimeTrack = () => {
-  const page = useIntro(({ page }) => page)
-
   return (
     <nav className={styles.container}>
       <ul>
