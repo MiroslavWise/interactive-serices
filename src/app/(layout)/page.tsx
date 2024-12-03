@@ -17,9 +17,6 @@ import Navigation from "@/components/content/mobile/Navigation"
 const BannerSign = dynamic(() => import("@/components/content/BannerSign"), {
   ssr: false,
 })
-// const HasClustererBalloons = dynamic(() => import("@/components/templates/HasClustererBalloons"), {
-//   ssr: false,
-// })
 const BannerServices = dynamic(() => import("@/components/content/BannerServices"), {
   ssr: false,
 })
@@ -33,14 +30,13 @@ const SearchCategory = dynamic(() => import("@/components/content/mobile/SearchC
 
 import { useResize } from "@/helpers"
 import useUtm from "@/helpers/use-utm"
-import { useAuth, useHasBalloons } from "@/store"
+import { useAuth } from "@/store"
 import { ButtonNavigation } from "@/components/content/BannerSign/components/ButtonNavigation"
 
 export default () => {
   useUtm()
   const isAuth = useAuth(({ isAuth }) => isAuth)
   const { isTablet } = useResize()
-  const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
 
   return (
     <>
