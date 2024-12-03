@@ -1,18 +1,20 @@
 "use client"
 
-import { serviceNotifications } from "@/services"
-import { dispatchVisibleNotifications, useAuth } from "@/store"
-import { useQuery } from "@tanstack/react-query"
 import { useEffect, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
+
+import { serviceNotifications } from "@/services"
+import { useStatusAuth } from "@/helpers/use-status-auth"
+import { dispatchVisibleNotifications, useAuth, EStatusAuth } from "@/store"
 
 export const NotificationBell = () => {
   const [count, setCount] = useState<number | null>(null)
-  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const statusAuth = useStatusAuth()
   const { id } = useAuth(({ auth }) => auth) ?? {}
   const { data: dataNotifications } = useQuery({
     queryFn: () => serviceNotifications.get({ order: "DESC" }),
     queryKey: ["notifications", { userId: id }],
-    enabled: !!id,
+    enabled: statusAuth === EStatusAuth.AUTHORIZED,
     refetchOnMount: true,
   })
 
@@ -28,7 +30,7 @@ export const NotificationBell = () => {
     }
   }, [dataNotifications?.data])
 
-  return !!isAuth ? (
+  return statusAuth === EStatusAuth.AUTHORIZED ? (
     <button
       data-notifications
       onClick={(event) => {

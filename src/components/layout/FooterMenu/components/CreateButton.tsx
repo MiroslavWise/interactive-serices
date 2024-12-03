@@ -2,12 +2,13 @@ import IconPlus from "@/components/icons/IconPlus"
 
 import { cx } from "@/lib/cx"
 import { useSign } from "../hooks/useSign"
-import { dispatchNewServicesBanner, EModalData, useAuth, useModal } from "@/store"
+import { useStatusAuth } from "@/helpers/use-status-auth"
+import { dispatchNewServicesBanner, EModalData, EStatusAuth, useModal } from "@/store"
 
 const TITLE = "Создать"
 
 export const CreateButton = () => {
-  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const statusAuth = useStatusAuth()
   const handleAuthModal = useSign()
   const isCreateModal = useModal(({ data }) => data === EModalData.NewServicesBanner)
 
@@ -16,10 +17,11 @@ export const CreateButton = () => {
       className="h-full flex-[1] flex-shrink-0 flex pt-1 pb-[0.1875rem] px-[0.0625rem] flex-col no-underline relative"
       onClick={(event) => {
         event.stopPropagation()
-        if (typeof isAuth !== "undefined") {
-          if (isAuth) {
+        if (statusAuth !== EStatusAuth.CHECK) {
+          if (statusAuth === EStatusAuth.AUTHORIZED) {
             dispatchNewServicesBanner()
-          } else {
+            event.preventDefault()
+          } else if (statusAuth === EStatusAuth.UNAUTHORIZED) {
             event.preventDefault()
             handleAuthModal()
           }

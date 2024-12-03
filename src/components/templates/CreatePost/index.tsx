@@ -42,8 +42,6 @@ function CreatePost() {
   const stateModal = useModal(({ data }) => data)
   const initMapAddress = useCreatePost(({ initAddress }) => initAddress)
 
-  clg("initMapAddress: ", initMapAddress)
-
   const { refetch: refetchProfile } = useQuery({
     queryFn: () => getPosts({ order: "DESC", user: userId! }),
     queryKey: ["posts", { userId: userId!, order: "DESC" }],
@@ -84,7 +82,6 @@ function CreatePost() {
       title,
       slug,
       addresses: [],
-      // isAuthRead: false,
       isParticipants: values.isParticipants,
     }
 

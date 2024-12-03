@@ -1,13 +1,13 @@
 "use client"
 
-import { TAuth, useAuth } from "@/store"
+import { EStatusAuth, TAuth, useAuth } from "@/store"
 import { instance } from "@/services/request/instance"
 
 function asFalse() {
   useAuth.setState((_) => ({
     user: null,
     auth: null,
-    isAuth: false,
+    isAuth: EStatusAuth.UNAUTHORIZED,
   }))
 }
 
@@ -34,7 +34,7 @@ export async function invalidAccessTokenRefresh() {
       useAuth.setState((_) => ({
         ..._,
         auth: data?.data as TAuth,
-        isAuth: true,
+        isAuth: EStatusAuth.AUTHORIZED,
       }))
       return { ok: true }
     } else {

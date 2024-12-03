@@ -6,13 +6,14 @@ import { IconNavigate } from "@/components/icons/IconNavigate"
 
 import { cx } from "@/lib/cx"
 import { useToast } from "@/helpers/hooks/useToast"
+import { useStatusAuth } from "@/helpers/use-status-auth"
 import { handleAddressLocation } from "@/helpers/functions/navigator-address-location"
-import { dispatchMapCoordinatesZoom, useAuth, useCollapsePersonalScreen, useMapCoordinates } from "@/store"
+import { dispatchMapCoordinatesZoom, EStatusAuth, useCollapsePersonalScreen, useMapCoordinates } from "@/store"
 
 import styles from "../styles/button-collapse.module.scss"
 
 export const ButtonNavigation = () => {
-  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const statusAuth = useStatusAuth()
   const visible = useCollapsePersonalScreen(({ visible }) => visible)
   const zoom = useMapCoordinates(({ zoom }) => zoom)
   const { on } = useToast()
@@ -36,7 +37,7 @@ export const ButtonNavigation = () => {
   return (
     <div
       className={cx(styles.buttonNavigation, "fixed left-0 bottom-6 flex flex-col gap-2.5 z-[60] w-10")}
-      data-collapse={isAuth ? visible : true}
+      data-collapse={statusAuth === EStatusAuth.AUTHORIZED ? visible : true}
     >
       <section className="w-10 flex flex-col rounded-.625 bg-BG-second overflow-hidden">
         <button

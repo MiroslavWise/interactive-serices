@@ -1,6 +1,5 @@
 import { z } from "zod"
 import { create } from "zustand"
-import { getMilliseconds, transpose } from "date-fns"
 import { createJSONStorage, persist } from "zustand/middleware"
 
 import { type IUserResponse } from "@/services/users/types"
@@ -14,6 +13,7 @@ import { getLogout, getUser, login, refresh } from "@/services"
 export const useAuth = create(
   persist<IStateUseAuth>(
     () => ({
+      isAuth: EStatusAuth.CHECK,
       auth: null,
       user: null,
     }),
@@ -24,7 +24,7 @@ export const useAuth = create(
         return {
           auth: state.auth,
           user: state.user,
-        }
+        } as IStateUseAuth
       },
       version: 0.1,
     },
@@ -36,7 +36,7 @@ function setData(res: TAuth | null) {
     (_) => ({
       ..._,
       auth: res ?? null,
-      isAuth: !!res,
+      isAuth: !!res ? EStatusAuth.AUTHORIZED : EStatusAuth.UNAUTHORIZED,
     }),
     true,
   )
@@ -75,7 +75,7 @@ export const dispatchRefresh = async () => {
       useAuth.setState((_) => ({
         ..._,
         auth: res as TAuth,
-        isAuth: true,
+        isAuth: EStatusAuth.AUTHORIZED,
       }))
 
       return response
@@ -84,7 +84,7 @@ export const dispatchRefresh = async () => {
         (_) => ({
           auth: null,
           user: null,
-          isAuth: false,
+          isAuth: EStatusAuth.UNAUTHORIZED,
         }),
         true,
       )
@@ -95,7 +95,7 @@ export const dispatchRefresh = async () => {
 }
 
 export const dispatchAuthToken = ({ auth, user }: { auth: TAuth; user: IUserResponse | null }) =>
-  useAuth.setState((_) => ({ user, auth, isAuth: true }), true)
+  useAuth.setState((_) => ({ user, auth, isAuth: EStatusAuth.AUTHORIZED }), true)
 
 export const dispatchClearAuth = async () => {
   return getLogout().then(() => {
@@ -104,7 +104,7 @@ export const dispatchClearAuth = async () => {
         ..._,
         auth: null,
         user: null,
-        isAuth: false,
+        isAuth: EStatusAuth.UNAUTHORIZED,
       }),
       true,
     )
@@ -126,7 +126,7 @@ const objUseAuth = z.object({
 export type TAuth = z.infer<typeof objUseAuth>
 
 interface IStateUseAuth {
-  isAuth?: boolean
+  isAuth: EStatusAuth
   auth: TAuth | null
   user: IUserResponse | null
 }
@@ -137,4 +137,10 @@ export function isTokenExpired(exp: number | undefined) {
     return currentTime - exp > 0
   }
   return false
+}
+
+export enum EStatusAuth {
+  CHECK = "check",
+  AUTHORIZED = "authorized",
+  UNAUTHORIZED = "unauthorized",
 }

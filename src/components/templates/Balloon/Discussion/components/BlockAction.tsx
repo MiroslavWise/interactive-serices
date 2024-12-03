@@ -8,12 +8,13 @@ import { EnumProviderThreads, EnumSign, EnumTypeProvider } from "@/types/enum"
 import { ButtonLike } from "./ButtonLike"
 import { ButtonActivity } from "./ButtonActivity"
 import { ButtonComments } from "./ButtonComments"
+import IconSpinner from "@/components/icons/IconSpinner"
 
 import { cx } from "@/lib/cx"
 import { postThread } from "@/services"
-import IconSpinner from "@/components/icons/IconSpinner"
+import { useStatusAuth } from "@/helpers/use-status-auth"
 import { providerIsAscending } from "@/lib/sortIdAscending"
-import { dispatchAuthModal, dispatchModalClose, useAuth } from "@/store"
+import { dispatchAuthModal, dispatchModalClose, useAuth, EStatusAuth } from "@/store"
 
 interface IProps {
   offer: IResponseOffers
@@ -21,13 +22,13 @@ interface IProps {
 }
 
 function BlockAction({ offer, setExpandComment }: IProps) {
-  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const statusAuth = useStatusAuth()
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { push } = useRouter()
   const [loadingChat, setLoadingChat] = useState(false)
 
   async function handleHelp() {
-    if (isAuth && offer?.userId !== userId) {
+    if (statusAuth === EStatusAuth.AUTHORIZED && offer?.userId !== userId) {
       setLoadingChat(true)
       const provider = providerIsAscending({
         type: EnumProviderThreads.PERSONAL,
@@ -53,7 +54,7 @@ function BlockAction({ offer, setExpandComment }: IProps) {
       setTimeout(dispatchModalClose, 300)
       return
     }
-    if (!isAuth) {
+    if (statusAuth !== EStatusAuth.AUTHORIZED) {
       dispatchAuthModal({
         visible: true,
         type: EnumSign.SignIn,

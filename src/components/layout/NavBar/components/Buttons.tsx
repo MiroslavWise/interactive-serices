@@ -5,28 +5,29 @@ import { usePathname } from "next/navigation"
 import { EnumSign } from "@/types/enum"
 
 import Button from "@/components/common/Button"
-
-import { cx } from "@/lib/cx"
-import { dispatchAuthModal, dispatchDownloadApplication, dispatchNewServicesBanner, EModalData, useAuth, useModal } from "@/store"
-
-import styles from "../styles/button-download-app.module.scss"
 import IconPlus from "@/components/icons/IconPlus"
 
+import { cx } from "@/lib/cx"
+import { useStatusAuth } from "@/helpers/use-status-auth"
+import { dispatchAuthModal, dispatchDownloadApplication, dispatchNewServicesBanner, EModalData, EStatusAuth, useModal } from "@/store"
+
+import styles from "../styles/button-download-app.module.scss"
+
 export const Buttons = () => {
-  const isAuth = useAuth(({ isAuth }) => isAuth)
   const pathname = usePathname()
+  const statusAuth = useStatusAuth()
   const isCreateModal = useModal(({ data }) => data === EModalData.NewServicesBanner)
 
   if (pathname.includes("/legal/")) return null
 
-  return typeof isAuth === "undefined" ? (
+  return statusAuth === EStatusAuth.CHECK ? (
     <div className="loading-screen relative flex flex-row gap-3">
       <span />
       <span />
     </div>
   ) : (
     <div className="relative flex flex-row gap-3">
-      {isAuth ? (
+      {statusAuth === EStatusAuth.AUTHORIZED ? (
         <>
           <Button
             type="button"

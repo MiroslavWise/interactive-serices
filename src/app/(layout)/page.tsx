@@ -2,17 +2,9 @@
 
 import dynamic from "next/dynamic"
 
-import {
-  BannerAbout,
-  MobileFilterMap,
-  BannerStartCreate,
-  ButtonCollapseServices,
-  SearchAndFilters,
-  FiltersScreen,
-  SearchFilters,
-} from "@/components/content"
 import MapSearch from "@/components/content/mobile/MapSearch"
 import Navigation from "@/components/content/mobile/Navigation"
+import { BannerAbout, MobileFilterMap, ButtonCollapseServices, SearchAndFilters, FiltersScreen, SearchFilters } from "@/components/content"
 
 const BannerSign = dynamic(() => import("@/components/content/BannerSign"), {
   ssr: false,
@@ -27,24 +19,24 @@ const YandexMap = dynamic(() => import("../../components/YandexMap"), {
 const SearchCategory = dynamic(() => import("@/components/content/mobile/SearchCategory"), {
   ssr: false,
 })
+import { ButtonNavigation } from "@/components/content/BannerSign/components/ButtonNavigation"
 
+import { EStatusAuth } from "@/store"
 import { useResize } from "@/helpers"
 import useUtm from "@/helpers/use-utm"
-import { useAuth } from "@/store"
-import { ButtonNavigation } from "@/components/content/BannerSign/components/ButtonNavigation"
+import { useStatusAuth } from "@/helpers/use-status-auth"
 
 export default () => {
   useUtm()
-  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const statusAuth = useStatusAuth()
   const { isTablet } = useResize()
 
   return (
     <>
       <main className="relative flex flex-col items-center justify-between h-full w-full overflow-hidden bg-transparent z-20">
         <YandexMap />
-        {isAuth && !isTablet && <BannerSign />}
-        {typeof isAuth !== "undefined" && !isAuth && <BannerAbout />}
-        {isAuth && isTablet && <BannerStartCreate />}
+        {statusAuth === EStatusAuth.AUTHORIZED && !isTablet && <BannerSign />}
+        {statusAuth === EStatusAuth.UNAUTHORIZED && <BannerAbout />}
         {isTablet ? (
           <>
             <MobileFilterMap />

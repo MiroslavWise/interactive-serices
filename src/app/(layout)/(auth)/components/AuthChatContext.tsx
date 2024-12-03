@@ -3,20 +3,20 @@
 import { useRouter } from "next/navigation"
 import { useEffect, type PropsWithChildren } from "react"
 
-import { useAuth } from "@/store"
+import { EStatusAuth } from "@/store"
+import { useStatusAuth } from "@/helpers/use-status-auth"
 
 function AuthChatContext({ children }: PropsWithChildren) {
-  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const statusAuth = useStatusAuth()
   const { push } = useRouter()
 
   useEffect(() => {
-    if (typeof isAuth !== "undefined" && !isAuth) {
+    if (statusAuth === EStatusAuth.UNAUTHORIZED) {
       push("/")
     }
-  }, [isAuth])
+  }, [statusAuth])
 
-  if (typeof isAuth === "undefined") return null
-  if (!isAuth) return null
+  if ([EStatusAuth.UNAUTHORIZED, EStatusAuth.CHECK].includes(statusAuth)) return null
 
   return children
 }

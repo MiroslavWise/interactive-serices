@@ -11,7 +11,6 @@ export interface IBodyPost {
   enabled: boolean
   addresses: number[]
   archive?: boolean
-  // isAuthRead: boolean
   urgent?: boolean
   isParticipants?: boolean
 }

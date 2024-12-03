@@ -9,26 +9,26 @@ import { type IResponseOffers } from "@/services/offers/types"
 
 import HeaderMap from "./Header"
 import ListPlacemark from "./ObjectsMap"
+import ListPlacePosts from "./ObjectsMap/list-place-posts"
 
 import { useToast } from "@/helpers/hooks/useToast"
 import { getAddressCoords } from "@/helpers/get-address"
 import {
   dispatchAuthModal,
   dispatchBounds,
-  // dispatchHasBalloon,
   dispatchMapCoordinates,
   dispatchMapCoordinatesZoom,
   dispatchNewServicesBannerMap,
-  useAuth,
+  EStatusAuth,
   useBounds,
   useMapCoordinates,
 } from "@/store"
-import ListPlacePosts from "./ObjectsMap/list-place-posts"
+import { useStatusAuth } from "@/helpers/use-status-auth"
 
 const COORD = [37.427698, 55.725864]
 
 function YandexMap() {
-  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const statusAuth = useStatusAuth()
   const coordinates = useMapCoordinates(({ coordinates }) => coordinates)
   const zoom = useMapCoordinates(({ zoom }) => zoom)
   const instanceRef: TTypeInstantsMap = useRef()
@@ -37,7 +37,7 @@ function YandexMap() {
 
   function onContextMenu(e: any) {
     console.log("onContextMenu: ", e)
-    if (!isAuth) {
+    if (statusAuth !== EStatusAuth.AUTHORIZED) {
       dispatchAuthModal({ visible: true, type: EnumSign.SignIn })
       on({ message: "Вы не можете создать услугу и беседу, пока не войдёте или не зарегистрируетесь на нашем сервисе" })
       return
