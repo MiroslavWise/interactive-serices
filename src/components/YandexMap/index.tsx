@@ -15,7 +15,7 @@ import { getAddressCoords } from "@/helpers/get-address"
 import {
   dispatchAuthModal,
   dispatchBounds,
-  dispatchHasBalloon,
+  // dispatchHasBalloon,
   dispatchMapCoordinates,
   dispatchMapCoordinatesZoom,
   dispatchNewServicesBannerMap,
@@ -164,31 +164,32 @@ function YandexMap() {
             iconPieChartCoreRadius: 8,
             data: {},
           }}
-          onClick={async (event: any) => {
+          onClick={(event: any) => {
             const coord = event?.originalEvent?.currentTarget?._mapChildComponent?._map?._bounds as number[][]
-            let ids: IResponseOffers[] = []
-            if (event?.originalEvent?.currentTarget?._objects) {
-              for (const item of Object.values(event?.originalEvent?.currentTarget?._objects) as any[]) {
-                if (!!item?.cluster) {
-                  const value = item?.geoObject?.properties?._data as IResponseOffers
-                  const geometry = item?.geoObject?.geometry?._coordinates as [number, number]
-                  if (!!value) {
-                    if (
-                      (geometry[0] >= coord[0][0] || geometry[0] <= coord[1][0]) &&
-                      (geometry[1] >= coord[0][1] || geometry[1] <= coord[1][1])
-                    ) {
-                      ids.push(value)
-                    }
-                  }
-                }
-              }
-            }
+            dispatchMapCoordinatesZoom(19)
+            // let ids: IResponseOffers[] = []
+            // if (event?.originalEvent?.currentTarget?._objects) {
+            //   for (const item of Object.values(event?.originalEvent?.currentTarget?._objects) as any[]) {
+            //     if (!!item?.cluster) {
+            //       const value = item?.geoObject?.properties?._data as IResponseOffers
+            //       const [geometry1, geometry2] = item?.geoObject?.geometry?._coordinates as [number, number]
+            //       if (!!value) {
+            //         if (
+            //           (geometry1 >= coord[0][0] || geometry1 <= coord[1][0]) &&
+            //           (geometry2 >= coord[0][1] || geometry2 <= coord[1][1])
+            //         ) {
+            //           ids.push(value)
+            //         }
+            //       }
+            //     }
+            //   }
+            // }
 
-            dispatchHasBalloon({
-              visibleHasBalloon: true,
-              //@ts-ignore
-              items: ids,
-            })
+            // dispatchHasBalloon({
+            //   visibleHasBalloon: true,
+            //   //@ts-ignore
+            //   items: ids,
+            // })
           }}
         >
           <ListPlacemark />

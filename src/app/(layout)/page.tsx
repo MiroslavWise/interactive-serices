@@ -17,9 +17,9 @@ import Navigation from "@/components/content/mobile/Navigation"
 const BannerSign = dynamic(() => import("@/components/content/BannerSign"), {
   ssr: false,
 })
-const HasClustererBalloons = dynamic(() => import("@/components/templates/HasClustererBalloons"), {
-  ssr: false,
-})
+// const HasClustererBalloons = dynamic(() => import("@/components/templates/HasClustererBalloons"), {
+//   ssr: false,
+// })
 const BannerServices = dynamic(() => import("@/components/content/BannerServices"), {
   ssr: false,
 })
@@ -67,7 +67,6 @@ export default () => {
           </>
         )}
       </main>
-      {visibleHasBalloon && <HasClustererBalloons />}
     </>
   )
 }

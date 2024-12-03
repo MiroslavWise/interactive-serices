@@ -12,64 +12,60 @@ import CardBallon from "@/components/common/Card/CardBallon"
 
 import { cx } from "@/lib/cx"
 import { SERVICES } from "@/components/content/BannerServices/constants"
-import { dispatchHasBalloon, useFiltersServices, useHasBalloons } from "@/store"
+import { useFiltersServices } from "@/store"
 import { getMillisecond } from "@/helpers"
 
 const onTitle = (value: EnumTypeProvider | "all") => SERVICES.find((_) => _.value === value)!.label!
 
 export const HasClustererBalloons = memo(() => {
-  const items = useHasBalloons(({ items }) => items)
   const providers = useFiltersServices(({ providers }) => providers)
-  const visibleHasBalloon = useHasBalloons(({ visibleHasBalloon }) => visibleHasBalloon)
 
   const title = onTitle(providers || "all")
 
-  const close = () => dispatchHasBalloon({ visibleHasBalloon: false })
+  // useEffect(() => {
+  //   if (visibleHasBalloon) {
+  //     const keyDown = (e: KeyboardEvent) => {
+  //       if (e.code == "Escape" || e.keyCode === 27) {
+  //         close()
+  //       }
+  //     }
 
-  useEffect(() => {
-    if (visibleHasBalloon) {
-      const keyDown = (e: KeyboardEvent) => {
-        if (e.code == "Escape" || e.keyCode === 27) {
-          close()
-        }
-      }
+  //     document.addEventListener("keydown", keyDown, false)
+  //     window.addEventListener("popstate", close, false)
 
-      document.addEventListener("keydown", keyDown, false)
-      window.addEventListener("popstate", close, false)
-
-      return () => {
-        document?.removeEventListener("keydown", keyDown)
-        window.removeEventListener("popstate", close)
-      }
-    }
-  }, [visibleHasBalloon])
+  //     return () => {
+  //       document?.removeEventListener("keydown", keyDown)
+  //       window.removeEventListener("popstate", close)
+  //     }
+  //   }
+  // }, [visibleHasBalloon])
 
   useEffect(() => close, [])
 
-  const allItems = items as (IResponseOffers & { type: EnumTypeProvider })[] & (IPosts & { type: EnumTypeProvider })[]
+  // const allItems = items as (IResponseOffers & { type: EnumTypeProvider })[] & (IPosts & { type: EnumTypeProvider })[]
 
-  const mapping = useMemo(() => {
-    return allItems
-      .sort((prev, next) => {
-        const prevNumber = getMillisecond(prev?.created)
-        const nextNumber = getMillisecond(next?.created)
+  // const mapping = useMemo(() => {
+  //   return allItems
+  //     .sort((prev, next) => {
+  //       const prevNumber = getMillisecond(prev?.created)
+  //       const nextNumber = getMillisecond(next?.created)
 
-        return nextNumber - prevNumber
-      })
-      .map((item) => {
-        if (item.type === EnumTypeProvider.POST) return <CardPost key={`ket:post:has:${item.id}`} post={item as unknown as IPosts} />
-        if ([EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(item.type))
-          return <CardBallon key={`ket:${item.type}:has:${item.id}`} offer={item as unknown as IResponseOffers} />
-        return null
-      })
-  }, [allItems])
+  //       return nextNumber - prevNumber
+  //     })
+  //     .map((item) => {
+  //       if (item.type === EnumTypeProvider.POST) return <CardPost key={`ket:post:has:${item.id}`} post={item as unknown as IPosts} />
+  //       if ([EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(item.type))
+  //         return <CardBallon key={`ket:${item.type}:has:${item.id}`} offer={item as unknown as IResponseOffers} />
+  //       return null
+  //     })
+  // }, [allItems])
 
   return (
     <div
       className={cx(
         "wrapper-fixed",
         "bg-translucent flex flex-col items-start py-0 md:pr-10 max-md:pt-8",
-        visibleHasBalloon ? "!z-[209] !visible !opacity-100" : "-z-10 opacity-0 invisible",
+        // visibleHasBalloon ? "!z-[209] !visible !opacity-100" : "-z-10 opacity-0 invisible",
       )}
     >
       <section
@@ -81,7 +77,7 @@ export const HasClustererBalloons = memo(() => {
           <h3 className="text-text-primary text-center text-2xl font-semibold">{title}</h3>
         </header>
         <div data-container className="h-full w-full overflow-hidden md:rounded-l-2">
-          <ul className="w-full h-full p-3 md:p-4 flex flex-col gap-3 md:gap-4 overflow-x-hidden overflow-y-auto">{mapping}</ul>
+          {/* <ul className="w-full h-full p-3 md:p-4 flex flex-col gap-3 md:gap-4 overflow-x-hidden overflow-y-auto">{mapping}</ul> */}
         </div>
       </section>
     </div>
