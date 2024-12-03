@@ -10,7 +10,7 @@ export const useSign = () => {
     if (statusAuth === EStatusAuth.UNAUTHORIZED) {
       dispatchAuthModal({
         visible: true,
-        type: EnumSign.SignUp,
+        type: EnumSign.SignIn,
       })
     }
   }
