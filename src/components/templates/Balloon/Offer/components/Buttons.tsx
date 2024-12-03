@@ -13,7 +13,7 @@ import Button from "@/components/common/Button"
 import { cx } from "@/lib/cx"
 import { getBarters, postThread } from "@/services"
 import { providerIsAscending } from "@/lib/sortIdAscending"
-import { dispatchAuthModal, dispatchHasBalloon, dispatchModalClose, dispatchReciprocalExchange, useAuth } from "@/store"
+import { dispatchAuthModal, dispatchModalClose, dispatchReciprocalExchange, useAuth } from "@/store"
 
 function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactNode }) {
   const { id, urgent } = offer ?? {}
@@ -47,7 +47,7 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
       prefetch(`/chat?offer-pay=${offer?.id}:${offer?.userId}`)
       push(`/chat?offer-pay=${offer?.id}:${offer?.userId}`)
       dispatchModalClose()
-      closeHasBalloons()
+      // closeHasBalloons()
       return
     }
   }
@@ -105,12 +105,12 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
       const { res } = await postThread(data_)
       push(`/chat/${res?.id}`)
       dispatchModalClose()
-      closeHasBalloons()
+      // closeHasBalloons()
       setLoadingChat(false)
     }
   }
 
-  const closeHasBalloons = () => dispatchHasBalloon({ visibleHasBalloon: false })
+  // const closeHasBalloons = () => dispatchHasBalloon({ visibleHasBalloon: false })
 
   return (
     <>
@@ -184,7 +184,7 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
               href={{ pathname: "/chat", query: { user: offer?.userId } }}
               onClick={() => {
                 dispatchModalClose()
-                closeHasBalloons()
+                // closeHasBalloons()
               }}
             >
               <svg
