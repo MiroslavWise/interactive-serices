@@ -27,7 +27,7 @@ export const dispatchNextIntro = () =>
     return {}
   })
 
-export const dispatchIntro = (value: boolean) =>
+export const dispatchIntro = (value?: boolean) =>
   useIntro.setState(() => ({
     visible: value,
     page: 0,

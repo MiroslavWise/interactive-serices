@@ -21,7 +21,11 @@ export const LinkMessages = ({ pathname }: { pathname: string }) => {
     <Link
       href={statusAuth === EStatusAuth.AUTHORIZED ? { pathname: ITEMS_LINK_FOOTER.chat } : {}}
       data-active={isActive}
-      className={cx(styles.link, "h-full flex-[1] flex-shrink-0 flex pt-1 pb-[0.1875rem] px-[0.0625rem] flex-col no-underline relative")}
+      className={cx(
+        styles.link,
+        "h-full flex-[1] flex-shrink-0 pt-1 pb-[0.1875rem] px-[0.0625rem] flex-col no-underline relative",
+        statusAuth === EStatusAuth.AUTHORIZED ? "flex" : "hidden",
+      )}
       onClick={(event) => {
         event.stopPropagation()
         if (statusAuth !== EStatusAuth.AUTHORIZED) {

@@ -3,13 +3,14 @@ import { useQuery } from "@tanstack/react-query"
 
 import { EnumStatusBarter } from "@/types/enum"
 
+import { MENU_ICONS } from "../../NavBar/constants/menu-icons"
+
 import { cx } from "@/lib/cx"
 import { useSign } from "../hooks/useSign"
 import { useAuth, EStatusAuth } from "@/store"
 import { ITEMS_LINK_FOOTER } from "../constants"
 import { getBarterUserIdReceiver } from "@/services"
 import { useStatusAuth } from "@/helpers/use-status-auth"
-import { MENU_ICONS } from "../../NavBar/constants/menu-icons"
 
 import styles from "../styles/link.module.scss"
 
@@ -38,7 +39,11 @@ export const LinkOffers = ({ pathname }: { pathname: string }) => {
     <Link
       href={statusAuth === EStatusAuth.AUTHORIZED ? { pathname: ITEMS_LINK_FOOTER.offers } : {}}
       data-active={isActive}
-      className={cx(styles.link, "h-full flex-[1] flex-shrink-0 flex pt-1 pb-[0.1875rem] px-[0.0625rem] flex-col no-underline relative")}
+      className={cx(
+        styles.link,
+        "h-full flex-[1] flex-shrink-0 pt-1 pb-[0.1875rem] px-[0.0625rem] flex-col no-underline relative",
+        statusAuth === EStatusAuth.AUTHORIZED ? "flex" : "hidden",
+      )}
       onClick={(event) => {
         event.stopPropagation()
         if (statusAuth !== EStatusAuth.AUTHORIZED) {
