@@ -7,6 +7,7 @@ export function BannerAboutDesktop() {
   return (
     <div
       className={cx(
+        "!hidden",
         "fixed left-6 rounded-2 p-6 max-w-[21.375rem] bg-element-accent-1 w-full hidden md:flex flex-col gap-4 cursor-pointer -z-10 md:z-30",
         visible ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_2.75rem)]" : "top-[calc(var(--height-header-nav-bar)_+_1.5rem)]",
       )}

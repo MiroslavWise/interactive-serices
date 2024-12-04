@@ -5,7 +5,6 @@ import { useEffect, useCallback, useRef } from "react"
 
 import { EnumSign } from "@/types/enum"
 import { type TTypeInstantsMap } from "./types"
-import { type IResponseOffers } from "@/services/offers/types"
 
 import HeaderMap from "./Header"
 import ListPlacemark from "./ObjectsMap"
@@ -166,7 +165,7 @@ function YandexMap() {
           }}
           onClick={(event: any) => {
             const coord = event?.originalEvent?.currentTarget?._mapChildComponent?._map?._bounds as number[][]
-            dispatchMapCoordinatesZoom(19)
+            dispatchMapCoordinatesZoom(17)
             // let ids: IResponseOffers[] = []
             // if (event?.originalEvent?.currentTarget?._objects) {
             //   for (const item of Object.values(event?.originalEvent?.currentTarget?._objects) as any[]) {

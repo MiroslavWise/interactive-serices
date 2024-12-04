@@ -6,9 +6,10 @@ import Button from "@/components/common/Button"
 import IconPlus from "@/components/icons/IconPlus"
 
 import { cx } from "@/lib/cx"
+import { MENU_ICONS } from "../constants/menu-icons"
 import { useSign } from "../../FooterMenu/hooks/useSign"
 import { useStatusAuth } from "@/helpers/use-status-auth"
-import { dispatchDownloadApplication, dispatchNewServicesBanner, EModalData, EStatusAuth, useModal } from "@/store"
+import { dispatchDownloadApplication, dispatchIntro, dispatchNewServicesBanner, EModalData, EStatusAuth, useModal } from "@/store"
 
 import styles from "../styles/button-download-app.module.scss"
 
@@ -30,9 +31,19 @@ export const Buttons = () => {
       />
       <Button
         type="button"
-        label="Профиль"
+        label="Кто мы?"
         typeButton="regular-primary"
-        className="min-w-[8.875rem]"
+        className={cx(statusAuth === EStatusAuth.AUTHORIZED && "!hidden", "min-w-[8.875rem]")}
+        onClick={() => {
+          dispatchIntro(true)
+        }}
+      />
+      <Button
+        type="button"
+        label="Профиль"
+        suffixIcon={<div className="relative w-6 h-6 *:w-6 :h-6 [&>svg>path]:fill-text-accent">{MENU_ICONS.profile}</div>}
+        typeButton="regular-primary"
+        className={cx(statusAuth === EStatusAuth.AUTHORIZED && "!hidden", "min-w-[8.875rem]")}
         onClick={() => {
           if (statusAuth === EStatusAuth.AUTHORIZED) {
             push("/profile")

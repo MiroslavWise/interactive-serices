@@ -4,7 +4,7 @@ import dynamic from "next/dynamic"
 
 import MapSearch from "@/components/content/mobile/MapSearch"
 import Navigation from "@/components/content/mobile/Navigation"
-import { BannerAbout, MobileFilterMap, ButtonCollapseServices, SearchAndFilters, FiltersScreen, SearchFilters } from "@/components/content"
+import { MobileFilterMap, ButtonCollapseServices, SearchAndFilters, FiltersScreen, SearchFilters } from "@/components/content"
 
 const BannerSign = dynamic(() => import("@/components/content/BannerSign"), {
   ssr: false,
@@ -36,7 +36,7 @@ export default () => {
       <main className="relative flex flex-col items-center justify-between h-full w-full overflow-hidden bg-transparent z-20">
         <YandexMap />
         {statusAuth === EStatusAuth.AUTHORIZED && !isTablet && <BannerSign />}
-        {statusAuth === EStatusAuth.UNAUTHORIZED && <BannerAbout />}
+        {/* {statusAuth === EStatusAuth.UNAUTHORIZED && <BannerAbout />} */}
         {isTablet ? (
           <>
             <MobileFilterMap />
