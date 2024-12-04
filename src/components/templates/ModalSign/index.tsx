@@ -14,20 +14,21 @@ import { ContentCodeVerification } from "./components/ContentCodeVerification"
 import { ContentInformationEmailReset } from "./components/ContentInformationEmailReset"
 import { ContentInformationCreateAccount } from "./components/ContentInformationCreateAccount"
 
-import { dispatchCloseModalAuth, useAuth, useModalAuth } from "@/store"
 import { cx } from "@/lib/cx"
+import { useStatusAuth } from "@/helpers/use-status-auth"
+import { dispatchCloseModalAuth, EStatusAuth, useModalAuth } from "@/store"
 
 function ModalSign() {
+  const statusAuth = useStatusAuth()
   const type = useModalAuth(({ type }) => type)
   const visible = useModalAuth(({ visible }) => visible)
-  const isAuth = useAuth(({ isAuth }) => isAuth)
 
   return (
     <div
       className={cx(
         "fixed transition-opacity inset-0 w-full h-full bg-translucent md:p-10 flex flex-col items-center max-md:p-0 max-md:!pt-0 max-md:justify-end",
         visible ? "z-[1999] visible opacity-100" : "-z-10 opacity-0 invisible",
-        isAuth && "hidden",
+        statusAuth === EStatusAuth.AUTHORIZED && "hidden",
       )}
     >
       <section className="bg-BG-second rounded-t-3xl rounded-b-none max-md:overflow-hidden max-md:min-h-20 md:rounded-2 relative w-full h-fit max-h-full max-md:!rounded-none max-md:!p-0 max-md:h-full max-w-[30.625rem]">

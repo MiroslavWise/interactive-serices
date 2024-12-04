@@ -1,15 +1,16 @@
 import { EnumSign } from "@/types/enum"
 
-import { dispatchAuthModal, useAuth } from "@/store"
+import { dispatchAuthModal, EStatusAuth } from "@/store"
+import { useStatusAuth } from "@/helpers/use-status-auth"
 
 export const useSign = () => {
-  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const statusAuth = useStatusAuth()
 
   function handleAuthModal() {
-    if (!isAuth && typeof isAuth !== "undefined") {
+    if (statusAuth === EStatusAuth.UNAUTHORIZED) {
       dispatchAuthModal({
         visible: true,
-        type: EnumSign.SignUp,
+        type: EnumSign.SignIn,
       })
     }
   }

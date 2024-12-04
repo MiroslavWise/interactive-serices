@@ -9,17 +9,18 @@ import { LinkMessages } from "./LinkMessages"
 import { LinkNotification } from "./LinkNotification"
 
 import { cx } from "@/lib/cx"
-import { useAuth } from "@/store"
+import { EStatusAuth } from "@/store"
+import { useStatusAuth } from "@/helpers/use-status-auth"
 
 import styles from "../styles/links.module.scss"
 
 export const Links = () => {
-  const isAuth = useAuth(({ isAuth }) => isAuth)
   const pathname = usePathname()
+  const statusAuth = useStatusAuth()
 
   if (pathname.includes("/legal/")) return null
 
-  return isAuth ? (
+  return statusAuth === EStatusAuth.AUTHORIZED ? (
     <ul
       className={cx(
         styles.linksWrapper,

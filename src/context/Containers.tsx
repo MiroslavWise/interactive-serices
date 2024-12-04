@@ -27,18 +27,19 @@ import {
   useNumberConfirmation,
   useCreateNewCategory,
   useChangeService,
-  useAuth,
   useDeleteNote,
   useArchivePost,
   useUpdatePost,
   useVideoModal,
+  EStatusAuth,
 } from "@/store"
 import { useResize } from "@/helpers"
 import Friends from "@/components/templates/Friends"
 import MyFriends from "@/components/templates/MyFriends"
-import ArchivePost from "@/components/templates/ArchivePost"
-import UpdatePost from "@/components/templates/Update/Posts"
 import ModalSign from "@/components/templates/ModalSign"
+import { useStatusAuth } from "@/helpers/use-status-auth"
+import UpdatePost from "@/components/templates/Update/Posts"
+import ArchivePost from "@/components/templates/ArchivePost"
 
 const Modal = dynamic(() => import("@/components/templates/Modal"), { ssr: false })
 const VideoModal = dynamic(() => import("@/components/layout/VideoModal"), { ssr: false })
@@ -54,7 +55,7 @@ const ChangeService = dynamic(() => import("@/components/profile").then((res) =>
 const NotificationCreateService = dynamic(() => import("@/components/content/NotificationCreateService"), { ssr: false })
 
 function Containers() {
-  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const statusAuth = useStatusAuth()
   const visibleReasonBarters = useReasonBarters(({ visible }) => visible)
   const visibleNotifications = useVisibleNotifications(({ visible }) => visible)
   const visibleAddingPhoneNumber = useAddingPhoneNumber(({ visible }) => visible)
@@ -76,7 +77,7 @@ function Containers() {
       <WelcomeModal />
       <PhotoCarousel />
       {visibleVideo && <VideoModal />}
-      {isAuth === false && (
+      {statusAuth === EStatusAuth.UNAUTHORIZED && (
         <>
           <Intro />
           <AboutSheiraPopup />
@@ -89,7 +90,7 @@ function Containers() {
       <DownloadApplication />
       <ToastContainer limit={1} />
       {isTablet && <MobileFiltersMap />}
-      {isAuth && (
+      {statusAuth === EStatusAuth.AUTHORIZED && (
         <>
           <MyFriends />
           <Onboarding />

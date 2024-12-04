@@ -1,87 +1,77 @@
 "use client"
 
-import { usePathname } from "next/navigation"
-
-import { EnumSign } from "@/types/enum"
+import { useRouter } from "next/navigation"
 
 import Button from "@/components/common/Button"
-
-import { cx } from "@/lib/cx"
-import { dispatchAuthModal, dispatchDownloadApplication, dispatchNewServicesBanner, EModalData, useAuth, useModal } from "@/store"
-
-import styles from "../styles/button-download-app.module.scss"
 import IconPlus from "@/components/icons/IconPlus"
 
+import { cx } from "@/lib/cx"
+import { MENU_ICONS } from "../constants/menu-icons"
+import { useSign } from "../../FooterMenu/hooks/useSign"
+import { useStatusAuth } from "@/helpers/use-status-auth"
+import { dispatchDownloadApplication, dispatchIntro, dispatchNewServicesBanner, EModalData, EStatusAuth, useModal } from "@/store"
+
+import styles from "../styles/button-download-app.module.scss"
+
 export const Buttons = () => {
-  const isAuth = useAuth(({ isAuth }) => isAuth)
-  const pathname = usePathname()
+  const { push } = useRouter()
+  const handleAuthModal = useSign()
+  const statusAuth = useStatusAuth()
   const isCreateModal = useModal(({ data }) => data === EModalData.NewServicesBanner)
 
-  if (pathname.includes("/legal/")) return null
-
-  return typeof isAuth === "undefined" ? (
-    <div className="loading-screen relative flex flex-row gap-3">
-      <span />
-      <span />
-    </div>
-  ) : (
+  return (
     <div className="relative flex flex-row gap-3">
-      {isAuth ? (
-        <>
-          <Button
-            type="button"
-            label="Скачать приложение"
-            typeButton="regular-primary"
-            className="px-4 w-min"
-            prefixIcon={<IconDownloadApp />}
-            onClick={() => dispatchDownloadApplication(true)}
-          />
-          <Button
-            label="Создать"
-            typeButton="fill-primary"
-            className="min-w-[8.875rem]"
-            suffixIcon={
-              <div
-                className={cx(
-                  "relative w-6 h-6 *:w-6 :h-6 [&>svg>path]:fill-text-button *:transition-transform *:duration-200",
-                  isCreateModal ? "*:rotate-180" : "*:rotate-0",
-                )}
-              >
-                <IconPlus />
-              </div>
-            }
-            style={{ width: "100%" }}
-            onClick={dispatchNewServicesBanner}
-            data-test="nav-bar-button-create"
-            id="nav-bar-button-create"
-          />
-        </>
-      ) : (
-        <>
-          <Button
-            type="button"
-            label="Скачать приложение"
-            typeButton="regular-primary"
-            className="px-4 w-min"
-            prefixIcon={<IconDownloadApp />}
-            onClick={() => dispatchDownloadApplication(true)}
-          />
-          <Button
-            type="button"
-            label="Зарегистрироваться"
-            typeButton="regular-primary"
-            className="min-w-[8.875rem]"
-            onClick={() => dispatchAuthModal({ visible: true, type: EnumSign.SignUp })}
-          />
-          <Button
-            type="button"
-            label="Войти"
-            typeButton="fill-primary"
-            className="min-w-[8.875rem]"
-            onClick={() => dispatchAuthModal({ visible: true, type: EnumSign.SignIn })}
-          />
-        </>
-      )}
+      <Button
+        type="button"
+        label="Скачать приложение"
+        typeButton="regular-primary"
+        className="px-4 w-min"
+        prefixIcon={<IconDownloadApp />}
+        onClick={() => dispatchDownloadApplication(true)}
+      />
+      <Button
+        type="button"
+        label="О Sheira"
+        typeButton="regular-primary"
+        className={cx(statusAuth === EStatusAuth.AUTHORIZED && "!hidden")}
+        onClick={() => {
+          dispatchIntro(true)
+        }}
+      />
+      <Button
+        label="Создать"
+        typeButton="fill-primary"
+        className="min-w-[8.875rem]"
+        suffixIcon={
+          <div
+            className={cx(
+              "relative w-6 h-6 *:w-6 :h-6 [&>svg>path]:fill-text-button *:transition-transform *:duration-200",
+              isCreateModal ? "*:rotate-180" : "*:rotate-0",
+            )}
+          >
+            <IconPlus />
+          </div>
+        }
+        style={{ width: "100%" }}
+        onClick={statusAuth !== EStatusAuth.AUTHORIZED ? handleAuthModal : dispatchNewServicesBanner}
+        data-test="nav-bar-button-create"
+        id="nav-bar-button-create"
+      />
+      <Button
+        type="button"
+        label=""
+        title="Войти"
+        suffixIcon={<div className="relative w-6 h-6 *:w-6 :h-6 [&>svg>path]:fill-text-accent">{MENU_ICONS.profile}</div>}
+        typeButton="regular-primary"
+        className={cx(statusAuth === EStatusAuth.AUTHORIZED && "!hidden")}
+        onClick={() => {
+          if (statusAuth === EStatusAuth.AUTHORIZED) {
+            push("/profile")
+          } else {
+            handleAuthModal()
+          }
+        }}
+      />
     </div>
   )
 }

@@ -13,10 +13,11 @@ import { cx } from "@/lib/cx"
 import { postComplain } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { MENU_COMPLAINT } from "./constants/constants"
-import { dispatchCleanComplaintModal, dispatchModalClose, useAuth, useComplaintModal } from "@/store"
+import { useStatusAuth } from "@/helpers/use-status-auth"
+import { dispatchCleanComplaintModal, dispatchModalClose, EStatusAuth, useComplaintModal } from "@/store"
 
 export default function ComplaintModal() {
-  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const statusAuth = useStatusAuth()
   const [loading, setLoading] = useState(false)
 
   const { onBarters } = useToast()
@@ -121,7 +122,7 @@ export default function ComplaintModal() {
             typeButton="fill-primary"
             label="Отправить жалобу"
             loading={loading}
-            disabled={!watch("type") || (watch("type") === "other" && !watch("text")) || !isAuth}
+            disabled={!watch("type") || (watch("type") === "other" && !watch("text")) || statusAuth !== EStatusAuth.AUTHORIZED}
           />
         </footer>
       </form>

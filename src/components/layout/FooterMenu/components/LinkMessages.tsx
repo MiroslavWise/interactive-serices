@@ -1,29 +1,34 @@
 import Link from "next/link"
 
-import { useAuth } from "@/store"
+import { cx } from "@/lib/cx"
+import { EStatusAuth } from "@/store"
 import { useSign } from "../hooks/useSign"
 import { ITEMS_LINK_FOOTER } from "../constants"
 import { useCountMessagesNotReading } from "@/helpers"
+import { useStatusAuth } from "@/helpers/use-status-auth"
 import { MENU_ICONS } from "../../NavBar/constants/menu-icons"
 
 import styles from "../styles/link.module.scss"
-import { cx } from "@/lib/cx"
 
 export const LinkMessages = ({ pathname }: { pathname: string }) => {
   const handleAuthModal = useSign()
-  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const statusAuth = useStatusAuth()
   const { count } = useCountMessagesNotReading()
 
   const isActive = pathname?.includes(ITEMS_LINK_FOOTER.chat)
 
   return (
     <Link
-      href={isAuth ? { pathname: ITEMS_LINK_FOOTER.chat } : {}}
+      href={statusAuth === EStatusAuth.AUTHORIZED ? { pathname: ITEMS_LINK_FOOTER.chat } : {}}
       data-active={isActive}
-      className={cx(styles.link, "h-full flex-[1] flex-shrink-0 flex pt-1 pb-[0.1875rem] px-[0.0625rem] flex-col no-underline relative")}
+      className={cx(
+        styles.link,
+        "h-full flex-[1] flex-shrink-0 pt-1 pb-[0.1875rem] px-[0.0625rem] flex-col no-underline relative",
+        statusAuth === EStatusAuth.AUTHORIZED ? "flex" : "hidden",
+      )}
       onClick={(event) => {
         event.stopPropagation()
-        if (!isAuth) {
+        if (statusAuth !== EStatusAuth.AUTHORIZED) {
           event.preventDefault()
           handleAuthModal()
         }

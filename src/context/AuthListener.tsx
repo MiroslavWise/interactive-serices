@@ -8,8 +8,9 @@ import { IGetProfileIdResponse } from "@/services/profile/types"
 
 import { useWebSocket } from "./WebSocketProvider"
 
-import { useAuth } from "@/store"
+import { EStatusAuth, useAuth } from "@/store"
 import { useCountMessagesNotReading } from "@/helpers"
+import { useStatusAuth } from "@/helpers/use-status-auth"
 import { getBarterUserIdReceiver, serviceNotifications } from "@/services"
 
 function Listener() {
@@ -59,9 +60,9 @@ function Listener() {
 }
 
 export function AuthListener() {
-  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const statusAuth = useStatusAuth()
 
-  return isAuth ? <Listener /> : null
+  return statusAuth === EStatusAuth.AUTHORIZED ? <Listener /> : null
 }
 
 interface IChatResponse {

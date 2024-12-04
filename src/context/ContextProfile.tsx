@@ -3,20 +3,21 @@
 import { useRouter } from "next/navigation"
 import { useEffect, type PropsWithChildren } from "react"
 
-import { useAuth } from "@/store"
+import { EStatusAuth } from "@/store"
+import { useStatusAuth } from "@/helpers/use-status-auth"
 
 function ContextProfile({ children }: PropsWithChildren) {
-  const isAuth = useAuth(({ isAuth }) => isAuth)
+  const statusAuth = useStatusAuth()
 
   const { push } = useRouter()
 
   useEffect(() => {
-    if (typeof isAuth !== "undefined" && !isAuth) {
+    if (statusAuth === EStatusAuth.UNAUTHORIZED) {
       push("/")
     }
-  }, [isAuth])
+  }, [statusAuth])
 
-  return isAuth ? children : null
+  return statusAuth === EStatusAuth.AUTHORIZED ? children : null
 }
 
 ContextProfile.displayName = "ContextProfile"
