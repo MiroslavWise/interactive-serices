@@ -31,25 +31,11 @@ export const Buttons = () => {
       />
       <Button
         type="button"
-        label="Кто мы?"
+        label="О Sheira"
         typeButton="regular-primary"
         className={cx(statusAuth === EStatusAuth.AUTHORIZED && "!hidden", "min-w-[8.875rem]")}
         onClick={() => {
           dispatchIntro(true)
-        }}
-      />
-      <Button
-        type="button"
-        label="Профиль"
-        suffixIcon={<div className="relative w-6 h-6 *:w-6 :h-6 [&>svg>path]:fill-text-accent">{MENU_ICONS.profile}</div>}
-        typeButton="regular-primary"
-        className={cx(statusAuth === EStatusAuth.AUTHORIZED && "!hidden", "min-w-[8.875rem]")}
-        onClick={() => {
-          if (statusAuth === EStatusAuth.AUTHORIZED) {
-            push("/profile")
-          } else {
-            handleAuthModal()
-          }
         }}
       />
       <Button
@@ -70,6 +56,21 @@ export const Buttons = () => {
         onClick={statusAuth !== EStatusAuth.AUTHORIZED ? handleAuthModal : dispatchNewServicesBanner}
         data-test="nav-bar-button-create"
         id="nav-bar-button-create"
+      />
+      <Button
+        type="button"
+        label=""
+        title="Войти"
+        suffixIcon={<div className="relative w-6 h-6 *:w-6 :h-6 [&>svg>path]:fill-text-accent">{MENU_ICONS.profile}</div>}
+        typeButton="regular-primary"
+        className={cx(statusAuth === EStatusAuth.AUTHORIZED && "!hidden")}
+        onClick={() => {
+          if (statusAuth === EStatusAuth.AUTHORIZED) {
+            push("/profile")
+          } else {
+            handleAuthModal()
+          }
+        }}
       />
     </div>
   )

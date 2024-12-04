@@ -38,7 +38,8 @@ const Button = forwardRef(function Button(props: TTypeButton, ref?: LegacyRef<HT
       {prefixIcon ? prefixIcon : null}
       <span
         className={cx(
-          " text-sm text-center whitespace-nowrap font-medium selection:bg-transparent",
+          !label && "!hidden",
+          "text-sm text-center whitespace-nowrap font-medium selection:bg-transparent",
           loading ? "opacity-60" : "opacity-100",
         )}
       >
