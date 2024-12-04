@@ -2,7 +2,6 @@ import { type IResponse } from "./types"
 
 import { URL_API } from "@/helpers"
 import { authToken } from "../auth/authService"
-import { clg } from "@console"
 import { invalidAccessTokenRefresh } from "@/helpers/functions/invalid-access-token-refresh"
 
 interface IGet {
@@ -39,8 +38,6 @@ export async function fetchGet<T = any>({ url, query }: IGet, isInvalid?: boolea
     const responseAwait = (await response.json()) as IResponse
 
     const { data, error, meta } = responseAwait
-
-    clg("responseAwait: ", responseAwait, "error")
 
     if (isInvalid && error?.code === 401) {
       const { ok } = (await invalidAccessTokenRefresh()) ?? {}

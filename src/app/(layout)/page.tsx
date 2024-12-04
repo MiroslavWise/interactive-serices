@@ -36,7 +36,6 @@ export default () => {
       <main className="relative flex flex-col items-center justify-between h-full w-full overflow-hidden bg-transparent z-20">
         <YandexMap />
         {statusAuth === EStatusAuth.AUTHORIZED && !isTablet && <BannerSign />}
-        {/* {statusAuth === EStatusAuth.UNAUTHORIZED && <BannerAbout />} */}
         {isTablet ? (
           <>
             <MobileFilterMap />

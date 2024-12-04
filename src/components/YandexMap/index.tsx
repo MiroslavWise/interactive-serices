@@ -1,7 +1,7 @@
 "use client"
 
-import { Clusterer, Map } from "@pbe/react-yandex-maps"
 import { useEffect, useCallback, useRef } from "react"
+import { Clusterer, Map } from "@pbe/react-yandex-maps"
 
 import { EnumSign } from "@/types/enum"
 import { type TTypeInstantsMap } from "./types"
@@ -10,18 +10,19 @@ import HeaderMap from "./Header"
 import ListPlacemark from "./ObjectsMap"
 import ListPlacePosts from "./ObjectsMap/list-place-posts"
 
-import { useToast } from "@/helpers/hooks/useToast"
-import { getAddressCoords } from "@/helpers/get-address"
 import {
-  dispatchAuthModal,
+  useBounds,
+  EStatusAuth,
   dispatchBounds,
+  useMapCoordinates,
+  dispatchAuthModal,
   dispatchMapCoordinates,
   dispatchMapCoordinatesZoom,
   dispatchNewServicesBannerMap,
-  EStatusAuth,
-  useBounds,
-  useMapCoordinates,
 } from "@/store"
+import { useToast } from "@/helpers/hooks/useToast"
+import { MAX_ZOOM, MIN_ZOOM } from "@/helpers/constants"
+import { getAddressCoords } from "@/helpers/get-address"
 import { useStatusAuth } from "@/helpers/use-status-auth"
 
 const COORD = [37.427698, 55.725864]
@@ -92,8 +93,8 @@ function YandexMap() {
 
     const [start, end] = bounds
 
-    const newStart = start.map((_) => _ - 0.04 * (10 / (zoom || 1)))
-    const newEnd = end.map((_) => _ + 0.04 * (10 / (zoom || 1)))
+    const newStart = start.map((_) => _ - 0.02 * (10 / (zoom || 1)))
+    const newEnd = end.map((_) => _ + 0.02 * (10 / (zoom || 1)))
 
     return [newStart, newEnd]
   }
@@ -108,11 +109,17 @@ function YandexMap() {
     }
   }
 
+  function onZoom(event: any) {
+    const zoom = event.originalEvent.target?._zoom as number
+    dispatchMapCoordinatesZoom(zoom)
+  }
+
   useEffect(() => {
-    if (instanceRef.current) {
-      return () => {
-        instanceRef.current?.events.remove("dblclick", onContextMenu)
-        instanceRef.current?.events.remove("actionend", actionend)
+    return () => {
+      if (instanceRef.current) {
+        instanceRef.current.events.remove("dblclick", onContextMenu)
+        instanceRef.current.events.remove("actionend", actionend)
+        instanceRef.current.events.remove("wheel", onZoom)
       }
     }
   }, [])
@@ -132,11 +139,14 @@ function YandexMap() {
 
               dispatchBounds(newB)
             }
-            instanceRef.current?.events.add("dblclick", onContextMenu)
-            instanceRef.current?.events.add("actionend", actionend)
-            instanceRef.current?.options.set({
-              dblClickFloatZoom: true,
-            })
+            if (instanceRef.current) {
+              instanceRef.current.events.add("dblclick", onContextMenu)
+              instanceRef.current.events.add("actionend", actionend)
+              instanceRef.current.options.set({
+                dblClickFloatZoom: true,
+              })
+              instanceRef.current.events.add("wheel", onZoom)
+            }
           })
         }}
         state={{
@@ -146,8 +156,8 @@ function YandexMap() {
           type: "yandex#map",
         }}
         options={{
-          maxZoom: 20,
-          minZoom: 5,
+          maxZoom: MAX_ZOOM,
+          minZoom: MIN_ZOOM,
           yandexMapDisablePoiInteractivity: true,
         }}
         width={"100%"}
@@ -164,31 +174,11 @@ function YandexMap() {
             data: {},
           }}
           onClick={(event: any) => {
-            const coord = event?.originalEvent?.currentTarget?._mapChildComponent?._map?._bounds as number[][]
-            dispatchMapCoordinatesZoom(17)
-            // let ids: IResponseOffers[] = []
-            // if (event?.originalEvent?.currentTarget?._objects) {
-            //   for (const item of Object.values(event?.originalEvent?.currentTarget?._objects) as any[]) {
-            //     if (!!item?.cluster) {
-            //       const value = item?.geoObject?.properties?._data as IResponseOffers
-            //       const [geometry1, geometry2] = item?.geoObject?.geometry?._coordinates as [number, number]
-            //       if (!!value) {
-            //         if (
-            //           (geometry1 >= coord[0][0] || geometry1 <= coord[1][0]) &&
-            //           (geometry2 >= coord[0][1] || geometry2 <= coord[1][1])
-            //         ) {
-            //           ids.push(value)
-            //         }
-            //       }
-            //     }
-            //   }
-            // }
-
-            // dispatchHasBalloon({
-            //   visibleHasBalloon: true,
-            //   //@ts-ignore
-            //   items: ids,
-            // })
+            const source = (event?._sourceEvent?.originalEvent?.target?.geometry?._coordinates as [number, number]) ?? undefined
+            dispatchMapCoordinates({
+              coordinates: source,
+              zoom: 17,
+            })
           }}
         >
           <ListPlacemark />
