@@ -115,7 +115,6 @@ export function generateMetadata(): Metadata {
 export default ({ children }: PropsWithChildren) => (
   <html lang="ru" suppressHydrationWarning>
     <head>
-      {/* <meta name="google-site-verification" content="hfKw4monM0fi5poRbzhQUEtQAtGubTdz3pN2Pxc-lGw" /> */}
       <link rel="preconnect" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}`} />
       <link rel="canonical" key="canonical" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}/categories`} />
       <Script
