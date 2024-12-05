@@ -24,6 +24,7 @@ import { useToast } from "@/helpers/hooks/useToast"
 import { MAX_ZOOM, MIN_ZOOM } from "@/helpers/constants"
 import { getAddressCoords } from "@/helpers/get-address"
 import { useStatusAuth } from "@/helpers/use-status-auth"
+import { clg } from "@console"
 
 const COORD = [37.427698, 55.725864]
 
@@ -174,10 +175,13 @@ function YandexMap() {
             data: {},
           }}
           onClick={(event: any) => {
+            clg("event", event, "warning")
+
             const source = (event?._sourceEvent?.originalEvent?.target?.geometry?._coordinates as [number, number]) ?? undefined
+
             dispatchMapCoordinates({
               coordinates: source,
-              zoom: 17,
+              zoom: zoom + 3,
             })
           }}
         >
