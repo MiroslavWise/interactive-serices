@@ -1,7 +1,5 @@
 "use client"
 
-import { useRef } from "react"
-
 import TimesFilter from "./components/TimesFilter"
 import ActiveFilters from "./components/ActiveFilters"
 import ServiceFilters from "./components/ServiceFilters"
@@ -11,13 +9,12 @@ import { IconXClose } from "@/components/icons/IconXClose"
 import { IconFilters } from "@/components/icons/IconFilters"
 
 import {
-  dispatchActiveFilterScreen,
+  useSearchFilters,
+  useCollapseServices,
   dispatchCollapseServices,
   dispatchValueSearchFilters,
+  dispatchActiveFilterScreen,
   dispatchVisibleSearchFilters,
-  useBanner,
-  useCollapseServices,
-  useSearchFilters,
 } from "@/store"
 import { cx } from "@/lib/cx"
 
@@ -25,7 +22,6 @@ import styles from "./styles/style.module.scss"
 
 function BannerServices() {
   const visible = useCollapseServices(({ visible }) => visible)
-  const visibleBanner = useBanner(({ visible }) => visible)
 
   return (
     <div
@@ -34,9 +30,7 @@ function BannerServices() {
         "bottom-internal-shadow",
         "max-md:hidden fixed right-0 max-w-[var(--width-right-services)] w-full bg-BG-second z-[60] overflow-hidden rounded-2",
         visible ? "translate-x-[var(--width-right-services)]" : "-translate-x-6",
-        visibleBanner
-          ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_var(--height-banner))] h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem_-_var(--height-banner))]"
-          : "top-[calc(var(--height-header-nav-bar)_+_1.5rem)] h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem)]",
+        "top-[calc(var(--height-header-nav-bar)_+_1.5rem)] h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem)]",
       )}
       data-test="banner-services"
     >
@@ -61,16 +55,13 @@ export default BannerServices
 export const SearchAndFilters = () => {
   const visible = useCollapseServices(({ visible }) => visible)
   const value = useSearchFilters(({ value }) => value)
-  const visibleBanner = useBanner(({ visible }) => visible)
 
   return (
     <div
       className={cx(
         styles.containerSearchAndFilters,
         "fixed flex flex-row items-center gap-2.5 right-0",
-        visibleBanner
-          ? "top-[calc(var(--height-header-nav-bar)_+_2.75rem_+_var(--height-banner))]"
-          : "top-[calc(var(--height-header-nav-bar)_+_2.75rem)]",
+        "top-[calc(var(--height-header-nav-bar)_+_2.75rem)]",
       )}
       data-collapse={visible}
       data-test="search-and-filters"
@@ -120,7 +111,6 @@ export const SearchAndFilters = () => {
 
 export const ButtonCollapseServices = () => {
   const visible = useCollapseServices(({ visible }) => visible)
-  const visibleBanner = useBanner(({ visible }) => visible)
 
   return (
     <button
@@ -128,9 +118,7 @@ export const ButtonCollapseServices = () => {
       className={cx(
         styles.buttonCollapse,
         "fixed right-0 w-8 h-8 rounded-full p-2.5 flex items-center justify-center bg-BG-second",
-        visibleBanner
-          ? "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_1.75rem_+_var(--height-banner))]"
-          : "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_1.75rem)]",
+        "top-[calc(var(--height-header-nav-bar)_+_1.5rem_+_1.75rem)]",
       )}
       type="button"
       onClick={(event) => {

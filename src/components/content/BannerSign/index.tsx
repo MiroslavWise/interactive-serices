@@ -3,12 +3,11 @@
 import LeftAsideProfile from "@/components/profile/LeftAsideProfile"
 
 import { cx } from "@/lib/cx"
-import { dispatchCollapsePersonalScreen, useAdvertisingBanner, useBanner, useCollapsePersonalScreen } from "@/store"
+import { dispatchCollapsePersonalScreen, useAdvertisingBanner, useCollapsePersonalScreen } from "@/store"
 
 import styles from "./styles/button-collapse.module.scss"
 
 function BannerSign() {
-  const visibleBanner = useBanner(({ visible }) => visible)
   const visible = useCollapsePersonalScreen(({ visible }) => visible)
   const visibleAdvertisingBanner = useAdvertisingBanner(({ visible }) => visible)
 
@@ -20,9 +19,7 @@ function BannerSign() {
         className={cx(
           styles.button,
           "fixed left-0 w-8 h-8 rounded-full border-none outline-none z-[60] p-2.5 flex items-center justify-center bg-BG-second",
-          visibleBanner
-            ? "top-[calc(var(--height-header-nav-bar)_+_2.75rem_+_var(--height-banner))]"
-            : "top-[calc(var(--height-header-nav-bar)_+_2.75rem)]",
+          "top-[calc(var(--height-header-nav-bar)_+_2.75rem)]",
         )}
         type="button"
         onClick={(event) => {
