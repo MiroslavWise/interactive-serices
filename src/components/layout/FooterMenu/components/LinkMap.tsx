@@ -13,7 +13,7 @@ export const LinkMap = ({ pathname }: { pathname: string }) => {
   const statusAuth = useStatusAuth()
   const isActive = pathname === ITEMS_LINK_FOOTER.map && statusAuth === EStatusAuth.AUTHORIZED
 
-  const TITLE = statusAuth === EStatusAuth.AUTHORIZED ? "Карта" : "Кто мы"
+  const TITLE = statusAuth === EStatusAuth.AUTHORIZED ? "Карта" : "О Sheira"
 
   return (
     <Link
