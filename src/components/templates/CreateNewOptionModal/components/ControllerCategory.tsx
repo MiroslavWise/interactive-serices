@@ -123,7 +123,6 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
             type="button"
             onClick={(event) => {
               event.stopPropagation()
-              clg("data-collapse: ", undefined, "error")
               setOpen((prev) => !prev)
             }}
             className="absolute w-8 h-8 bg-transparent p-1.5 right-2 flex items-center justify-center"

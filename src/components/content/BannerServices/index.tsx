@@ -4,18 +4,8 @@ import TimesFilter from "./components/TimesFilter"
 import ActiveFilters from "./components/ActiveFilters"
 import ServiceFilters from "./components/ServiceFilters"
 import { ServicesComponent } from "./components/Services"
-import { IconSearch } from "@/components/icons/IconSearch"
-import { IconXClose } from "@/components/icons/IconXClose"
-import { IconFilters } from "@/components/icons/IconFilters"
 
-import {
-  useSearchFilters,
-  useCollapseServices,
-  dispatchCollapseServices,
-  dispatchValueSearchFilters,
-  dispatchActiveFilterScreen,
-  dispatchVisibleSearchFilters,
-} from "@/store"
+import { useCollapseServices, dispatchCollapseServices } from "@/store"
 import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
@@ -52,63 +42,6 @@ function BannerServices() {
 BannerServices.displayName = "BannerServices"
 export default BannerServices
 
-export const SearchAndFilters = () => {
-  const visible = useCollapseServices(({ visible }) => visible)
-  const value = useSearchFilters(({ value }) => value)
-
-  return (
-    <div
-      className={cx(
-        styles.containerSearchAndFilters,
-        "fixed flex flex-row items-center gap-2.5 right-0",
-        "top-[calc(var(--height-header-nav-bar)_+_2.75rem)]",
-      )}
-      data-collapse={visible}
-      data-test="search-and-filters"
-    >
-      <div data-search>
-        <span data-icon-search>
-          <IconSearch />
-        </span>
-        <input
-          type="text"
-          placeholder="Что Вы ищете"
-          readOnly
-          value={value}
-          onClick={(event) => {
-            event.stopPropagation()
-            dispatchVisibleSearchFilters(true)
-          }}
-          data-test="input-search-and-filters"
-        />
-        {!!value ? (
-          <button
-            type="button"
-            data-icon-close
-            onClick={(event) => {
-              event.stopPropagation()
-              dispatchValueSearchFilters("", null)
-            }}
-            data-test="button-search-and-filters-on-clear"
-          >
-            <IconXClose />
-          </button>
-        ) : null}
-      </div>
-      <button
-        type="button"
-        onClick={(event) => {
-          event.stopPropagation()
-          dispatchActiveFilterScreen(true)
-        }}
-        data-test="button-search-and-filters-on-close"
-      >
-        <IconFilters />
-      </button>
-    </div>
-  )
-}
-
 export const ButtonCollapseServices = () => {
   const visible = useCollapseServices(({ visible }) => visible)
 
@@ -133,4 +66,3 @@ export const ButtonCollapseServices = () => {
 }
 
 export * from "./components/FiltersScreen"
-export * from "./components/SearchFilters"

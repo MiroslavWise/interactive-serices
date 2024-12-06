@@ -22,23 +22,8 @@ export default function CookiesToast() {
         <Link href="/legal/terms-cookie" target="_blank">
           cookies
         </Link>
-        &nbsp;для улучшения работы сайта. Оставаясь с нами, вы соглашаетесь на использование&nbsp;
-        <Link
-          href={{
-            pathname: "/legal/terms-cookie",
-          }}
-          target="_blank"
-        >
-          файлов cookie
-        </Link>
       </p>
-      <Button
-        type="button"
-        label="Хорошо"
-        typeButton="fill-primary"
-        onClick={dispatchCookies}
-        className="md:max-w-[10.625rem] h-9 rounded-[1.125rem]"
-      />
+      <Button type="button" label="OK" typeButton="fill-primary" onClick={dispatchCookies} className="w-min h-9 rounded-[1.125rem]" />
     </article>
   )
 }

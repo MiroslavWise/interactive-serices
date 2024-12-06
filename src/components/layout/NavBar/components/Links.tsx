@@ -18,8 +18,6 @@ export const Links = () => {
   const pathname = usePathname()
   const statusAuth = useStatusAuth()
 
-  if (pathname.includes("/legal/")) return null
-
   return statusAuth === EStatusAuth.AUTHORIZED ? (
     <ul
       className={cx(
