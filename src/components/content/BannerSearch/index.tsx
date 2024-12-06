@@ -6,39 +6,33 @@ import { Controller, useForm } from "react-hook-form"
 import IconSearch from "@/components/icons/IconSearch"
 import IconXClose from "@/components/icons/IconXClose"
 
-import { IPosts } from "@/services/posts/types"
-import { IResponseOffers } from "@/services/offers/types"
-import { IResponseOffersCategories } from "@/services/offers-categories/types"
+import { type IPosts } from "@/services/posts/types"
+import { type IResponseOffers } from "@/services/offers/types"
+import { type IResponseOffersCategories } from "@/services/offers-categories/types"
 
-import { ImageCategory } from "@/components/common"
-import ButtonExpand from "./components/ButtonExpand"
-import CardPost from "@/components/common/Card/CardPost"
+import ULServices from "./components/ULServices"
+import EmptyArticle from "./components/EmptyArticle"
 import LoadingArticle from "./components/LoadingArticle"
-import CardBallon from "@/components/common/Card/CardBallon"
 
 import { cx } from "@/lib/cx"
 import { queryClient } from "@/context"
 import { getSearch } from "@/services/search"
-import { dispatchDataFilterScreen, dispatchVisibleSearchFilters, useSearchFilters } from "@/store"
+import { dispatchVisibleSearchFilters, useSearchFilters } from "@/store"
+import { resolverSchemaSearch, type TSchemaSearch } from "./utils/schema"
 
 import styles from "./styles/style.module.scss"
-import EmptyArticle from "./components/EmptyArticle"
 
 function BannerSearch() {
   const [loading, setLoading] = useState(false)
   const visible = useSearchFilters(({ visible }) => visible)
-  const { control, setFocus, setValue, handleSubmit } = useForm<IValues>({
+  const { control, setFocus, setValue, handleSubmit } = useForm<TSchemaSearch>({
     defaultValues: { input: "" },
+    resolver: resolverSchemaSearch,
   })
 
   const [valuesPosts, setValuesPosts] = useState<IPosts[]>([])
-  const [expandPosts, setExpandPosts] = useState(false)
-
   const [valuesOffers, setValuesOffers] = useState<IResponseOffers[]>([])
-  const [expandOffers, setExpandOffers] = useState(false)
-
   const [valuesCategories, setValuesCategories] = useState<IResponseOffersCategories[]>([])
-  const [expandCategories, setExpandCategories] = useState(false)
 
   useEffect(() => {
     if (visible) {
@@ -52,7 +46,7 @@ function BannerSearch() {
     dispatchVisibleSearchFilters(false)
   }
 
-  async function submit(values: IValues) {
+  async function submit(values: TSchemaSearch) {
     const trim = values.input.trim().toLowerCase()
 
     if (trim.length > 1) {
@@ -125,62 +119,7 @@ function BannerSearch() {
         ) : isAllEmpty ? (
           <EmptyArticle />
         ) : (
-          <ul data-test="ul-search-filters" className="w-full p-2 flex flex-col overflow-y-auto overflow-x-hidden gap-2">
-            <a className={cx(valuesOffers.length > 0 ? "flex flex-row" : "hidden", "w-full items-center justify-between px-2")}>
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-text-primary">Сервисы</span>
-                <div className="relative flex items-center justify-center h-[1.1875rem] min-w-[1.1875rem] w-fit rounded-[0.59375rem] bg-element-accent-1">
-                  <span className="text-[0.625rem] text-center text-text-button font-semibold">{valuesOffers.length}</span>
-                </div>
-              </div>
-              <ButtonExpand on={setExpandOffers} is={expandOffers} />
-            </a>
-            <ul className={cx(expandOffers ? "flex flex-col gap-2" : "hidden", "w-full")}>
-              {valuesOffers.map((item) => (
-                <CardBallon key={`:s:c:x:Z:a:offer-${item.id}`} offer={item} />
-              ))}
-            </ul>
-            <a className={cx(valuesPosts.length > 0 ? "flex flex-row" : "hidden", "w-full items-center justify-between px-2")}>
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-text-primary">Посты</span>
-                <div className="relative flex items-center justify-center h-[1.1875rem] min-w-[1.1875rem] w-fit rounded-[0.59375rem] bg-element-accent-1">
-                  <span className="text-[0.625rem] text-center text-text-button font-semibold">{valuesPosts.length}</span>
-                </div>
-              </div>
-              <ButtonExpand on={setExpandPosts} is={expandPosts} />
-            </a>
-            <ul className={cx(expandPosts ? "flex flex-col gap-2" : "hidden", "w-full")}>
-              {valuesPosts.map((item) => (
-                <CardPost key={`:s:d:f:G:post-${item.id}`} post={item} />
-              ))}
-            </ul>
-            <a className={cx(valuesCategories.length > 0 ? "flex flex-row" : "hidden", "w-full items-center justify-between px-2")}>
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-text-primary">Категории</span>
-                <div className="relative flex items-center justify-center h-[1.1875rem] min-w-[1.1875rem] w-fit rounded-[0.59375rem] bg-element-accent-1">
-                  <span className="text-[0.625rem] text-center text-text-button font-semibold">{valuesCategories.length}</span>
-                </div>
-              </div>
-              <ButtonExpand on={setExpandCategories} is={expandCategories} />
-            </a>
-            <ul className={cx(expandCategories ? "grid grid-cols-3 gap-5" : "hidden", "w-full")}>
-              {valuesCategories.map((item) => (
-                <li
-                  key={`:d:s:A:-${item.id}:`}
-                  className="w-full flex flex-col gap-1.5 items-center cursor-pointer"
-                  onClick={() => {
-                    dispatchDataFilterScreen([item.id])
-                    dispatchVisibleSearchFilters(false)
-                  }}
-                >
-                  <div className="rounded-full w-11 h-11 bg-grey-field flex items-center justify-center *:w-6 *:h-6 p-2.5">
-                    <ImageCategory id={item.id} provider={item.provider} slug={item.slug} />
-                  </div>
-                  <span className="text-[0.8125rem] leading-4 text-center text-text-primary line-clamp-2 text-ellipsis">{item.title}</span>
-                </li>
-              ))}
-            </ul>
-          </ul>
+          <ULServices offers={valuesOffers} posts={valuesPosts} categories={valuesCategories} />
         )}
       </form>
     </div>
@@ -189,7 +128,3 @@ function BannerSearch() {
 
 BannerSearch.displayName = "BannerSearch"
 export default BannerSearch
-
-interface IValues {
-  input: string
-}
