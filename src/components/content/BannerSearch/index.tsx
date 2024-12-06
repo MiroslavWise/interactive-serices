@@ -13,14 +13,16 @@ import { IResponseOffersCategories } from "@/services/offers-categories/types"
 import { ImageCategory } from "@/components/common"
 import ButtonExpand from "./components/ButtonExpand"
 import CardPost from "@/components/common/Card/CardPost"
+import LoadingArticle from "./components/LoadingArticle"
 import CardBallon from "@/components/common/Card/CardBallon"
 
 import { cx } from "@/lib/cx"
 import { queryClient } from "@/context"
 import { getSearch } from "@/services/search"
-import { dispatchDataFilterScreen, dispatchFiltersServiceProvider, dispatchVisibleSearchFilters, useSearchFilters } from "@/store"
+import { dispatchDataFilterScreen, dispatchVisibleSearchFilters, useSearchFilters } from "@/store"
 
 import styles from "./styles/style.module.scss"
+import EmptyArticle from "./components/EmptyArticle"
 
 function BannerSearch() {
   const [loading, setLoading] = useState(false)
@@ -79,6 +81,8 @@ function BannerSearch() {
 
   const onSubmit = handleSubmit(submit)
 
+  const isAllEmpty = [valuesCategories, valuesOffers, valuesPosts].every((_) => _.length === 0)
+
   return (
     <div className={cx(styles.wrapper, "w-full h-full fixed inset-0 bg-translucent p-0")} data-visible={visible}>
       <form
@@ -116,62 +120,68 @@ function BannerSearch() {
             )}
           />
         </header>
-        <ul data-test="ul-search-filters" className="w-full p-2 flex flex-col overflow-y-auto overflow-x-hidden gap-2">
-          <a className={cx(valuesOffers.length > 0 ? "flex flex-row" : "hidden", "w-full items-center justify-between px-2")}>
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-text-primary">Сервисы</span>
-              <div className="relative flex items-center justify-center h-[1.1875rem] min-w-[1.1875rem] w-fit rounded-[0.59375rem] bg-element-accent-1">
-                <span className="text-[0.625rem] text-center text-text-button font-semibold">{valuesOffers.length}</span>
-              </div>
-            </div>
-            <ButtonExpand on={setExpandOffers} is={expandOffers} />
-          </a>
-          <ul className={cx(expandOffers ? "flex flex-col gap-2" : "hidden", "w-full")}>
-            {valuesOffers.map((item) => (
-              <CardBallon key={`:s:c:x:Z:a:offer-${item.id}`} offer={item} />
-            ))}
-          </ul>
-          <a className={cx(valuesPosts.length > 0 ? "flex flex-row" : "hidden", "w-full items-center justify-between px-2")}>
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-text-primary">Посты</span>
-              <div className="relative flex items-center justify-center h-[1.1875rem] min-w-[1.1875rem] w-fit rounded-[0.59375rem] bg-element-accent-1">
-                <span className="text-[0.625rem] text-center text-text-button font-semibold">{valuesPosts.length}</span>
-              </div>
-            </div>
-            <ButtonExpand on={setExpandPosts} is={expandPosts} />
-          </a>
-          <ul className={cx(expandPosts ? "flex flex-col gap-2" : "hidden", "w-full")}>
-            {valuesPosts.map((item) => (
-              <CardPost key={`:s:d:f:G:post-${item.id}`} post={item} />
-            ))}
-          </ul>
-          <a className={cx(valuesCategories.length > 0 ? "flex flex-row" : "hidden", "w-full items-center justify-between px-2")}>
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-text-primary">Категории</span>
-              <div className="relative flex items-center justify-center h-[1.1875rem] min-w-[1.1875rem] w-fit rounded-[0.59375rem] bg-element-accent-1">
-                <span className="text-[0.625rem] text-center text-text-button font-semibold">{valuesCategories.length}</span>
-              </div>
-            </div>
-            <ButtonExpand on={setExpandCategories} is={expandCategories} />
-          </a>
-          <ul className={cx(expandCategories ? "grid grid-cols-3 gap-5" : "hidden", "w-full")}>
-            {valuesCategories.map((item) => (
-              <li
-                key={`:d:s:A:-${item.id}:`}
-                className="w-full flex flex-col gap-1.5 items-center cursor-pointer"
-                onClick={() => {
-                  dispatchDataFilterScreen([item.id])
-                  dispatchVisibleSearchFilters(false)
-                }}
-              >
-                <div className="rounded-full w-11 h-11 bg-grey-field flex items-center justify-center *:w-6 *:h-6 p-2.5">
-                  <ImageCategory id={item.id} provider={item.provider} slug={item.slug} />
+        {loading ? (
+          <LoadingArticle />
+        ) : isAllEmpty ? (
+          <EmptyArticle />
+        ) : (
+          <ul data-test="ul-search-filters" className="w-full p-2 flex flex-col overflow-y-auto overflow-x-hidden gap-2">
+            <a className={cx(valuesOffers.length > 0 ? "flex flex-row" : "hidden", "w-full items-center justify-between px-2")}>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-text-primary">Сервисы</span>
+                <div className="relative flex items-center justify-center h-[1.1875rem] min-w-[1.1875rem] w-fit rounded-[0.59375rem] bg-element-accent-1">
+                  <span className="text-[0.625rem] text-center text-text-button font-semibold">{valuesOffers.length}</span>
                 </div>
-                <span className="text-[0.8125rem] leading-4 text-center text-text-primary line-clamp-2 text-ellipsis">{item.title}</span>
-              </li>
-            ))}
+              </div>
+              <ButtonExpand on={setExpandOffers} is={expandOffers} />
+            </a>
+            <ul className={cx(expandOffers ? "flex flex-col gap-2" : "hidden", "w-full")}>
+              {valuesOffers.map((item) => (
+                <CardBallon key={`:s:c:x:Z:a:offer-${item.id}`} offer={item} />
+              ))}
+            </ul>
+            <a className={cx(valuesPosts.length > 0 ? "flex flex-row" : "hidden", "w-full items-center justify-between px-2")}>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-text-primary">Посты</span>
+                <div className="relative flex items-center justify-center h-[1.1875rem] min-w-[1.1875rem] w-fit rounded-[0.59375rem] bg-element-accent-1">
+                  <span className="text-[0.625rem] text-center text-text-button font-semibold">{valuesPosts.length}</span>
+                </div>
+              </div>
+              <ButtonExpand on={setExpandPosts} is={expandPosts} />
+            </a>
+            <ul className={cx(expandPosts ? "flex flex-col gap-2" : "hidden", "w-full")}>
+              {valuesPosts.map((item) => (
+                <CardPost key={`:s:d:f:G:post-${item.id}`} post={item} />
+              ))}
+            </ul>
+            <a className={cx(valuesCategories.length > 0 ? "flex flex-row" : "hidden", "w-full items-center justify-between px-2")}>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-text-primary">Категории</span>
+                <div className="relative flex items-center justify-center h-[1.1875rem] min-w-[1.1875rem] w-fit rounded-[0.59375rem] bg-element-accent-1">
+                  <span className="text-[0.625rem] text-center text-text-button font-semibold">{valuesCategories.length}</span>
+                </div>
+              </div>
+              <ButtonExpand on={setExpandCategories} is={expandCategories} />
+            </a>
+            <ul className={cx(expandCategories ? "grid grid-cols-3 gap-5" : "hidden", "w-full")}>
+              {valuesCategories.map((item) => (
+                <li
+                  key={`:d:s:A:-${item.id}:`}
+                  className="w-full flex flex-col gap-1.5 items-center cursor-pointer"
+                  onClick={() => {
+                    dispatchDataFilterScreen([item.id])
+                    dispatchVisibleSearchFilters(false)
+                  }}
+                >
+                  <div className="rounded-full w-11 h-11 bg-grey-field flex items-center justify-center *:w-6 *:h-6 p-2.5">
+                    <ImageCategory id={item.id} provider={item.provider} slug={item.slug} />
+                  </div>
+                  <span className="text-[0.8125rem] leading-4 text-center text-text-primary line-clamp-2 text-ellipsis">{item.title}</span>
+                </li>
+              ))}
+            </ul>
           </ul>
-        </ul>
+        )}
       </form>
     </div>
   )
