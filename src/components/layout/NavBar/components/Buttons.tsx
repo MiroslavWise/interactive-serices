@@ -33,7 +33,6 @@ export const Buttons = () => {
         type="button"
         label="О Sheira"
         typeButton="regular-primary"
-        className={cx(statusAuth === EStatusAuth.AUTHORIZED && "!hidden")}
         onClick={() => {
           dispatchIntro(true)
         }}

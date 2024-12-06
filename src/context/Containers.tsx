@@ -76,10 +76,10 @@ function Containers() {
       <Modal />
       <WelcomeModal />
       <PhotoCarousel />
+      <Intro />
       {visibleVideo && <VideoModal />}
       {statusAuth === EStatusAuth.UNAUTHORIZED && (
         <>
-          <Intro />
           <AboutSheiraPopup />
           <ModalSign />
         </>
