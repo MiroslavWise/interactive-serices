@@ -23,7 +23,7 @@ export default function CookiesToast() {
           cookies
         </Link>
       </p>
-      <Button type="button" label="OK" typeButton="fill-primary" onClick={dispatchCookies} className="w-min h-9 rounded-[1.125rem]" />
+      <Button type="button" label="OK" typeButton="fill-primary" onClick={dispatchCookies} className="ml-auto w-min h-9 rounded-[1.125rem]" />
     </article>
   )
 }
