@@ -25,11 +25,12 @@ import styles from "./styles/style.module.scss"
 function BannerSearch() {
   const [loading, setLoading] = useState(false)
   const visible = useSearchFilters(({ visible }) => visible)
-  const { control, setFocus, setValue, handleSubmit } = useForm<TSchemaSearch>({
+  const { control, setFocus, setValue, handleSubmit, watch } = useForm<TSchemaSearch>({
     defaultValues: { input: "" },
     resolver: resolverSchemaSearch,
   })
 
+  const [isF, setIsF] = useState(false)
   const [valuesPosts, setValuesPosts] = useState<IPosts[]>([])
   const [valuesOffers, setValuesOffers] = useState<IResponseOffers[]>([])
   const [valuesCategories, setValuesCategories] = useState<IResponseOffersCategories[]>([])
@@ -56,6 +57,7 @@ function BannerSearch() {
           queryFn: () => getSearch({ query: { query: trim } }),
           queryKey: ["search", { search: trim }],
         })
+        setIsF(true)
         setLoading(false)
 
         const { data } = response
@@ -116,6 +118,8 @@ function BannerSearch() {
         </header>
         {loading ? (
           <LoadingArticle />
+        ) : isAllEmpty && !isF ? (
+          <section data-test="ul-search-filters" className="w-full py-2 px-5 flex flex-col overflow-y-auto overflow-x-hidden gap-2" />
         ) : isAllEmpty ? (
           <EmptyArticle />
         ) : (
