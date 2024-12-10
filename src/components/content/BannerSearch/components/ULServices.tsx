@@ -24,7 +24,7 @@ function ULServices({ posts, offers, categories }: IProps) {
 
   return (
     <section data-test="ul-search-filters" className="w-full py-2 px-5 flex flex-col overflow-y-auto overflow-x-hidden gap-2">
-      <ComponentExpand is={expandOffers} on={setExpandOffers} title="Сервисы" length={offers.length} />
+      <ComponentExpand is={expandOffers} on={setExpandOffers} title="Активности" length={offers.length} />
       <ul className={cx(expandOffers ? "flex flex-col gap-2" : "hidden", "w-full")}>
         {offers.map((item) => (
           <CardBallon key={`:s:c:x:Z:a:offer-${item.id}`} offer={item} />
