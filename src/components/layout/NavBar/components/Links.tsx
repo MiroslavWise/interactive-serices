@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import { LinkMap } from "./LinkMap"
 import { LinkOffers } from "./LinkOffers"
 import { LinkProfile } from "./LinkProfile"
+import LinkModerator from "./LinkModerator"
 import { LinkMessages } from "./LinkMessages"
 import { LinkNotification } from "./LinkNotification"
 
@@ -17,8 +18,6 @@ import styles from "../styles/links.module.scss"
 export const Links = () => {
   const pathname = usePathname()
   const statusAuth = useStatusAuth()
-
-  if (pathname.includes("/legal/")) return null
 
   return statusAuth === EStatusAuth.AUTHORIZED ? (
     <ul
@@ -33,6 +32,7 @@ export const Links = () => {
       <LinkOffers pathname={pathname} />
       <LinkMessages pathname={pathname} />
       <LinkNotification pathname={pathname} />
+      <LinkModerator pathname={pathname} />
     </ul>
   ) : null
 }

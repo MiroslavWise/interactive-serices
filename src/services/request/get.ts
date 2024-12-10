@@ -13,7 +13,7 @@ export async function fetchGet<T = any>({ url, query }: IGet, isInvalid?: boolea
   const endpoint = new URL(`${URL_API}${url}`)
   if (query && typeof query === "object") {
     for (const [key, value] of Object.entries(query)) {
-      endpoint.searchParams.set(key, String(value))
+      endpoint.searchParams.set(key, typeof value === "string" ? value : String(value))
     }
   }
 
