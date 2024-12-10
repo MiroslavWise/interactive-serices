@@ -5,6 +5,8 @@ import { useSign } from "../hooks/useSign"
 import { useStatusAuth } from "@/helpers/use-status-auth"
 import { dispatchNewServicesBanner, EModalData, EStatusAuth, useModal } from "@/store"
 
+import styles from "../styles/create.module.scss"
+
 const TITLE = "Создать"
 
 export const CreateButton = () => {
@@ -41,7 +43,14 @@ export const CreateButton = () => {
           )}
           id="id-create-menu-footer"
         >
-          <IconPlus />
+          <section
+            className={cx(
+              styles.sPlus,
+              "absolute bottom-0 rounded-full left-1/2 -translate-x-1/2 w-11 h-11 aspect-square *:w-6 *:h-6 [&>svg>path]:fill-text-button",
+            )}
+          >
+            <IconPlus />
+          </section>
         </div>
         <p className="mt-auto justify-end text-center text-[0.6875rem] leading-[1.125rem] font-medium text-text-secondary">{TITLE}</p>
       </section>
