@@ -9,5 +9,5 @@ const IconPlus = () => (
   </svg>
 )
 
-IconPlus.displayNasvg = "IconPlus"
+IconPlus.displayName = "IconPlus"
 export default IconPlus
