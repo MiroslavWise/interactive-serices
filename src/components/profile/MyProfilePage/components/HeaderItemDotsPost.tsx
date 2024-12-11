@@ -2,12 +2,16 @@ import { type IPosts } from "@/services/posts/types"
 
 import IconArchive from "@/components/icons/IconArchive"
 import IconActivity from "@/components/icons/IconActivity"
-import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
+import IconDotsHorizontal from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
 import { dispatchArchivePost, dispatchUpdatePost, useAuth } from "@/store"
+import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import { deletePostId, getPosts } from "@/services/posts"
+import { useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 
 interface IProps {
   post: IPosts
@@ -16,11 +20,19 @@ interface IProps {
 const TITLE_UPDATE = "Редактировать"
 const LABEL_SHARE = "Поделиться"
 const TITLE_ARCHIVE = "В архив"
+const LABEL_DELETE = "Удалить"
 
 function HeaderItemDotsPost({ post }: IProps) {
+  const [loading, setLoading] = useState(false)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { id, title, userId: userIdPost, archive } = post ?? {}
   const [open, setOpen, ref] = useOutsideClickEvent()
+
+  const { refetch } = useQuery({
+    queryFn: () => getPosts({ order: "DESC", user: userId! }),
+    queryKey: ["posts", { userId: userId!, order: "DESC" }],
+    enabled: false,
+  })
 
   const onShare = useNavigator({
     url: `/post/${id}`,
@@ -117,6 +129,33 @@ function HeaderItemDotsPost({ post }: IProps) {
               <IconArchive />
             </div>
             <span className="text-text-primary text-sm font-normal text-left">{TITLE_ARCHIVE}</span>
+          </a>
+        ) : null}
+        {post?.archive ? (
+          <a
+            title={LABEL_DELETE}
+            aria-label={LABEL_DELETE}
+            aria-labelledby={LABEL_DELETE}
+            className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field cursor-pointer"
+            onClick={async (event) => {
+              event.stopPropagation()
+              if (!loading) {
+                setLoading(true)
+                await deletePostId(post.id)
+                await refetch()
+                setLoading(false)
+              }
+            }}
+          >
+            <div
+              className={cx(
+                "w-5 h-5 flex items-center justify-center relative p-2.5",
+                "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-error",
+              )}
+            >
+              <IconTrashBlack />
+            </div>
+            <span className="text-text-error text-sm font-normal text-left">{LABEL_DELETE}</span>
           </a>
         ) : null}
       </article>
