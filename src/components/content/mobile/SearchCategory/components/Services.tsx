@@ -1,7 +1,7 @@
 "use client"
 
+import { memo, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { memo, type RefObject, useMemo } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
@@ -28,7 +28,13 @@ const OBJ_TIME = {
   [EnumTimesFilter.MONTH]: MONTH,
 }
 
-export const ServicesMobile = memo(({ input, parentRef }: { input: string; parentRef: RefObject<HTMLUListElement> }) => {
+interface IProps {
+  posts: IPosts[]
+  offers: IResponseOffers[]
+  isSearch: boolean
+}
+
+export const ServicesMobile = memo(({ posts, offers, isSearch }: IProps) => {
   const { itemsOffers, isLoading } = useMapOffers()
   const bounds = useBounds(({ bounds }) => bounds)
   const providers = useFiltersServices(({ providers }) => providers)
@@ -40,24 +46,26 @@ export const ServicesMobile = memo(({ input, parentRef }: { input: string; paren
   const { data, isLoading: isLoadingPost } = useQuery({
     queryFn: () => getPosts({ order: "DESC" }),
     queryKey: ["posts", { order: "DESC" }],
-    enabled: (providers === "all" || providers === EnumTypeProvider.POST) && activeFilters.length === 0,
+    enabled: (providers === "all" || providers === EnumTypeProvider.POST) && activeFilters.length === 0 && posts.length > 0 && !isSearch,
     select: ({ data }) => data?.filter((item) => (!!urgent ? !!item?.urgent : true)),
   })
 
   const itemsPost = data || []
 
   const itemsFilterPosts = useMemo(() => {
-    if (!itemsPost.length || !!idSearch || activeFilters.length > 0) {
+    if (!!idSearch || activeFilters.length > 0) {
       return []
     }
 
     const array: IPosts[] = []
 
-    if (bounds && itemsPost) {
+    const items = isSearch && posts.length > 0 ? posts : !isSearch && itemsPost.length > 0 ? itemsPost : []
+
+    if (bounds && items) {
       const minCoords = bounds[0]
       const maxCoors = bounds[1]
 
-      for (const item of itemsPost) {
+      for (const item of items) {
         if (!EXCEPTION_POST_MAP.includes(item.id)) {
           if (item?.addresses && item?.addresses.length > 0) {
             const coordinates = item?.addresses[0]?.coordinates?.split(" ").map(Number).filter(Boolean)
@@ -82,20 +90,18 @@ export const ServicesMobile = memo(({ input, parentRef }: { input: string; paren
     }
 
     return array
-  }, [itemsPost, bounds, timesFilter, activeFilters, idSearch])
+  }, [itemsPost, bounds, timesFilter, activeFilters, idSearch, posts, isSearch])
 
   const items = useMemo(() => {
-    if (!itemsOffers.length) {
-      return []
-    }
-
     const array: IResponseOffers[] = []
 
-    if (bounds && itemsOffers) {
+    const items = isSearch && offers.length > 0 ? offers : !isSearch && itemsOffers.length > 0 ? itemsOffers : []
+
+    if (bounds && items) {
       const minCoords = bounds[0]
       const maxCoors = bounds[1]
 
-      for (const item of itemsOffers) {
+      for (const item of items) {
         if (item?.addresses) {
           if (item?.addresses.length > 0) {
             const coordinates = item?.addresses[0]?.coordinates?.split(" ").map(Number).filter(Boolean)
@@ -122,7 +128,7 @@ export const ServicesMobile = memo(({ input, parentRef }: { input: string; paren
     }
 
     return array
-  }, [itemsOffers, bounds, timesFilter, idSearch])
+  }, [itemsOffers, bounds, timesFilter, idSearch, offers, isSearch])
 
   if (isLoading || isLoadingPost)
     return (
