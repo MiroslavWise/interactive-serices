@@ -131,33 +131,31 @@ function HeaderItemDotsPost({ post }: IProps) {
             <span className="text-text-primary text-sm font-normal text-left">{TITLE_ARCHIVE}</span>
           </a>
         ) : null}
-        {post?.archive ? (
-          <a
-            title={LABEL_DELETE}
-            aria-label={LABEL_DELETE}
-            aria-labelledby={LABEL_DELETE}
-            className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field cursor-pointer"
-            onClick={async (event) => {
-              event.stopPropagation()
-              if (!loading) {
-                setLoading(true)
-                await deletePostId(post.id)
-                await refetch()
-                setLoading(false)
-              }
-            }}
+        <a
+          title={LABEL_DELETE}
+          aria-label={LABEL_DELETE}
+          aria-labelledby={LABEL_DELETE}
+          className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field cursor-pointer"
+          onClick={async (event) => {
+            event.stopPropagation()
+            if (!loading) {
+              setLoading(true)
+              await deletePostId(post.id)
+              await refetch()
+              setLoading(false)
+            }
+          }}
+        >
+          <div
+            className={cx(
+              "w-5 h-5 flex items-center justify-center relative p-2.5",
+              "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-error",
+            )}
           >
-            <div
-              className={cx(
-                "w-5 h-5 flex items-center justify-center relative p-2.5",
-                "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-error",
-              )}
-            >
-              <IconTrashBlack />
-            </div>
-            <span className="text-text-error text-sm font-normal text-left">{LABEL_DELETE}</span>
-          </a>
-        ) : null}
+            <IconTrashBlack />
+          </div>
+          <span className="text-text-error text-sm font-normal text-left">{LABEL_DELETE}</span>
+        </a>
       </article>
     </div>
   )
