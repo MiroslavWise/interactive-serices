@@ -15,6 +15,7 @@ import { EXCEPTION_POST_MAP } from "@/config/exception"
 import { IPosts } from "@/services/posts/types"
 import { IResponseOffers } from "@/services/offers/types"
 import VirtualList from "@/components/content/BannerServices/components/VirtualList"
+import EmptyArticle from "@/components/content/BannerSearch/components/EmptyArticle"
 
 const DAY = 86_400_000
 const WEEK = DAY * 7
@@ -32,9 +33,10 @@ interface IProps {
   posts: IPosts[]
   offers: IResponseOffers[]
   isSearch: boolean
+  loading: boolean
 }
 
-export const ServicesMobile = memo(({ posts, offers, isSearch }: IProps) => {
+export const ServicesMobile = memo(({ posts, offers, isSearch, loading }: IProps) => {
   const { itemsOffers, isLoading } = useMapOffers()
   const bounds = useBounds(({ bounds }) => bounds)
   const providers = useFiltersServices(({ providers }) => providers)
@@ -130,7 +132,7 @@ export const ServicesMobile = memo(({ posts, offers, isSearch }: IProps) => {
     return array
   }, [itemsOffers, bounds, timesFilter, idSearch, offers, isSearch])
 
-  if (isLoading || isLoadingPost)
+  if ((isSearch && loading) || (!isSearch && (isLoading || isLoadingPost)))
     return (
       <ul className="w-full h-full p-5 flex flex-col gap-4 pb-[calc(var(--height-mobile-footer-nav)_+_2.875rem)] *:bg-BG-first">
         {[1, 2, 3].map((item) => (
@@ -138,6 +140,8 @@ export const ServicesMobile = memo(({ posts, offers, isSearch }: IProps) => {
         ))}
       </ul>
     )
+
+  if (isSearch && offers.length === 0 && posts.length === 0) return <EmptyArticle />
 
   return <VirtualList list={items} listPosts={itemsFilterPosts} />
 })

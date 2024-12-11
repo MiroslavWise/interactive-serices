@@ -166,7 +166,7 @@ export default function SearchCategory() {
           <TimesFilter />
           {activeFilters.length ? <ActiveFilters activeFilters={activeFilters} /> : null}
         </article>
-        <ServicesMobile posts={valuesPosts} offers={valuesOffers} isSearch={!!input.trim()} />
+        <ServicesMobile posts={valuesPosts} offers={valuesOffers} isSearch={!!input.trim()} loading={loading} />
       </section>
     </div>
   )
