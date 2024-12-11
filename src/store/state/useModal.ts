@@ -53,6 +53,7 @@ export enum EModalData {
   CREATE_NEW_NOTE = "create-new-note",
   BALLOON_POST = "balloon-post",
   DELETE_FRIEND = "delete-friend",
+  DELETE_POST = "delete-post",
   SUCCESS_PROVIDE_FEEDBACK = "success-provide-feedback",
 }
 

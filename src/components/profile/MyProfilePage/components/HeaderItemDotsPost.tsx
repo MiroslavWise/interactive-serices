@@ -1,17 +1,16 @@
+import { useState } from "react"
+
 import { type IPosts } from "@/services/posts/types"
 
 import IconArchive from "@/components/icons/IconArchive"
 import IconActivity from "@/components/icons/IconActivity"
+import IconTrashBlack from "@/components/icons/IconTrashBlack"
 import IconDotsHorizontal from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
-import { dispatchArchivePost, dispatchUpdatePost, useAuth } from "@/store"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
-import { deletePostId, getPosts } from "@/services/posts"
-import { useState } from "react"
-import { useQuery } from "@tanstack/react-query"
+import { dispatchArchivePost, dispatchOpenDeletePost, dispatchUpdatePost, useAuth } from "@/store"
 
 interface IProps {
   post: IPosts
@@ -23,16 +22,9 @@ const TITLE_ARCHIVE = "В архив"
 const LABEL_DELETE = "Удалить"
 
 function HeaderItemDotsPost({ post }: IProps) {
-  const [loading, setLoading] = useState(false)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { id, title, userId: userIdPost, archive } = post ?? {}
   const [open, setOpen, ref] = useOutsideClickEvent()
-
-  const { refetch } = useQuery({
-    queryFn: () => getPosts({ order: "DESC", user: userId! }),
-    queryKey: ["posts", { userId: userId!, order: "DESC" }],
-    enabled: false,
-  })
 
   const onShare = useNavigator({
     url: `/post/${id}`,
@@ -136,14 +128,9 @@ function HeaderItemDotsPost({ post }: IProps) {
           aria-label={LABEL_DELETE}
           aria-labelledby={LABEL_DELETE}
           className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field cursor-pointer"
-          onClick={async (event) => {
+          onClick={(event) => {
             event.stopPropagation()
-            if (!loading) {
-              setLoading(true)
-              await deletePostId(post.id)
-              await refetch()
-              setLoading(false)
-            }
+            dispatchOpenDeletePost(id!, title)
           }}
         >
           <div
@@ -161,4 +148,5 @@ function HeaderItemDotsPost({ post }: IProps) {
   )
 }
 
+HeaderItemDotsPost.displayName = "HeaderItemDotsPost"
 export default HeaderItemDotsPost
