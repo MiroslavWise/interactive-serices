@@ -244,8 +244,8 @@ function UpdatePost() {
                           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-auto aspect-[152/196]"
                           src={item.attributes.url}
                           alt={item.attributes.alt}
-                          width={200}
-                          height={200}
+                          width={240}
+                          height={240}
                           hash={item?.attributes?.blur}
                         />
                         <button

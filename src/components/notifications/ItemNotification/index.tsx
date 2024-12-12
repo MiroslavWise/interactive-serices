@@ -548,8 +548,8 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
           className="w-10 h-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           src={profile?.image?.attributes?.url}
           alt="avatar"
-          width={44}
-          height={44}
+          width={80}
+          height={80}
           hash={profile?.image?.attributes?.blur}
         />
       ) : (
@@ -575,8 +575,8 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
           className="w-10 h-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           src={image}
           alt="avatar"
-          width={44}
-          height={44}
+          width={80}
+          height={80}
           hash={blur!}
         />
       ) : (

@@ -20,6 +20,7 @@ import { ButtonNavigation } from "@/components/content/BannerSign/components/But
 import { EStatusAuth } from "@/store"
 import { useResize } from "@/helpers"
 import useUtm from "@/helpers/use-utm"
+import env from "@/config/environment"
 import { useStatusAuth } from "@/helpers/use-status-auth"
 
 export default () => {

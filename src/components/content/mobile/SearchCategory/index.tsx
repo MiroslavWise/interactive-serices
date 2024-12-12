@@ -1,10 +1,10 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import { useRef, useState } from "react"
+import { useState } from "react"
 
-import { EnumTypeProvider } from "@/types/enum"
-import { TServicesFilter } from "../../BannerServices/types/types"
+import { type IPosts } from "@/services/posts/types"
+import { type IResponseOffers } from "@/services/offers/types"
 
 import ActiveFilters from "./components/ActiveFilters"
 import { ServicesMobile } from "./components/Services"
@@ -24,23 +24,49 @@ import {
   dispatchMobileSearchCategoryVisible,
 } from "@/store"
 import { cx } from "@/lib/cx"
+import { queryClient } from "@/context"
+import { useDebounce } from "@/helpers"
+import { getSearch } from "@/services/search"
 import { SERVICES } from "../../BannerServices/constants"
 
 import styles from "./styles/style.module.scss"
 
 export default function SearchCategory() {
+  const [loading, setLoading] = useState(false)
   const visible = useMobileSearchCategory(({ visible }) => visible)
   const providers = useFiltersServices(({ providers }) => providers)
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
-  const parentRef = useRef<HTMLUListElement>(null)
   const visibleFilter = useFiltersScreen(({ visible }) => visible)
   const [input, setInput] = useState("")
 
-  function handleProvider(value: TServicesFilter) {
-    dispatchFiltersServiceProvider(value)
-  }
+  const debouncedValue = useDebounce(search, 1250)
+  const [valuesPosts, setValuesPosts] = useState<IPosts[]>([])
+  const [valuesOffers, setValuesOffers] = useState<IResponseOffers[]>([])
 
-  const reversOpen = () => dispatchMobileSearchCategoryVisible(!visible)
+  async function search() {
+    const trim = input.trim().toLowerCase()
+
+    if (trim.length > 1) {
+      if (!loading) {
+        setLoading(true)
+        const response = await queryClient.fetchQuery({
+          queryFn: () => getSearch({ query: { query: trim } }),
+          queryKey: ["search", { search: trim }],
+        })
+        setLoading(false)
+
+        const { data } = response
+
+        if (data) {
+          const posts = data?.posts ?? []
+          const offers = data?.offers ?? []
+
+          setValuesPosts(posts)
+          setValuesOffers(offers)
+        }
+      }
+    }
+  }
 
   return (
     <div
@@ -55,7 +81,7 @@ export default function SearchCategory() {
         title={visible ? "Закрыть" : "Открыть"}
         aria-label={visible ? "Закрыть" : "Открыть"}
         aria-labelledby={visible ? "Закрыть" : "Открыть"}
-        onClick={reversOpen}
+        onClick={() => dispatchMobileSearchCategoryVisible(!visible)}
         className={cx(
           "absolute z-[91] left-1/2 top-0 p-2 rounded-full w-10 h-10 border-none outline-none flex items-center justify-center bg-BG-second",
           "*:aspect-square *:w-5 *:h-5",
@@ -74,7 +100,10 @@ export default function SearchCategory() {
               dispatchMobileSearchCategoryVisible(true)
             }}
             value={input}
-            onChange={(event) => setInput(event.target.value || "")}
+            onChange={(event) => {
+              debouncedValue()
+              setInput(event.target.value || "")
+            }}
             placeholder="Что Вы ищете"
             className="h-3 rounded-3xl !pl-[2.625rem]"
           />
@@ -114,7 +143,7 @@ export default function SearchCategory() {
           <IconFilters />
         </button>
       </header>
-      <section className="w-full h-[calc(100%_-_6rem)] overflow-x-hidden overflow-y-auto" ref={parentRef}>
+      <section className="w-full h-[calc(100%_-_6rem)] overflow-x-hidden overflow-y-auto">
         <article className={cx("w-full flex flex-col gap-[1.125rem] py-2.5 px-5", "*:flex *:w-full *:flex-row *:items-start")}>
           <div data-filters-services className="justify-start gap-4">
             {SERVICES.map((item) => (
@@ -123,7 +152,7 @@ export default function SearchCategory() {
                 data-active={providers === item.value}
                 onClick={(event) => {
                   event.stopPropagation()
-                  handleProvider(item.value)
+                  dispatchFiltersServiceProvider(item.value)
                 }}
                 className={cx(
                   "relative cursor-pointer",
@@ -137,7 +166,7 @@ export default function SearchCategory() {
           <TimesFilter />
           {activeFilters.length ? <ActiveFilters activeFilters={activeFilters} /> : null}
         </article>
-        <ServicesMobile input={input} parentRef={parentRef} />
+        <ServicesMobile posts={valuesPosts} offers={valuesOffers} isSearch={!!input.trim()} loading={loading} />
       </section>
     </div>
   )

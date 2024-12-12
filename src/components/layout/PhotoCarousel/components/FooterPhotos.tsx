@@ -27,8 +27,8 @@ export function FooterPhotos() {
           <NextImageMotion
             src={item?.url!}
             alt="offer-image"
-            width={192}
-            height={108}
+            width={240}
+            height={240}
             className="w-full h-full object-cover"
             onClick={() => {
               dispatchCurrentPhoto({ currentPhoto: item })

@@ -114,7 +114,7 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
               "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4",
             )}
           >
-            <NextImageMotion src={item.attributes.url!} alt="offer-image" width={20} height={20} hash={item.attributes?.blur} />
+            <NextImageMotion src={item.attributes.url!} alt="offer-image" width={40} height={40} hash={item.attributes?.blur} />
           </div>
         ))}
       </div>
@@ -154,8 +154,8 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
           <NextImageMotion
             src={user?.image?.attributes?.url}
             alt="avatar"
-            width={40}
-            height={40}
+            width={80}
+            height={80}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[3.25rem] h-[3.25rem] rounded-[1.625rem] overflow-hidden z-10"
             hash={user?.image?.attributes?.blur}
           />

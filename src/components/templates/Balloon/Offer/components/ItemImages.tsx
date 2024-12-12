@@ -107,9 +107,9 @@ function ItemImages({ images }: IProps) {
                 <NextImageMotion
                   key={`::${item.id}::photo::offer::`}
                   src={item?.attributes?.url!}
-                  width={80}
+                  width={160}
                   alt={"offer-image"}
-                  height={90}
+                  height={160}
                   className="rounded-lg"
                   onClick={(event) => {
                     event.stopPropagation()

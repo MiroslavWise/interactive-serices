@@ -39,7 +39,7 @@ export const useToast = () => {
         <ButtonClose position={{}} onClick={() => {}} />
         <section>
           <article>
-            <NextImageMotion src={photo!} alt="avatar" width={44} height={44} />
+            <NextImageMotion src={photo!} alt="avatar" width={80} height={80} />
             <h4>{name}</h4>
           </article>
           <p>{message}</p>
@@ -119,7 +119,7 @@ export const useToast = () => {
           <>
             <div data-content className="message">
               <div data-user>
-                <NextImageMotion src={value?.photo!} alt="avatar" height={40} width={40} />
+                <NextImageMotion src={value?.photo!} alt="avatar" height={80} width={80} />
                 <i>
                   {value?.name} {value?.username ? <span>@{value?.username}</span> : null}
                 </i>

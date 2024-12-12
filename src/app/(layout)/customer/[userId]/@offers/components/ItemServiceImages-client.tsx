@@ -49,8 +49,8 @@ function ItemServiceImagesClient({ images }: { images: IImageData[] }) {
               src={item.attributes.url}
               className="h-[4.875rem] rounded-lg w-[4.375rem] aspect-[4.375/4.875] cursor-pointer"
               alt="offer-image"
-              width={140}
-              height={156}
+              width={240}
+              height={240}
               onClick={(event) => {
                 event.stopPropagation()
                 const photos = []

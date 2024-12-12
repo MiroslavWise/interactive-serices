@@ -1,4 +1,4 @@
-import { memo, useMemo, useState } from "react"
+import { useState } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { type IPosts } from "@/services/posts/types"
@@ -26,7 +26,7 @@ const NAV: { value: boolean; label: string }[] = [
 function ContainerPosts({ posts }: IProps) {
   const [isArchive, setIsArchive] = useState(false)
 
-  const list = useMemo(() => posts.filter((_) => _.archive === isArchive), [isArchive, posts])
+  const list = posts.filter((_) => _.archive === isArchive)
   const length = list.length
 
   return (
@@ -66,4 +66,4 @@ function ContainerPosts({ posts }: IProps) {
 }
 
 ContainerPosts.displayName = "ContainerPosts"
-export default memo(ContainerPosts)
+export default ContainerPosts

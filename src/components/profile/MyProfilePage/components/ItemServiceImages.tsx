@@ -59,8 +59,8 @@ function ItemServiceImages({ images = [] }: { images: IImageData[] }) {
                 key={`::key::image::offer::${item.id}::`}
                 src={item.attributes.url}
                 alt="offer-image"
-                width={140}
-                height={156}
+                width={240}
+                height={240}
                 onClick={(event) => {
                   event.stopPropagation()
                   const photos = []

@@ -82,24 +82,24 @@ export const ImageProfile = memo(function ImageProfile({ file, image, setFile, r
           <ImageStatic
             src={file.string}
             alt="avatar"
-            width={80}
-            height={80}
+            width={160}
+            height={160}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-auto aspect-square rounded-2xl"
           />
         ) : !!image ? (
           <NextImageMotion
             src={image}
             alt="avatar"
-            width={80}
-            height={80}
+            width={160}
+            height={160}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-auto aspect-square rounded-2xl"
           />
         ) : (
           <img
             src="/svg/profile-null.svg"
             alt="avatar"
-            height={48}
-            width={48}
+            height={160}
+            width={160}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12"
           />
         )}

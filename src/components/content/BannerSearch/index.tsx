@@ -25,7 +25,7 @@ import styles from "./styles/style.module.scss"
 function BannerSearch() {
   const [loading, setLoading] = useState(false)
   const visible = useSearchFilters(({ visible }) => visible)
-  const { control, setFocus, setValue, handleSubmit, watch } = useForm<TSchemaSearch>({
+  const { control, setFocus, setValue, handleSubmit } = useForm<TSchemaSearch>({
     defaultValues: { input: "" },
     resolver: resolverSchemaSearch,
   })
