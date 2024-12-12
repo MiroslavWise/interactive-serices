@@ -36,8 +36,8 @@ async function PlaqueFriends({ id }: { id: number | string }) {
                   className="w-6 h-6 rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
                   src={_.image?.attributes?.url}
                   alt="avatar"
-                  width={40}
-                  height={40}
+                  width={80}
+                  height={80}
                   hash={_.image?.attributes?.blur}
                 />
               ) : (

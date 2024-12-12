@@ -17,8 +17,8 @@ function ProfileData({ user }: { user: IUserResponse }) {
             className="rounded-2xl overflow-hidden w-20 h-20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             src={image?.attributes?.url}
             alt="avatar"
-            width={100}
-            height={100}
+            width={120}
+            height={120}
             hash={image?.attributes?.blur}
           />
         ) : (

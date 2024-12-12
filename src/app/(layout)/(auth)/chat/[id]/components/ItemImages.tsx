@@ -59,8 +59,8 @@ function ItemImages({ images, children, strings }: IProps) {
           <ImageStatic
             src={item}
             alt="offer-image"
-            width={200}
-            height={200}
+            width={280}
+            height={280}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full"
           />
         </div>

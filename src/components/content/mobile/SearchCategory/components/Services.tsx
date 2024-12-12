@@ -52,7 +52,7 @@ export const ServicesMobile = memo(({ posts, offers, isSearch, loading }: IProps
     select: ({ data }) => data?.filter((item) => (!!urgent ? !!item?.urgent : true)),
   })
 
-  const itemsPost = data || []
+  const itemsPost = data ?? []
 
   const itemsFilterPosts = useMemo(() => {
     if (!!idSearch || activeFilters.length > 0) {

@@ -78,7 +78,7 @@ function CardBallon({ offer, ref, className }: IProps) {
       <header
         className={cx(
           "[background:var(--more-red-gradient)] w-full py-1.5 px-2.5 flex-row gap-2 items-center justify-center rounded-t-2xl",
-          !!urgent ? "flex" : "hidden",
+          !!urgent && provider !== EnumTypeProvider.offer ? "flex" : "hidden",
         )}
       >
         <div className="w-4 h-4 relative">

@@ -87,7 +87,7 @@ export const HeaderExchangeOffers = () => {
                   index !== 0 && "-ml-1.5",
                 )}
               >
-                <NextImageMotion className="w-7 h-7 rounded-full" src={item!?.url} alt="avatar" width={28} height={28} hash={item?.blur} />
+                <NextImageMotion className="w-7 h-7 rounded-full" src={item!?.url} alt="avatar" width={80} height={80} hash={item?.blur} />
               </div>
             ))}
           </div>

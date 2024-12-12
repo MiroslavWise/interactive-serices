@@ -40,8 +40,8 @@ function Avatar({ className, image, userId }: IProps) {
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full"
             src={image?.attributes?.url!}
             alt="avatar"
-            width={60}
-            height={60}
+            width={160}
+            height={160}
             hash={image?.attributes?.blur}
           />
         ) : (
@@ -57,8 +57,8 @@ function Avatar({ className, image, userId }: IProps) {
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full"
           src={image?.attributes?.url!}
           alt="avatar"
-          width={60}
-          height={60}
+          width={160}
+          height={160}
           hash={image?.attributes?.blur}
         />
       ) : (

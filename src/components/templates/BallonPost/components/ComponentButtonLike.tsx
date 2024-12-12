@@ -77,7 +77,7 @@ function ComponentButtonLike({ id }: IProps) {
     }
     if (!userId) {
       on({
-        message: "Войдите в аккаунт, что-бы поставить лайк",
+        message: "Войдите в аккаунт, чтобы поставить лайк",
       })
       dispatchAuthModal({
         visible: true,

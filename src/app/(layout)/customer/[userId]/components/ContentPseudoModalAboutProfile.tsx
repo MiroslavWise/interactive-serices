@@ -23,8 +23,8 @@ async function ContentPseudoModalAboutProfile({ userId }: { userId: string | num
               className="rounded-2xl overflow-hidden"
               src={image?.attributes?.url}
               alt="avatar"
-              width={100}
-              height={100}
+              width={240}
+              height={240}
               hash={image?.attributes?.blur}
             />
           ) : (
