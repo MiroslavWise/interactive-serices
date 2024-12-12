@@ -5,7 +5,7 @@ import dynamic from "next/dynamic"
 import {
   Intro,
   WelcomeModal,
-  AboutSheiraPopup,
+  // AboutSheiraPopup,
   NotificationsMobile,
   MobileFiltersMap,
   Onboarding,
@@ -80,7 +80,7 @@ function Containers() {
       {visibleVideo && <VideoModal />}
       {statusAuth === EStatusAuth.UNAUTHORIZED && (
         <>
-          <AboutSheiraPopup />
+          {/* <AboutSheiraPopup /> */}
           <ModalSign />
         </>
       )}
