@@ -19,6 +19,7 @@ import {
   dispatchMapCoordinates,
   dispatchMapCoordinatesZoom,
   dispatchNewServicesBannerMap,
+  dispatchCollapseServicesTrue,
 } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
 import { MAX_ZOOM, MIN_ZOOM } from "@/helpers/constants"
@@ -183,6 +184,7 @@ function YandexMap() {
               coordinates: source,
               zoom: zoom + 3,
             })
+            dispatchCollapseServicesTrue()
           }}
         >
           <ListPlacemark />

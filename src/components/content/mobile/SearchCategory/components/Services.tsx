@@ -4,18 +4,18 @@ import { memo, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumTypeProvider } from "@/types/enum"
+import { IPosts } from "@/services/posts/types"
+import { IResponseOffers } from "@/services/offers/types"
 import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
 
 import { ServiceLoading } from "@/components/common"
+import EmptyArticle from "@/components/content/BannerSearch/components/EmptyArticle"
+import VirtualList from "@/components/content/BannerServices/components/VirtualList"
 
 import { getPosts } from "@/services/posts"
+import { EXCEPTION_POST_MAP } from "@/config/exception"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import { useBounds, useFiltersScreen, useFiltersServices, useSearchFilters, useUrgentFilter } from "@/store"
-import { EXCEPTION_POST_MAP } from "@/config/exception"
-import { IPosts } from "@/services/posts/types"
-import { IResponseOffers } from "@/services/offers/types"
-import VirtualList from "@/components/content/BannerServices/components/VirtualList"
-import EmptyArticle from "@/components/content/BannerSearch/components/EmptyArticle"
 
 const DAY = 86_400_000
 const WEEK = DAY * 7
@@ -69,7 +69,7 @@ export const ServicesMobile = memo(({ posts, offers, isSearch, loading }: IProps
 
       for (const item of items) {
         if (!EXCEPTION_POST_MAP.includes(item.id)) {
-          if (item?.addresses && item?.addresses.length > 0) {
+          if (item?.addresses && item?.addresses.length > 0 && !isSearch && itemsPost.length > 0) {
             const coordinates = item?.addresses[0]?.coordinates?.split(" ").map(Number).filter(Boolean)
             if (
               coordinates[0] < maxCoors[0] &&
@@ -84,6 +84,15 @@ export const ServicesMobile = memo(({ posts, offers, isSearch, loading }: IProps
                 if (time_ + OBJ_TIME[timesFilter] - now > 0) {
                   array.push(item)
                 }
+              }
+            }
+          } else {
+            if (timesFilter === EnumTimesFilter.ALL) {
+              array.push(item)
+            } else {
+              const time_ = time(item.created)
+              if (time_ + OBJ_TIME[timesFilter] - now > 0) {
+                array.push(item)
               }
             }
           }
@@ -107,7 +116,7 @@ export const ServicesMobile = memo(({ posts, offers, isSearch, loading }: IProps
         if (item?.addresses) {
           if (item?.addresses.length > 0) {
             const coordinates = item?.addresses[0]?.coordinates?.split(" ").map(Number).filter(Boolean)
-            if (coordinates.length > 0) {
+            if (coordinates.length > 0 && !isSearch && itemsOffers.length > 0) {
               if (
                 coordinates[0] < maxCoors[0] &&
                 coordinates[0] > minCoords[0] &&
@@ -121,6 +130,15 @@ export const ServicesMobile = memo(({ posts, offers, isSearch, loading }: IProps
                   if (time_ + OBJ_TIME[timesFilter] - now > 0) {
                     array.push(item)
                   }
+                }
+              }
+            } else {
+              if (timesFilter === EnumTimesFilter.ALL) {
+                array.push(item)
+              } else {
+                const time_ = time(item.created)
+                if (time_ + OBJ_TIME[timesFilter] - now > 0) {
+                  array.push(item)
                 }
               }
             }

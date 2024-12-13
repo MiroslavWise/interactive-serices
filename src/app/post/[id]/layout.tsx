@@ -33,13 +33,18 @@ export default async ({ children, params: { id } }: PropsWithChildren<{ params: 
     }
   }
 
+  const url = new URL(`${env.server.host}/post/${id}`).toString()
+
   return (
     <main className="w-full flex items-center justify-center h-full">
-      <section itemScope itemType="https://schema.org/Offer" className="max-w-96 flex flex-col gap-2 my-auto">
+      <section itemScope itemType="https://schema.org/Event" className="max-w-96 flex flex-col gap-2 my-auto">
         <h1 itemProp="name">{title}</h1>
-        <link itemProp="mobileUrl" href={new URL(`${env.server.host}/post/${id}`).toString()} />
+        <link itemProp="mobileUrl" href={url} />
+        <link itemProp="url" href={url} />
+        <link itemProp="sameAs" href={url} />
         <meta itemProp="seller" content={user?.firstName} />
         <span itemProp="description">{description}</span>
+        <span itemProp="about">{description}</span>
         {children}
       </section>
     </main>

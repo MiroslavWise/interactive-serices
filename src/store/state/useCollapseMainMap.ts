@@ -15,5 +15,6 @@ export const useCollapsePersonalScreen = create(
   }),
 )
 
+export const dispatchCollapseServicesTrue = () => useCollapseServices.setState((_) => ({ visible: true }))
 export const dispatchCollapseServices = () => useCollapseServices.setState((_) => ({ visible: !_.visible }))
 export const dispatchCollapsePersonalScreen = () => useCollapsePersonalScreen.setState((_) => ({ visible: !_.visible }))
