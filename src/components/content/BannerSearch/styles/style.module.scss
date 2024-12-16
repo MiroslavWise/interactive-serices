@@ -32,13 +32,12 @@
       }
 
       & > [data-icon-search] {
-        left: 2.125rem;
-        pointer-events: none;
+        right: calc(2.125rem + 1.25rem + 1rem);
       }
 
       & > input {
         width: 100%;
-        padding-inline: calc(0.875rem + 1.25rem + 0.5rem);
+        padding-right: calc(2.125rem + 1.25rem + 1rem + 1.25rem + 0.875rem);
       }
 
       & > [data-icon-close] {

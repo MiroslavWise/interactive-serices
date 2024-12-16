@@ -96,10 +96,12 @@ function BannerSearch() {
             control={control}
             render={({ field }) => (
               <>
-                <div data-icon-search>
+                <button data-icon-search type="submit">
                   <IconSearch />
-                </div>
-                <input {...field} type="text" placeholder="Что Вы ищете" data-test="input-search-filters" />
+                </button>
+                <input {...field} type="text" placeholder="Что Вы ищете" data-test="input-search-filters"
+                  className="pl-3.5"
+                />
                 <button
                   type="button"
                   data-icon-close
