@@ -50,23 +50,23 @@ function VirtualList({ list, listPosts }: IProps) {
       }
     }
 
-    obj.sort(
-      (a, b) =>
-        getMillisecond(
-          b?.type === EnumTypeProvider.POST
-            ? b?.post?.created
-            : [EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(b.type)
-            ? b?.offer?.created
-            : undefined,
-        ) -
-        getMillisecond(
-          a?.type === EnumTypeProvider.POST
-            ? a?.post?.created
-            : [EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(a.type)
-            ? a?.offer?.created
-            : undefined,
-        ),
-    )
+    // obj.sort(
+    //   (a, b) =>
+    //     getMillisecond(
+    //       b?.type === EnumTypeProvider.POST
+    //         ? b?.post?.created
+    //         : [EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(b.type)
+    //         ? b?.offer?.created
+    //         : undefined,
+    //     ) -
+    //     getMillisecond(
+    //       a?.type === EnumTypeProvider.POST
+    //         ? a?.post?.created
+    //         : [EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(a.type)
+    //         ? a?.offer?.created
+    //         : undefined,
+    //     ),
+    // )
 
     return obj
   }, [isAll, list, listPosts])

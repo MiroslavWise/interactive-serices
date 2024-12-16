@@ -16,6 +16,8 @@ import { getPosts } from "@/services/posts"
 import { EXCEPTION_POST_MAP } from "@/config/exception"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import { useBounds, useFiltersScreen, useFiltersServices, useSearchFilters, useUrgentFilter } from "@/store"
+import { mapSort } from "../utils/map"
+import { clg } from "@console"
 
 const DAY = 86_400_000
 const WEEK = DAY * 7
@@ -109,46 +111,24 @@ export const ServicesMobile = memo(({ posts, offers, isSearch, loading }: IProps
     const items = isSearch && offers.length > 0 ? offers : !isSearch && itemsOffers.length > 0 ? itemsOffers : []
 
     if (bounds && items) {
-      const minCoords = bounds[0]
-      const maxCoors = bounds[1]
+      const newSortMap = mapSort({ bounds, items })
 
-      for (const item of items) {
-        if (item?.addresses) {
-          if (item?.addresses.length > 0) {
-            const coordinates = item?.addresses[0]?.coordinates?.split(" ").map(Number).filter(Boolean)
-            if (coordinates.length > 0 && !isSearch && itemsOffers.length > 0) {
-              if (
-                coordinates[0] < maxCoors[0] &&
-                coordinates[0] > minCoords[0] &&
-                coordinates[1] < maxCoors[1] &&
-                coordinates[1] > minCoords[1]
-              ) {
-                if (timesFilter === EnumTimesFilter.ALL) {
-                  array.push(item)
-                } else {
-                  const time_ = time(item.created)
-                  if (time_ + OBJ_TIME[timesFilter] - now > 0) {
-                    array.push(item)
-                  }
-                }
-              }
-            } else {
-              if (timesFilter === EnumTimesFilter.ALL) {
-                array.push(item)
-              } else {
-                const time_ = time(item.created)
-                if (time_ + OBJ_TIME[timesFilter] - now > 0) {
-                  array.push(item)
-                }
-              }
-            }
+      clg("newSortMap: ", newSortMap)
+
+      for (const item of newSortMap) {
+        if (timesFilter === EnumTimesFilter.ALL) {
+          array.push(item)
+        } else {
+          const time_ = time(item.created)
+          if (time_ + OBJ_TIME[timesFilter] - now > 0) {
+            array.push(item)
           }
         }
       }
     }
 
     return array
-  }, [itemsOffers, bounds, timesFilter, idSearch, offers, isSearch])
+  }, [itemsOffers, JSON.stringify(bounds?.map((item) => item?.map((_) => _?.toFixed(3)))), timesFilter, idSearch, offers, isSearch])
 
   if ((isSearch && loading) || (!isSearch && (isLoading || isLoadingPost)))
     return (
