@@ -12,24 +12,12 @@ import { ServiceLoading } from "@/components/common"
 import EmptyArticle from "@/components/content/BannerSearch/components/EmptyArticle"
 import VirtualList from "@/components/content/BannerServices/components/VirtualList"
 
+import { mapSort } from "../utils/map"
 import { getPosts } from "@/services/posts"
+import { UTILS_DATA_MAP } from "@/utils/utils-data-map"
 import { EXCEPTION_POST_MAP } from "@/config/exception"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import { useBounds, useFiltersScreen, useFiltersServices, useSearchFilters, useUrgentFilter } from "@/store"
-import { mapSort } from "../utils/map"
-import { clg } from "@console"
-
-const DAY = 86_400_000
-const WEEK = DAY * 7
-const MONTH = DAY * 31
-const now = new Date().valueOf()
-const time = (created: string | Date) => new Date(created).valueOf()
-
-const OBJ_TIME = {
-  [EnumTimesFilter.DAYS]: DAY,
-  [EnumTimesFilter.WEEK]: WEEK,
-  [EnumTimesFilter.MONTH]: MONTH,
-}
 
 interface IProps {
   posts: IPosts[]
@@ -82,8 +70,8 @@ export const ServicesMobile = memo(({ posts, offers, isSearch, loading }: IProps
               if (timesFilter === EnumTimesFilter.ALL) {
                 array.push(item)
               } else {
-                const time_ = time(item.created)
-                if (time_ + OBJ_TIME[timesFilter] - now > 0) {
+                const time_ = UTILS_DATA_MAP.time(item.created)
+                if (time_ + UTILS_DATA_MAP[timesFilter] - UTILS_DATA_MAP.now > 0) {
                   array.push(item)
                 }
               }
@@ -92,8 +80,8 @@ export const ServicesMobile = memo(({ posts, offers, isSearch, loading }: IProps
             if (timesFilter === EnumTimesFilter.ALL) {
               array.push(item)
             } else {
-              const time_ = time(item.created)
-              if (time_ + OBJ_TIME[timesFilter] - now > 0) {
+              const time_ = UTILS_DATA_MAP.time(item.created)
+              if (time_ + UTILS_DATA_MAP[timesFilter] - UTILS_DATA_MAP.now > 0) {
                 array.push(item)
               }
             }
@@ -111,16 +99,14 @@ export const ServicesMobile = memo(({ posts, offers, isSearch, loading }: IProps
     const items = isSearch && offers.length > 0 ? offers : !isSearch && itemsOffers.length > 0 ? itemsOffers : []
 
     if (bounds && items) {
-      const newSortMap = mapSort({ bounds, items })
-
-      clg("newSortMap: ", newSortMap)
+      const newSortMap = mapSort<IResponseOffers>({ bounds, items })
 
       for (const item of newSortMap) {
         if (timesFilter === EnumTimesFilter.ALL) {
           array.push(item)
         } else {
-          const time_ = time(item.created)
-          if (time_ + OBJ_TIME[timesFilter] - now > 0) {
+          const time_ = UTILS_DATA_MAP.time(item.created)
+          if (time_ + UTILS_DATA_MAP[timesFilter] - UTILS_DATA_MAP.now > 0) {
             array.push(item)
           }
         }

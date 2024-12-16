@@ -87,7 +87,7 @@ function VirtualList({ list, listPosts }: IProps) {
     : []
 
   return (
-    <ul className="relative w-full h-full resize px-4" data-test="ul-services-component">
+    <ul className="relative w-full h-full resize" data-test="ul-services-component">
       <Virtuoso
         totalCount={totalCount}
         data={data}

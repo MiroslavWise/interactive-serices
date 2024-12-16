@@ -33,6 +33,14 @@
 
       & > [data-icon-search] {
         right: calc(2.125rem + 1.25rem + 1rem);
+
+        &[data-icon-search="true"] {
+          & > svg {
+            & > path {
+              fill: var(--text-primary);
+            }
+          }
+        }
       }
 
       & > input {

@@ -1,6 +1,6 @@
 "use client"
 
-import { RefObject, useMemo } from "react"
+import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumTimesFilter } from "../constants"
@@ -13,20 +13,10 @@ import { ServiceLoading } from "@/components/common"
 
 import { getPosts } from "@/services/posts"
 import { EXCEPTION_POST_MAP } from "@/config/exception"
+import { mapSort } from "../../mobile/SearchCategory/utils/map"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import { useBounds, useFiltersScreen, useFiltersServices, useSearchFilters, useUrgentFilter } from "@/store"
-
-const DAY = 86_400_000
-const WEEK = DAY * 7
-const MONTH = DAY * 31
-const now = new Date().valueOf()
-const time = (created: string | Date) => new Date(created).valueOf()
-
-const objTime = {
-  [EnumTimesFilter.DAYS]: DAY,
-  [EnumTimesFilter.WEEK]: WEEK,
-  [EnumTimesFilter.MONTH]: MONTH,
-}
+import { UTILS_DATA_MAP } from "@/utils/utils-data-map"
 
 export const ServicesComponent = () => {
   const { itemsOffers, isLoading } = useMapOffers()
@@ -70,8 +60,8 @@ export const ServicesComponent = () => {
               if (timesFilter === EnumTimesFilter.ALL) {
                 array.push(item)
               } else {
-                const time_ = time(item.created)
-                if (time_ + objTime[timesFilter] - now > 0) {
+                const time_ = UTILS_DATA_MAP.time(item.created)
+                if (time_ + UTILS_DATA_MAP[timesFilter] - UTILS_DATA_MAP.now > 0) {
                   array.push(item)
                 }
               }
@@ -92,30 +82,15 @@ export const ServicesComponent = () => {
     const array: IResponseOffers[] = []
 
     if (bounds && itemsOffers) {
-      const minCoords = bounds[0]
-      const maxCoors = bounds[1]
+      const newSortMap = mapSort<IResponseOffers>({ bounds, items: itemsOffers })
 
-      for (const item of itemsOffers) {
-        if (item?.addresses) {
-          if (item?.addresses.length > 0) {
-            const coordinates = item?.addresses[0]?.coordinates?.split(" ").map(Number).filter(Boolean)
-            if (coordinates.length > 0) {
-              if (
-                coordinates[0] < maxCoors[0] &&
-                coordinates[0] > minCoords[0] &&
-                coordinates[1] < maxCoors[1] &&
-                coordinates[1] > minCoords[1]
-              ) {
-                if (timesFilter === EnumTimesFilter.ALL) {
-                  array.push(item)
-                } else {
-                  const time_ = time(item.created)
-                  if (time_ + objTime[timesFilter] - now > 0) {
-                    array.push(item)
-                  }
-                }
-              }
-            }
+      for (const item of newSortMap) {
+        if (timesFilter === EnumTimesFilter.ALL) {
+          array.push(item)
+        } else {
+          const time_ = UTILS_DATA_MAP.time(item.created)
+          if (time_ + UTILS_DATA_MAP[timesFilter] - UTILS_DATA_MAP.now > 0) {
+            array.push(item)
           }
         }
       }

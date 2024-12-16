@@ -1,13 +1,11 @@
-import { type IResponseOffers } from "@/services/offers/types"
-
 import { distance } from "@/utils/distance"
 
-interface IProps {
+interface IProps<T = any> {
   bounds: number[][]
-  items: IResponseOffers[]
+  items: T[]
 }
 
-export function mapSort({ bounds, items }: IProps) {
+export function mapSort<T = any>({ bounds, items }: IProps<T>) {
   const minCoords = bounds[0]
   const maxCoors = bounds[1]
 
@@ -17,12 +15,12 @@ export function mapSort({ bounds, items }: IProps) {
   const center = [centerOne, centerTwo]
   const startB = [center.map((_) => _ - 1), center.map((_) => _ + 1)]
 
-  let obj: Record<number | string, IResponseOffers[]> = {}
+  let obj: Record<number | string, T[]> = {}
 
   recursion({ bounds: startB, items: items, number: 0 })!
 
   function recursion({ bounds: b, items: offers, number }: IProps & { number: number }) {
-    const residue: IResponseOffers[] = []
+    const residue: T[] = []
 
     for (const item of offers) {
       const coordinates = item?.addresses[0]?.coordinates?.split(" ").map(Number).filter(Boolean)
@@ -36,8 +34,6 @@ export function mapSort({ bounds, items }: IProps) {
         coordinates[1] < maxNewCoors[1] &&
         coordinates[1] > minNewCoords[1]
       ) {
-        const d = distance({ bounds, mapPoint: coordinates })
-
         if (!!obj[number]) {
           obj[number].push(item)
         } else {
@@ -48,7 +44,7 @@ export function mapSort({ bounds, items }: IProps) {
       }
     }
 
-    if (residue.length > 0) {
+    if (residue.length > 0 && Object.values(obj).length < 100) {
       const newStart = [
         [b[0][0] - 1, b[0][1] - 1],
         [b[1][0] + 1, b[1][1] + 1],
