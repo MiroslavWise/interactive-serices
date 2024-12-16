@@ -12,7 +12,7 @@ import { ServiceLoading } from "@/components/common"
 import EmptyArticle from "@/components/content/BannerSearch/components/EmptyArticle"
 import VirtualList from "@/components/content/BannerServices/components/VirtualList"
 
-import { mapSort } from "../utils/map"
+import { mapSort } from "../../../../../utils/map-sort"
 import { getPosts } from "@/services/posts"
 import { UTILS_DATA_MAP } from "@/utils/utils-data-map"
 import { EXCEPTION_POST_MAP } from "@/config/exception"

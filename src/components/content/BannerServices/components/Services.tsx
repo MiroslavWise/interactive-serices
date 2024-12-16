@@ -13,7 +13,7 @@ import { ServiceLoading } from "@/components/common"
 
 import { getPosts } from "@/services/posts"
 import { EXCEPTION_POST_MAP } from "@/config/exception"
-import { mapSort } from "../../mobile/SearchCategory/utils/map"
+import { mapSort } from "../../../../utils/map-sort"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import { useBounds, useFiltersScreen, useFiltersServices, useSearchFilters, useUrgentFilter } from "@/store"
 import { UTILS_DATA_MAP } from "@/utils/utils-data-map"
