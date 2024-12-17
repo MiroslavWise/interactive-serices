@@ -31,6 +31,7 @@ export function mapSort<T = any>({ bounds, items }: IProps<T>) {
       const maxNewCoors = b[1]
 
       if (
+        Array.isArray(coordinates) &&
         coordinates[0] < maxNewCoors[0] &&
         coordinates[0] > minNewCoords[0] &&
         coordinates[1] < maxNewCoors[1] &&

@@ -9,7 +9,9 @@ const toRadians = (degrees: number) => degrees * (Math.PI / 180)
 const a = (Δφ: number, φ1: number, φ2: number, Δλ: number) => Math.sin(Δφ / 2) ** 2 + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) ** 2
 const c = (a: number) => 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 
-const dis = ({ bounds, mapPoint }: IProps): number => {
+const dis = ({ bounds, mapPoint }: IProps): number | null => {
+  if (!Array.isArray(mapPoint)) return null
+
   const minCoords = bounds[0]
   const maxCoors = bounds[1]
   const lonCenter = (minCoords[0] + maxCoors[0]) / 2
@@ -30,6 +32,8 @@ const dis = ({ bounds, mapPoint }: IProps): number => {
 export function distance({ bounds, mapPoint }: IProps) {
   const d = dis({ bounds, mapPoint })
 
+  if (typeof d !== "number") return null
+
   if (d < 1) {
     const nd = (d * 1000).toFixed(0)
     return `${nd}м`
@@ -40,6 +44,8 @@ export function distance({ bounds, mapPoint }: IProps) {
 
 export function distancePure({ bounds, mapPoint }: IProps): boolean {
   const d = dis({ bounds, mapPoint })
+
+  if (typeof d !== "number") return false
 
   return DISTANCE > d
 }
