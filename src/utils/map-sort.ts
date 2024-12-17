@@ -66,5 +66,15 @@ export function mapSort<T = any>({ bounds, items }: IProps<T>) {
   return Object.values(obj).flat()
 }
 
-export const JSONStringBounds = (bounds?: number[][]) =>
-  bounds ? JSON.stringify(bounds?.map((item) => item?.map((_) => _?.toFixed(2)))) : undefined
+function hash(array: number[]) {
+  let hash = 0
+  const str = JSON.stringify(array)
+  for (const item of str) {
+    const char = item.charCodeAt(0)
+    hash = (hash * 31 + char) % 2 ** 32
+  }
+
+  return hash.toString(16)
+}
+
+export const JSONStringBounds = (bounds?: number[][]) => (bounds ? hash(bounds?.flat()) : undefined)

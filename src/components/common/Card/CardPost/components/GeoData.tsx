@@ -23,7 +23,7 @@ function GeoData({ post }: { post: IPosts }) {
     if (bounds && Array.isArray(bounds)) {
       const coordinates = address?.coordinates?.split(" ").map(Number).filter(Boolean)
 
-      d = distance({ bounds: bounds, mapPoint: coordinates })
+      d = distance({ bounds: bounds, mapPoint: coordinates })!
     }
 
     return [additional, d]
