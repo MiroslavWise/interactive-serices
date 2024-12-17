@@ -33,11 +33,16 @@
 
       & > [data-icon-search] {
         right: calc(2.125rem + 1.25rem + 1rem);
+        & > svg > path {
+          transition-property: fill;
+          transition-duration: 150ms;
+        }
 
-        &[data-icon-search="true"] {
+        &[data-icon-search="true"],
+        &:hover {
           & > svg {
             & > path {
-              fill: var(--text-primary);
+              fill: var(--text-accent);
             }
           }
         }
