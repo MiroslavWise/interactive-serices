@@ -13,7 +13,10 @@ interface IProps {
 
 function ComponentExpand({ is, on, length, title }: IProps) {
   return (
-    <a className={cx(length > 0 ? "flex flex-row" : "hidden", "w-full items-center justify-between")} onClick={() => on((_) => !_)}>
+    <a
+      className={cx(length > 0 ? "flex flex-row" : "hidden", "w-full items-center justify-between cursor-pointer")}
+      onClick={() => on((_) => !_)}
+    >
       <div className="flex items-center gap-2">
         <span className="text-sm font-medium text-text-primary">{title}</span>
         <div className="relative flex items-center justify-center h-[1.1875rem] min-w-[1.1875rem] w-fit rounded-[0.59375rem] bg-element-accent-1">

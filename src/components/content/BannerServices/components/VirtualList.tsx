@@ -8,9 +8,9 @@ import { type IResponseOffers } from "@/services/offers/types"
 import CardPost from "@/components/common/Card/CardPost"
 import CardBallon from "@/components/common/Card/CardBallon"
 
-import { useBounds, useFiltersServices } from "@/store"
+import { dis } from "@/utils/distance"
 import { JSONStringBounds } from "@/utils/map-sort"
-import { dis, distancePure } from "@/utils/distance"
+import { useBounds, useFiltersServices } from "@/store"
 
 interface IProps {
   list: IResponseOffers[]
@@ -71,7 +71,7 @@ function VirtualList({ list, listPosts }: IProps) {
     })
 
     return obj
-  }, [isAll, list, listPosts, bounds])
+  }, [isAll, list, listPosts, stringJSON])
 
   const totalCount = isAll ? listAll.length : isOffersAnd ? count : isPosts ? countPost : 0
   const data: IListAll[] = isAll
