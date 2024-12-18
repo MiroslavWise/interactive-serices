@@ -24,7 +24,6 @@ function ULServices({ posts, offers, categories }: IProps) {
   const [expandOffers, setExpandOffers] = useState(false)
   const [expandCategories, setExpandCategories] = useState(false)
   const bounds = useBounds(({ bounds }) => bounds)
-
   const stringBounds = JSONStringBounds(bounds)
 
   const locationOffers = useMemo(() => (!!bounds ? mapSort({ bounds: bounds!, items: offers }) : []), [offers, stringBounds])
