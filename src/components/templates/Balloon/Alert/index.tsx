@@ -8,7 +8,6 @@ import { type IResponseOffers } from "@/services/offers/types"
 import ItemProfile from "../components/ItemProfile"
 import BlockComments from "../components/BlockComments"
 import ItemImages from "../Offer/components/ItemImages"
-import ComponentHelper from "../components/ComponentHelper"
 import BlockAction from "../Discussion/components/BlockAction"
 import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
 import GeoData from "@/components/common/Card/CardBallon/components/GeoData"
@@ -23,11 +22,13 @@ function BalloonAlert() {
 
   return (
     <>
-      <ComponentHelper urgent={!!urgent} />
+      {/* <ComponentHelper urgent={!!urgent} /> */}
       <header
         className={cx(
           "w-full grid grid-cols-[1.5rem_minmax(0,1fr)] items-start gap-2.5 p-5 border-b border-solid border-grey-stroke-light overflow-hidden",
-          !!urgent ? "!h-auto py-4" : "rounded-t-3xl md:rounded-t-2 h-standard-header-modal",
+          // !!urgent ?
+          //   "!h-auto py-4" :
+          "rounded-t-3xl md:rounded-t-2 h-standard-header-modal",
         )}
         data-color={EnumTypeProvider.alert}
       >

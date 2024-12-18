@@ -79,12 +79,12 @@ function VirtualList({ list, listPosts }: IProps) {
     : isOffersAnd
     ? list.map((item) => ({
         type: item.provider,
-        offer: item,
+        item: item,
       }))
     : isPosts
     ? listPosts.map((item) => ({
         type: EnumTypeProvider.POST,
-        post: item,
+        item: item,
       }))
     : []
 

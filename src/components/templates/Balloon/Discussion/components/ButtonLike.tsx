@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
+import { EnumSign } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import IconLike from "@/components/icons/IconLike"
 
-import { useAuth } from "@/store"
+import { useToast } from "@/helpers/hooks/useToast"
+import { dispatchAuthModal, useAuth } from "@/store"
 import { getLikeTargetId, postLike, getLikes } from "@/services"
 
 interface IProps {
@@ -13,6 +15,7 @@ interface IProps {
 }
 
 export const ButtonLike = ({ offer }: IProps) => {
+  const { on } = useToast()
   const [loading, setLoading] = useState(false)
   const [count, setCount] = useState(0)
   const [myLike, setMyLike] = useState(false)
@@ -61,9 +64,24 @@ export const ButtonLike = ({ offer }: IProps) => {
         id: id!,
         provider: "offer",
       }).then(async (response) => {
+        if (!!response?.data) {
+          setCount((_) => (myLike ? _ - 1 : _ + 1))
+          setMyLike((_) => !_)
+        } else {
+          on({
+            message: "У нас какая-то ошибка. Мы работаем над исправлением",
+          })
+        }
         setLoading(false)
-        setCount((_) => (myLike ? _ - 1 : _ + 1))
-        setMyLike((_) => !_)
+      })
+    }
+    if (!userId) {
+      on({
+        message: "Что-бы поставить лайк, вам необходимо войти или зарегистрироваться",
+      })
+      dispatchAuthModal({
+        visible: true,
+        type: EnumSign.SignIn,
       })
     }
   }
