@@ -1,6 +1,7 @@
 "use client"
 
-import { useSearchParams, useRouter } from "next/navigation"
+import { useQueryState } from "nuqs"
+import { useRouter } from "next/navigation"
 import { type DispatchWithoutAction, useEffect } from "react"
 
 import { EnumSign } from "@/types/enum"
@@ -19,13 +20,12 @@ const dispatch: Record<TTypeAction, DispatchWithoutAction> = {
 }
 
 const useUtm = (stringReplace?: string, action?: TTypeAction) => {
-  const searchParams = useSearchParams()
-  const { replace, push } = useRouter()
+  const [utm_source] = useQueryState("utm_source")
+  const [utm_medium] = useQueryState("utm_medium")
+  const [utm_campaign] = useQueryState("utm_campaign")
+  const [utm_content] = useQueryState("utm_content")
 
-  const utm_source = searchParams.get("utm_source")
-  const utm_medium = searchParams.get("utm_medium")
-  const utm_campaign = searchParams.get("utm_campaign")
-  const utm_content = searchParams.get("utm_content")
+  const { replace, push } = useRouter()
 
   useEffect(() => {
     if (utm_source || utm_medium || utm_campaign || utm_content) {
@@ -49,6 +49,7 @@ const useUtm = (stringReplace?: string, action?: TTypeAction) => {
           dispatchUTMData(data)
           if (action) {
             dispatch[action]()
+            replace("/")
           }
           if (stringReplace) {
             push(stringReplace)
