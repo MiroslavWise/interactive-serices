@@ -69,14 +69,14 @@ function FooterNewNote() {
         <Button
           type="button"
           typeButton="fill-primary"
-          label={is ? "Вы уже учавствуете" : "Стать участником"}
+          label={is ? "Вы уже участвуете" : "Стать участником"}
           onClick={async () => {
             if (!!userId && !is) {
               if (!loading && !isLoading) {
                 setLoading(true)
                 await patchPost(id!, {})
                 on({
-                  message: "Вы были добавлены в список учаснитков данного мероприятия",
+                  message: "Вы были добавлены в список участнитков данного мероприятия",
                 })
                 await refetch()
                 setLoading(false)
