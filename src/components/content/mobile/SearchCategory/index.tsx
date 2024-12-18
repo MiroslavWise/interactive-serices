@@ -94,7 +94,7 @@ export default function SearchCategory() {
       <header className="p-5 pt-6 flex flex-row gap-2.5 cursor-pointer w-full h-24 relative">
         <div data-search className="relative h-12 w-full">
           <input
-            type="text"
+            type="search"
             onClick={(event) => {
               event.stopPropagation()
               dispatchMobileSearchCategoryVisible(true)
@@ -104,6 +104,7 @@ export default function SearchCategory() {
               debouncedValue()
               setInput(event.target.value || "")
             }}
+            required
             placeholder="Что Вы ищете"
             className="h-3 rounded-3xl !pl-[2.625rem]"
           />

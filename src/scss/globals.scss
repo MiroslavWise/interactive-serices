@@ -101,6 +101,7 @@ section {
 }
 
 input[type="text"],
+input[type="search"],
 input[type="submit"],
 input[type="tel"],
 textarea {
@@ -128,6 +129,7 @@ input[type="email"],
 input[type="password"],
 input[type="tel"],
 input[type="number"],
+input[type="search"],
 input[type="text"] {
   width: 100%;
   padding: 0.875rem 0.875rem;

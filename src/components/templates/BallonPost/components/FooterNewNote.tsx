@@ -84,7 +84,7 @@ function FooterNewNote() {
             }
           }}
           loading={loading || isLoading}
-          disabled={loading || isLoading}
+          disabled={loading || isLoading || is}
         />
       </footer>
     )
