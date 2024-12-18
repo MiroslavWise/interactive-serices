@@ -2,6 +2,7 @@
 
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
+import { parseAsStringEnum, useQueryState } from "nuqs"
 
 import { EnumTypeProvider } from "@/types/enum"
 
@@ -16,7 +17,7 @@ import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 import { cx } from "@/lib/cx"
 import { getPosts } from "@/services/posts"
 import { getUserIdOffers } from "@/services"
-import { dispatchModal, dispatchCreatePost, EModalData, openCreateOffers, useAuth, useProviderProfileOffer } from "@/store"
+import { dispatchModal, dispatchCreatePost, EModalData, openCreateOffers, useAuth } from "@/store"
 
 const CN_UL = "w-full h-fit grid grid-cols-3 max-2xl:grid-cols-2 max-xl:grid-cols-1 overflow-y-visible z-10 pb-5 gap-2.5 md:gap-4"
 
@@ -40,19 +41,23 @@ const titleEmpty: Map<EnumTypeProvider, string> = new Map([
 ])
 
 export const ContainerSuggestions = () => {
-  const stateProvider = useProviderProfileOffer(({ stateProvider }) => stateProvider)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
+  const [state] = useQueryState(
+    "type",
+    parseAsStringEnum<EnumTypeProvider>(Object.values(EnumTypeProvider)).withDefault(EnumTypeProvider.offer),
+  )
+
   const { data, isLoading } = useQuery({
-    queryFn: () => getUserIdOffers(userId!, { provider: stateProvider, order: "DESC" }, true),
-    queryKey: ["offers", { userId: userId, provider: stateProvider }],
-    enabled: !!userId! && [EnumTypeProvider.alert, EnumTypeProvider.discussion, EnumTypeProvider.offer].includes(stateProvider),
+    queryFn: () => getUserIdOffers(userId!, { provider: state, order: "DESC" }, true),
+    queryKey: ["offers", { userId: userId, provider: state ?? EnumTypeProvider.offer }],
+    enabled: !!userId! && [EnumTypeProvider.alert, EnumTypeProvider.discussion, EnumTypeProvider.offer].includes(state),
   })
 
   const { data: dataPosts, isLoading: isLoadingPosts } = useQuery({
     queryFn: () => getPosts({ order: "DESC", user: userId! }, true),
     queryKey: ["posts", { userId: userId!, order: "DESC" }],
-    enabled: !!userId && stateProvider === EnumTypeProvider.POST,
+    enabled: !!userId && state === EnumTypeProvider.POST,
   })
 
   const items = data?.data ?? []
@@ -70,21 +75,21 @@ export const ContainerSuggestions = () => {
     ])
 
     return {
-      title: title.get(stateProvider)!,
+      title: title.get(state || EnumTypeProvider.offer)!,
       func: () => {
-        if (stateProvider == EnumTypeProvider.POST) {
+        if (state == EnumTypeProvider.POST) {
           dispatchCreatePost(true)
         } else {
-          openCreateOffers(stateProvider)
+          openCreateOffers(state || EnumTypeProvider.offer)
           dispatchModal(EModalData.CreateNewOptionModal)
         }
       },
     }
-  }, [stateProvider])
+  }, [state])
 
   if (
-    ([EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(stateProvider) && isLoading) ||
-    (stateProvider === EnumTypeProvider.POST && isLoadingPosts)
+    ([EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(state!) && isLoading) ||
+    (state === EnumTypeProvider.POST && isLoadingPosts)
   )
     return (
       <ul className={cx(CN_UL, "loading-screen")}>
@@ -107,8 +112,8 @@ export const ContainerSuggestions = () => {
     )
 
   if (
-    ([EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(stateProvider) && length === 0) ||
-    (stateProvider === EnumTypeProvider.POST && lengthPosts === 0)
+    ([EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(state) && length === 0) ||
+    (state === EnumTypeProvider.POST && lengthPosts === 0)
   )
     return (
       <section className="w-full h-full rounded-2xl bg-BG-second flex flex-col items-center py-5 md:pt-[4.375rem] px-5 md:mb-6">
@@ -120,19 +125,17 @@ export const ContainerSuggestions = () => {
                 "*:w-6 *:h-6 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2",
               )}
             >
-              {stateProvider === EnumTypeProvider.discussion ? (
+              {state === EnumTypeProvider.discussion ? (
                 <IconDiscussionBalloon />
-              ) : stateProvider === EnumTypeProvider.alert ? (
+              ) : state === EnumTypeProvider.alert ? (
                 <IconAlertCirlceRed />
-              ) : stateProvider === EnumTypeProvider.offer ? (
+              ) : state === EnumTypeProvider.offer ? (
                 <IconOfferBalloon />
-              ) : stateProvider === EnumTypeProvider.POST ? (
+              ) : state === EnumTypeProvider.POST ? (
                 <IconPost />
               ) : null}
             </div>
-            <p className="text-text-primary text-sm font-normal text-center">
-              {titleEmpty.has(stateProvider) ? titleEmpty.get(stateProvider) : null}
-            </p>
+            <p className="text-text-primary text-sm font-normal text-center">{titleEmpty.has(state) ? titleEmpty.get(state) : null}</p>
           </div>
           <Button
             className="max-w-[15.625rem]"
@@ -140,13 +143,13 @@ export const ContainerSuggestions = () => {
             typeButton="fill-primary"
             label={functionAndTitle.title}
             onClick={functionAndTitle.func}
-            data-test={`button-profile-container-suggestions-on-create-${stateProvider}`}
+            data-test={`button-profile-container-suggestions-on-create-${state}`}
           />
         </article>
       </section>
     )
 
-  if ([EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(stateProvider))
+  if ([EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(state))
     return (
       <ul className={CN_UL} data-test="profile-container-suggestions">
         {items.map((_) => (
@@ -155,7 +158,7 @@ export const ContainerSuggestions = () => {
       </ul>
     )
 
-  if (stateProvider === EnumTypeProvider.POST) return <ContainerPosts posts={itemsPost} />
+  if (state === EnumTypeProvider.POST) return <ContainerPosts posts={itemsPost} />
 
   return null
 }
