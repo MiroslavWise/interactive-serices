@@ -70,12 +70,14 @@ export default function SearchCategory() {
   }
 
   useEffect(() => {
-    setTimeout(() => {
-      if (ref.current) {
-        ref.current.focus()
-      }
-    }, 250)
-  }, [])
+    if (visible) {
+      setTimeout(() => {
+        if (ref.current) {
+          ref.current.focus()
+        }
+      }, 250)
+    }
+  }, [visible])
 
   return (
     <div
