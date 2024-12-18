@@ -16,7 +16,6 @@ import { UTILS_DATA_MAP } from "@/utils/utils-data-map"
 import { JSONStringBounds, mapSort } from "@/utils/map-sort"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import { useBounds, useFiltersScreen, useFiltersServices, useSearchFilters, useUrgentFilter } from "@/store"
-import { clg } from "@console"
 
 export const ServicesComponent = () => {
   const { itemsOffers, isLoading } = useMapOffers()
@@ -37,8 +36,6 @@ export const ServicesComponent = () => {
   const itemsPost = data || []
 
   const stringJSON = JSONStringBounds(bounds)
-
-  clg("stringJSON: ", stringJSON)
 
   const itemsFilterPosts = useMemo(() => {
     if (!itemsPost.length || !!idSearch || activeFilters.length > 0) {

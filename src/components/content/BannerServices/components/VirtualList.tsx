@@ -8,9 +8,9 @@ import { type IResponseOffers } from "@/services/offers/types"
 import CardPost from "@/components/common/Card/CardPost"
 import CardBallon from "@/components/common/Card/CardBallon"
 
-import { clg } from "@console"
-import { getMillisecond } from "@/helpers"
-import { useFiltersServices } from "@/store"
+import { useBounds, useFiltersServices } from "@/store"
+import { JSONStringBounds } from "@/utils/map-sort"
+import { dis, distancePure } from "@/utils/distance"
 
 interface IProps {
   list: IResponseOffers[]
@@ -26,10 +26,12 @@ function VirtualList({ list, listPosts }: IProps) {
   const isOffersAnd = [EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(providers as EnumTypeProvider)
   const isPosts = EnumTypeProvider.POST === providers
 
+  const bounds = useBounds(({ bounds }) => bounds)
+  const stringJSON = JSONStringBounds(bounds)
+
   interface IListAll {
     type: EnumTypeProvider
-    post?: IPosts
-    offer?: IResponseOffers
+    item?: IPosts | IResponseOffers
   }
 
   const listAll = useMemo(() => {
@@ -39,37 +41,37 @@ function VirtualList({ list, listPosts }: IProps) {
       for (const item of list) {
         obj.push({
           type: item.provider,
-          offer: item,
+          item: item,
         })
       }
       for (const item of listPosts) {
         obj.push({
           type: EnumTypeProvider.POST,
-          post: item,
+          item: item,
         })
       }
     }
 
-    // obj.sort(
-    //   (a, b) =>
-    //     getMillisecond(
-    //       b?.type === EnumTypeProvider.POST
-    //         ? b?.post?.created
-    //         : [EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(b.type)
-    //         ? b?.offer?.created
-    //         : undefined,
-    //     ) -
-    //     getMillisecond(
-    //       a?.type === EnumTypeProvider.POST
-    //         ? a?.post?.created
-    //         : [EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(a.type)
-    //         ? a?.offer?.created
-    //         : undefined,
-    //     ),
-    // )
+    obj.sort((a, b) => {
+      const addressA = a?.item?.addresses?.[0]
+      const addressB = b?.item?.addresses?.[0]
+      const coordinatesA = addressA?.coordinates?.split(" ")?.map(Number)?.filter(Boolean) ?? [0, 0]
+      const coordinatesB = addressB?.coordinates?.split(" ")?.map(Number)?.filter(Boolean) ?? [0, 0]
+
+      if (bounds) {
+        const dA = dis({ bounds, mapPoint: coordinatesA })
+        const dB = dis({ bounds, mapPoint: coordinatesB })
+
+        if (typeof dA !== "number" || typeof dB !== "number") return 0
+
+        return dA - dB
+      }
+
+      return 0
+    })
 
     return obj
-  }, [isAll, list, listPosts])
+  }, [isAll, list, listPosts, bounds])
 
   const totalCount = isAll ? listAll.length : isOffersAnd ? count : isPosts ? countPost : 0
   const data: IListAll[] = isAll
@@ -102,10 +104,10 @@ function VirtualList({ list, listPosts }: IProps) {
         className="scroll-no scroll-no-children"
         itemContent={(_, item) => {
           if ([EnumTypeProvider.discussion, EnumTypeProvider.alert, EnumTypeProvider.offer].includes(item.type))
-            return <CardBallon key={`:k:of:${item?.offer?.id!}:l:`} offer={item?.offer!} className="mt-4 last:mb-4" />
+            return <CardBallon key={`:k:of:${item?.item?.id!}:l:`} offer={item?.item! as IResponseOffers} className="mt-4 last:mb-4" />
 
           if (item.type === EnumTypeProvider.POST)
-            return <CardPost key={`:k:p:${item?.post?.id!}:a:`} post={item?.post!} className="mt-4 last:mb-4" />
+            return <CardPost key={`:k:p:${item?.item?.id!}:a:`} post={item?.item! as IPosts} className="mt-4 last:mb-4" />
 
           return null
         }}

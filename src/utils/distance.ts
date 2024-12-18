@@ -9,7 +9,7 @@ const toRadians = (degrees: number) => degrees * (Math.PI / 180)
 const a = (Δφ: number, φ1: number, φ2: number, Δλ: number) => Math.sin(Δφ / 2) ** 2 + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) ** 2
 const c = (a: number) => 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 
-const dis = ({ bounds, mapPoint }: IProps): number | null => {
+export const dis = ({ bounds, mapPoint }: IProps): number | null => {
   if (!Array.isArray(mapPoint)) return null
 
   const minCoords = bounds[0]
@@ -47,5 +47,5 @@ export function distancePure({ bounds, mapPoint }: IProps): boolean {
 
   if (typeof d !== "number") return false
 
-  return DISTANCE > d
+  return d < DISTANCE
 }
