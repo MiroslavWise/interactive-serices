@@ -31,3 +31,46 @@
     }
   }
 }
+
+.div-alert-text {
+  max-width: 14.5rem;
+  position: absolute;
+  z-index: -1;
+  padding-block: 0.25rem;
+  padding-right: 0.625rem;
+  padding-left: 1.3125rem;
+  border-radius: 0.625rem;
+  background-color: rgba(255, 255, 255, 0.88);
+  display: flex;
+  left: 0;
+  top: 50%;
+  transform: translate(0.5rem, calc(-50% - 0.25rem));
+  width: max-content;
+
+  & > section {
+    display: flex;
+    flex-direction: column;
+    height: 2.75rem;
+
+    & > p {
+      color: black /*var(--text-primary)*/;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 0.875rem;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 1.25rem;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+    }
+
+    & > time {
+      color: var(--text-secondary, #667085);
+      font-size: 0.8125rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1rem;
+    }
+  }
+}

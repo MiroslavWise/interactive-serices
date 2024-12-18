@@ -1,14 +1,14 @@
 "use client"
 
-import { memo, useMemo } from "react"
+import { memo, useEffect, useMemo } from "react"
 import { Placemark } from "@pbe/react-yandex-maps"
 
 import { EnumTypeProvider } from "@/types/enum"
-import type { IPlacemarkCurrent } from "./types"
+import { type IPlacemarkCurrent } from "./types"
 
+import { clg } from "@console"
 import { TYPE_ICON, TYPE_ICON_URGENT } from "./constants"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
-import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
 import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, useFiltersServices } from "@/store"
 
 function ListPlacemark() {
@@ -16,82 +16,72 @@ function ListPlacemark() {
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
   const providers = useFiltersServices(({ providers }) => providers)
 
-  const marks: IPlacemarkCurrent[] = useMemo(() => {
-    const array: IPlacemarkCurrent[] = []
+  // useEffect(() => {
+  //   if (itemsOffers.length > 0) {
+  //     setTimeout(() => {
+  //       const elements = document.querySelector(".ymaps-2-1-79-placemark-overlay")
 
-    if (itemsOffers && Array.isArray(itemsOffers)) {
-      itemsOffers
-        ?.filter((item) => Array.isArray(item?.addresses) && item?.addresses?.length)
-        ?.forEach((item) => {
-          const coordinates: [number, number][] = item?.addresses?.map((_item) => {
-            if (_item.coordinates) {
-              const split = _item.coordinates.split(" ")
-              return [Number(split[0]), Number(split[1])]
-            }
-            return [0, 0]
-          })
+  //       let div = document.createElement("div")
 
-          if (timesFilter === EnumTimesFilter.ALL) {
-            array.push({
-              coordinates: coordinates,
-              offer: item,
-            })
-          } else {
-            const day = 86_400_000
-            const week = day * 7
-            const month = day * 31
+  //       div.className = "div-alert-text"
+  //       div.innerHTML = `
+  //         <section>
+  //           <p>Привет, как ваши дела?</p>
+  //           <time>сегодня в 9:05</time>
+  //         </section>
+  //       `
 
-            const objTime = {
-              [EnumTimesFilter.DAYS]: day,
-              [EnumTimesFilter.WEEK]: week,
-              [EnumTimesFilter.MONTH]: month,
-            }
+  //       if (elements) {
+  //         elements.append(div)
+  //       }
 
-            const time = new Date(item.created).valueOf()
-            const now = new Date().valueOf()
-
-            if (time + objTime[timesFilter] - now > 0) {
-              array.push({
-                coordinates: coordinates,
-                offer: item,
-              })
-            }
-          }
-        })
-    }
-
-    return array
-  }, [itemsOffers, timesFilter, providers])
+  //       clg("elements: ", elements)
+  //     }, 5000)
+  //   }
+  // }, [itemsOffers])
 
   if (["all", EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(providers))
-    return marks.map((item) => (
-      <Placemark
-        key={`${item.offer.id}-${item.offer.provider}-list`}
-        geometry={item?.coordinates[0]}
-        modules={["geoObject.addon.balloon"]}
-        properties={{ ...item?.offer, type: item?.offer?.provider }}
-        options={{
-          iconLayout: "default#image",
-          iconImageHref: !!item?.offer?.urgent ? TYPE_ICON_URGENT[item?.offer?.provider!] : TYPE_ICON[item?.offer?.provider!],
-          iconImageSize: [18.92 * 2, 18.92 * 2.2],
-          zIndex: 45,
-          zIndexActive: 50,
-        }}
-        onClick={(event: any) => {
-          event.preventDefault()
-          event.stopPropagation()
-          if (item?.offer?.provider === EnumTypeProvider.offer) {
-            dispatchBallonOffer({ offer: item?.offer! })
-            return
-          } else if (item?.offer?.provider === EnumTypeProvider.discussion) {
-            dispatchBallonDiscussion({ offer: item?.offer! })
-            return
-          } else if (item?.offer?.provider === EnumTypeProvider.alert) {
-            dispatchBallonAlert({ offer: item?.offer! })
-          }
-        }}
-      />
-    ))
+    return itemsOffers.map((item) => {
+      const coordinates = item?.addresses?.[0]?.coordinates?.split(" ")?.map((_) => Number(_))
+
+      if (coordinates && Array.isArray(coordinates))
+        return (
+          <Placemark
+            key={`${item.id}-${item.provider}-list`}
+            geometry={coordinates}
+            modules={["geoObject.addon.balloon"]}
+            properties={{ ...item, type: item?.provider }}
+            options={{
+              iconLayout: "default#image",
+              iconImageHref: !!item?.urgent ? TYPE_ICON_URGENT[item?.provider!] : TYPE_ICON[item?.provider!],
+              iconImageSize: [18.92 * 2, 18.92 * 2.2],
+              zIndex: 45,
+              zIndexActive: 50,
+            }}
+            onClick={(event: any) => {
+              event.preventDefault()
+              event.stopPropagation()
+              if (item?.provider === EnumTypeProvider.offer) {
+                dispatchBallonOffer({ offer: item! })
+                return
+              } else if (item?.provider === EnumTypeProvider.discussion) {
+                dispatchBallonDiscussion({ offer: item! })
+                return
+              } else if (item?.provider === EnumTypeProvider.alert) {
+                dispatchBallonAlert({ offer: item! })
+              }
+            }}
+            onLoad={(event) => {
+              event.ready().then((_) => {
+                const {} = event ?? {}
+                clg("onLoad: ready", event.modules)
+              })
+            }}
+          />
+        )
+
+      return null
+    })
 
   return null
 }
