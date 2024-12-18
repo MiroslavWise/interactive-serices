@@ -25,7 +25,7 @@ export function mapSort<T = any>({ bounds, items }: IProps<T>) {
     const residue: T[] = []
 
     for (const item of offers) {
-      const coordinates = item?.addresses[0]?.coordinates?.split(" ")?.map(Number)?.filter(Boolean) ?? [0, 0]
+      const coordinates = item?.addresses?.[0]?.coordinates?.split(" ")?.map(Number)?.filter(Boolean) ?? [0, 0]
 
       const minNewCoords = b[0]
       const maxNewCoors = b[1]
@@ -43,7 +43,7 @@ export function mapSort<T = any>({ bounds, items }: IProps<T>) {
           obj[number] = [item]
         }
       } else {
-        const address = item?.addresses[0]
+        const address = item?.addresses?.[0]
         const coordinates = address?.coordinates?.split(" ")?.map(Number)?.filter(Boolean) ?? [0, 0]
         const d = distancePure({ bounds, mapPoint: coordinates })
 
