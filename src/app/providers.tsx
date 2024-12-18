@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic"
 import { type ReactNode, useEffect } from "react"
+import { NuqsAdapter } from "nuqs/adapters/next/app"
 
 import Containers from "@/context/Containers"
 import { WebSocketProvider, NextThemesProvider, QueryClientProviderContext } from "@/context"
@@ -31,15 +32,17 @@ export default ({ children }: { children: ReactNode }) => {
   }, [])
 
   return (
-    <YMapsProvider>
-      <NextThemesProvider>
-        <QueryClientProviderContext>
-          <WebSocketProvider>
-            {children}
-            <Containers />
-          </WebSocketProvider>
-        </QueryClientProviderContext>
-      </NextThemesProvider>
-    </YMapsProvider>
+    <NuqsAdapter>
+      <YMapsProvider>
+        <NextThemesProvider>
+          <QueryClientProviderContext>
+            <WebSocketProvider>
+              {children}
+              <Containers />
+            </WebSocketProvider>
+          </QueryClientProviderContext>
+        </NextThemesProvider>
+      </YMapsProvider>
+    </NuqsAdapter>
   )
 }

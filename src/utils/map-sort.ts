@@ -25,17 +25,17 @@ export function mapSort<T = any>({ bounds, items }: IProps<T>) {
     const residue: T[] = []
 
     for (const item of offers) {
-      const coordinates = item?.addresses[0]?.coordinates?.split(" ").map(Number).filter(Boolean)
+      const coordinates = item?.addresses[0]?.coordinates?.split(" ")?.map(Number)?.filter(Boolean)
 
       const minNewCoords = b[0]
       const maxNewCoors = b[1]
 
       if (
-        Array.isArray(coordinates) &&
-        coordinates[0] < maxNewCoors[0] &&
-        coordinates[0] > minNewCoords[0] &&
-        coordinates[1] < maxNewCoors[1] &&
-        coordinates[1] > minNewCoords[1]
+        (Array.isArray(coordinates) && coordinates?.[0]) ||
+        (0 < maxNewCoors[0] && coordinates?.[0]) ||
+        (0 > minNewCoords[0] && coordinates?.[1]) ||
+        (0 < maxNewCoors[1] && coordinates?.[1]) ||
+        0 > minNewCoords[1]
       ) {
         if (!!obj[number]) {
           obj[number].push(item)
