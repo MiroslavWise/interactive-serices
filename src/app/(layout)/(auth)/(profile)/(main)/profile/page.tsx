@@ -11,14 +11,7 @@ export default function MyProfilePage() {
   // const visible = useBanner(({ visible }) => visible)
 
   return (
-    <ul
-      className={cx(
-        main.wrapperInsideContainer,
-        // visible ? main.banner :
-        main.default,
-        "__container-profile-page__",
-      )}
-    >
+    <ul className={cx(main.wrapperInsideContainer, main.default, "__container-profile-page__")}>
       <MContainerAboutProfile />
       <ContainerAboutMe />
       <ContainerTagAndButton />
