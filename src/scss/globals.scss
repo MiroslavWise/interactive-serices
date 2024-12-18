@@ -16,6 +16,10 @@ html {
   -moz-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+
+  @media screen and (max-width: 360px) {
+    font-size: 75%;
+  }
 }
 
 body {
@@ -23,6 +27,14 @@ body {
   -webkit-tap-highlight-color: transparent;
   tap-highlight-color: transparent;
   background: var(--background);
+  overflow: hidden;
+  background: var(--BG-first);
+  height: 100vh;
+
+  @media screen and (max-width: 768px) {
+    height: 100dvh;
+    position: relative;
+  }
 }
 
 button {
