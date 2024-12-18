@@ -1,7 +1,7 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 import { type IPosts } from "@/services/posts/types"
 import { type IResponseOffers } from "@/services/offers/types"
@@ -38,6 +38,7 @@ export default function SearchCategory() {
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
   const visibleFilter = useFiltersScreen(({ visible }) => visible)
   const [input, setInput] = useState("")
+  const ref = useRef<HTMLInputElement>(null)
 
   const debouncedValue = useDebounce(search, 1250)
   const [valuesPosts, setValuesPosts] = useState<IPosts[]>([])
@@ -67,6 +68,14 @@ export default function SearchCategory() {
       }
     }
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (ref.current) {
+        ref.current.focus()
+      }
+    }, 250)
+  }, [])
 
   return (
     <div
@@ -104,8 +113,10 @@ export default function SearchCategory() {
               debouncedValue()
               setInput(event.target.value || "")
             }}
+            readOnly={!visible}
             required
             placeholder="Что Вы ищете"
+            ref={ref}
             className="h-3 rounded-3xl !pl-[2.625rem]"
           />
           <div className={cx("absolute w-5 h-5 left-3.5 top-1/2 -translate-y-1/2 pointer-events-none", "*:w-5 *:h-5")}>
