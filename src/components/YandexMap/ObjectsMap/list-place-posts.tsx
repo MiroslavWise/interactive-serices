@@ -1,25 +1,20 @@
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { Placemark } from "@pbe/react-yandex-maps"
+import { Placemark, useYMaps } from "@pbe/react-yandex-maps"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { type IPosts } from "@/services/posts/types"
-import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
 
 import { getPosts } from "@/services/posts"
-import { TYPE_ICON, TYPE_ICON_URGENT } from "./constants"
+import { iconPost } from "@/utils/map/icon-post"
 import { dispatchBallonPost, useFiltersServices, useUrgentFilter } from "@/store"
-import { EXCEPTION_POST_MAP } from "@/config/exception"
-// import { clg } from "@console"
-// import { TTypeInstantsMap } from "../types"
 
 interface IPlacemarkCurrent {
-  coordinates: [number, number][]
+  coordinates: number[]
   post: IPosts
 }
 
 function ListPlacePosts() {
-  const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
   const providers = useFiltersServices(({ providers }) => providers)
   const urgent = useUrgentFilter(({ urgent }) => urgent)
 
@@ -31,84 +26,46 @@ function ListPlacePosts() {
 
   const items = data || []
 
-  const marks: IPlacemarkCurrent[] = useMemo(() => {
-    const array: IPlacemarkCurrent[] = []
-
-    if (items && Array.isArray(items) && ["all", EnumTypeProvider.POST].includes(providers)) {
-      items?.forEach((item) => {
-        if (!Array.isArray(item.addresses) || item.addresses.length === 0 || EXCEPTION_POST_MAP.includes(item.id)) {
-          return
-        }
-        const coordinates: [number, number][] = item?.addresses?.map((_item) => {
-          if (_item.coordinates) {
-            const split = _item.coordinates.split(" ")
-            return [Number(split[0]), Number(split[1])]
-          }
-          return [0, 0]
-        })
-
-        if (timesFilter === EnumTimesFilter.ALL) {
-          array.push({
-            coordinates: coordinates,
-            post: item,
-          })
-        } else {
-          const day = 86_400_000
-          const week = day * 7
-          const month = day * 31
-
-          const objTime = {
-            [EnumTimesFilter.DAYS]: day,
-            [EnumTimesFilter.WEEK]: week,
-            [EnumTimesFilter.MONTH]: month,
-          }
-
-          const time = new Date(item.created).valueOf()
-          const now = new Date().valueOf()
-
-          if (time + objTime[timesFilter] - now > 0) {
-            array.push({
-              coordinates: coordinates,
-              post: item,
-            })
-          }
-        }
-      })
-    }
-
-    return array
-  }, [items, timesFilter, providers])
-
   if (["all", EnumTypeProvider.POST].includes(providers))
-    return marks.map((item) => <RefPlaceMark {...item} key={`${item.post.id}-${item.post.slug}-list`} />)
+    return items.map((item) => {
+      const coordinates = item?.addresses?.[0]?.coordinates?.split(" ")?.map(Number)
+
+      if (Array.isArray(coordinates)) return <RefPlaceMark coordinates={coordinates} post={item} key={`${item.id}-${item.slug}-list`} />
+
+      return null
+    })
 
   return null
 }
 
-const RefPlaceMark = (item: IPlacemarkCurrent) => (
-  <Placemark
-    defaultOptions={{
-      iconLayout: "default#image",
-      iconImageHref: item?.post?.urgent ? TYPE_ICON_URGENT[EnumTypeProvider.POST] : TYPE_ICON[EnumTypeProvider.POST],
-      iconImageSize: [18.92 * 2, 18.92 * 2.2],
-      zIndex: 45,
-      zIndexActive: 50,
-    }}
-    defaultProperties={{
-      ...item?.post,
-      type: "post",
-    }}
-    // instanceRef={instanceRef}
-    geometry={item?.coordinates[0]}
-    modules={["geoObject.addon.balloon"]}
-    id={`post-${item.post.id}`}
-    onClick={(event: any) => {
-      event.preventDefault()
-      event.stopPropagation()
-      dispatchBallonPost(item.post)
-    }}
-  />
-)
+const RefPlaceMark = (item: IPlacemarkCurrent) => {
+  const ymaps = useYMaps(["templateLayoutFactory", "layout.ImageWithContent"])
+
+  const temp = useMemo(() => {
+    if (!ymaps) return undefined
+
+    return ymaps.templateLayoutFactory.createClass(iconPost(item?.post?.title!, item?.post?.created!, item?.post?.id!))
+  }, [ymaps, item])
+
+  return (
+    <Placemark
+      options={{
+        iconLayout: temp,
+        iconImageSize: [18.92 * 2, 18.92 * 2.2],
+        zIndex: 45,
+        zIndexActive: 50,
+      }}
+      geometry={item?.coordinates}
+      modules={["geoObject.addon.balloon"]}
+      id={`post-${item.post.id}`}
+      onClick={(event: any) => {
+        event.preventDefault()
+        event.stopPropagation()
+        dispatchBallonPost(item.post)
+      }}
+    />
+  )
+}
 
 ListPlacePosts.displayName = "ListPlacePosts"
 export default ListPlacePosts

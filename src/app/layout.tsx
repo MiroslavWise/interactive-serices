@@ -169,6 +169,7 @@ export default ({ children }: PropsWithChildren) => (
               `,
         }}
       />
+      <Script src={`https://api-maps.yandex.ru/v3/?apikey=${env.api_key_yandex}&lang=ru_RU`} />
       <noscript>
         <div>
           <img

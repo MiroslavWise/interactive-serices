@@ -1,6 +1,7 @@
 "use client"
 
-import { useEffect, useCallback, useRef } from "react"
+import React, { useEffect, useCallback, useRef } from "react"
+import ReactDOM from "react-dom"
 import { Clusterer, Map } from "@pbe/react-yandex-maps"
 
 import { EnumSign } from "@/types/enum"
@@ -21,11 +22,11 @@ import {
   dispatchNewServicesBannerMap,
   dispatchCollapseServicesTrue,
 } from "@/store"
+import { clg } from "@console"
 import { useToast } from "@/helpers/hooks/useToast"
 import { MAX_ZOOM, MIN_ZOOM } from "@/helpers/constants"
 import { getAddressCoords } from "@/helpers/get-address"
 import { useStatusAuth } from "@/helpers/use-status-auth"
-import { clg } from "@console"
 
 const COORD = [37.427698, 55.725864]
 
@@ -126,12 +127,11 @@ function YandexMap() {
     }
   }, [])
 
-
-
   return (
     <>
       <HeaderMap />
       <Map
+        modules={["Placemark", "Map", "Clusterer"]}
         instanceRef={instanceRef}
         onContextMenu={onContextMenu}
         onDoubleClick={(e: any) => console.log("onDoubleClick: ", e)}
@@ -178,8 +178,6 @@ function YandexMap() {
             data: {},
           }}
           onClick={(event: any) => {
-            clg("event", event, "warning")
-
             const source = (event?._sourceEvent?.originalEvent?.target?.geometry?._coordinates as [number, number]) ?? undefined
 
             dispatchMapCoordinates({
@@ -199,3 +197,12 @@ function YandexMap() {
 
 YandexMap.displayName = "YandexMap"
 export default YandexMap
+
+// async function main() {
+//   const [ymaps3React] = await Promise.all([ymaps3.import("@yandex/ymaps3-reactify"), ymaps3.ready])
+
+//   const reactify = ymaps3React.reactify.bindTo(React, ReactDOM)
+//   // const { YMapClusterer, clusterByGrid } = reactify.module(await ymaps3.import("@yandex/ymaps3-clusterer"))
+
+//   return reactify
+// }
