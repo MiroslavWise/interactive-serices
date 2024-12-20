@@ -1,69 +1,67 @@
 "use client"
 
-import dynamic from "next/dynamic"
+import * as React from "react"
+import * as ReactDOM from "react-dom"
+import { dispatchBounds, dispatchMapCoordinates, useMapCoordinates } from "@/store"
+import { YMapLocationRequest } from "ymaps3"
+import { ReactifiedModule } from "@yandex/ymaps3-types/reactify/reactify"
 
-import MapSearch from "@/components/content/mobile/MapSearch"
-import Navigation from "@/components/content/mobile/Navigation"
-import { SearchAndFilters } from "@/components/content/SearchAndFilters"
-import { MobileFilterMap, ButtonCollapseServices, FiltersScreen } from "@/components/content"
+type ReactifiedApi = ReactifiedModule<typeof ymaps3>
 
-const YandexMap = dynamic(() => import("../../components/YandexMap"), {
-  ssr: false,
-  loading: () => <div className="--loader--empty-screen--" />,
-})
-const BannerSign = dynamic(() => import("@/components/content/BannerSign"))
-const BannerSearch = dynamic(() => import("@/components/content/BannerSearch"))
-const BannerServices = dynamic(() => import("@/components/content/BannerServices"))
-const SearchCategory = dynamic(() => import("@/components/content/mobile/SearchCategory"))
-import { ButtonNavigation } from "@/components/content/BannerSign/components/ButtonNavigation"
+import Clusters from "@/components/YandexMap/Clusters"
+import { useTheme } from "next-themes"
+import { clg } from "@console"
 
-import { EStatusAuth } from "@/store"
-import { useResize } from "@/helpers"
-import useUtm from "@/helpers/use-utm"
-import env from "@/config/environment"
-import { useStatusAuth } from "@/helpers/use-status-auth"
+const COORD = [37.427698, 55.725864]
 
 export default () => {
-  useUtm()
-  const statusAuth = useStatusAuth()
-  const { isTablet } = useResize()
+  const zoom = useMapCoordinates(({ zoom }) => zoom)
+  const { systemTheme } = useTheme()
+  const coordinates = useMapCoordinates(({ coordinates }) => coordinates)
+  const [reactifiedApi, setReactifiedApi] = React.useState<ReactifiedApi>()
+
+  React.useEffect(() => {
+    ymaps3.ready.then(() => {
+      ymaps3.import.registerCdn("https://cdn.jsdelivr.net/npm/{package}", "@yandex/ymaps3-clusterer@0.0")
+    })
+
+    Promise.all([ymaps3.import("@yandex/ymaps3-reactify"), ymaps3.ready]).then(async ([{ reactify }]) => {
+      setReactifiedApi(reactify.bindTo(React, ReactDOM).module(ymaps3))
+    })
+  }, [])
+
+  if (!reactifiedApi) return null
+
+  const { YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapListener } = reactifiedApi ?? {}
 
   return (
-    <>
-      <main className="relative flex flex-col items-center justify-between h-full w-full overflow-hidden bg-transparent z-20">
-        <YandexMap />
-        {statusAuth === EStatusAuth.AUTHORIZED && !isTablet && <BannerSign />}
-        {isTablet ? (
-          <>
-            <MobileFilterMap />
-            <MapSearch />
-            <Navigation />
-            <SearchCategory />
-          </>
-        ) : (
-          <>
-            <ButtonNavigation />
-            <BannerSearch />
-            <FiltersScreen />
-            <SearchAndFilters />
-            <BannerServices />
-            <ButtonCollapseServices />
-          </>
-        )}
-      </main>
-      <div
-        itemScope
-        itemType="https://schema.org/WebPage"
-        className="fixed -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-2 max-w-96 opacity-0"
-      >
-        <meta itemProp="serviceType" content="Услуги, активность, обсуждения и срочные сообщения" />
-        <h1 itemProp="name">Sheira. Люди, события, услуги</h1>
-        <p itemProp="description">
-          Sheira - сервис с интерактивной картой городов. Обычные люди размещают здесь свои услуги для обмена и продажи, обсуждают важные
-          вопросы и сообщают о локальных проблемах.
-        </p>
-        <a itemProp="url" href={env.server.host} />
-      </div>
-    </>
+    <YMap
+      className="w-full h-full"
+      location={
+        {
+          center: coordinates || COORD,
+          zoom: zoom,
+        } as YMapLocationRequest
+      }
+      theme={systemTheme}
+    >
+      <Clusters />
+      <YMapDefaultSchemeLayer />
+      <YMapDefaultFeaturesLayer />
+      <YMapListener
+        onActionEnd={(event) => {
+          const { location } = event ?? {}
+          const { bounds, center, zoom } = location ?? {}
+
+          dispatchMapCoordinates({
+            coordinates: center as number[],
+            zoom: zoom,
+          })
+          dispatchBounds(bounds)
+
+          clg("YMapListener onActionEnd", event)
+        }}
+      />
+    </YMap>
   )
 }

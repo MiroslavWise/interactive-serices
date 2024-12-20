@@ -1,7 +1,8 @@
+import { LngLatBounds } from "ymaps3"
 import { distancePure } from "./distance"
 
 interface IProps<T = any> {
-  bounds: number[][]
+  bounds: number[][] | LngLatBounds
   items: T[]
 }
 
@@ -77,4 +78,4 @@ function hash(array: number[]) {
   return hash.toString(16)
 }
 
-export const JSONStringBounds = (bounds?: number[][]) => (bounds ? hash(bounds?.flat()) : undefined)
+export const JSONStringBounds = (bounds?: number[][] | LngLatBounds) => (bounds ? hash((bounds as number[][])?.flat()) : undefined)

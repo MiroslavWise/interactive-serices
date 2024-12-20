@@ -1,5 +1,7 @@
+import { LngLatBounds } from "ymaps3"
+
 interface IProps {
-  bounds: number[][]
+  bounds: number[][] | LngLatBounds
   mapPoint: number[]
 }
 

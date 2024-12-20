@@ -37,6 +37,7 @@ function YandexMap() {
   const instanceRef: TTypeInstantsMap = useRef()
   const bounds = useBounds(({ bounds }) => bounds)
   const { on } = useToast()
+  
 
   function onContextMenu(e: any) {
     console.log("onContextMenu: ", e)

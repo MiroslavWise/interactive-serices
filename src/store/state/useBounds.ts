@@ -1,4 +1,5 @@
 import { create } from "zustand"
+import { LngLatBounds } from "ymaps3"
 import { persist, createJSONStorage } from "zustand/middleware"
 
 export const useBounds = create(
@@ -8,11 +9,11 @@ export const useBounds = create(
   }),
 )
 
-export const dispatchBounds = (bounds: number[][] | undefined) =>
+export const dispatchBounds = (bounds: number[][] | undefined | LngLatBounds) =>
   useBounds.setState((_) => ({
     bounds: bounds ? bounds : _.bounds,
   }))
 
 interface IStateBounds {
-  bounds?: number[][]
+  bounds?: number[][] | LngLatBounds
 }
