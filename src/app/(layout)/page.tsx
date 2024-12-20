@@ -3,5 +3,7 @@
 import ContextMap from "@/components/YandexMap/ContextMap"
 
 export default () => {
-  return <ContextMap>Привет</ContextMap>
+  return <ContextMap>
+    
+  </ContextMap>
 }

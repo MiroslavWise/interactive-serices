@@ -6,6 +6,7 @@ import { useTheme } from "next-themes"
 // import { ReactifiedModule } from "@yandex/ymaps3-types/reactify"
 
 import { dispatchBounds, dispatchMapCoordinates, useMapCoordinates } from "@/store"
+import { clg } from "@console"
 
 // type ReactifiedApi = ReactifiedModule<typeof ymaps3>
 
@@ -18,14 +19,25 @@ function ContextMap({ children }: React.PropsWithChildren) {
   const [reactifiedApi, setReactifiedApi] = React.useState<any>()
 
   React.useEffect(() => {
-    Promise.all([ymaps3.import("@yandex/ymaps3-reactify"), ymaps3.ready]).then(([{ reactify }]) => {
-      setReactifiedApi(reactify.bindTo(React, ReactDOM).module(ymaps3))
+    const script = document.getElementById("yandex-3-0")
 
-      ymaps3.ready.then(() => {
+    if (script) {
+      script.onload = function (event) {
+        clg("script event: ", event)
+      }
+    }
+
+    Promise.all([ymaps3?.import("@yandex/ymaps3-reactify"), ymaps3?.ready]).then(([{ reactify }]) => {
+      if (reactify) {
+        const react = reactify.bindTo(React, ReactDOM)
+        // const cluster = react.module(await ymaps3.import("@yandex/ymaps3-clusterer"))
+        setReactifiedApi(react.module(ymaps3))
         ymaps3.import.registerCdn("https://cdn.jsdelivr.net/npm/{package}", "@yandex/ymaps3-clusterer@0.0")
-      })
+      }
     })
   }, [])
+
+  clg("reactifiedApi: ", reactifiedApi)
 
   if (!reactifiedApi) return children
 
