@@ -112,6 +112,8 @@ export function generateMetadata(): Metadata {
   return meta
 }
 
+var ymaps3 = null
+
 export default ({ children }: PropsWithChildren) => (
   <html lang="ru" suppressHydrationWarning>
     <head>
@@ -183,7 +185,7 @@ export default ({ children }: PropsWithChildren) => (
       <NextTopLoader />
       <Providers>{children}</Providers>
       <Script
-        src={`https://api-maps.yandex.ru/v3/?apikey=${env.api_key_yandex}&lang=ru_RU`}
+        src={`https://api-maps.yandex.ru/v3/?apikey=${env.api_key_yandex}&lang=ru_RU&ns=ymaps3`}
         strategy="beforeInteractive"
         type="text/javascript"
         id="yandex-3-0"

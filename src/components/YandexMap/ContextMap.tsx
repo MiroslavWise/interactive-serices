@@ -31,14 +31,11 @@ function ContextMap({ children }: React.PropsWithChildren) {
     Promise.all([ymaps3?.import("@yandex/ymaps3-reactify"), ymaps3?.ready]).then(([{ reactify }]) => {
       if (reactify) {
         const react = reactify.bindTo(React, ReactDOM)
-        // const cluster = react.module(await ymaps3.import("@yandex/ymaps3-clusterer"))
         setReactifiedApi(react.module(ymaps3))
         ymaps3.import.registerCdn("https://cdn.jsdelivr.net/npm/{package}", "@yandex/ymaps3-clusterer@0.0")
       }
     })
   }, [])
-
-  clg("reactifiedApi: ", reactifiedApi)
 
   if (!reactifiedApi) return null
 
