@@ -1,6 +1,7 @@
 "use client"
 
 import dynamic from "next/dynamic"
+import { YMaps } from "@pbe/react-yandex-maps"
 
 import MapSearch from "@/components/content/mobile/MapSearch"
 import Navigation from "@/components/content/mobile/Navigation"
@@ -31,7 +32,17 @@ export default () => {
   return (
     <>
       <main className="relative flex flex-col items-center justify-between h-full w-full overflow-hidden bg-transparent z-20">
-        <YandexMap />
+        <YMaps
+          query={{
+            apikey: env.api_key_yandex,
+            lang: "ru_RU",
+            coordorder: "longlat",
+            mode: "release",
+          }}
+          preload={true}
+        >
+          <YandexMap />
+        </YMaps>
         {statusAuth === EStatusAuth.AUTHORIZED && !isTablet && <BannerSign />}
         {isTablet ? (
           <>
