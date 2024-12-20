@@ -54,6 +54,10 @@ function ContextMap({ children }: React.PropsWithChildren) {
           } as any
         }
         theme={systemTheme}
+        zoomRange={{
+          min: 7,
+          max: 20,
+        }}
       >
         <YMapDefaultSchemeLayer />
         <YMapDefaultFeaturesLayer />

@@ -1,28 +1,37 @@
 "use client"
 
 import dynamic from "next/dynamic"
-const Clusters = dynamic(() => import("@/components/YandexMap/Clusters"), { ssr: false })
-const BannerSign = dynamic(() => import("@/components/content/BannerSign"), { ssr: false })
+
+import MapSearch from "@/components/content/mobile/MapSearch"
+import Navigation from "@/components/content/mobile/Navigation"
+import { SearchAndFilters } from "@/components/content/SearchAndFilters"
 import { MobileFilterMap, ButtonCollapseServices, FiltersScreen } from "@/components/content"
-const ContextMap = dynamic(() => import("@/components/YandexMap/ContextMap"), { ssr: false })
-const MapSearch = dynamic(() => import("@/components/content/mobile/MapSearch"), { ssr: false })
-const Navigation = dynamic(() => import("@/components/content/mobile/Navigation"), { ssr: false })
-const BannerServices = dynamic(() => import("@/components/content/BannerServices"), { ssr: false })
-const SearchAndFilters = dynamic(() => import("@/components/content/SearchAndFilters"), { ssr: false })
-const SearchCategory = dynamic(() => import("@/components/content/mobile/SearchCategory"), { ssr: false })
+
+const YandexMap = dynamic(() => import("../../components/YandexMap"), {
+  ssr: false,
+  loading: () => <div className="--loader--empty-screen--" />,
+})
+const BannerSign = dynamic(() => import("@/components/content/BannerSign"))
+const BannerSearch = dynamic(() => import("@/components/content/BannerSearch"))
+const BannerServices = dynamic(() => import("@/components/content/BannerServices"))
+const SearchCategory = dynamic(() => import("@/components/content/mobile/SearchCategory"))
+import { ButtonNavigation } from "@/components/content/BannerSign/components/ButtonNavigation"
 
 import { EStatusAuth } from "@/store"
 import { useResize } from "@/helpers"
+import useUtm from "@/helpers/use-utm"
 import env from "@/config/environment"
 import { useStatusAuth } from "@/helpers/use-status-auth"
 
 export default () => {
+  useUtm()
   const statusAuth = useStatusAuth()
   const { isTablet } = useResize()
 
   return (
     <>
       <main className="relative flex flex-col items-center justify-between h-full w-full overflow-hidden bg-transparent z-20">
+        <YandexMap />
         {statusAuth === EStatusAuth.AUTHORIZED && !isTablet && <BannerSign />}
         {isTablet ? (
           <>
@@ -33,14 +42,14 @@ export default () => {
           </>
         ) : (
           <>
+            <ButtonNavigation />
+            <BannerSearch />
+            <FiltersScreen />
             <SearchAndFilters />
             <BannerServices />
             <ButtonCollapseServices />
           </>
         )}
-        <ContextMap>
-          <Clusters />
-        </ContextMap>
       </main>
       <div
         itemScope
