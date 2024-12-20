@@ -7,6 +7,8 @@ import { YMaps } from "@pbe/react-yandex-maps"
 import env from "@/config/environment"
 
 function YMapsProvider({ children }: PropsWithChildren) {
+  // return children
+
   return (
     <YMaps
       query={{

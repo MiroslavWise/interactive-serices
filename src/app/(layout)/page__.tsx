@@ -3,13 +3,15 @@
 import dynamic from "next/dynamic"
 const Clusters = dynamic(() => import("@/components/YandexMap/Clusters"), { ssr: false })
 const BannerSign = dynamic(() => import("@/components/content/BannerSign"), { ssr: false })
-import { MobileFilterMap, ButtonCollapseServices, FiltersScreen } from "@/components/content"
 const ContextMap = dynamic(() => import("@/components/YandexMap/ContextMap"), { ssr: false })
+import { MobileFilterMap, ButtonCollapseServices, FiltersScreen } from "@/components/content"
+const BannerSearch = dynamic(() => import("@/components/content/BannerSearch"), { ssr: false })
 const MapSearch = dynamic(() => import("@/components/content/mobile/MapSearch"), { ssr: false })
 const Navigation = dynamic(() => import("@/components/content/mobile/Navigation"), { ssr: false })
 const BannerServices = dynamic(() => import("@/components/content/BannerServices"), { ssr: false })
 const SearchAndFilters = dynamic(() => import("@/components/content/SearchAndFilters"), { ssr: false })
 const SearchCategory = dynamic(() => import("@/components/content/mobile/SearchCategory"), { ssr: false })
+const ButtonNavigation = dynamic(() => import("@/components/content/BannerSign/components/ButtonNavigation"), { ssr: false })
 
 import { EStatusAuth } from "@/store"
 import { useResize } from "@/helpers"
@@ -33,6 +35,9 @@ export default () => {
           </>
         ) : (
           <>
+            <ButtonNavigation />
+            <BannerSearch />
+            <FiltersScreen />
             <SearchAndFilters />
             <BannerServices />
             <ButtonCollapseServices />

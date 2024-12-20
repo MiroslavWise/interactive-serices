@@ -12,8 +12,6 @@ import { clg } from "@console"
 
 type ReactifiedApi = ReactifiedModule<typeof ymaps3>
 
-const COORD = [37.427698, 55.725864]
-
 function ContextMap({ children }: React.PropsWithChildren) {
   const { systemTheme } = useTheme()
   const zoom = useMapCoordinates(({ zoom }) => zoom)
@@ -49,7 +47,7 @@ function ContextMap({ children }: React.PropsWithChildren) {
         className="w-full h-full"
         location={
           {
-            center: coordinates || COORD,
+            center: coordinates,
             zoom: zoom,
           } as any
         }

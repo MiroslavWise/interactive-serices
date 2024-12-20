@@ -9,6 +9,7 @@ import { iconOffer } from "@/utils/map/icon-offer"
 import { iconAlert } from "@/utils/map/icon-alert"
 import { iconDiscussion } from "@/utils/map/icon-discussion"
 import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer } from "@/store"
+import { TYPE_ICON, TYPE_ICON_URGENT } from "./constants"
 
 function Place(item: IResponseOffers) {
   const coordinates = item?.addresses?.[0]?.coordinates?.split(" ")?.map((_) => Number(_))
@@ -36,7 +37,9 @@ function Place(item: IResponseOffers) {
         instanceRef={(ref) => ref.events.add("click", (event) => clg("click", event))}
         modules={["geoObject.addon.balloon"]}
         options={{
-          iconLayout: temp,
+          iconLayout: "default#image",
+          iconImageHref: !!item?.urgent ? TYPE_ICON_URGENT[item?.provider!] : TYPE_ICON[item?.provider!],
+          // iconLayout: temp,
           cursor: "pointer",
           iconImageSize: [18.92 * 2, 18.92 * 2.2],
           zIndex: 45,

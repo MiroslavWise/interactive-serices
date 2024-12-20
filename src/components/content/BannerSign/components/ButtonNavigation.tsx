@@ -73,3 +73,5 @@ export const ButtonNavigation = () => {
     </div>
   )
 }
+ButtonNavigation.displayName = "ButtonNavigation"
+export default ButtonNavigation
