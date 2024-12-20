@@ -75,7 +75,7 @@ function Clusters() {
                   }
                 }}
               />
-              <div className="div-alert-text absolute w-max flex left-0 top-1/2 pointer-events-none">
+              <div className="div-alert-text absolute w-max flex left-0 top-1/2 pointer-events-none translate-x-3.5 -translate-y-1/2">
                 <section className="flex flex-col h-11">
                   <p className="text-[#000] line-clamp-1 text-ellipsis text-sm font-medium">{title}</p>
                   <time className="text-text-secondary text-[0.8125rem] font-normal leading-4">{fromNow(created ?? "")}</time>
