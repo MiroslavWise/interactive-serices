@@ -1,64 +1,7 @@
 "use client"
 
-import * as React from "react"
-import * as ReactDOM from "react-dom"
-import { useTheme } from "next-themes"
-import { YMapLocationRequest } from "ymaps3"
-import { ReactifiedModule } from "@yandex/ymaps3-types/reactify/reactify"
-
-// import Clusters from "@/components/YandexMap/Clusters"
-
-import { dispatchBounds, dispatchMapCoordinates, useMapCoordinates } from "@/store"
-
-type ReactifiedApi = ReactifiedModule<typeof ymaps3>
-
-const COORD = [37.427698, 55.725864]
+import ContextMap from "@/components/YandexMap/ContextMap"
 
 export default () => {
-  const zoom = useMapCoordinates(({ zoom }) => zoom)
-  const { systemTheme } = useTheme()
-  const coordinates = useMapCoordinates(({ coordinates }) => coordinates)
-  const [reactifiedApi, setReactifiedApi] = React.useState<ReactifiedApi>()
-
-  React.useEffect(() => {
-    Promise.all([ymaps3.import("@yandex/ymaps3-reactify"), ymaps3.ready]).then(([{ reactify }]) => {
-      setReactifiedApi(reactify.bindTo(React, ReactDOM).module(ymaps3))
-
-      ymaps3.ready.then(() => {
-        ymaps3.import.registerCdn("https://cdn.jsdelivr.net/npm/{package}", "@yandex/ymaps3-clusterer@0.0")
-      })
-    })
-  }, [])
-
-  if (!reactifiedApi) return null
-
-  const { YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapListener } = reactifiedApi ?? {}
-
-  return (
-    <YMap
-      className="w-full h-full"
-      location={
-        {
-          center: coordinates || COORD,
-          zoom: zoom,
-        } as YMapLocationRequest
-      }
-      theme={systemTheme}
-    >
-      {/* <Clusters /> */}
-      <YMapDefaultSchemeLayer />
-      <YMapDefaultFeaturesLayer />
-      <YMapListener
-        onActionEnd={(event) => {
-          const { location } = event ?? {}
-          const { bounds, center, zoom } = location ?? {}
-          dispatchMapCoordinates({
-            coordinates: center as number[],
-            zoom: zoom,
-          })
-          dispatchBounds(bounds)
-        }}
-      />
-    </YMap>
-  )
+  return <ContextMap>Привет</ContextMap>
 }
