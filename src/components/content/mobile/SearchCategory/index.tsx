@@ -69,16 +69,6 @@ export default function SearchCategory() {
     }
   }
 
-  useEffect(() => {
-    if (visible) {
-      setTimeout(() => {
-        if (ref.current) {
-          ref.current.focus()
-        }
-      }, 250)
-    }
-  }, [visible])
-
   return (
     <div
       className={cx(
@@ -107,7 +97,6 @@ export default function SearchCategory() {
           <input
             type="text"
             onClick={(event) => {
-              event.stopPropagation()
               dispatchMobileSearchCategoryVisible(true)
             }}
             value={input}

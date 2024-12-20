@@ -5,8 +5,8 @@ import { EnumTypeProvider } from "@/types/enum"
 
 import Offer from "./offer"
 import Alert from "./alert"
+import Posts from "./posts"
 import Discussion from "./discussion"
-import { NextImageMotion } from "@/components/common"
 
 interface IProps {
   image?: IImageData
@@ -18,6 +18,7 @@ const prov = new Map([
   [EnumTypeProvider.discussion, (image?: IImageData) => <Discussion image={image} />],
   [EnumTypeProvider.offer, (image?: IImageData) => <Offer image={image} />],
   [EnumTypeProvider.alert, (image?: IImageData) => <Alert image={image} />],
+  [EnumTypeProvider.POST, (image?: IImageData) => <Posts image={image} />],
 ])
 
 const icon = (value: EnumTypeProvider) => (prov.has(value!) ? prov.get(value!)! : (image?: IImageData) => null)

@@ -17,6 +17,7 @@ import { EStatusAuth } from "@/store"
 import { useResize } from "@/helpers"
 import env from "@/config/environment"
 import { useStatusAuth } from "@/helpers/use-status-auth"
+import MarkerPosts from "@/components/YandexMap/MarkerPosts"
 
 export default () => {
   const statusAuth = useStatusAuth()
@@ -44,6 +45,7 @@ export default () => {
           </>
         )}
         <ContextMap>
+          <MarkerPosts />
           <Clusters />
         </ContextMap>
       </main>
