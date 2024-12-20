@@ -17,6 +17,7 @@ function BannerSign() {
       <button
         data-collapse={visible}
         className={cx(
+          "max-md:!hidden",
           styles.button,
           "fixed left-0 w-8 h-8 rounded-full border-none outline-none z-[60] p-2.5 flex items-center justify-center bg-BG-second",
           "top-[calc(var(--height-header-nav-bar)_+_2.75rem)]",

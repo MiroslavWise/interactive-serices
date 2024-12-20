@@ -3,12 +3,14 @@
 import * as React from "react"
 import * as ReactDOM from "react-dom"
 import { useTheme } from "next-themes"
-// import { ReactifiedModule } from "@yandex/ymaps3-types/reactify"
+import { ReactifiedModule } from "@yandex/ymaps3-types/reactify"
+
+const create = React.createContext({})
 
 import { dispatchBounds, dispatchMapCoordinates, useMapCoordinates } from "@/store"
 import { clg } from "@console"
 
-// type ReactifiedApi = ReactifiedModule<typeof ymaps3>
+type ReactifiedApi = ReactifiedModule<typeof ymaps3>
 
 const COORD = [37.427698, 55.725864]
 
@@ -16,7 +18,7 @@ function ContextMap({ children }: React.PropsWithChildren) {
   const { systemTheme } = useTheme()
   const zoom = useMapCoordinates(({ zoom }) => zoom)
   const coordinates = useMapCoordinates(({ coordinates }) => coordinates)
-  const [reactifiedApi, setReactifiedApi] = React.useState<any>()
+  const [reactifiedApi, setReactifiedApi] = React.useState<ReactifiedApi>()
 
   React.useEffect(() => {
     const script = document.getElementById("yandex-3-0")
@@ -42,31 +44,33 @@ function ContextMap({ children }: React.PropsWithChildren) {
   const { YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapListener } = reactifiedApi ?? {}
 
   return (
-    <YMap
-      className="w-full h-full"
-      location={
-        {
-          center: coordinates || COORD,
-          zoom: zoom,
-        } as any
-      }
-      theme={systemTheme}
-    >
-      <YMapDefaultSchemeLayer />
-      <YMapDefaultFeaturesLayer />
-      {children}
-      <YMapListener
-        onActionEnd={(event: any) => {
-          const { location } = event ?? {}
-          const { bounds, center, zoom } = location ?? {}
-          dispatchMapCoordinates({
-            coordinates: center as number[],
+    <create.Provider value={{}}>
+      <YMap
+        className="w-full h-full"
+        location={
+          {
+            center: coordinates || COORD,
             zoom: zoom,
-          })
-          dispatchBounds(bounds)
-        }}
-      />
-    </YMap>
+          } as any
+        }
+        theme={systemTheme}
+      >
+        <YMapDefaultSchemeLayer />
+        <YMapDefaultFeaturesLayer />
+        {children}
+        <YMapListener
+          onActionEnd={(event: any) => {
+            const { location } = event ?? {}
+            const { bounds, center, zoom } = location ?? {}
+            dispatchMapCoordinates({
+              coordinates: center as number[],
+              zoom: zoom,
+            })
+            dispatchBounds(bounds)
+          }}
+        />
+      </YMap>
+    </create.Provider>
   )
 }
 
