@@ -4,17 +4,17 @@ export default () => (
       d="M15.8346 10H4.16797"
       stroke="var(--text-primary)"
       className="stroke-text-primary"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M10.0013 15.8346L4.16797 10.0013L10.0013 4.16797"
       stroke="var(--text-primary)"
       className="stroke-text-primary"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 )

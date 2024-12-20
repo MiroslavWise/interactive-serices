@@ -115,7 +115,6 @@ export function generateMetadata(): Metadata {
 export default ({ children }: PropsWithChildren) => (
   <html lang="ru" suppressHydrationWarning>
     <head>
-      <Script src={`https://api-maps.yandex.ru/v3/?apikey=${env.api_key_yandex}&lang=ru_RU`} strategy="beforeInteractive" />
       <link rel="preconnect" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}`} />
       <link rel="canonical" key="canonical" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}/categories`} />
       <Script
@@ -183,6 +182,11 @@ export default ({ children }: PropsWithChildren) => (
     <body className={cx(inter.className, inter.variable)} id="body-layout" suppressHydrationWarning>
       <NextTopLoader />
       <Providers>{children}</Providers>
+      <Script
+        src={`https://api-maps.yandex.ru/v3/?apikey=${env.api_key_yandex}&lang=ru_RU`}
+        // strategy="beforeInteractive"
+        type="text/javascript"
+      />
     </body>
   </html>
 )

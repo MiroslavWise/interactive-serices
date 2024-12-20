@@ -28,11 +28,11 @@ function ItemMessage({ message }: { message: IMessages }) {
         >
           {isRead ? (
             <>
-              <path d="M9.5 12.5L18.5 3.5" stroke="var(--text-accent)" className="stroke-text-accent" stroke-width="1.5" />
-              <path d="M2 8.5L5.5 12L14 3.5" stroke="var(--text-accent)" className="stroke-text-accent" stroke-width="1.5" />
+              <path d="M9.5 12.5L18.5 3.5" stroke="var(--text-accent)" className="stroke-text-accent" strokeWidth="1.5" />
+              <path d="M2 8.5L5.5 12L14 3.5" stroke="var(--text-accent)" className="stroke-text-accent" strokeWidth="1.5" />
             </>
           ) : (
-            <path d="M6 8.5L9.5 12L18 3.5" stroke="var(--text-accent)" className="stroke-text-accent" stroke-width="1.5" />
+            <path d="M6 8.5L9.5 12L18 3.5" stroke="var(--text-accent)" className="stroke-text-accent" strokeWidth="1.5" />
           )}
         </svg>
       </div>
@@ -57,11 +57,11 @@ function ItemMessage({ message }: { message: IMessages }) {
           >
             {isRead ? (
               <>
-                <path d="M9.5 12.5L18.5 3.5" stroke="var(--text-button)" className="stroke-text-button" stroke-width="1.5" />
-                <path d="M2 8.5L5.5 12L14 3.5" stroke="var(--text-button)" className="stroke-text-button" stroke-width="1.5" />
+                <path d="M9.5 12.5L18.5 3.5" stroke="var(--text-button)" className="stroke-text-button" strokeWidth="1.5" />
+                <path d="M2 8.5L5.5 12L14 3.5" stroke="var(--text-button)" className="stroke-text-button" strokeWidth="1.5" />
               </>
             ) : (
-              <path d="M6 8.5L9.5 12L18 3.5" stroke="var(--text-button)" className="stroke-text-button" stroke-width="1.5" />
+              <path d="M6 8.5L9.5 12L18 3.5" stroke="var(--text-button)" className="stroke-text-button" strokeWidth="1.5" />
             )}
           </svg>
         </div>

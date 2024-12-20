@@ -74,7 +74,7 @@ function ControlHelp({ control }: IProps) {
               fill="none"
               className="w-4 h-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             >
-              <g clip-path="url(#clip0_8188_181359)">
+              <g clipPath="url(#clip0_8188_181359)">
                 <path
                   d="M7.9987 14.6663C11.6806 14.6663 14.6654 11.6816 14.6654 7.99967C14.6654 4.31778 11.6806 1.33301 7.9987 1.33301C4.3168 1.33301 1.33203 4.31778 1.33203 7.99967C1.33203 11.6816 4.3168 14.6663 7.9987 14.6663Z"
                   stroke="var(--text-disabled)"

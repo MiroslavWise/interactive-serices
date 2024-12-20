@@ -6,6 +6,7 @@ import { EnumTypeProvider } from "@/types/enum"
 import Offer from "./offer"
 import Alert from "./alert"
 import Discussion from "./discussion"
+import { NextImageMotion } from "@/components/common"
 
 interface IProps {
   image?: IImageData

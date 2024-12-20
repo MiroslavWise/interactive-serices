@@ -115,17 +115,17 @@ function FriendB({ user }: { user: IUserResponse }) {
               fill="var(--text-secondary)"
               stroke="var(--text-secondary)"
               className="fill-text-secondary stroke-text-secondary"
-              stroke-width="0.1"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="0.1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
             <path
               d="M17.959 13L14.5 17L12.5 15"
               stroke="var(--text-secondary)"
               className="stroke-text-secondary"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </>
         ) : (
@@ -135,25 +135,25 @@ function FriendB({ user }: { user: IUserResponse }) {
               fill="var(--text-secondary)"
               stroke="var(--text-secondary)"
               className={cx(loading ? "!fill-text-disabled !stroke-text-disabled" : "!fill-text-secondary !stroke-text-secondary")}
-              stroke-width="0.1"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="0.1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
             <path
               d="M18.8729 14.9872L13.5848 15.0129"
               stroke="var(--text-secondary)"
               className={cx(loading ? "!stroke-text-disabled" : "!stroke-text-secondary")}
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
             <path
               d="M16.1984 12.3556L16.262 17.6434"
               stroke="var(--text-secondary)"
               className={cx(loading ? "!stroke-text-disabled" : "!stroke-text-secondary")}
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </>
         )}
