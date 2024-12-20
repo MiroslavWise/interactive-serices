@@ -184,7 +184,7 @@ export default ({ children }: PropsWithChildren) => (
       <Providers>{children}</Providers>
       <Script
         src={`https://api-maps.yandex.ru/v3/?apikey=${env.api_key_yandex}&lang=ru_RU`}
-        // strategy="beforeInteractive"
+        strategy="beforeInteractive"
         type="text/javascript"
         id="yandex-3-0"
       />

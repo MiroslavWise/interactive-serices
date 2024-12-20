@@ -21,6 +21,7 @@ function ContextMap({ children }: React.PropsWithChildren) {
   React.useEffect(() => {
     const script = document.getElementById("yandex-3-0")
 
+    clg("script event: ", script)
     if (script) {
       script.onload = function (event) {
         clg("script event: ", event)
@@ -39,7 +40,7 @@ function ContextMap({ children }: React.PropsWithChildren) {
 
   clg("reactifiedApi: ", reactifiedApi)
 
-  if (!reactifiedApi) return children
+  if (!reactifiedApi) return null
 
   const { YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapListener } = reactifiedApi ?? {}
 
