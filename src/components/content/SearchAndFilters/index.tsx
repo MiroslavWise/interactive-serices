@@ -73,3 +73,6 @@ export const SearchAndFilters = () => {
     </div>
   )
 }
+
+SearchAndFilters.displayName = "SearchAndFilters"
+export default SearchAndFilters
