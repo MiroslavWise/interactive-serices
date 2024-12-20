@@ -2,15 +2,17 @@
 
 import * as React from "react"
 import * as ReactDOM from "react-dom"
-import { dispatchBounds, dispatchMapCoordinates, useMapCoordinates } from "@/store"
+import { useTheme } from "next-themes"
 import { YMapLocationRequest } from "ymaps3"
+
+import Clusters from "@/components/YandexMap/Clusters"
+
+import { clg } from "@console"
+import { dispatchBounds, dispatchMapCoordinates, useMapCoordinates } from "@/store"
 import { ReactifiedModule } from "@yandex/ymaps3-types/reactify/reactify"
 
 type ReactifiedApi = ReactifiedModule<typeof ymaps3>
 
-import Clusters from "@/components/YandexMap/Clusters"
-import { useTheme } from "next-themes"
-import { clg } from "@console"
 
 const COORD = [37.427698, 55.725864]
 
