@@ -35,14 +35,14 @@ function FooterNewNote() {
 
   if (isBecomeMember && !userId) {
     return (
-      <footer className="flex flex-col gap-2.5 items-center justify-center my-auto fixed md:absolute bottom-0 left-0 right-0 bg-BG-second md:rounded-b-2 border-t border-solid border-grey-stroke-light">
-        <h4 className="text-text-primary text-lg font-semibold text-center">Желаете стать участником события?</h4>
+      <footer className="flex flex-col gap-0.5 items-center justify-center my-auto fixed md:absolute bottom-0 left-0 right-0 bg-BG-second md:rounded-b-2 border-t border-solid border-grey-stroke-light">
+        <h4 className="text-text-primary text-base font-medium text-center">Желаете стать участником события?</h4>
         <p className="text-text-secondary text-center text-sm font-normal">
-          <a onClick={() => dispatchAuthModal({ visible: true, type: EnumSign.SignIn })} className="text-element-accent-1">
+          <a onClick={() => dispatchAuthModal({ visible: true, type: EnumSign.SignIn })} className="text-element-accent-1 cursor-pointer">
             Войдите
           </a>{" "}
           или{" "}
-          <a onClick={() => dispatchAuthModal({ visible: true, type: EnumSign.SignUp })} className="text-element-accent-1">
+          <a onClick={() => dispatchAuthModal({ visible: true, type: EnumSign.SignUp })} className="text-element-accent-1 cursor-pointer">
             зарегистрируйтесь
           </a>
         </p>
@@ -50,7 +50,15 @@ function FooterNewNote() {
     )
   }
 
-  if (isBecomeMember && !is) {
+  if (archive) {
+    return (
+      <footer className="fixed md:absolute bottom-0 left-0 right-0 bg-BG-second p-5 pt-2.5 md:rounded-b-2 flex opacity-100 visible z-40 items-center justify-center border-t border-solid border-grey-stroke-light">
+        <span className="text-text-secondary text-sm font-normal">Пост в архиве</span>
+      </footer>
+    )
+  }
+
+  if (isBecomeMember) {
     return (
       <footer
         className={cx(
@@ -61,14 +69,14 @@ function FooterNewNote() {
         <Button
           type="button"
           typeButton="fill-primary"
-          label="Стать участником"
+          label={is ? "Вы уже участвуете" : "Стать участником"}
           onClick={async () => {
-            if (!!userId) {
-              if (!loading && !is && !isLoading) {
+            if (!!userId && !is) {
+              if (!loading && !isLoading) {
                 setLoading(true)
                 await patchPost(id!, {})
                 on({
-                  message: "Вы были добавлены в список учасников данного мероприятия",
+                  message: "Вы были добавлены в список участнитков данного мероприятия",
                 })
                 await refetch()
                 setLoading(false)
@@ -76,16 +84,8 @@ function FooterNewNote() {
             }
           }}
           loading={loading || isLoading}
-          disabled={loading || isLoading}
+          disabled={loading || isLoading || is}
         />
-      </footer>
-    )
-  }
-
-  if (archive) {
-    return (
-      <footer className="fixed md:absolute bottom-0 left-0 right-0 bg-BG-second p-5 pt-2.5 md:rounded-b-2 flex opacity-100 visible z-40 items-center justify-center border-t border-solid border-grey-stroke-light">
-        <span className="text-text-secondary text-sm font-normal">Пост в архиве</span>
       </footer>
     )
   }

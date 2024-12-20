@@ -6,12 +6,11 @@ import ComponentProfilePost from "./components/Profile"
 import ListCommentsPost from "./components/ListComments"
 import ContextComments from "./components/ContextComments"
 import NavigationNoteAndComments from "./components/Navigation"
+import ComponentParticipants from "./components/ComponentParticipants"
 
 import { cx } from "@/lib/cx"
 import { useBalloonPost } from "@/store"
-import ComponentHelper from "../Balloon/components/ComponentHelper"
 import { TTypeNavigatePost } from "./utils/schema"
-import ComponentParticipants from "./components/ComponentParticipants"
 
 function BallonPost() {
   const data = useBalloonPost(({ data }) => data)
@@ -29,16 +28,17 @@ function BallonPost() {
 
   return (
     <>
-      <ComponentHelper urgent={!!urgent} />
+      {/* <ComponentHelper urgent={!!urgent} /> */}
       <header
         className={cx(
           "w-full py-4 px-5 max-md:pr-16 grid  gap-2.5 border-b border-solid bg-card-yellow border-card-border-yellow",
           archive ? "grid-cols-[1.5rem_minmax(0,1fr)_5.6875rem]" : "grid-cols-[1.5rem_minmax(0,1fr)]",
-          !urgent && "rounded-t-3xl md:rounded-t-2",
+          // !urgent &&
+          "rounded-t-3xl md:rounded-t-2",
         )}
       >
         <div className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-6 *:h-6">
-          <IconPost />
+          {!!urgent ? <img src="/png/category/heart.png" width={26} height={26} alt="headrt" /> : <IconPost />}
         </div>
         <h3 className="text-xl font-semibold text-text-primary">{title || "Пост"}</h3>
         <div className={cx("py-1 px-3 h-6 rounded-xl bg-element-grey", archive ? "flex items-center justify-center" : "hidden")}>

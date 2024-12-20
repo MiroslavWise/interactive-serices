@@ -1,12 +1,12 @@
 "use client"
 
+import { parseAsStringEnum, useQueryState } from "nuqs"
 import { EnumTypeProvider } from "@/types/enum"
 import { type ISegmentValues } from "@/components/common/Segments/types"
 
 import { Segments } from "@/components/common/Segments"
 
 import { useResize } from "@/helpers"
-import { useProviderProfileOffer, dispatchProvider } from "@/store"
 
 const TABS = (isMobile: boolean): ISegmentValues<EnumTypeProvider>[] => [
   {
@@ -28,16 +28,21 @@ const TABS = (isMobile: boolean): ISegmentValues<EnumTypeProvider>[] => [
 ]
 
 export const ContainerTagAndButton = () => {
-  const stateProvider = useProviderProfileOffer(({ stateProvider }) => stateProvider)
   const { isMobile } = useResize()
+
+  const [state, setState] = useQueryState(
+    "type",
+    parseAsStringEnum<EnumTypeProvider>(Object.values(EnumTypeProvider)).withDefault(EnumTypeProvider.offer),
+  )
+
   return (
     <div className="w-full h-11 max-md:[&>article>li]:px-2.5">
       <Segments
         type="primary"
         VALUES={TABS(isMobile)}
-        active={TABS(isMobile).find((_) => _.value === stateProvider)!}
+        active={TABS(isMobile).find((_) => _.value === (state || EnumTypeProvider.offer))!}
         setActive={({ value }) => {
-          dispatchProvider(value)
+          setState(value)
         }}
       />
     </div>

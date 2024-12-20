@@ -5,17 +5,17 @@ export default () => (
       fill="var(--element-grey)"
       stroke="var(--element-grey)"
       className="fill-element-grey stroke-element-grey"
-      stroke-width="0.1"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="0.1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M17.959 13L14.5 17L12.5 15"
       stroke="var(--element-grey)"
       className="stroke-element-grey"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 )

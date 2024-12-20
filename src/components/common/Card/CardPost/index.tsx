@@ -20,7 +20,7 @@ interface IProps {
 }
 
 function CardPost({ post, className, ref }: IProps) {
-  const { title, user, notes = [], id, urgent } = post ?? {}
+  const { title, user, notes = [], id } = post ?? {}
 
   function handle() {
     dispatchBallonPost(post)
@@ -30,7 +30,7 @@ function CardPost({ post, className, ref }: IProps) {
 
   return (
     <article className={cx("w-full rounded-2xl cursor-pointer flex flex-col bg-card-yellow", className)} onClick={handle} ref={ref}>
-      <header
+      {/* <header
         className={cx(
           "[background:var(--more-red-gradient)] w-full py-1.5 px-2.5 flex-row gap-2 items-center justify-center rounded-t-2xl",
           !!urgent ? "flex" : "hidden",
@@ -40,11 +40,13 @@ function CardPost({ post, className, ref }: IProps) {
           <IconHelp />
         </div>
         <span className="text-text-button text-xs font-medium">Щедрое сердце</span>
-      </header>
+      </header> */}
       <section
         className={cx(
           "flex flex-col gap-3 p-4 w-full border-solid border-card-border-yellow",
-          !!urgent ? "border-l border-r border-b rounded-b-2xl" : "border rounded-2xl",
+          // !!urgent ?
+          // "border-l border-r border-b rounded-b-2xl" :
+          "border rounded-2xl",
         )}
       >
         <ComponentDots post={post} />

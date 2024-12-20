@@ -53,7 +53,7 @@ function FooterButton({ user }: { user: IUserResponse }) {
         aria-labelledby="Пожаловаться"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" className="w-5 h-5">
-          <g clip-path="url(#clip0_6305_23715)">
+          <g clipPath="url(#clip0_6305_23715)">
             <path
               d="M10.0845 5.58955C10.5405 5.58955 10.9102 5.95922 10.9102 6.41524V10.085C10.9102 10.541 10.5405 10.9106 10.0845 10.9106C9.62849 10.9106 9.25882 10.541 9.25882 10.085V6.41524C9.25882 5.95922 9.62849 5.58955 10.0845 5.58955Z"
               fill="var(--element-accent-1)"

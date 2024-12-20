@@ -25,7 +25,7 @@ export const Buttons = () => {
         type="button"
         label="Скачать приложение"
         typeButton="regular-primary"
-        className="px-4 w-min"
+        className="px-4 w-min max-2xl:[&>span]:hidden"
         prefixIcon={<IconDownloadApp />}
         onClick={() => dispatchDownloadApplication(true)}
       />
@@ -40,7 +40,7 @@ export const Buttons = () => {
       <Button
         label="Создать"
         typeButton="fill-primary"
-        className="min-w-[8.875rem]"
+        className="min-w-[8.875rem] max-2xl:[&>span]:hidden"
         suffixIcon={
           <div
             className={cx(

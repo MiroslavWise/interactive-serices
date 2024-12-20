@@ -1,5 +1,3 @@
-import { Dispatch } from "react"
-
 export interface IDispatchMapCoordinates {
   coordinates?: number[]
   zoom?: number

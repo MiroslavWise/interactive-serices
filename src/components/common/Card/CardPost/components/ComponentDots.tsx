@@ -42,6 +42,7 @@ function ComponentDots({ post }: IProps) {
       </article>
       <div className="relative h-4 w-4 border-none outline-none bg-transparent flex items-center justify-center z-[91]">
         <button
+         type="button"
           className="absolute bg-transparent border-none outline-none top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-8 w-8 z-50 *:h-4 *:w-4 flex items-center justify-center"
           ref={ref}
           onClick={(event) => {

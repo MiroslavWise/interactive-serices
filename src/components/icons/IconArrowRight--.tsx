@@ -7,6 +7,6 @@ export default () => (
       fill="var(--text-primary)"
       className="fill-text-primary"
     />
-    <path d="M17.5 2.5L17.5 17.5" stroke="var(--text-primary)" className="stroke-text-primary" stroke-width="1.5" stroke-linecap="round" />
+    <path d="M17.5 2.5L17.5 17.5" stroke="var(--text-primary)" className="stroke-text-primary" strokeWidth="1.5" strokeLinecap="round" />
   </svg>
 )

@@ -63,7 +63,7 @@ export const ContentCreatePassword = () => {
               if (response?.error.code === 400) {
                 setError("password", { message: functionAuthErrors(errorMessage) })
                 return
-              } else if ([401 || 403].includes(response?.error?.code! as number)) {
+              } else if ([401, 403].includes(response?.error?.code! as number)) {
                 on({ message: "Время восстановления пароля истекло" }, "warning")
                 handleReplace("/")
                 return

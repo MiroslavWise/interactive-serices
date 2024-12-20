@@ -2,6 +2,7 @@
   margin: 0 calc(1.5rem + 24.375rem + 1.5rem) 0 calc(17.5rem + 1.5rem + 1.5rem);
 
   @media screen and (max-width: 768px) {
+    padding-top: calc(var(--height-mobile-header) + 1rem);
     margin: 0;
   }
 }

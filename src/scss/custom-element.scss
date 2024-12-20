@@ -31,3 +31,13 @@
     }
   }
 }
+
+.div-alert-text {
+  max-width: 14.5rem;
+  z-index: -1;
+  padding-block: 0.25rem;
+  padding-right: 0.625rem;
+  padding-left: 1.3125rem;
+  border-radius: 0.625rem;
+  background-color: rgba(255, 255, 255, 0.88);
+}

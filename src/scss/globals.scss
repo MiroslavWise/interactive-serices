@@ -16,6 +16,10 @@ html {
   -moz-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+
+  @media screen and (max-width: 360px) {
+    font-size: 75%;
+  }
 }
 
 body {
@@ -23,6 +27,14 @@ body {
   -webkit-tap-highlight-color: transparent;
   tap-highlight-color: transparent;
   background: var(--background);
+  overflow: hidden;
+  background: var(--BG-first);
+  height: 100vh;
+
+  @media screen and (max-width: 768px) {
+    height: 100dvh;
+    position: relative;
+  }
 }
 
 button {
@@ -101,6 +113,7 @@ section {
 }
 
 input[type="text"],
+input[type="search"],
 input[type="submit"],
 input[type="tel"],
 textarea {
@@ -128,6 +141,7 @@ input[type="email"],
 input[type="password"],
 input[type="tel"],
 input[type="number"],
+input[type="search"],
 input[type="text"] {
   width: 100%;
   padding: 0.875rem 0.875rem;

@@ -4,30 +4,19 @@ import { memo, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { EnumTypeProvider } from "@/types/enum"
+import { IPosts } from "@/services/posts/types"
+import { IResponseOffers } from "@/services/offers/types"
 import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
 
 import { ServiceLoading } from "@/components/common"
+import EmptyArticle from "@/components/content/BannerSearch/components/EmptyArticle"
+import VirtualList from "@/components/content/BannerServices/components/VirtualList"
 
 import { getPosts } from "@/services/posts"
+import { UTILS_DATA_MAP } from "@/utils/utils-data-map"
+import { mapSort, JSONStringBounds } from "@/utils/map-sort"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import { useBounds, useFiltersScreen, useFiltersServices, useSearchFilters, useUrgentFilter } from "@/store"
-import { EXCEPTION_POST_MAP } from "@/config/exception"
-import { IPosts } from "@/services/posts/types"
-import { IResponseOffers } from "@/services/offers/types"
-import VirtualList from "@/components/content/BannerServices/components/VirtualList"
-import EmptyArticle from "@/components/content/BannerSearch/components/EmptyArticle"
-
-const DAY = 86_400_000
-const WEEK = DAY * 7
-const MONTH = DAY * 31
-const now = new Date().valueOf()
-const time = (created: string | Date) => new Date(created).valueOf()
-
-const OBJ_TIME = {
-  [EnumTimesFilter.DAYS]: DAY,
-  [EnumTimesFilter.WEEK]: WEEK,
-  [EnumTimesFilter.MONTH]: MONTH,
-}
 
 interface IProps {
   posts: IPosts[]
@@ -54,6 +43,8 @@ export const ServicesMobile = memo(({ posts, offers, isSearch, loading }: IProps
 
   const itemsPost = data ?? []
 
+  const stringBounds = JSONStringBounds(bounds)
+
   const itemsFilterPosts = useMemo(() => {
     if (!!idSearch || activeFilters.length > 0) {
       return []
@@ -64,35 +55,22 @@ export const ServicesMobile = memo(({ posts, offers, isSearch, loading }: IProps
     const items = isSearch && posts.length > 0 ? posts : !isSearch && itemsPost.length > 0 ? itemsPost : []
 
     if (bounds && items) {
-      const minCoords = bounds[0]
-      const maxCoors = bounds[1]
+      const newArray = mapSort({ bounds: bounds, items: items })
 
-      for (const item of items) {
-        if (!EXCEPTION_POST_MAP.includes(item.id)) {
-          if (item?.addresses && item?.addresses.length > 0) {
-            const coordinates = item?.addresses[0]?.coordinates?.split(" ").map(Number).filter(Boolean)
-            if (
-              coordinates[0] < maxCoors[0] &&
-              coordinates[0] > minCoords[0] &&
-              coordinates[1] < maxCoors[1] &&
-              coordinates[1] > minCoords[1]
-            ) {
-              if (timesFilter === EnumTimesFilter.ALL) {
-                array.push(item)
-              } else {
-                const time_ = time(item.created)
-                if (time_ + OBJ_TIME[timesFilter] - now > 0) {
-                  array.push(item)
-                }
-              }
-            }
+      for (const item of newArray) {
+        if (timesFilter === EnumTimesFilter.ALL) {
+          array.push(item)
+        } else {
+          const time_ = UTILS_DATA_MAP.time(item.created)
+          if (time_ + UTILS_DATA_MAP[timesFilter] - UTILS_DATA_MAP.now > 0) {
+            array.push(item)
           }
         }
       }
     }
 
     return array
-  }, [itemsPost, bounds, timesFilter, activeFilters, idSearch, posts, isSearch])
+  }, [itemsPost, stringBounds, timesFilter, activeFilters, idSearch, posts, isSearch])
 
   const items = useMemo(() => {
     const array: IResponseOffers[] = []
@@ -100,37 +78,22 @@ export const ServicesMobile = memo(({ posts, offers, isSearch, loading }: IProps
     const items = isSearch && offers.length > 0 ? offers : !isSearch && itemsOffers.length > 0 ? itemsOffers : []
 
     if (bounds && items) {
-      const minCoords = bounds[0]
-      const maxCoors = bounds[1]
+      const newSortMap = mapSort<IResponseOffers>({ bounds, items })
 
-      for (const item of items) {
-        if (item?.addresses) {
-          if (item?.addresses.length > 0) {
-            const coordinates = item?.addresses[0]?.coordinates?.split(" ").map(Number).filter(Boolean)
-            if (coordinates.length > 0) {
-              if (
-                coordinates[0] < maxCoors[0] &&
-                coordinates[0] > minCoords[0] &&
-                coordinates[1] < maxCoors[1] &&
-                coordinates[1] > minCoords[1]
-              ) {
-                if (timesFilter === EnumTimesFilter.ALL) {
-                  array.push(item)
-                } else {
-                  const time_ = time(item.created)
-                  if (time_ + OBJ_TIME[timesFilter] - now > 0) {
-                    array.push(item)
-                  }
-                }
-              }
-            }
+      for (const item of newSortMap) {
+        if (timesFilter === EnumTimesFilter.ALL) {
+          array.push(item)
+        } else {
+          const time_ = UTILS_DATA_MAP.time(item.created)
+          if (time_ + UTILS_DATA_MAP[timesFilter] - UTILS_DATA_MAP.now > 0) {
+            array.push(item)
           }
         }
       }
     }
 
     return array
-  }, [itemsOffers, bounds, timesFilter, idSearch, offers, isSearch])
+  }, [itemsOffers, stringBounds, timesFilter, idSearch, offers, isSearch])
 
   if ((isSearch && loading) || (!isSearch && (isLoading || isLoadingPost)))
     return (

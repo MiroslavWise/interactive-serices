@@ -26,7 +26,7 @@ function EmptyState() {
       <div className="w-[4.375rem] h-[4.375rem] rounded-full flex items-center justify-center p-[1.1875rem] bg-grey-field">
         {countNull > 0 ? (
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" className="w-8 h-8">
-            <g clip-path="url(#clip0_6838_181801)">
+            <g clipPath="url(#clip0_6838_181801)">
               <path
                 d="M31.7649 2.6467L30.1648 1.04684C29.8528 0.734589 29.3464 0.734344 29.0342 1.04636C29.0339 1.0466 29.0337 1.0466 29.0337 1.04684L19.4336 10.6467C19.2837 10.7969 19.1992 11.0002 19.1992 11.2124V12.8125C19.1992 13.2541 19.5574 13.6123 19.9993 13.6123H21.5994C21.8115 13.6123 22.0149 13.5281 22.1648 13.3782L31.7649 3.77805C32.0772 3.46579 32.0774 2.95969 31.7654 2.64719C31.7651 2.64719 31.7649 2.64694 31.7649 2.6467Z"
                 fill="#7471F8"
@@ -44,7 +44,7 @@ function EmptyState() {
           </svg>
         ) : select === EnumProviderThreads.BARTER ? (
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" className="w-8 h-8">
-            <g clip-path="url(#clip0_7333_11688)">
+            <g clipPath="url(#clip0_7333_11688)">
               <path
                 fill-rule="evenodd"
                 clip-rule="evenodd"
@@ -142,7 +142,7 @@ function EmptyState() {
           </svg>
         ) : (
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" className="w-8 h-8">
-            <g clip-path="url(#clip0_7233_137311)">
+            <g clipPath="url(#clip0_7233_137311)">
               <path
                 d="M31.7649 2.6467L30.1648 1.04684C29.8528 0.734589 29.3464 0.734344 29.0342 1.04636C29.0339 1.0466 29.0337 1.0466 29.0337 1.04684L19.4336 10.6467C19.2837 10.7969 19.1992 11.0002 19.1992 11.2124V12.8125C19.1992 13.2541 19.5574 13.6123 19.9993 13.6123H21.5994C21.8115 13.6123 22.0149 13.5281 22.1648 13.3782L31.7649 3.77805C32.0772 3.46579 32.0774 2.95969 31.7654 2.64719C31.7651 2.64719 31.7649 2.64694 31.7649 2.6467Z"
                 fill="#7471F8"

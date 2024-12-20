@@ -18,7 +18,7 @@ function LinkModerator({ pathname }: { pathname: string }) {
 
   const isModerator = useMemo(() => {
     for (const item of roles) {
-      if ([ETitleRole.Manager, ETitleRole.SuperAdmin].includes(item.title)) return true
+      if ([ETitleRole.Manager, ETitleRole.SuperAdmin, ETitleRole.Admin].includes(item.title)) return true
     }
 
     return false

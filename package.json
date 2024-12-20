@@ -12,8 +12,6 @@
     "make:3000": "make build-run PORT=3000",
     "start-dev": "next build && next start -p 3000",
     "export": "next build && npx serve@latest out -p 3000",
-    "pr:init": "npx prisma init --datasource-provider sqlite",
-    "pr:m": "npx prisma migrate dev --name init",
     "t:minify": "npx tailwindcss -o ./src/app/build.css --minify",
     "prod": "next lint --no-cache && npm run t:minify && next build && next start",
     "prod:server": "next lint --no-cache && npm run t:minify && next build && node .next/standalone/server.js",
@@ -28,9 +26,9 @@
     "blurhash-base64": "^0.0.3",
     "date-fns": "4.1.0",
     "next": "14.2.16",
-    "next-cloudinary": "^6.16.0",
     "next-themes": "0.3.0",
     "nextjs-toploader": "^3.7.15",
+    "nuqs": "^2.2.3",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-dropzone": "14.2.3",
@@ -42,8 +40,6 @@
     "server-only": "^0.0.1",
     "slug": "9.1.0",
     "socket.io-client": "4.8.0",
-    "yandex-maps": "^0.0.1",
-    "ymaps": "^0.2.1",
     "zod": "3.23.8",
     "zustand": "4.5.5"
   },
@@ -53,7 +49,8 @@
     "@types/react-dom": "18.2.25",
     "@types/slug": "^5.0.8",
     "@types/yandex-maps": "2.1.35",
-    "@yandex/ymaps3-types": "^0.0.15",
+    "@yandex/ymaps3-clusterer": "^0.0.10",
+    "@yandex/ymaps3-types": "^1.0.15542062",
     "autoprefixer": "^10.4.19",
     "cssnano": "^7.0.2",
     "eslint": "8.43.0",
@@ -62,7 +59,7 @@
     "postcss": "^8.4.38",
     "sass": "1.79.3",
     "tailwindcss": "3.4.13",
-    "typescript": "^5.1.5"
+    "typescript": "5.7.2"
   },
   "browserslist": [
     "defaults and supports es6-module",

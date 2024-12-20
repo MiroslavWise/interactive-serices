@@ -1,6 +1,6 @@
 export const IconNavigate = () => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-    <g clip-path="url(#clip0_3222_42754)">
+    <g clipPath="url(#clip0_3222_42754)">
       <path
         fill-rule="evenodd"
         clip-rule="evenodd"
