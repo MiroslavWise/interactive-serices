@@ -8,6 +8,7 @@ import { type IPosts } from "@/services/posts/types"
 import { getPosts } from "@/services/posts"
 import { iconPost } from "@/utils/map/icon-post"
 import { dispatchBallonPost, useFiltersServices, useUrgentFilter } from "@/store"
+import { TYPE_ICON, TYPE_ICON_URGENT } from "./constants"
 
 interface IPlacemarkCurrent {
   coordinates: number[]
@@ -50,7 +51,9 @@ const RefPlaceMark = (item: IPlacemarkCurrent) => {
   return (
     <Placemark
       options={{
-        iconLayout: temp,
+        // iconLayout: temp,
+        iconLayout: "default#image",
+        iconImageHref: item?.post?.urgent ? TYPE_ICON_URGENT[EnumTypeProvider.POST] : TYPE_ICON[EnumTypeProvider.POST],
         iconImageSize: [18.92 * 2, 18.92 * 2.2],
         zIndex: 45,
         zIndexActive: 50,
