@@ -75,7 +75,7 @@ function CardBallon({ offer, ref, className }: IProps) {
       }}
       ref={ref}
     >
-      <header
+      {/* <header
         className={cx(
           "[background:var(--more-red-gradient)] w-full py-1.5 px-2.5 flex-row gap-2 items-center justify-center rounded-t-2xl",
           !!urgent && provider !== EnumTypeProvider.offer ? "flex" : "hidden",
@@ -85,11 +85,12 @@ function CardBallon({ offer, ref, className }: IProps) {
           <IconHelp />
         </div>
         <span className="text-text-button text-xs font-medium">Щедрое сердце</span>
-      </header>
+      </header> */}
       <section
         className={cx(
           "w-full p-4 flex flex-col gap-3  border-solid",
-          !!urgent ? "border-r border-l border-b rounded-b-2xl" : "border rounded-2xl",
+          // !!urgent ? "border-r border-l border-b rounded-b-2xl" :
+          "border rounded-2xl",
           provider === EnumTypeProvider.offer && "border-grey-stroke-light",
           provider === EnumTypeProvider.alert && "border-card-border-red",
           provider === EnumTypeProvider.discussion && "border-card-border-blue",

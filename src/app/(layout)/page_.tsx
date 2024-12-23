@@ -1,23 +1,34 @@
+/**
+ *
+ * VERSION MAP 3.0
+ * @default version 3
+ *
+ */
+
 "use client"
 
 import dynamic from "next/dynamic"
-const Clusters = dynamic(() => import("@/components/YandexMap/Clusters"), { ssr: false })
-const BannerSign = dynamic(() => import("@/components/content/BannerSign"), { ssr: false })
-const ContextMap = dynamic(() => import("@/components/YandexMap/ContextMap"), { ssr: false })
+import { YMaps } from "@pbe/react-yandex-maps"
+
+import MapSearch from "@/components/content/mobile/MapSearch"
+import Navigation from "@/components/content/mobile/Navigation"
+import { SearchAndFilters } from "@/components/content/SearchAndFilters"
 import { MobileFilterMap, ButtonCollapseServices, FiltersScreen } from "@/components/content"
-const BannerSearch = dynamic(() => import("@/components/content/BannerSearch"), { ssr: false })
-const MapSearch = dynamic(() => import("@/components/content/mobile/MapSearch"), { ssr: false })
-const Navigation = dynamic(() => import("@/components/content/mobile/Navigation"), { ssr: false })
-const BannerServices = dynamic(() => import("@/components/content/BannerServices"), { ssr: false })
-const SearchAndFilters = dynamic(() => import("@/components/content/SearchAndFilters"), { ssr: false })
-const SearchCategory = dynamic(() => import("@/components/content/mobile/SearchCategory"), { ssr: false })
-const ButtonNavigation = dynamic(() => import("@/components/content/BannerSign/components/ButtonNavigation"), { ssr: false })
+
+const YandexMap = dynamic(() => import("../../components/YandexMap"), {
+  ssr: false,
+  loading: () => <div className="--loader--empty-screen--" />,
+})
+const BannerSign = dynamic(() => import("@/components/content/BannerSign"))
+const BannerSearch = dynamic(() => import("@/components/content/BannerSearch"))
+const BannerServices = dynamic(() => import("@/components/content/BannerServices"))
+const SearchCategory = dynamic(() => import("@/components/content/mobile/SearchCategory"))
+import { ButtonNavigation } from "@/components/content/BannerSign/components/ButtonNavigation"
 
 import { EStatusAuth } from "@/store"
 import { useResize } from "@/helpers"
 import env from "@/config/environment"
 import { useStatusAuth } from "@/helpers/use-status-auth"
-import MarkerPosts from "@/components/YandexMap/MarkerPosts"
 
 export default () => {
   const statusAuth = useStatusAuth()
@@ -26,6 +37,17 @@ export default () => {
   return (
     <>
       <main className="relative flex flex-col items-center justify-between h-full w-full overflow-hidden bg-transparent z-20">
+        <YMaps
+          query={{
+            apikey: env.api_key_yandex,
+            lang: "ru_RU",
+            coordorder: "longlat",
+            mode: "release",
+          }}
+          preload={true}
+        >
+          <YandexMap />
+        </YMaps>
         {statusAuth === EStatusAuth.AUTHORIZED && !isTablet && <BannerSign />}
         {isTablet ? (
           <>
@@ -44,10 +66,6 @@ export default () => {
             <ButtonCollapseServices />
           </>
         )}
-        <ContextMap>
-          <MarkerPosts />
-          <Clusters />
-        </ContextMap>
       </main>
       <div
         itemScope
