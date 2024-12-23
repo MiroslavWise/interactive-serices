@@ -98,6 +98,7 @@ export default function SearchCategory() {
           <input
             type="text"
             onClick={(event) => {
+              event.stopPropagation()
               dispatchMobileSearchCategoryVisible(true)
             }}
             value={input}
