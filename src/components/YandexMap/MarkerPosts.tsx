@@ -13,7 +13,14 @@ import IconMap from "../icons/map-svg/IconMap"
 import { fromNow } from "@/helpers"
 import { getPosts } from "@/services/posts"
 import { JSONStringBounds } from "@/utils/map-sort"
-import { dispatchBallonPost, dispatchMapZoomClick, useBounds, useFiltersServices, useUrgentFilter } from "@/store"
+import {
+  dispatchBallonPost,
+  dispatchCollapseServicesTrue,
+  dispatchMapZoomClick,
+  useBounds,
+  useFiltersServices,
+  useUrgentFilter,
+} from "@/store"
 import { IPosts } from "@/services/posts/types"
 import { cx } from "@/lib/cx"
 import IconPost from "../icons/IconPost"
@@ -23,7 +30,6 @@ type ReactifiedApi = ReactifiedModule<typeof ymaps3>
 type FeaturePost = Feature & { properties: IPosts }
 function MarkerPosts() {
   const bounds = useBounds(({ bounds }) => bounds)
-  const urgent = useUrgentFilter(({ urgent }) => urgent)
   const providers = useFiltersServices(({ providers }) => providers)
   const [reactifiedApi, setReactifiedApi] = React.useState<ReactifiedApi>()
   const [MapClusterer, setMapClusterer] = React.useState<any>()
@@ -106,9 +112,10 @@ function MarkerPosts() {
           event.stopPropagation()
           const { coordinates } = mapEvent ?? {}
           dispatchMapZoomClick(coordinates as number[])
+          dispatchCollapseServicesTrue()
         }}
       >
-        <div className="w-10 h-10 group rounded-full bg-BG-second flex items-center justify-center cursor-pointer absolute -translate-x-1/2 -translate-y-1/2 z-40 transition-colors border-2 border-BG-second hover:border-text-accent border-solid max-md:scale-75">
+        <div className="cluster-post w-10 h-10 group rounded-full bg-BG-second flex items-center justify-center cursor-pointer absolute -translate-x-1/2 -translate-y-1/2 z-40 transition-colors border-2 border-BG-second hover:border-text-accent border-solid max-md:scale-75">
           <span className="text-center text-text-primary text-sm">{features?.length}</span>
           <article className="absolute bg-BG-second top-1/2 -translate-y-1/2 left-9 max-w-80 w-max hidden flex-col gap-0.5 z-50 rounded-lg group-hover:flex px-1.5 py-3 overflow-x-hidden overflow-y-auto max-h-52">
             {features.map(({ id, properties, geometry }) => (
@@ -159,7 +166,7 @@ function MarkerPosts() {
           const coordinates = item?.addresses?.[0]?.coordinates?.split(" ")?.map((_) => Number(_)) ?? [0, 0]
 
           return {
-            type: "Post",
+            type: "Feature",
             id: `post-${item.id}`,
             geometry: {
               type: "Point",
