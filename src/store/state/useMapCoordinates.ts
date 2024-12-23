@@ -37,3 +37,12 @@ export const dispatchMapCoordinatesZoom = (zoom: number) =>
     }),
     true,
   )
+
+export const dispatchMapZoomClick = (value: number[], zoom?: number) =>
+  useMapCoordinates.setState(
+    (_) => ({
+      zoom: zoom ? zoom : _.zoom + 3,
+      coordinates: value ? value : _.coordinates,
+    }),
+    true,
+  )

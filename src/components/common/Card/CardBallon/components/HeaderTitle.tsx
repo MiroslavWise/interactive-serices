@@ -3,7 +3,6 @@ import { IResponseOffers } from "@/services/offers/types"
 
 import { ImageCategory } from "@/components/common/Image"
 
-import { cx } from "@/lib/cx"
 import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
 import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 

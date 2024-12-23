@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import * as ReactDOM from "react-dom"
-import {} from "@yandex/ymaps3-clusterer"
+import { Feature } from "@yandex/ymaps3-clusterer"
 import { ReactifiedModule } from "@yandex/ymaps3-types/reactify"
 
 import { EnumTypeProvider } from "@/types/enum"
@@ -10,23 +10,41 @@ import { type IResponseOffers } from "@/services/offers/types"
 
 import IconMap from "../icons/map-svg/IconMap"
 
+import {
+  useBounds,
+  useFiltersServices,
+  dispatchBallonOffer,
+  dispatchBallonAlert,
+  dispatchMapZoomClick,
+  dispatchBallonDiscussion,
+} from "@/store"
+import { cx } from "@/lib/cx"
 import { fromNow } from "@/helpers"
+import { ImageCategory } from "../common"
 import { JSONStringBounds } from "@/utils/map-sort"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
-import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, useBounds, useFiltersServices } from "@/store"
 
 type ReactifiedApi = ReactifiedModule<typeof ymaps3>
+type FeatureOffer = Feature & { properties: IResponseOffers }
 
 function Clusters() {
   const bounds = useBounds(({ bounds }) => bounds)
   const [reactifiedApi, setReactifiedApi] = React.useState<ReactifiedApi>()
+  const [MapClusterer, setMapClusterer] = React.useState<any>()
+  const [size, setSize] = React.useState<any>()
 
   React.useEffect(() => {
-    Promise.all([ymaps3.import("@yandex/ymaps3-reactify"), ymaps3.ready]).then(async ([{ reactify }]) => {
-      const react = reactify.bindTo(React, ReactDOM)
-
-      setReactifiedApi(react.module(ymaps3))
-    })
+    Promise.all([ymaps3.import("@yandex/ymaps3-reactify"), ymaps3?.import("@yandex/ymaps3-clusterer@0.0.1"), ymaps3.ready]).then(
+      async ([{ reactify }, cl]) => {
+        const react = reactify.bindTo(React, ReactDOM)
+        setReactifiedApi(react.module(ymaps3))
+        const { clusterByGrid, YMapClusterer } = react.module(cl)
+        //@ts-ignore
+        const grid = clusterByGrid({ gridSize: 64 })
+        setSize(grid)
+        setMapClusterer(YMapClusterer)
+      },
+    )
   }, [])
 
   const { itemsOffers } = useMapOffers()
@@ -53,32 +71,35 @@ function Clusters() {
 
   const { YMapMarker } = reactifiedApi ?? {}
 
-  const marker = ({ properties, geometry }: any) => {
-    const { images, title, created, provider } = (properties as unknown as IResponseOffers) ?? {}
-
-    const offer = properties as unknown as IResponseOffers
+  const marker = ({ properties, geometry }: FeatureOffer) => {
+    const { images, title, created, provider, id } = properties ?? {}
 
     const image = images?.length > 0 ? images[0] : undefined
 
     return is(geometry.coordinates as number[]) ? (
-      <YMapMarker coordinates={geometry.coordinates as any}>
-        <div className="absolute w-[1.8125rem] h-9 -translate-x-1/2 -translate-y-1/2 max-md:scale-75">
+      <YMapMarker coordinates={geometry.coordinates}>
+        <div className="absolute z-20 w-[1.8125rem] h-9 -translate-x-1/2 -translate-y-1/2 max-md:scale-75 group">
           <IconMap
             provider={provider}
             image={image}
             onClick={() => {
               if (provider === EnumTypeProvider.offer) {
-                dispatchBallonOffer({ offer: offer! })
+                dispatchBallonOffer({ offer: properties! })
                 return
               } else if (provider === EnumTypeProvider.discussion) {
-                dispatchBallonDiscussion({ offer: offer! })
+                dispatchBallonDiscussion({ offer: properties! })
                 return
               } else if (provider === EnumTypeProvider.alert) {
-                dispatchBallonAlert({ offer: offer! })
+                dispatchBallonAlert({ offer: properties! })
               }
             }}
           />
-          <div className="div-alert-text absolute w-max flex left-0 top-1/2 pointer-events-none translate-x-3.5 -translate-y-1/2">
+          <div
+            className={cx(
+              "div-alert-text absolute w-max left-0 top-1/2 pointer-events-none translate-x-3.5 -translate-y-1/2",
+              id % 2 ? "hidden group-hover:flex" : "flex",
+            )}
+          >
             <section className="flex flex-col h-11">
               <p className="text-[#000] line-clamp-1 text-ellipsis text-sm font-medium">{title}</p>
               <time className="text-text-secondary text-[0.8125rem] font-normal leading-4">{fromNow(created ?? "")}</time>
@@ -87,32 +108,97 @@ function Clusters() {
         </div>
       </YMapMarker>
     ) : null
-
-    return null
   }
 
-  // const cluster = (coordinates: any, features: IResponseOffers[]) => (
-  //   <YMapMarker coordinates={coordinates}>
-  //     <div className="w-10 h-10 rounded-full bg-BG-second flex items-center justify-center">
-  //       <span className="text-center text-text-primary text-sm">{features?.length}</span>
-  //     </div>
-  //   </YMapMarker>
-  // )
+  const cluster = (coordinates: any, features: FeatureOffer[]) => (
+    <YMapMarker
+      coordinates={coordinates}
+      onClick={(event, mapEvent) => {
+        event.stopPropagation()
+        const { coordinates } = mapEvent ?? {}
+        dispatchMapZoomClick(coordinates as number[])
+      }}
+    >
+      <div className="w-10 h-10 group rounded-full bg-BG-second flex items-center justify-center cursor-pointer absolute -translate-x-1/2 -translate-y-1/2 z-40 transition-colors border-2 border-BG-second hover:border-text-accent border-solid max-md:scale-75">
+        <span className="text-center text-text-primary text-sm">{features?.length}</span>
+        <article className="absolute bg-BG-second top-1/2 -translate-y-1/2 left-9 max-w-80 w-max hidden flex-col gap-0.5 z-50 rounded-lg group-hover:flex px-1.5 py-3 overflow-x-hidden overflow-y-auto max-h-52">
+          {features.map(({ id, properties, geometry }) => (
+            <li
+              key={`:dv:bVC:xcb:--${id}:`}
+              className="w-full p-1.5 grid grid-cols-[1.5rem_minmax(0,1fr)] gap-2 items-center bg-BG-second hover:bg-grey-field rounded-md cursor-pointer"
+              onClick={(event) => {
+                event.stopPropagation()
+                const { coordinates: coord } = geometry ?? {}
+                dispatchMapZoomClick((coord ?? coordinates) as number[], 17)
 
-  if (["all", EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(providers))
-    return itemsOffers.map((item) => {
-      const coordinates = item?.addresses?.[0]?.coordinates?.split(" ")?.map((_) => Number(_)) ?? [0, 0]
+                const { provider } = properties ?? {}
 
-      return marker({
-        type: "Feature",
-        id: `${item.provider}-${item.id}`,
-        geometry: {
-          type: "Point",
-          coordinates: coordinates as any,
-        },
-        properties: item as any,
+                if (provider === EnumTypeProvider.offer) {
+                  dispatchBallonOffer({ offer: properties! })
+                  return
+                } else if (provider === EnumTypeProvider.discussion) {
+                  dispatchBallonDiscussion({ offer: properties! })
+                  return
+                } else if (provider === EnumTypeProvider.alert) {
+                  dispatchBallonAlert({ offer: properties! })
+                }
+              }}
+            >
+              <div className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
+                {properties.provider === EnumTypeProvider.offer ? (
+                  <ImageCategory
+                    isUrgent={!!properties.urgent}
+                    provider={properties?.category?.provider}
+                    slug={properties?.category?.slug}
+                    id={properties?.categoryId!}
+                  />
+                ) : null}
+              </div>
+              <span className="text-sm text-text-primary font-normal line-clamp-1 text-ellipsis">{properties.title}</span>
+            </li>
+          ))}
+        </article>
+      </div>
+    </YMapMarker>
+  )
+
+  if (["all", EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(providers)) {
+    if (!MapClusterer)
+      return itemsOffers.map((item) => {
+        const coordinates = item?.addresses?.[0]?.coordinates?.split(" ")?.map((_) => Number(_)) ?? [0, 0]
+
+        return marker({
+          type: "Feature",
+          id: `${item.provider}-${item.id}`,
+          geometry: {
+            type: "Point",
+            coordinates: coordinates as any,
+          },
+          properties: item as any,
+        })
       })
-    })
+
+    return (
+      <MapClusterer
+        marker={marker}
+        cluster={cluster}
+        method={size}
+        features={itemsOffers.map((item) => {
+          const coordinates = item?.addresses?.[0]?.coordinates?.split(" ")?.map((_) => Number(_)) ?? [0, 0]
+
+          return {
+            type: item.provider,
+            id: `${item.provider}-${item.id}`,
+            geometry: {
+              type: "Point",
+              coordinates: coordinates as any,
+            },
+            properties: item as any,
+          }
+        })}
+      />
+    )
+  }
 
   return null
 }

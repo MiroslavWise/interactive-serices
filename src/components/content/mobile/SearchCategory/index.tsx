@@ -1,7 +1,7 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 
 import { type IPosts } from "@/services/posts/types"
 import { type IResponseOffers } from "@/services/offers/types"
@@ -47,9 +47,8 @@ export default function SearchCategory() {
   async function search() {
     const trim = input.trim().toLowerCase()
 
-    if (trim.length > 1) {
-      if (!loading) {
-        setLoading(true)
+    if (!loading) {
+      if (trim.length > 1) {
         const response = await queryClient.fetchQuery({
           queryFn: () => getSearch({ query: { query: trim } }),
           queryKey: ["search", { search: trim }],
@@ -65,6 +64,8 @@ export default function SearchCategory() {
           setValuesPosts(posts)
           setValuesOffers(offers)
         }
+      } else {
+        setLoading(false)
       }
     }
   }
@@ -102,6 +103,7 @@ export default function SearchCategory() {
             value={input}
             onChange={(event) => {
               debouncedValue()
+              setLoading(true)
               setInput(event.target.value || "")
             }}
             readOnly={!visible}
