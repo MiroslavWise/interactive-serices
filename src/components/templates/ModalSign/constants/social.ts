@@ -1,13 +1,13 @@
 import type { ILinkSocial } from "../types/types"
 
 export const ITEMS_SOCIAL_LINK: ILinkSocial[] = [
-    {
-        value: "google",
-        srcWorking: "/icons/fill/google.svg",
-        srcNotWorking: "/icons/fill/disabled/google.svg",
-        path: "/google/login",
-        isWorkingLink: true,
-    },
+    // {
+    //     value: "google",
+    //     srcWorking: "/icons/fill/google.svg",
+    //     srcNotWorking: "/icons/fill/disabled/google.svg",
+    //     path: "/google/login",
+    //     isWorkingLink: true,
+    // },
     {
         value: "telegram",
         srcWorking: "/icons/fill/telegram.svg",

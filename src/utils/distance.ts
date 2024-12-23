@@ -1,5 +1,7 @@
 import { LngLatBounds } from "ymaps3"
 
+import { RADIAN } from "./utils-data-map"
+
 interface IProps {
   bounds: number[][] | LngLatBounds
   mapPoint: number[]
@@ -7,7 +9,7 @@ interface IProps {
 
 const DISTANCE = 150
 const R = 6371
-const toRadians = (degrees: number) => degrees * (Math.PI / 180)
+const toRadians = (degrees: number) => degrees * RADIAN
 const a = (Δφ: number, φ1: number, φ2: number, Δλ: number) => Math.sin(Δφ / 2) ** 2 + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) ** 2
 const c = (a: number) => 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 

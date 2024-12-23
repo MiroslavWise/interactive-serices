@@ -11,3 +11,5 @@ export const UTILS_DATA_MAP = {
     return new Date(created).valueOf()
   },
 }
+
+export const RADIAN = Math.PI / 180
