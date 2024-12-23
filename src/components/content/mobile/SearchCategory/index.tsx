@@ -100,6 +100,11 @@ export default function SearchCategory() {
             onClick={(event) => {
               event.stopPropagation()
               dispatchMobileSearchCategoryVisible(true)
+              requestAnimationFrame(() => {
+                if (ref.current) {
+                  ref.current.focus()
+                }
+              })
             }}
             value={input}
             onChange={(event) => {
