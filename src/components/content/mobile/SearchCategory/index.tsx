@@ -118,6 +118,7 @@ export default function SearchCategory() {
             ref={ref}
             className="h-3 rounded-3xl !pl-[2.625rem]"
             inputMode="search"
+            enterKeyHint="search"
           />
           <div className={cx("absolute w-5 h-5 left-3.5 top-1/2 -translate-y-1/2 pointer-events-none", "*:w-5 *:h-5")}>
             <IconSearch />
