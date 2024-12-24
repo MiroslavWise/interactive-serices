@@ -45,7 +45,7 @@ export default ({ params: { id } }: { params: { id: string } }) => {
   return (
     <section
       className={cx(
-        "w-full h-full rounded-2 bg-BG-second max-md:hidden px-5 flex flex-col md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_3rem)] overflow-y-auto",
+        "w-full h-full rounded-2 bg-BG-second max-md:hidden px-5 flex flex-col md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_3rem)] overflow-hidden overflow-y-auto",
         collapse && "hidden",
       )}
     >
