@@ -104,7 +104,7 @@ export const ServicesMobile = memo(({ posts, offers, isSearch, loading }: IProps
       </ul>
     )
 
-  if (isSearch && offers.length === 0 && posts.length === 0) return <EmptyArticle />
+  if (isSearch && items.length === 0 && itemsFilterPosts.length === 0) return <EmptyArticle />
 
   return <VirtualList list={items} listPosts={itemsFilterPosts} />
 })

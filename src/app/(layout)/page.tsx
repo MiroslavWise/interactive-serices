@@ -11,7 +11,6 @@ import dynamic from "next/dynamic"
 
 const HeaderMap = dynamic(() => import("@/components/YandexMap/Header"), { ssr: false })
 const Clusters = dynamic(() => import("@/components/YandexMap/Clusters"), { ssr: false })
-const BannerSign = dynamic(() => import("@/components/content/BannerSign"), { ssr: false })
 const ContextMap = dynamic(() => import("@/components/YandexMap/ContextMap"), { ssr: false })
 import { MobileFilterMap, ButtonCollapseServices, FiltersScreen } from "@/components/content"
 const BannerSearch = dynamic(() => import("@/components/content/BannerSearch"), { ssr: false })
@@ -23,22 +22,18 @@ const SearchAndFilters = dynamic(() => import("@/components/content/SearchAndFil
 const SearchCategory = dynamic(() => import("@/components/content/mobile/SearchCategory"), { ssr: false })
 const ButtonNavigation = dynamic(() => import("@/components/content/BannerSign/components/ButtonNavigation"), { ssr: false })
 
-import { EStatusAuth } from "@/store"
 import { useResize } from "@/helpers"
 import env from "@/config/environment"
 import useUtm from "@/helpers/use-utm"
-import { useStatusAuth } from "@/helpers/use-status-auth"
 
 export default () => {
   useUtm()
-  const statusAuth = useStatusAuth()
   const { isTablet } = useResize()
 
   return (
     <>
       <main className="relative flex flex-col items-center justify-between h-full w-full overflow-hidden bg-transparent z-20">
         <HeaderMap />
-        {statusAuth === EStatusAuth.AUTHORIZED && !isTablet && <BannerSign />}
         {isTablet ? (
           <>
             <MobileFilterMap />

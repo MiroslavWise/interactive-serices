@@ -30,7 +30,7 @@ function ContainerPosts({ posts }: IProps) {
   const length = list.length
 
   return (
-    <section className="w-full overflow-y-visible h-fit flex flex-col items-start gap-2.5">
+    <section className="w-full overflow-y-visible h-fit flex flex-col items-start gap-2.5" id="post">
       <nav className="w-full border-b border-solid border-grey-stroke flex flex-row justify-start gap-[1.125rem]">
         {NAV.map((item) => (
           <a

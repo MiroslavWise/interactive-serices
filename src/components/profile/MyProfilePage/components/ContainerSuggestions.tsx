@@ -92,7 +92,7 @@ export const ContainerSuggestions = () => {
     (state === EnumTypeProvider.POST && isLoadingPosts)
   )
     return (
-      <ul className={cx(CN_UL, "loading-screen")}>
+      <ul className={cx(CN_UL, "loading-screen")} id={state}>
         {[1323, 2123, 32312, 5123123, 1234, 35512].map((_) => (
           <li key={`::key::load::${_}::`} className="w-full rounded-2xl bg-BG-second p-4 *:w-full flex flex-col gap-4">
             <span className="max-w-40 h-6 rounded-xl " />
@@ -116,7 +116,7 @@ export const ContainerSuggestions = () => {
     (state === EnumTypeProvider.POST && lengthPosts === 0)
   )
     return (
-      <section className="w-full h-full rounded-2xl bg-BG-second flex flex-col items-center py-5 md:pt-[4.375rem] px-5 md:mb-6">
+      <section className="w-full h-full rounded-2xl bg-BG-second flex flex-col items-center py-5 md:pt-[4.375rem] px-5 md:mb-6" id={state}>
         <article className="w-full md:max-w-[25rem] flex flex-col items-center gap-5 md:gap-6">
           <div className="w-full flex flex-col items-center gap-3">
             <div
@@ -151,7 +151,7 @@ export const ContainerSuggestions = () => {
 
   if ([EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(state))
     return (
-      <ul className={CN_UL} data-test="profile-container-suggestions">
+      <ul className={CN_UL} data-test="profile-container-suggestions" id={state}>
         {items.map((_) => (
           <ItemOffers key={`::key::${_.id}::${_.provider}::`} offer={_!} />
         ))}

@@ -58,13 +58,12 @@ function FooterNewComment({ post }: { post: IPosts }) {
       const miniUser = getMiniUser(user!)
 
       const ID_UPDATE = Math.random()
-      clg("onUpdate: ID_UPDATE", ID_UPDATE)
 
       onUpdate({
         id: ID_UPDATE,
         userId: userId!,
         postId: post.id,
-        noteId: writeResponse?.id ?? undefined,
+        noteId: writeResponse?.id! ?? undefined,
         message: message,
         status: "create",
         created: String(new Date()),

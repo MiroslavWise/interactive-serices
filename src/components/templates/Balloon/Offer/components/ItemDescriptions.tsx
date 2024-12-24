@@ -1,34 +1,33 @@
-import { memo, useMemo } from "react"
-import { useQuery } from "@tanstack/react-query"
+// import { useQuery } from "@tanstack/react-query"
 
 import { type IResponseOffers } from "@/services/offers/types"
 
 import ItemImages from "./ItemImages"
-import { ImageCategory } from "@/components/common"
-import IconRepeat from "@/components/icons/IconRepeat"
+// import { ImageCategory } from "@/components/common"
+// import IconRepeat from "@/components/icons/IconRepeat"
 
-import { getOffersCategories } from "@/services"
+// import { getOffersCategories } from "@/services"
 
 function ItemDescriptions({ offer }: { offer: IResponseOffers }) {
   const proposal = offer?.description
   const images = offer?.images || []
-  const { data: c } = useQuery({
-    queryFn: () => getOffersCategories(),
-    queryKey: ["categories"],
-  })
-  const categories = c?.data || []
+  // const { data: c } = useQuery({
+  //   queryFn: () => getOffersCategories(),
+  //   queryKey: ["categories"],
+  // })
+  // const categories = c?.data || []
 
-  const categoriesOffer = useMemo(
-    () => categories?.filter((item) => offer?.categories?.some((_) => item.id === _)) || [],
-    [categories, offer?.categories],
-  )
+  // const categoriesOffer = useMemo(
+  //   () => categories?.filter((item) => offer?.categories?.some((_) => item.id === _)) || [],
+  //   [categories, offer?.categories],
+  // )
 
   return (
     <article className="h-fit w-full flex flex-col gap-3 relative overflow-x-hidden overflow-y-auto">
       <b className="text-text-primary text-base text-start font-medium">Предложение</b>
       <p className="w-full text-text-primary text-sm font-normal -mt-1.5 whitespace-pre-wrap">{proposal}</p>
       {images?.length > 0 ? <ItemImages images={images} /> : null}
-      {categoriesOffer?.length > 0 ? (
+      {/* {categoriesOffer?.length > 0 ? (
         <section className="flex flex-col -mt-0.5 gap-0">
           <div className="w-full flex justify-center items-center *:w-5 *:h-5">
             <IconRepeat />
@@ -48,10 +47,10 @@ function ItemDescriptions({ offer }: { offer: IResponseOffers }) {
             ))}
           </div>
         </section>
-      ) : null}
+      ) : null} */}
     </article>
   )
 }
 
 ItemDescriptions.displayName = "ItemDescriptions"
-export default memo(ItemDescriptions)
+export default ItemDescriptions

@@ -20,7 +20,7 @@ export interface IPostsComment {
   id: number
   userId: number
   postId: number
-  noteId?: number
+  noteId: number | null
   message: string
   status: TTypeStatusComments
   created: string

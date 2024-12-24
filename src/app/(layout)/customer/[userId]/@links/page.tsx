@@ -8,10 +8,6 @@ export const LINKS_PROVIDER_OFFERS: ILink[] = [
     provider: EProviderLinkCustomer.offer,
   },
   {
-    label: "Обсуждения",
-    provider: EProviderLinkCustomer.discussion,
-  },
-  {
     label: "Посты",
     provider: EProviderLinkCustomer.post,
   },

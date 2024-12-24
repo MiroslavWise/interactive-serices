@@ -11,10 +11,6 @@ export const NEW_CREATE_BADGES: INewCreateBadge[] = [
     value: EnumTypeProvider.alert,
   },
   {
-    label: "Обсуждение",
-    value: EnumTypeProvider.discussion,
-  },
-  {
     label: "Пост",
     value: EnumTypeProvider.POST,
   },
