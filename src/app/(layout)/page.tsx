@@ -10,11 +10,10 @@
 import dynamic from "next/dynamic"
 
 const HeaderMap = dynamic(() => import("@/components/YandexMap/Header"), { ssr: false })
-const Clusters = dynamic(() => import("@/components/YandexMap/Clusters"), { ssr: false })
 const ContextMap = dynamic(() => import("@/components/YandexMap/ContextMap"), { ssr: false })
 import { MobileFilterMap, ButtonCollapseServices, FiltersScreen } from "@/components/content"
 const BannerSearch = dynamic(() => import("@/components/content/BannerSearch"), { ssr: false })
-const MarkerPosts = dynamic(() => import("@/components/YandexMap/MarkerPosts"), { ssr: false })
+const AllClusters = dynamic(() => import("@/components/YandexMap/AllClusters"), { ssr: false })
 const MapSearch = dynamic(() => import("@/components/content/mobile/MapSearch"), { ssr: false })
 const Navigation = dynamic(() => import("@/components/content/mobile/Navigation"), { ssr: false })
 const BannerServices = dynamic(() => import("@/components/content/BannerServices"), { ssr: false })
@@ -52,8 +51,7 @@ export default () => {
           </>
         )}
         <ContextMap>
-          <MarkerPosts />
-          <Clusters />
+          <AllClusters />
         </ContextMap>
       </main>
       <div

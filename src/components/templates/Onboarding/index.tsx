@@ -8,9 +8,10 @@ import { cx } from "@/lib/cx"
 import { useResize } from "@/helpers"
 import { mapIconCreateOffer } from "@/utils"
 import { ITEMS_START } from "./constants/items-start"
-import { dispatchOnboardingStart, useOnboarding } from "@/store"
+import { dispatchCreatePost, dispatchOnboardingStart, useOnboarding } from "@/store"
 
 import styles from "./styles/style.module.scss"
+import { EnumTypeProvider } from "@/types/enum"
 
 export const Onboarding = () => {
   const step = useOnboarding(({ step }) => step)
@@ -37,7 +38,11 @@ export const Onboarding = () => {
                   key={`::${index}::item::start::`}
                   onClick={(event) => {
                     event.stopPropagation()
-                    dispatchOnboardingStart(item.action)
+                    if (item.action === EnumTypeProvider.POST) {
+                      dispatchCreatePost(true)
+                    } else {
+                      dispatchOnboardingStart(item.action)
+                    }
                   }}
                 >
                   <p>{item.sub}</p>

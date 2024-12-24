@@ -9,6 +9,7 @@ import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import IconMap from "../icons/map-svg/IconMap"
+import IconAlertBalloon from "../icons/IconAlertBalloon"
 
 import {
   useBounds,
@@ -23,7 +24,6 @@ import { fromNow } from "@/helpers"
 import { ImageCategory } from "../common"
 import { JSONStringBounds } from "@/utils/map-sort"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
-import IconAlertBalloon from "../icons/IconAlertBalloon"
 
 type ReactifiedApi = ReactifiedModule<typeof ymaps3>
 type FeatureOffer = Feature & { properties: IResponseOffers }
