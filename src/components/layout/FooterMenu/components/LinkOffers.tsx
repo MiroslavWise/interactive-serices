@@ -37,7 +37,7 @@ export const LinkOffers = ({ pathname }: { pathname: string }) => {
 
   return (
     <Link
-      href={statusAuth === EStatusAuth.AUTHORIZED ? { pathname: ITEMS_LINK_FOOTER.post, hash: "post" } : {}}
+      href={statusAuth === EStatusAuth.AUTHORIZED ? `${ITEMS_LINK_FOOTER.post}#post` : {}}
       data-active={isActive}
       className={cx(
         styles.link,
