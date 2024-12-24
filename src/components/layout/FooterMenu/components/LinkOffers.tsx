@@ -14,7 +14,7 @@ import { useStatusAuth } from "@/helpers/use-status-auth"
 
 import styles from "../styles/link.module.scss"
 
-const TITLE = "Обмен"
+const TITLE = "Посты"
 
 export const LinkOffers = ({ pathname }: { pathname: string }) => {
   const handleAuthModal = useSign()
@@ -32,12 +32,12 @@ export const LinkOffers = ({ pathname }: { pathname: string }) => {
     refetchOnMount: true,
   })
 
-  const isActive = pathname.includes(ITEMS_LINK_FOOTER.offers)
+  const isActive = pathname.includes(ITEMS_LINK_FOOTER.post)
   const count = data?.data?.length || 0
 
   return (
     <Link
-      href={statusAuth === EStatusAuth.AUTHORIZED ? { pathname: ITEMS_LINK_FOOTER.offers } : {}}
+      href={statusAuth === EStatusAuth.AUTHORIZED ? { pathname: ITEMS_LINK_FOOTER.post, hash: "post" } : {}}
       data-active={isActive}
       className={cx(
         styles.link,

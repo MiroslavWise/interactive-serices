@@ -1,9 +1,6 @@
-import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useQuery } from "@tanstack/react-query"
-import { useMemo, useState, type ReactNode } from "react"
+import { useState, type ReactNode } from "react"
 
-import { EnumStatusBarter } from "@/types/enum"
 import { type IPostThreads } from "@/services/threads/types"
 import { EnumProviderThreads, EnumSign } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
@@ -11,81 +8,80 @@ import { type IResponseOffers } from "@/services/offers/types"
 import Button from "@/components/common/Button"
 
 import { cx } from "@/lib/cx"
-import { getBarters, postThread } from "@/services"
+import { postThread } from "@/services"
 import { providerIsAscending } from "@/lib/sortIdAscending"
-import { dispatchAuthModal, dispatchModalClose, dispatchReciprocalExchange, useAuth } from "@/store"
+import { dispatchAuthModal, dispatchModalClose, useAuth } from "@/store"
 
 function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactNode }) {
-  const { id, urgent } = offer ?? {}
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { push, prefetch } = useRouter()
+  const { push } = useRouter()
   const [loadingChat, setLoadingChat] = useState(false)
 
-  function handle() {
-    if (!userId) {
-      return dispatchAuthModal({
-        visible: true,
-        type: EnumSign.SignIn,
-      })
-    } else if (!!userId && userId !== offer?.userId) {
-      return dispatchReciprocalExchange({
-        visible: true,
-        offer: offer!,
-        type: "current",
-      })
-    }
-  }
+  // function handle() {
+  //   if (!userId) {
+  //     return dispatchAuthModal({
+  //       visible: true,
+  //       type: EnumSign.SignIn,
+  //     })
+  //   } else if (!!userId && userId !== offer?.userId) {
+  //     return dispatchReciprocalExchange({
+  //       visible: true,
+  //       offer: offer!,
+  //       type: "current",
+  //     })
+  //   }
+  // }
 
-  function handlePay() {
-    if (!userId) {
-      dispatchAuthModal({
-        visible: true,
-        type: EnumSign.SignIn,
-      })
-      return
-    } else if (!!userId && userId !== offer?.userId) {
-      prefetch(`/chat?offer-pay=${offer?.id}:${offer?.userId}`)
-      push(`/chat?offer-pay=${offer?.id}:${offer?.userId}`)
-      dispatchModalClose()
-      // closeHasBalloons()
-      return
-    }
-  }
+  // function handlePay() {
+  //   if (!userId) {
+  //     dispatchAuthModal({
+  //       visible: true,
+  //       type: EnumSign.SignIn,
+  //     })
+  //     return
+  //   } else if (!!userId && userId !== offer?.userId) {
+  //     prefetch(`/chat?offer-pay=${offer?.id}:${offer?.userId}`)
+  //     push(`/chat?offer-pay=${offer?.id}:${offer?.userId}`)
+  //     dispatchModalClose()
+  //     // closeHasBalloons()
+  //     return
+  //   }
+  // }
 
-  const { data: dataExecutedBarter, isLoading: isLoadingExecutedBarter } = useQuery({
-    queryFn: () =>
-      getBarters({
-        status: EnumStatusBarter.EXECUTED,
-        user: userId!,
-        order: "DESC",
-      }),
-    queryKey: ["barters", { userId: userId, status: EnumStatusBarter.EXECUTED }],
-    refetchOnMount: true,
-    refetchOnWindowFocus: true,
-    enabled: !!userId && !!offer && userId !== offer?.userId,
-  })
-  const { data: dataInitiatedBarter, isLoading: isLoadingInitiatedBarter } = useQuery({
-    queryFn: () =>
-      getBarters({
-        status: EnumStatusBarter.INITIATED,
-        user: userId!,
-        order: "DESC",
-      }),
-    queryKey: ["barters", { userId: userId, status: EnumStatusBarter.INITIATED }],
-    refetchOnMount: true,
-    refetchOnWindowFocus: true,
-    enabled: !!userId && !!offer && userId !== offer?.userId,
-  })
+  // const { data: dataExecutedBarter, isLoading: isLoadingExecutedBarter } = useQuery({
+  //   queryFn: () =>
+  //     getBarters({
+  //       status: EnumStatusBarter.EXECUTED,
+  //       user: userId!,
+  //       order: "DESC",
+  //     }),
+  //   queryKey: ["barters", { userId: userId, status: EnumStatusBarter.EXECUTED }],
+  //   refetchOnMount: true,
+  //   refetchOnWindowFocus: true,
+  //   enabled: !!userId && !!offer && userId !== offer?.userId,
+  // })
+  // const { data: dataInitiatedBarter, isLoading: isLoadingInitiatedBarter } = useQuery({
+  //   queryFn: () =>
+  //     getBarters({
+  //       status: EnumStatusBarter.INITIATED,
+  //       user: userId!,
+  //       order: "DESC",
+  //     }),
+  //   queryKey: ["barters", { userId: userId, status: EnumStatusBarter.INITIATED }],
+  //   refetchOnMount: true,
+  //   refetchOnWindowFocus: true,
+  //   enabled: !!userId && !!offer && userId !== offer?.userId,
+  // })
   //--
 
-  const disabledReply = useMemo(() => {
-    if (isLoadingExecutedBarter || isLoadingInitiatedBarter) return false
-    const findExecuted = dataExecutedBarter?.data?.some((some) => some?.initiator?.id === id || some?.consigner?.id === id)
-    if (findExecuted)
-      return "В настоящий момент у вас идет обмен с данным пользователем. Когда он закончится, вы сможете создать новое предложение обмена"
-    const findInitiated = dataInitiatedBarter?.data?.some((some) => some?.initiator?.id === id || some?.consigner?.id === id)
-    if (findInitiated) return "Вы уже отправили данному пользователю свое предложение"
-  }, [isLoadingExecutedBarter, isLoadingInitiatedBarter, dataExecutedBarter?.data, dataInitiatedBarter?.data, id])
+  // const disabledReply = useMemo(() => {
+  //   if (isLoadingExecutedBarter || isLoadingInitiatedBarter) return false
+  //   const findExecuted = dataExecutedBarter?.data?.some((some) => some?.initiator?.id === id || some?.consigner?.id === id)
+  //   if (findExecuted)
+  //     return "В настоящий момент у вас идет обмен с данным пользователем. Когда он закончится, вы сможете создать новое предложение обмена"
+  //   const findInitiated = dataInitiatedBarter?.data?.some((some) => some?.initiator?.id === id || some?.consigner?.id === id)
+  //   if (findInitiated) return "Вы уже отправили данному пользователю свое предложение"
+  // }, [isLoadingExecutedBarter, isLoadingInitiatedBarter, dataExecutedBarter?.data, dataInitiatedBarter?.data, id])
 
   async function openUserChat() {
     if (!loadingChat) {
@@ -114,15 +110,32 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
 
   return (
     <>
-      {disabledReply && !isLoadingExecutedBarter && !isLoadingInitiatedBarter && userId !== offer?.userId ? (
+      {/* {disabledReply && !isLoadingExecutedBarter && !isLoadingInitiatedBarter && userId !== offer?.userId ? (
         <div className="w-full px-5">
           <article className="w-full p-4 rounded-2xl border border-solid border-grey-stroke">
             <span className="text-text-primary text-sm text-start font-normal">{disabledReply}</span>
           </article>
         </div>
-      ) : null}
+      ) : null} */}
       {children}
-      {!!urgent ? (
+      <Button
+        type="button"
+        className={cx("w-full h-11", (!userId || userId === offer.userId) && "!opacity-50 !cursor-no-drop")}
+        typeButton="fill-primary"
+        label="Написать сообщение"
+        loading={loadingChat}
+        onClick={(event) => {
+          event.stopPropagation()
+          if (!!userId && userId !== offer.userId) {
+            openUserChat()
+            return
+          }
+          if (!userId) {
+            dispatchAuthModal({ visible: true, type: EnumSign.SignIn })
+          }
+        }}
+      />
+      {/* {!!urgent ? (
         !!userId ? (
           <div className="w-full px-5">
             <Button
@@ -209,7 +222,7 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
             </Link>
           ) : null}
         </div>
-      )}
+      )} */}
     </>
   )
 }

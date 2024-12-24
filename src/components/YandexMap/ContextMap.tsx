@@ -72,7 +72,7 @@ function ContextMap({ children }: React.PropsWithChildren) {
       }
       theme={systemTheme}
       zoomRange={{
-        min: 7,
+        min: 6,
         max: 20,
       }}
     >

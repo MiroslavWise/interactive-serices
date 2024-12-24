@@ -1,21 +1,16 @@
 "use client"
 
 import { parseAsStringEnum, useQueryState } from "nuqs"
+
 import { EnumTypeProvider } from "@/types/enum"
 import { type ISegmentValues } from "@/components/common/Segments/types"
 
 import { Segments } from "@/components/common/Segments"
 
-import { useResize } from "@/helpers"
-
-const TABS = (isMobile: boolean): ISegmentValues<EnumTypeProvider>[] => [
+const TABS: ISegmentValues<EnumTypeProvider>[] = [
   {
-    label: isMobile ? "Предложения" : "Мои предложения",
+    label: "Мои предложения",
     value: EnumTypeProvider.offer,
-  },
-  {
-    label: "Обсуждения",
-    value: EnumTypeProvider.discussion,
   },
   {
     label: "Посты",
@@ -28,8 +23,6 @@ const TABS = (isMobile: boolean): ISegmentValues<EnumTypeProvider>[] => [
 ]
 
 export const ContainerTagAndButton = () => {
-  const { isMobile } = useResize()
-
   const [state, setState] = useQueryState(
     "type",
     parseAsStringEnum<EnumTypeProvider>(Object.values(EnumTypeProvider)).withDefault(EnumTypeProvider.offer),
@@ -39,8 +32,8 @@ export const ContainerTagAndButton = () => {
     <div className="w-full h-11 max-md:[&>article>li]:px-2.5">
       <Segments
         type="primary"
-        VALUES={TABS(isMobile)}
-        active={TABS(isMobile).find((_) => _.value === (state || EnumTypeProvider.offer))!}
+        VALUES={TABS}
+        active={TABS.find((_) => _.value === (state || EnumTypeProvider.offer))!}
         setActive={({ value }) => {
           setState(value)
         }}

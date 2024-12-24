@@ -14,7 +14,7 @@ import { cx } from "@/lib/cx"
 import { dayFormat } from "@/helpers"
 import { useResize } from "@/helpers"
 import { getUserId, getFriends } from "@/services"
-import { dispatchActiveServicesFrom, dispatchModal, dispatchMyFriends, dispatchOptionProfileMobile, EModalData, useAuth } from "@/store"
+import { dispatchModal, dispatchMyFriends, dispatchOptionProfileMobile, EModalData, useAuth } from "@/store"
 
 import styles from "./styles/m-container-about-profile.module.scss"
 
@@ -52,11 +52,11 @@ export const MContainerAboutProfile = () => {
       : null
   }, [dataUser])
 
-  const categories = (dataUser?.data?.categories || []).length
+  // const categories = (dataUser?.data?.categories || []).length
 
-  function addDesiredService() {
-    dispatchActiveServicesFrom(true)
-  }
+  // function addDesiredService() {
+  //   dispatchActiveServicesFrom(true)
+  // }
 
   function handleOpenOption() {
     dispatchOptionProfileMobile(true)
@@ -148,7 +148,7 @@ export const MContainerAboutProfile = () => {
         <BadgesColors userId={userId!} />
       </div>
       <div data-block-buttons className="w-full flex flex-row gap-2.5">
-        <button
+        {/* <button
           onClick={addDesiredService}
           data-services
           data-test="button-open-modal-add-desired-service"
@@ -159,7 +159,7 @@ export const MContainerAboutProfile = () => {
             <h3>{categories || "Добавить"}</h3>
             <img src="/svg/arrow-right.svg" alt="light" width={20} height={20} />
           </article>
-        </button>
+        </button> */}
         <button
           onClick={dispatchMyFriends}
           data-friends

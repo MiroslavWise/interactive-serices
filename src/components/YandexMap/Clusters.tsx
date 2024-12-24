@@ -9,6 +9,7 @@ import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import IconMap from "../icons/map-svg/IconMap"
+import IconAlertBalloon from "../icons/IconAlertBalloon"
 
 import {
   useBounds,
@@ -19,7 +20,6 @@ import {
   dispatchBallonDiscussion,
   dispatchCollapseServicesTrue,
 } from "@/store"
-import { cx } from "@/lib/cx"
 import { fromNow } from "@/helpers"
 import { ImageCategory } from "../common"
 import { JSONStringBounds } from "@/utils/map-sort"
@@ -73,7 +73,7 @@ function Clusters() {
   const { YMapMarker } = reactifiedApi ?? {}
 
   const marker = ({ properties, geometry }: FeatureOffer) => {
-    const { images, title, created, provider, id } = properties ?? {}
+    const { images, title, created, provider } = properties ?? {}
 
     const image = images?.length > 0 ? images[0] : undefined
 
@@ -95,15 +95,12 @@ function Clusters() {
               }
             }}
           />
-          <div
-            className={cx(
-              "div-alert-text absolute w-max left-0 top-1/2 pointer-events-none translate-x-3.5 -translate-y-1/2",
-              id % 2 ? "hidden group-hover:flex" : "flex",
-            )}
-          >
+          <div className="div-alert-text flex absolute w-max left-0 top-1/2 pointer-events-none translate-x-3.5 -translate-y-1/2 transition-opacity opacity-0 group-hover:opacity-100">
             <section className="flex flex-col h-11">
               <p className="text-[#000] line-clamp-1 text-ellipsis text-sm font-medium">{title}</p>
-              <time className="text-text-secondary text-[0.8125rem] font-normal leading-4">{fromNow(created ?? "")}</time>
+              <time className="text-text-secondary text-[0.8125rem] line-clamp-1 text-ellipsis font-normal leading-4">
+                {fromNow(created ?? "")}
+              </time>
             </section>
           </div>
         </div>
@@ -154,6 +151,8 @@ function Clusters() {
                     slug={properties?.category?.slug}
                     id={properties?.categoryId!}
                   />
+                ) : properties.provider === EnumTypeProvider.alert ? (
+                  <IconAlertBalloon />
                 ) : null}
               </div>
               <span className="text-sm text-text-primary font-normal line-clamp-1 text-ellipsis">{properties.title}</span>

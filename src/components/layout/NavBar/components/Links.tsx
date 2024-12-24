@@ -3,7 +3,6 @@
 import { usePathname } from "next/navigation"
 
 import { LinkMap } from "./LinkMap"
-import { LinkOffers } from "./LinkOffers"
 import { LinkProfile } from "./LinkProfile"
 import LinkModerator from "./LinkModerator"
 import { LinkMessages } from "./LinkMessages"
@@ -29,7 +28,7 @@ export const Links = () => {
     >
       <LinkMap pathname={pathname} />
       <LinkProfile pathname={pathname} />
-      <LinkOffers pathname={pathname} />
+      {/* <LinkOffers pathname={pathname} /> */}
       <LinkMessages pathname={pathname} />
       <LinkNotification pathname={pathname} />
       <LinkModerator pathname={pathname} />

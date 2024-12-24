@@ -29,10 +29,10 @@ export const ITEMS_START: IItemsStart[] = [
   {
     sub: "Создать",
     footer: {
-      title: "Обсуждение",
-      icon: "/svg/3d/3d-message.svg",
+      title: "Пост",
+      icon: "/svg/3d/post.svg",
     },
-    action: EnumTypeProvider.discussion,
+    action: EnumTypeProvider.POST,
   },
   {
     sub: "Попробовать позже",

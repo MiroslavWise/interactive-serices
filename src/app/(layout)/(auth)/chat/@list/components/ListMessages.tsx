@@ -3,17 +3,13 @@
 import { memo, useMemo } from "react"
 
 import { EnumProviderThreads } from "@/types/enum"
-import { type IResponseThreads } from "@/services/threads/types"
 
 import LoadingItem from "./LoadingItem"
 import ItemMessageChat from "./ItemMessageChat"
 
-import { cx } from "@/lib/cx"
-import { useSelectChat } from "@/store"
 import { getMillisecond, useCountMessagesNotReading } from "@/helpers"
 
 function ListMessages() {
-  const select = useSelectChat(({ select }) => select)
   const { data, isLoading } = useCountMessagesNotReading()
 
   const items = data || []
@@ -38,20 +34,6 @@ function ListMessages() {
     return ITEMS
   }, [items])
 
-  const filterNavigate = useMemo(() => {
-    const array: IResponseThreads[] = []
-    if (select === "all") {
-      return filters
-    } else {
-      for (const item of filters) {
-        if (item.provider === select) {
-          array.push(item)
-        }
-      }
-    }
-    return array
-  }, [select, filters])
-
   if (isLoading)
     return (
       <ul className="w-full p-2.5 overflow-x-hidden overflow-y-scroll flex flex-col loading-screen" key={`screen-load`}>
@@ -63,13 +45,10 @@ function ListMessages() {
 
   return (
     <ul
-      className={cx(
-        "w-full p-2.5 h-fit overflow-y-scroll flex flex-col gap-0.5",
-        "max-md:pb-[--height-mobile-footer-nav] max-md:max-h-[calc(100dvh_-_var(--height-mobile-header))_-_6.125rem]",
-      )}
+      className="w-full p-2.5 h-fit overflow-y-scroll flex flex-col gap-0.5 max-md:pb-[--height-mobile-footer-nav] max-md:max-h-[calc(100dvh_-_var(--height-mobile-header))]"
       key={`screen-chats`}
     >
-      {filterNavigate.map((item) => (
+      {filters.map((item) => (
         <ItemMessageChat key={`::key::item::chat::${item.id}::`} item={item} />
       ))}
     </ul>

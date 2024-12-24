@@ -26,8 +26,8 @@ export const HistoryExchangeOffers = ({}) => {
         styles.default,
       )}
     >
-      <Header {...{ value, setValue }} />
-      <SentenceCards {...{ value }} />
+      {/* <Header {...{ value, setValue }} />
+      <SentenceCards {...{ value }} /> */}
     </aside>
   )
 }

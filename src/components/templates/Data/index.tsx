@@ -17,13 +17,14 @@ import ChangePassword from "../ChangePassword"
 import NewServicesBanner from "../NewServicesBanner"
 import SuccessCreatePost from "../SuccessCreatePost"
 import BalloonDiscussion from "../Balloon/Discussion"
-import ReciprocalExchange from "../ReciprocalExchange"
+// import ReciprocalExchange from "../ReciprocalExchange"
 import SuccessNewOptional from "../SuccessNewOptional"
-import ActiveServicesFrom from "../ActiveServicesFrom"
+// import ActiveServicesFrom from "../ActiveServicesFrom"
 import CreateNewOptionModal from "../CreateNewOptionModal"
 import SuccessProvideFeedback from "../SuccessProvideFeedback"
-import CancelExchange, { CN_CANCEL_EXCHANGE } from "../CancelExchange"
-import ProvideFeedback, { CN_ProvideFeedback } from "../ProvideFeedback"
+// import { CN_CANCEL_EXCHANGE } from "../CancelExchange"
+import DeletePost from "../Delete/Post"
+import ProvideFeedback from "../ProvideFeedback"
 
 import { cx } from "@/lib/cx"
 import { EModalData } from "@/store"
@@ -36,16 +37,15 @@ import stylesUpdateProfile from "@/components/templates/UpdateProfile/styles/sty
 import stylesGeneralOffer from "@/components/templates/Balloon/styles/general.module.scss"
 import stylesOffer from "@/components/templates/Balloon/Offer/styles/style.module.scss"
 import stylesAlertAndDiscussion from "@/components/templates/Balloon/Discussion/styles/style.module.scss"
-import stylesReciprocalExchange from "@/components/templates/ReciprocalExchange/styles/style.module.scss"
+// import stylesReciprocalExchange from "@/components/templates/ReciprocalExchange/styles/style.module.scss"
 import stylesOutAccount from "@/components/templates/OutAccount/style.module.scss"
 import stylesUpdateOffer from "@/components/templates/Update/Offer/style.module.scss"
 import stylesChangePassword from "@/components/templates/ChangePassword/style.module.scss"
-import stylesActiveServicesFrom from "@/components/templates/ActiveServicesFrom/styles/style.module.scss"
+// import stylesActiveServicesFrom from "@/components/templates/ActiveServicesFrom/styles/style.module.scss"
 import stylesCreatePost from "@/components/templates/CreatePost/style.module.scss"
 import stylesSuccessCreatePost from "@/components/templates/SuccessCreatePost/style.module.scss"
 import stylesBallonPost from "@/components/templates/BallonPost/style.module.scss"
 import UpdateDiscussionAndAlert, { CN_UPDATE_DISCUSSION_AND_ALERT } from "../Update/DiscussionAndAlert"
-import DeletePost from "../Delete/Post"
 
 const stringBalloonAlert = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
 const stringBalloonDiscussion = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
@@ -63,17 +63,17 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.BalloonAlert, <BalloonAlert key="::key::modal::modal-sign" />], //Балун алерта
   [EModalData.BalloonDiscussion, <BalloonDiscussion key="::key::modal::modal-sign" />], //Балун дискуссии
   [EModalData.BalloonOffer, <BalloonOffer key="::key::modal::modal-sign" />], //балун оффера
-  [EModalData.ReciprocalExchange, <ReciprocalExchange key="::key::modal::reciprocal-exchange" />], //Обмен предложениями
+  // [EModalData.ReciprocalExchange, <ReciprocalExchange key="::key::modal::reciprocal-exchange" />], //Обмен предложениями
   [EModalData.OutAccount, <OutAccount key="::key::modal::out-account" />], //Выход с аккаунта
   [EModalData.UpdateOffer, <UpdateOffer key="::key::modal::out-account" />], //Изменение оффера
   [EModalData.ChangePassword, <ChangePassword key="::key::modal::change-password" />], //Изменение пароля
   [EModalData.DeleteOffer, <DeleteOffer key="::key::modal::delete-offer" />], //Удаление оффера
-  [EModalData.DeleteUser, <DeleteUser key="::key::modal::delete-user" />], //Удаление оффера
-  [EModalData.ActiveServicesFrom, <ActiveServicesFrom key="::key::modal::active-services-from" />], //Желаемые услуги
+  [EModalData.DeleteUser, <DeleteUser key="::key::modal::delete-user" />], //Удаление user
+  // [EModalData.ActiveServicesFrom, <ActiveServicesFrom key="::key::modal::active-services-from" />], //Желаемые услуги
   [EModalData.SuccessNewOptional, <SuccessNewOptional key="::key::modal::successNewOptional" />], //Успешное создание оффера, дискуссии или алерта
   [EModalData.UpdateDiscussionAndAlert, <UpdateDiscussionAndAlert key="::key::Update::Discussion::And::Alert" />], //Обновление беседы и алерта
   [EModalData.DeleteChat, <DeleteChat key="::key::DeleteChat" />], //Обновление чата
-  [EModalData.CancelExchange, <CancelExchange key="::key::CancelExchange" />], // Оклонение обмена
+  // [EModalData.CancelExchange, <CancelExchange key="::key::CancelExchange" />], // Оклонение обмена
   [EModalData.CREATE_POST, <CreatePost key="::key::CreatePost" />], //Создание поста
   [EModalData.CREATE_POST_MAP, <CreatePost key="::key::CreatePost" />], //Создание поста
   [EModalData.CREATE_NEW_NOTE, <CreateNewNote key="::key::CreateNewNote" />], //Создание записи
@@ -88,13 +88,13 @@ export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.NewServicesBannerMap, CN_SECTION], //
   [EModalData.CreateNewOptionModal, styleCreateNewOptionModal.container], //
   [EModalData.CreateNewOptionModalMap, styleCreateNewOptionModal.container], //
-  [EModalData.CompletionTransaction, CN_ProvideFeedback!], //
+  // [EModalData.CompletionTransaction, CN_ProvideFeedback!], //
   [EModalData.ComplaintModal, stylesComplaintModal.container], //
   [EModalData.UpdateProfile, stylesUpdateProfile.container], //
   [EModalData.BalloonAlert, stringBalloonAlert], //
   [EModalData.BalloonDiscussion, stringBalloonDiscussion], //
   [EModalData.BalloonOffer, stringBalloonOffer], //
-  [EModalData.ReciprocalExchange, stylesReciprocalExchange.container], //
+  // [EModalData.ReciprocalExchange, stylesReciprocalExchange.container], //
   [EModalData.OutAccount, stylesOutAccount.container], //
   [EModalData.DeleteOffer, stylesOutAccount.container], //
   [EModalData.DeleteUser, stylesOutAccount.container], //
@@ -103,10 +103,10 @@ export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.DELETE_POST, stylesOutAccount.container], //
   [EModalData.UpdateOffer, stylesUpdateOffer.container], //
   [EModalData.ChangePassword, stylesChangePassword.container], //
-  [EModalData.ActiveServicesFrom, stylesActiveServicesFrom.container], //
+  // [EModalData.ActiveServicesFrom, stylesActiveServicesFrom.container], //
   [EModalData.SuccessNewOptional, CN_SUCCESS_NEW_OPTIONAL], //
   [EModalData.UpdateDiscussionAndAlert, CN_UPDATE_DISCUSSION_AND_ALERT], //
-  [EModalData.CancelExchange, CN_CANCEL_EXCHANGE], //
+  // [EModalData.CancelExchange, CN_CANCEL_EXCHANGE], //
   [EModalData.CREATE_POST, stylesCreatePost.container], //
   [EModalData.CREATE_POST_MAP, stylesCreatePost.container], //
   [EModalData.SUCCESS_CREATE_POST, stylesSuccessCreatePost.container], //

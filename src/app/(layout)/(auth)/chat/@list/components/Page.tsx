@@ -6,9 +6,6 @@ import { useParams } from "next/navigation"
 const ListMessages = dynamic(() => import("./ListMessages"), {
   ssr: false,
 })
-const HeaderAndNavigation = dynamic(() => import("./HeaderAndNavigation"), {
-  ssr: false,
-})
 
 import { cx } from "@/lib/cx"
 
@@ -25,7 +22,6 @@ export default () => {
         "bottom-internal-shadow",
       )}
     >
-      <HeaderAndNavigation />
       <ListMessages />
     </section>
   )

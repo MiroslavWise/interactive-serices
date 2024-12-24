@@ -7,23 +7,15 @@ import { Feature } from "@yandex/ymaps3-clusterer"
 import { ReactifiedModule } from "@yandex/ymaps3-types/reactify"
 
 import { EnumTypeProvider } from "@/types/enum"
+import { type IPosts } from "@/services/posts/types"
 
+import IconPost from "../icons/IconPost"
 import IconMap from "../icons/map-svg/IconMap"
 
 import { fromNow } from "@/helpers"
 import { getPosts } from "@/services/posts"
 import { JSONStringBounds } from "@/utils/map-sort"
-import {
-  dispatchBallonPost,
-  dispatchCollapseServicesTrue,
-  dispatchMapZoomClick,
-  useBounds,
-  useFiltersServices,
-  useUrgentFilter,
-} from "@/store"
-import { IPosts } from "@/services/posts/types"
-import { cx } from "@/lib/cx"
-import IconPost from "../icons/IconPost"
+import { dispatchBallonPost, dispatchCollapseServicesTrue, dispatchMapZoomClick, useBounds, useFiltersServices } from "@/store"
 
 type ReactifiedApi = ReactifiedModule<typeof ymaps3>
 
@@ -78,7 +70,7 @@ function MarkerPosts() {
   const { YMapMarker } = reactifiedApi ?? {}
 
   function marker({ properties, geometry }: FeaturePost) {
-    const { title, created, id } = properties ?? {}
+    const { title, created } = properties ?? {}
     return is(geometry.coordinates as number[]) ? (
       <YMapMarker coordinates={geometry.coordinates}>
         <div className="absolute z-20 w-[1.8125rem] h-9 -translate-x-1/2 -translate-y-1/2 max-md:scale-75 group">
@@ -88,12 +80,7 @@ function MarkerPosts() {
               dispatchBallonPost(properties)
             }}
           />
-          <div
-            className={cx(
-              "div-alert-text absolute w-max left-0 top-1/2 pointer-events-none translate-x-3.5 -translate-y-1/2",
-              id % 2 ? "hidden group-hover:flex" : "flex",
-            )}
-          >
+          <div className="div-alert-text flex absolute w-max left-0 top-1/2 pointer-events-none translate-x-3.5 -translate-y-1/2 transition-opacity opacity-0 group-hover:opacity-100">
             <section className="flex flex-col h-11">
               <p className="text-[#000] line-clamp-1 text-ellipsis text-sm font-medium">{title}</p>
               <time className="text-text-secondary text-[0.8125rem] font-normal leading-4">{fromNow(created ?? "")}</time>
@@ -117,7 +104,7 @@ function MarkerPosts() {
       >
         <div className="cluster-post w-10 h-10 group rounded-full bg-BG-second flex items-center justify-center cursor-pointer absolute -translate-x-1/2 -translate-y-1/2 z-40 transition-colors border-2 border-BG-second hover:border-text-accent border-solid max-md:scale-75">
           <span className="text-center text-text-primary text-sm">{features?.length}</span>
-          <article className="absolute bg-BG-second top-1/2 -translate-y-1/2 left-9 max-w-80 w-max hidden flex-col gap-0.5 z-50 rounded-lg group-hover:flex px-1.5 py-3 overflow-x-hidden overflow-y-auto max-h-52">
+          <article className="absolute bg-BG-second top-1/2 -translate-y-1/2 left-9 max-w-80 w-max flex-col gap-0.5 z-50 rounded-lg hidden group-hover:flex px-1.5 py-3 overflow-x-hidden overflow-y-auto max-h-52">
             {features.map(({ id, properties, geometry }) => (
               <li
                 key={`:dv:bVC:xcb:--${id}:`}

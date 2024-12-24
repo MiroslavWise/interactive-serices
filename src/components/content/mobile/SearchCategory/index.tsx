@@ -48,6 +48,7 @@ export default function SearchCategory() {
     const trim = input.trim().toLowerCase()
 
     if (!loading) {
+      setLoading(true)
       if (trim.length > 1) {
         const response = await queryClient.fetchQuery({
           queryFn: () => getSearch({ query: { query: trim } }),
@@ -67,6 +68,8 @@ export default function SearchCategory() {
       } else {
         setLoading(false)
       }
+    } else {
+      setLoading(false)
     }
   }
 
@@ -108,9 +111,8 @@ export default function SearchCategory() {
             }}
             value={input}
             onChange={(event) => {
-              debouncedValue()
-              setLoading(true)
               setInput(event.target.value || "")
+              debouncedValue()
             }}
             readOnly={!visible}
             required
