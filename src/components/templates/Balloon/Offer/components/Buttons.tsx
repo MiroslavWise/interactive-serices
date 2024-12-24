@@ -118,23 +118,25 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
         </div>
       ) : null} */}
       {children}
-      <Button
-        type="button"
-        className={cx("w-full h-11", (!userId || userId === offer.userId) && "!opacity-50 !cursor-no-drop")}
-        typeButton="fill-primary"
-        label="Написать сообщение"
-        loading={loadingChat}
-        onClick={(event) => {
-          event.stopPropagation()
-          if (!!userId && userId !== offer.userId) {
-            openUserChat()
-            return
-          }
-          if (!userId) {
-            dispatchAuthModal({ visible: true, type: EnumSign.SignIn })
-          }
-        }}
-      />
+      <div className="w-full px-5 pt-5 flex items-center">
+        <Button
+          type="button"
+          className={cx("w-full h-11", (!userId || userId === offer.userId) && "!opacity-50 !cursor-no-drop")}
+          typeButton="fill-primary"
+          label="Написать сообщение"
+          loading={loadingChat}
+          onClick={(event) => {
+            event.stopPropagation()
+            if (!!userId && userId !== offer.userId) {
+              openUserChat()
+              return
+            }
+            if (!userId) {
+              dispatchAuthModal({ visible: true, type: EnumSign.SignIn })
+            }
+          }}
+        />
+      </div>
       {/* {!!urgent ? (
         !!userId ? (
           <div className="w-full px-5">

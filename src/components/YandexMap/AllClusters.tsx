@@ -25,7 +25,7 @@ import {
   dispatchCollapseServicesTrue,
   dispatchBallonPost,
 } from "@/store"
-import { fromNow } from "@/helpers"
+import { formatOfMMM, fromNow } from "@/helpers"
 import { getPosts } from "@/services/posts"
 import { JSONStringBounds } from "@/utils/map-sort"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
@@ -96,7 +96,7 @@ function AllClusters() {
     if (!is(geometry.coordinates as number[])) return null
 
     const title = provider === EnumTypeProvider.POST ? post?.title : offer?.title
-    const created = provider === EnumTypeProvider.POST ? post?.created : offer?.created
+    const created = provider === EnumTypeProvider.POST ? post?.updated ?? post?.created : offer?.updated ?? offer?.created
 
     return (
       <YMapMarker coordinates={geometry.coordinates}>
@@ -122,7 +122,7 @@ function AllClusters() {
             <section className="flex flex-col h-11">
               <p className="text-[#000] line-clamp-1 text-ellipsis text-sm font-medium">{title}</p>
               <time className="text-text-secondary text-[0.8125rem] line-clamp-1 text-ellipsis font-normal leading-4">
-                {fromNow(created ?? "")}
+                {formatOfMMM(created ?? "")}
               </time>
             </section>
           </div>
