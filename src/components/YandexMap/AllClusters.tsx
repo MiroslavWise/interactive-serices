@@ -161,7 +161,7 @@ function AllClusters() {
             background: background,
           }}
         >
-          <div className="w-10 h-10 bg-BG-second rounded-full flex items-center justify-center">
+          <div className="w-10 h-10 bg-BG-second rounded-full flex items-center justify-center group-hover:scale-90">
             <span className="text-center text-text-primary text-sm">{features?.length}</span>
           </div>
           <article className="absolute bg-BG-second top-1/2 -translate-y-1/2 left-9 max-w-80 w-max hidden z-50 rounded-lg group-hover:flex overflow-hidden shadow-box-down">
