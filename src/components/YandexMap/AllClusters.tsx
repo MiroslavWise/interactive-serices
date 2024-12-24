@@ -188,6 +188,11 @@ function AllClusters() {
                         dispatchBallonAlert({ offer: offer! })
                         return
                       }
+
+                      if (provider === EnumTypeProvider.POST) {
+                        dispatchBallonPost(post!)
+                        return
+                      }
                     }}
                   >
                     <div
