@@ -38,13 +38,13 @@ export const ServicesComponent = () => {
   const stringJSON = JSONStringBounds(bounds)
 
   const itemsFilterPosts = useMemo(() => {
-    if (!itemsPost.length || !!idSearch || activeFilters.length > 0) {
-      return []
-    }
-
     const array: IPosts[] = []
 
-    if (bounds && itemsPost) {
+    if (!itemsPost.length || !!idSearch || activeFilters.length > 0) {
+      return array
+    }
+
+    if (bounds && itemsPost && ["all", EnumTypeProvider.POST].includes(providers)) {
       const newArray = mapSort({ bounds: bounds, items: itemsPost })
       for (const item of newArray) {
         if (timesFilter === EnumTimesFilter.ALL) {
@@ -59,16 +59,15 @@ export const ServicesComponent = () => {
     }
 
     return array
-  }, [itemsPost, stringJSON, timesFilter, activeFilters, idSearch])
+  }, [itemsPost, stringJSON, timesFilter, activeFilters, idSearch, providers])
 
   const items = useMemo(() => {
+    const array: IResponseOffers[] = []
     if (!itemsOffers.length) {
-      return []
+      return array
     }
 
-    const array: IResponseOffers[] = []
-
-    if (bounds && itemsOffers) {
+    if (bounds && itemsOffers && ["all", EnumTypeProvider.offer, EnumTypeProvider.alert].includes(providers)) {
       const newSortMap = mapSort({ bounds, items: itemsOffers })
 
       for (const item of newSortMap) {
@@ -84,7 +83,7 @@ export const ServicesComponent = () => {
     }
 
     return array
-  }, [itemsOffers, stringJSON, timesFilter, idSearch])
+  }, [itemsOffers, stringJSON, timesFilter, idSearch, providers])
 
   if (isLoading || isLoadingPost)
     return (

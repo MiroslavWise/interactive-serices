@@ -7,17 +7,16 @@ import { MENU_ICONS } from "../../NavBar/constants/menu-icons"
 
 import { cx } from "@/lib/cx"
 import { useSign } from "../hooks/useSign"
-import { useAuth, EStatusAuth } from "@/store"
+import { useAuth, EStatusAuth, dispatchIntro } from "@/store"
 import { ITEMS_LINK_FOOTER } from "../constants"
 import { getBarterUserIdReceiver } from "@/services"
 import { useStatusAuth } from "@/helpers/use-status-auth"
 
 import styles from "../styles/link.module.scss"
 
-const TITLE = "Посты"
+const TITLE = "О Sheira"
 
 export const LinkOffers = ({ pathname }: { pathname: string }) => {
-  const handleAuthModal = useSign()
   const statusAuth = useStatusAuth()
   const { id } = useAuth(({ auth }) => auth) ?? {}
   const { data } = useQuery({
@@ -37,7 +36,7 @@ export const LinkOffers = ({ pathname }: { pathname: string }) => {
 
   return (
     <Link
-      href={statusAuth === EStatusAuth.AUTHORIZED ? `${ITEMS_LINK_FOOTER.post}#post` : {}}
+      href={{}}
       data-active={isActive}
       className={cx(
         styles.link,
@@ -46,9 +45,9 @@ export const LinkOffers = ({ pathname }: { pathname: string }) => {
       )}
       onClick={(event) => {
         event.stopPropagation()
-        if (statusAuth !== EStatusAuth.AUTHORIZED) {
-          event.preventDefault()
-          handleAuthModal()
+        event.preventDefault()
+        if (statusAuth === EStatusAuth.AUTHORIZED) {
+          dispatchIntro(true)
         }
       }}
       data-test="link-footer-menu-mobile-offers"
@@ -58,7 +57,7 @@ export const LinkOffers = ({ pathname }: { pathname: string }) => {
     >
       <section className="h-full flex flex-col items-center gap-[0.1875rem]">
         <article className="relative w-6 h-6 p-3 *:absolute *:top-1/2 *:left-1/2 *:h-6 *:w-6 *:-translate-x-1/2 *:-translate-y-1/2">
-          {MENU_ICONS.offers}
+          {MENU_ICONS.about}
         </article>
         <p
           className={cx(

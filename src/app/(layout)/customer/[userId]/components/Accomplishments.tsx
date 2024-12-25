@@ -66,43 +66,44 @@ export const ICON: Record<TKeyItem, ReactNode> = {
   ),
 }
 
-export const badges = ({ barters, rating, feedback }: { barters: number; rating: string; feedback: number }): IPropsItem[] => [
-  {
-    id: "barters",
-    title: "Обмены",
-    count: barters,
-  },
-  {
-    id: "rating",
-    title: "Рейтинг",
-    count: rating,
-  },
-  {
-    id: "feedback",
-    title: "Отзывы",
-    count: feedback,
-  },
+export const badges = ({ rating, feedback }: { rating: string; feedback: number }): IPropsItem[] => [
+  // {
+  //   id: "barters",
+  //   title: "Обмены",
+  //   count: barters,
+  // },
+  // {
+  //   id: "rating",
+  //   title: "Рейтинг",
+  //   count: rating,
+  // },
+  // {
+  //   id: "feedback",
+  //   title: "Отзывы",
+  //   count: feedback,
+  // },
 ]
 
 async function Accomplishments({ id }: { id: number | string }) {
-  const [{ data }, { data: dataTestimonials }] = await Promise.all([getUserId(id), getTestimonials({ receiver: id!, order: "DESC" })])
+  // const [{ data }, { data: dataTestimonials }] = await Promise.all([getUserId(id), getTestimonials({ receiver: id!, order: "DESC" })])
 
-  const itemsAllBarters = data?.barters?.filter((_) => _.status === EnumStatusBarter.COMPLETED) || []
-  const itemsTestimonials = dataTestimonials || []
+  // const itemsAllBarters = data?.barters?.filter((_) => _.status === EnumStatusBarter.COMPLETED) || []
+  // const itemsTestimonials = dataTestimonials || []
 
-  const lengthAllBarters = itemsAllBarters.length
-  const lengthTestimonials = itemsTestimonials.length
-  const averageRating = Number(
-    itemsTestimonials.reduce((acc, cur) => acc + Number(cur.rating ?? 0), 0) / (lengthTestimonials || 1),
-  ).toFixed(1)
+  // const lengthAllBarters = itemsAllBarters.length
+  // const lengthTestimonials = itemsTestimonials.length
+  // const averageRating = Number(
+  //   itemsTestimonials.reduce((acc, cur) => acc + Number(cur.rating ?? 0), 0) / (lengthTestimonials || 1),
+  // ).toFixed(1)
 
-  return (
-    <article className="w-full rounded-2xl grid grid-cols-3 gap-2 p-3 md:p-2.5 bg-BG-second">
-      {badges({ feedback: lengthTestimonials, rating: averageRating, barters: lengthAllBarters }).map(({ id, title, count }) => (
-        <Item key={`::key::item::accomplishments::${id}`} id={id} title={title} count={count} />
-      ))}
-    </article>
-  )
+  return null
+  // return (
+  //   <article className="w-full rounded-2xl grid grid-cols-3 gap-2 p-3 md:p-2.5 bg-BG-second">
+  //     {badges({ feedback: lengthTestimonials, rating: averageRating, barters: lengthAllBarters }).map(({ id, title, count }) => (
+  //       <Item key={`::key::item::accomplishments::${id}`} id={id} title={title} count={count} />
+  //     ))}
+  //   </article>
+  // )
 }
 
 Accomplishments.displayName = "Accomplishments"

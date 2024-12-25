@@ -2,29 +2,29 @@
 
 import { useQuery } from "@tanstack/react-query"
 
-import { EnumStatusBarter } from "@/types/enum"
+// import { EnumStatusBarter } from "@/types/enum"
 import { type IUserResponse } from "@/services/users/types"
 
-import { badges, ICON } from "@/app/(layout)/customer/[userId]/components/Accomplishments"
+// import { badges, ICON } from "@/app/(layout)/customer/[userId]/components/Accomplishments"
 
 import { getTestimonials } from "@/services"
 
 function Accomplishments({ user }: { user: IUserResponse }) {
   const { id } = user ?? {}
-  const { data: dataTestimonials, isLoading } = useQuery({
+  const { isLoading } = useQuery({
     queryFn: () => getTestimonials({ receiver: id, order: "DESC" }),
     queryKey: ["testimonials", { receiver: id, order: "DESC" }],
     enabled: !!id,
   })
 
-  const itemsAllBarters = user?.barters?.filter((_) => _.status === EnumStatusBarter.COMPLETED) || []
-  const itemsTestimonials = dataTestimonials?.data || []
+  // const itemsAllBarters = user?.barters?.filter((_) => _.status === EnumStatusBarter.COMPLETED) || []
+  // const itemsTestimonials = dataTestimonials?.data || []
 
-  const lengthAllBarters = itemsAllBarters.length
-  const lengthTestimonials = itemsTestimonials.length
-  const averageRating = Number(
-    itemsTestimonials.reduce((acc, cur) => acc + Number(cur.rating ?? 0), 0) / (lengthTestimonials || 1),
-  ).toFixed(1)
+  // const lengthAllBarters = itemsAllBarters.length
+  // const lengthTestimonials = itemsTestimonials.length
+  // const averageRating = Number(
+  //   itemsTestimonials.reduce((acc, cur) => acc + Number(cur.rating ?? 0), 0) / (lengthTestimonials || 1),
+  // ).toFixed(1)
 
   if (isLoading)
     return (
@@ -41,19 +41,21 @@ function Accomplishments({ user }: { user: IUserResponse }) {
       </article>
     )
 
-  return (
-    <div className="w-full grid grid-cols-3 gap-2 py-2.5">
-      {badges({ feedback: lengthTestimonials, rating: averageRating, barters: lengthAllBarters }).map(({ title, count, id }) => (
-        <div key={`::key::item::${id}::`} className="w-full flex flex-col gap-0.5 bg-grey-field rounded-.625 py-1.5 px-3">
-          <article className="w-full flex flex-row gap-1 items-center [&>svg]:w-3 [&>svg]:h-3">
-            <p className="text-text-primary text-xs font-normal">{title}</p>
-            {ICON[id]}
-          </article>
-          <h3 className="text-text-primary text-start text-sm font-semibold">{count}</h3>
-        </div>
-      ))}
-    </div>
-  )
+  return null
+
+  // return (
+  //   <div className="w-full grid grid-cols-3 gap-2 py-2.5">
+  //     {badges({ feedback: lengthTestimonials, rating: averageRating, barters: lengthAllBarters }).map(({ title, count, id }) => (
+  //       <div key={`::key::item::${id}::`} className="w-full flex flex-col gap-0.5 bg-grey-field rounded-.625 py-1.5 px-3">
+  //         <article className="w-full flex flex-row gap-1 items-center [&>svg]:w-3 [&>svg]:h-3">
+  //           <p className="text-text-primary text-xs font-normal">{title}</p>
+  //           {ICON[id]}
+  //         </article>
+  //         <h3 className="text-text-primary text-start text-sm font-semibold">{count}</h3>
+  //       </div>
+  //     ))}
+  //   </div>
+  // )
 }
 
 Accomplishments.displayName = "Accomplishments"
