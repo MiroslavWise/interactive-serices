@@ -13,7 +13,7 @@ export default function CookiesToast() {
   return (
     <article
       className={cx(
-        "fixed left-5 bottom-5 p-2 bg-element-accent-2 rounded-xl shadow-menu-absolute w-fit flex flex-wrap items-center gap-4 max-md:right-5 max-md:max-w-[calc(100%_-_2.5rem)] max-md:bottom-[calc(1.25rem_+_var(--height-mobile-footer-nav))] max-md:w-full",
+        "fixed left-1/2 -translate-x-1/2 bottom-6 p-3 bg-element-accent-2 rounded-xl shadow-menu-absolute w-fit flex flex-wrap items-center gap-4 max-md:right-5 max-md:max-w-[calc(100%_-_2.5rem)] max-md:bottom-[calc(1.25rem_+_var(--height-mobile-footer-nav))] max-md:w-full",
         visible ? "z-[1000] opacity-100 visible" : "-z-10 opacity-0 invisible",
       )}
     >
@@ -23,13 +23,9 @@ export default function CookiesToast() {
           cookies
         </Link>
       </p>
-      <Button
-        type="button"
-        label="OK"
-        typeButton="fill-primary"
-        onClick={dispatchCookies}
-        className="ml-auto w-min h-9 rounded-[1.125rem]"
-      />
+      <button type="button" onClick={dispatchCookies} className="ml-auto w-min bg-transparent border-none">
+        <span className="text-sm font-semibold text-text-accent">OK</span>
+      </button>
     </article>
   )
 }

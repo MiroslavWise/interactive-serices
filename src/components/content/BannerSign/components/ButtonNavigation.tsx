@@ -7,7 +7,6 @@ import { IconNavigate } from "@/components/icons/IconNavigate"
 import { cx } from "@/lib/cx"
 import { useToast } from "@/helpers/hooks/useToast"
 import { MAX_ZOOM, MIN_ZOOM } from "@/helpers/constants"
-// import { useStatusAuth } from "@/helpers/use-status-auth"
 import { dispatchMapCoordinatesZoom, useMapCoordinates } from "@/store"
 import { handleAddressLocation } from "@/helpers/functions/navigator-address-location"
 
@@ -36,7 +35,7 @@ export const ButtonNavigation = () => {
   }
 
   return (
-    <div className={cx(styles.buttonNavigation, "fixed left-0 bottom-6 flex flex-col gap-2.5 z-[60] w-10")} data-collapse={true}>
+    <div className={cx(styles.buttonNavigation, "fixed left-0 bottom-[4.75rem] flex flex-col gap-2.5 z-[60] w-10")} data-collapse={true}>
       <section className="w-10 flex flex-col rounded-.625 bg-BG-second overflow-hidden">
         <button
           onClick={(event) => handleZoom(event, "+")}
