@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
 
-import { EnumStatusBarter } from "@/types/enum"
+// import { EnumStatusBarter } from "@/types/enum"
 
 import { NextImageMotion } from "@/components/common"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
@@ -11,7 +11,7 @@ import { cx } from "@/lib/cx"
 import { fromNow } from "@/helpers"
 import { useOnline, usePublicProfile } from "@/store"
 import { getTestimonials, getUserId } from "@/services"
-import { badges, ICON } from "@/app/(layout)/customer/[userId]/components/Accomplishments"
+// import { badges, ICON } from "@/app/(layout)/customer/[userId]/components/Accomplishments"
 
 function PublicProfileUser() {
   const id = usePublicProfile(({ id }) => id)
@@ -21,27 +21,27 @@ function PublicProfileUser() {
     queryKey: ["user", { userId: id! }],
     enabled: !!id,
   })
-  const { data: dataTestimonials, isLoading: isLoadingTestimonials } = useQuery({
-    queryFn: () => getTestimonials({ receiver: id!, order: "DESC" }),
-    queryKey: ["testimonials", { receiver: id, order: "DESC" }],
-    enabled: !!id,
-  })
+  // const { data: dataTestimonials, isLoading: isLoadingTestimonials } = useQuery({
+  //   queryFn: () => getTestimonials({ receiver: id!, order: "DESC" }),
+  //   queryKey: ["testimonials", { receiver: id, order: "DESC" }],
+  //   enabled: !!id,
+  // })
 
   const isOnline = users.some((_) => _.id === id)
 
   const { profile, updated } = data?.data ?? {}
   const { firstName, lastName, image } = profile ?? {}
 
-  const itemsAllBarters = data?.data?.barters?.filter((_) => _.status === EnumStatusBarter.COMPLETED) || []
-  const itemsTestimonials = dataTestimonials?.data || []
+  // const itemsAllBarters = data?.data?.barters?.filter((_) => _.status === EnumStatusBarter.COMPLETED) || []
+  // const itemsTestimonials = dataTestimonials?.data || []
 
-  const lengthAllBarters = itemsAllBarters.length
-  const lengthTestimonials = itemsTestimonials.length
-  const averageRating = Number(
-    itemsTestimonials.reduce((acc, cur) => acc + Number(cur.rating ?? 0), 0) / (lengthTestimonials || 1),
-  ).toFixed(1)
+  // const lengthAllBarters = itemsAllBarters.length
+  // const lengthTestimonials = itemsTestimonials.length
+  // const averageRating = Number(
+  //   itemsTestimonials.reduce((acc, cur) => acc + Number(cur.rating ?? 0), 0) / (lengthTestimonials || 1),
+  // ).toFixed(1)
 
-  const array = badges({ feedback: lengthTestimonials, rating: averageRating, barters: lengthAllBarters })
+  // const array = badges({ feedback: lengthTestimonials, rating: averageRating, barters: lengthAllBarters })
 
   return (
     <div className={cx("w-full flex flex-col gap-2.5", isLoading && "loading-screen")}>
@@ -123,7 +123,7 @@ function PublicProfileUser() {
           </svg>
         </Link>
       </article>
-      <article
+      {/* <article
         className={cx(
           "w-full rounded-2xl bg-BG-second p-2.5 grid grid-cols-3 gap-2",
           isLoadingTestimonials && "loading-screen",
@@ -146,7 +146,7 @@ function PublicProfileUser() {
                 <h3 className="text-text-primary text-start text-lg font-semibold">{item.count}</h3>
               </article>
             ))}
-      </article>
+      </article> */}
     </div>
   )
 }

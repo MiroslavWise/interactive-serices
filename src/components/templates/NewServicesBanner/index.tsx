@@ -20,7 +20,7 @@ function NewServicesBanner() {
   return (
     <>
       <h3 className="text-[var(--text-primary)] text-lg md:text-2xl font-semibold text-center">Я хочу создать</h3>
-      <ul className="h-full w-full flex flex-col gap-4 items-center overflow-y-auto md:overflow-hidden">
+      <ul className="h-full w-full flex flex-col gap-4 items-center max-md:pr-8">
         {state === EModalData.NewServicesBannerMap && init ? (
           <article className="w-full max-w-full md:max-w-[22.5rem] p-4 flex flex-col gap-1.5 items-start bg-[var(--grey-field)] rounded-2xl mb-1 md:mb-3.5">
             <div className="flex flex-row items-center gap-2.5 w-full">
@@ -34,9 +34,9 @@ function NewServicesBanner() {
         ) : null}
         <NewCreateBadge {...NEW_CREATE_BADGES[0]} />
         {visible && step === 1 && type === EnumTypeProvider.offer && <ArticleOnboarding />}
+        <NewCreateBadge {...NEW_CREATE_BADGES[2]} />
         <NewCreateBadge {...NEW_CREATE_BADGES[1]} />
         {visible && step === 1 && type === EnumTypeProvider.alert && <ArticleOnboarding />}
-        <NewCreateBadge {...NEW_CREATE_BADGES[2]} />
       </ul>
     </>
   )

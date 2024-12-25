@@ -9,11 +9,11 @@ export const SERVICES: ISegmentValues<TServicesFilter>[] = [
   },
   {
     value: EnumTypeProvider.offer,
-    label: "Предложения",
+    label: "Умения и услуги",
   },
   {
     value: EnumTypeProvider.POST,
-    label: "Посты",
+    label: "События",
   },
   {
     value: EnumTypeProvider.alert,

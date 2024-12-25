@@ -6,7 +6,7 @@ interface IProps<T = any> {
   items: T[]
 }
 
-const OFFSET = 0.5
+const OFFSET = 0.1
 
 export function mapSort<T = any>({ bounds, items }: IProps<T>) {
   const minCoords = bounds[0]

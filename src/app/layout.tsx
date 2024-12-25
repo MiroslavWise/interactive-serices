@@ -13,6 +13,7 @@ import env, { APPLE_ID, APPLE_NAME, keyWords, URL_APPLE_APP } from "@/config/env
 import "@/scss/init.scss"
 import "./build.css"
 import "react-toastify/dist/ReactToastify.css"
+import ButtonHelpTelegram from "@/components/templates/ButtonHelpTelegram"
 
 export const inter = Inter({ weight: ["400", "500", "600"], subsets: ["latin"], style: "normal", variable: "--font-inter" })
 
@@ -58,8 +59,7 @@ export function generateMetadata(): Metadata {
       url: env.server.host!,
       name: "Sheira",
     },
-    description:
-      "Сервис с интерактивной картой города. Можно размещать свои услуги, проводить активности, общаться и помогать друг другу",
+    description: "Сервис с интерактивной картой города. Можно размещать свои услуги, проводить активности, общаться и помогать друг другу",
     keywords: keyWords,
     appleWebApp: {
       capable: true,
@@ -184,6 +184,7 @@ export default ({ children }: PropsWithChildren) => (
     <body className={cx(inter.className, inter.variable)} id="body-layout" suppressHydrationWarning>
       <NextTopLoader />
       <Providers>{children}</Providers>
+      <ButtonHelpTelegram />
       <Script
         src={`https://api-maps.yandex.ru/v3/?apikey=${env.api_key_yandex}&lang=ru_RU`}
         strategy="beforeInteractive"

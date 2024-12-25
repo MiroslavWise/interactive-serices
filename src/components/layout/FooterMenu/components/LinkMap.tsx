@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { MENU_ICONS } from "../../NavBar/constants/menu-icons"
+import { MENU_ICONS } from "../../NavBar/constants/menu-icons" 
 
 import { cx } from "@/lib/cx"
 import { dispatchIntro, EStatusAuth } from "@/store"

@@ -1,21 +1,23 @@
 import { EnumTypeProvider } from "@/types/enum"
 import { type TNewCreateBadge } from "../types/types"
 
-import { mapIconCreateOffer } from "@/utils"
+import IconCircleQuestion from "@/components/icons/IconCircleQuestion"
 
 import {
-  useOnboarding,
-  dispatchOnboarding,
-  openCreateOffers,
-  dispatchModal,
-  EModalData,
   useModal,
+  EModalData,
+  dispatchModal,
+  useOnboarding,
+  openCreateOffers,
   dispatchCreatePost,
+  dispatchOnboarding,
   dispatchCreatePostMap,
   useNewServicesBannerMap,
 } from "@/store"
+import { cx } from "@/lib/cx"
+import { mapIconCreateOffer } from "@/utils"
 
-const NewCreateBadge: TNewCreateBadge = ({ value, label }) => {
+const NewCreateBadge: TNewCreateBadge = ({ value, label, assistance }) => {
   const state = useModal(({ data }) => data)
   const type = useOnboarding(({ type }) => type)
   const visible = useOnboarding(({ visible }) => visible)
@@ -48,17 +50,27 @@ const NewCreateBadge: TNewCreateBadge = ({ value, label }) => {
 
   return (
     <button
-      className={`group text-text-primary hover:!text-text-button flex flex-row items-center justify-center gap-4 h-14 w-full rounded-[1.75rem] max-w-full md:max-w-[22.5rem] bg-BG-second cursor-pointer z-[2] border border-solid border-grey-stroke-light hover:border-element-accent-1 hover:bg-element-accent-1 focus:border-element-accent-1 focus:bg-element-accent-1) ${
-        visible && type === value && "bg-element-accent-1"
-      } ${visible && type !== value && "cursor-default"}
-      [&>svg]:w-8 [&>svg]:h-8
-      ${[EnumTypeProvider.offer, EnumTypeProvider.discussion].includes(value)}
-        `}
+      className={cx(
+        "group relative z-0 text-text-primary hover:!text-text-button flex flex-row items-center justify-center gap-4 h-14 w-full rounded-[1.75rem] max-w-full md:max-w-[22.5rem] bg-BG-second cursor-pointer border border-solid border-grey-stroke-light hover:border-element-accent-1 hover:bg-element-accent-1 focus:border-element-accent-1 focus:bg-element-accent-1",
+        visible && type === value && "bg-element-accent-1",
+        visible && type !== value && "cursor-default",
+        "[&>svg]:w-8 [&>svg]:h-8",
+      )}
       onClick={handleType}
       id={`li-${value}-create`}
     >
       {mapIconCreateOffer.has(value) ? mapIconCreateOffer.get(value) : null}
       <p className="text-current text-base font-medium">{label}</p>
+      <button
+        type="button"
+        className="absolute top-1/2 -translate-y-1/2 -right-2 translate-x-full w-6 h-6 [&>article]:hover:z-50 [&>article]:hover:visible"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <IconCircleQuestion />
+        <article className="leading-3 absolute right-7 top-1/2 -translate-y-1/2 py-1 px-2 rounded-md -z-10 invisible w-max max-w-56 bg-BG-second shadow-menu-absolute border border-solid border-text-disabled">
+          <span className="text-xs font-normal text-text-primary">{assistance}</span>
+        </article>
+      </button>
     </button>
   )
 }
