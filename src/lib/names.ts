@@ -8,7 +8,7 @@ export function nameTitle(length: number, provider: EProviderLinkCustomer | Enum
       return "обсуждений"
     }
     if (EProviderLinkCustomer.post === provider) {
-      return "постов"
+      return "событий"
     }
     if (EnumTypeProvider.NOTE === provider) {
       return "записей"
@@ -16,14 +16,14 @@ export function nameTitle(length: number, provider: EProviderLinkCustomer | Enum
     if (EProviderLinkCustomer.alert === provider) {
       return "SOS-сообщений"
     }
-    return "предложений"
+    return "умений, или услуг"
   }
   if (num > 1 && num < 5) {
     if (EProviderLinkCustomer.discussion === provider) {
       return "обсуждения"
     }
     if (EProviderLinkCustomer.post === provider) {
-      return "поста"
+      return "события"
     }
     if (EnumTypeProvider.NOTE === provider) {
       return "записи"
@@ -31,14 +31,14 @@ export function nameTitle(length: number, provider: EProviderLinkCustomer | Enum
     if (EProviderLinkCustomer.alert === provider) {
       return "SOS-сообщения"
     }
-    return "предложения"
+    return "умения или услуги"
   }
   if (num == 1) {
     if (EProviderLinkCustomer.discussion === provider) {
       return "обсуждение"
     }
     if (EProviderLinkCustomer.post === provider) {
-      return "пост"
+      return "событие"
     }
     if (EnumTypeProvider.NOTE === provider) {
       return "запись"
@@ -46,7 +46,7 @@ export function nameTitle(length: number, provider: EProviderLinkCustomer | Enum
     if (EProviderLinkCustomer.alert === provider) {
       return "SOS-сообщение"
     }
-    return "предложение"
+    return "умение, или услуга"
   }
   if (EProviderLinkCustomer.discussion === provider) {
     return "обсуждений"
@@ -55,10 +55,10 @@ export function nameTitle(length: number, provider: EProviderLinkCustomer | Enum
     return "записей"
   }
   if (EProviderLinkCustomer.post === provider) {
-    return "постов"
+    return "событий"
   }
   if (EProviderLinkCustomer.alert === provider) {
     return "SOS-сообщений"
   }
-  return "предложений"
+  return "умений и услуг"
 }

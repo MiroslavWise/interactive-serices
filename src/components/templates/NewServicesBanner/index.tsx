@@ -34,8 +34,8 @@ function NewServicesBanner() {
         ) : null}
         <NewCreateBadge {...NEW_CREATE_BADGES[0]} />
         {visible && step === 1 && type === EnumTypeProvider.offer && <ArticleOnboarding />}
-        <NewCreateBadge {...NEW_CREATE_BADGES[2]} />
         <NewCreateBadge {...NEW_CREATE_BADGES[1]} />
+        <NewCreateBadge {...NEW_CREATE_BADGES[2]} />
         {visible && step === 1 && type === EnumTypeProvider.alert && <ArticleOnboarding />}
       </ul>
     </>

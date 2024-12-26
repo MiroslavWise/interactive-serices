@@ -13,7 +13,7 @@ import { cx } from "@/lib/cx"
 import { closeCreateOffers, dispatchClosePreCloseCreateService, dispatchModalClose, usePreCloseCreateService } from "@/store"
 
 const H: Map<EnumTypeProvider, string> = new Map([
-  [EnumTypeProvider.offer, "Предложения"],
+  [EnumTypeProvider.offer, "Умения и услуги"],
   [EnumTypeProvider.alert, "SOS-сообщения"],
   [EnumTypeProvider.discussion, "Обсуждения"],
   [EnumTypeProvider.POST, "Пост"],

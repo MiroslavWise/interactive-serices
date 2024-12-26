@@ -28,7 +28,7 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
       : provider === EnumTypeProvider.discussion
       ? title || "Обсуждение"
       : provider === EnumTypeProvider.offer
-      ? category?.title || "Предложение"
+      ? category?.title || "Умение или услуга"
       : null
 
   const geoData = offer?.addresses?.length > 0 ? offer?.addresses[0] : null

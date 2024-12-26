@@ -63,11 +63,11 @@ const NewCreateBadge: TNewCreateBadge = ({ value, label, assistance }) => {
       <p className="text-current text-base font-medium">{label}</p>
       <button
         type="button"
-        className="absolute top-1/2 -translate-y-1/2 -right-2 translate-x-full w-6 h-6 [&>article]:hover:z-50 [&>article]:hover:visible"
+        className="absolute top-1/2 -translate-y-1/2 -right-2 translate-x-full w-6 h-6 [&>article]:hover:z-50 [&>article]:hover:visible [&>article]:hover:opacity-100"
         onClick={(event) => event.stopPropagation()}
       >
         <IconCircleQuestion />
-        <article className="leading-3 absolute right-7 top-1/2 -translate-y-1/2 py-1 px-2 rounded-md -z-10 invisible w-max max-w-56 bg-BG-second shadow-menu-absolute border border-solid border-text-disabled">
+        <article className="leading-3 absolute right-7 top-1/2 -translate-y-1/2 py-1 px-2 rounded-md transition-all -z-10 invisible opacity-0 w-max max-w-56 bg-BG-second shadow-menu-absolute border border-solid border-grey-stroke-light">
           <span className="text-xs font-normal text-text-primary">{assistance}</span>
         </article>
       </button>

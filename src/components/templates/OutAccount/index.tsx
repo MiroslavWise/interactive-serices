@@ -21,7 +21,7 @@ export default function OutAccount() {
         <div data-img>
           <img src="/svg/log-out.svg" alt="out" width={20} height={20} />
         </div>
-        <h2>Вы уверены, что хотите выйти из аккаунта?</h2>
+        <h2>Вы уверены, что хотите выйти из аккаунта?</h2>
       </article>
       <footer data-test="footer-out-account">
         <Button type="button" typeButton="fill-primary" label="Да, выйти" onClick={outAccount} data-test="button-out-account-on-out" />

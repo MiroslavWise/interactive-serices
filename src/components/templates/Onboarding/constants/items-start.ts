@@ -13,7 +13,7 @@ export const ITEMS_START: IItemsStart[] = [
   {
     sub: "Создать",
     footer: {
-      title: "Предложение",
+      title: "Умение или услугу",
       icon: "/svg/3d/3d-speaker.svg",
     },
     action: EnumTypeProvider.offer,
@@ -29,7 +29,7 @@ export const ITEMS_START: IItemsStart[] = [
   {
     sub: "Создать",
     footer: {
-      title: "Пост",
+      title: "Событие",
       icon: "/svg/3d/post.svg",
     },
     action: EnumTypeProvider.POST,

@@ -37,7 +37,9 @@ export enum EModalData {
   BalloonDiscussion = "balloon-discussion",
   BalloonAlert = "balloon-alert",
   ReciprocalExchange = "reciprocal-exchange",
+  /** Выход из аккаунта @default ВЫХОД */
   OutAccount = "out-account",
+  /** Обновление умения или услуги @default ОБНОВЛЕНИЕ */
   UpdateOffer = "update-offer",
   ChangePassword = "change-password",
   DeleteOffer = "delete-offer",

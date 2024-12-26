@@ -1,3 +1,5 @@
+import { z } from "zod"
+
 import { type IPromiseReturn, type TOrder } from "../types/general"
 import { type IImageData } from "@/types/type"
 import { type IAddressesResponse } from "../addresses/types/serviceAddresses"
@@ -10,6 +12,17 @@ export interface IResponseCreate {
   id: number
 }
 
+const schemaCompany = z.object({
+  provider: z.string().optional(),
+  title: z.string().optional(),
+  ad: z.string().optional(),
+  inn: z.string().optional(),
+  erid: z.string().optional(),
+  enabled: z.boolean().default(true).optional(),
+  imageId: z.number().optional(),
+})
+
+export type TCompany = z.infer<typeof schemaCompany>
 export interface IPostOffers {
   parentId?: number
   categoryId?: number
@@ -30,6 +43,7 @@ export interface IPostOffers {
   desired: boolean
   images?: number[]
   urgent?: EnumHelper | ""
+  company?: TCompany
 }
 
 export type IPatchOffers = Partial<IPostOffers> & { categories?: number[] }

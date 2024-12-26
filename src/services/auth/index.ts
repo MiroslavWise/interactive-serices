@@ -48,6 +48,7 @@ export const serviceAuthErrors: Map<string, string> = new Map([
   ["password too weak", "Пароль слишком слабый"],
   ["must agree", "Нет согласия с Пользовательским соглашением"],
   ["phone already exists", "Данный номер уже зарегистрирован"],
+  ["email must be a valid domain", "Электронная почта должна быть с доменом .ru"],
 ])
 
 export const functionAuthErrors = (messages: string | string[]): string => {

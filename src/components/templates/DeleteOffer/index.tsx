@@ -11,7 +11,7 @@ import { getUserIdOffers, patchOffer } from "@/services"
 import { useDeleteOffer, dispatchDeleteOffer, useAuth } from "@/store"
 
 const title: Map<EnumTypeProvider, string> = new Map([
-  [EnumTypeProvider.offer, "предложение"],
+  [EnumTypeProvider.offer, "умение, или услуга"],
   [EnumTypeProvider.discussion, "обсуждение"],
   [EnumTypeProvider.alert, "SOS-сообщение"],
 ])

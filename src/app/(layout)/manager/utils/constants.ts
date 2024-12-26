@@ -29,7 +29,7 @@ export const LINKS: I[] = [
     path: "/manager/complaints",
   },
   {
-    label: "Посты",
+    label: "События",
     path: "/manager/posts",
   },
   {

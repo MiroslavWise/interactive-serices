@@ -22,14 +22,11 @@ import { dispatchModal, dispatchCreatePost, EModalData, openCreateOffers, useAut
 const CN_UL = "w-full h-fit grid grid-cols-3 max-2xl:grid-cols-2 max-xl:grid-cols-1 overflow-y-visible z-10 pb-5 gap-2.5 md:gap-4"
 
 const titleEmpty: Map<EnumTypeProvider, string> = new Map([
-  [
-    EnumTypeProvider.offer,
-    "Начните предлагать услуги и обмениваться ими с жителям Sheira прямо сейчас. Создайте своё предложение и получите услугу в обмен",
-  ],
-  [
-    EnumTypeProvider.discussion,
-    "Есть проблема, которую нужно срочно обсудить? Или хотите спросить мнение по какому‑то вопросу? Давайте создадим обсуждение",
-  ],
+  [EnumTypeProvider.offer, "Начните предлагать услуги и обмениваться ими с жителям Sheira прямо сейчас. Создайте своё умение или услугу"],
+  // [
+  //   EnumTypeProvider.discussion,
+  //   "Есть проблема, которую нужно срочно обсудить? Или хотите спросить мнение по какому‑то вопросу? Давайте создадим обсуждение",
+  // ],
   [
     EnumTypeProvider.alert,
     "Случилось что‑то важное и хотите предупредить других? Или у вас случилась проблема и нужна помощь? Давайте создадим SOS-сообщение",
@@ -51,7 +48,7 @@ export const ContainerSuggestions = () => {
   const { data, isLoading } = useQuery({
     queryFn: () => getUserIdOffers(userId!, { provider: state, order: "DESC" }, true),
     queryKey: ["offers", { userId: userId, provider: state ?? EnumTypeProvider.offer }],
-    enabled: !!userId! && [EnumTypeProvider.alert, EnumTypeProvider.discussion, EnumTypeProvider.offer].includes(state),
+    enabled: !!userId! && [EnumTypeProvider.alert, EnumTypeProvider.offer].includes(state),
   })
 
   const { data: dataPosts, isLoading: isLoadingPosts } = useQuery({
@@ -68,8 +65,8 @@ export const ContainerSuggestions = () => {
 
   const functionAndTitle = useMemo(() => {
     const title: Map<Partial<EnumTypeProvider>, string> = new Map([
-      [EnumTypeProvider.offer, "Создать предложение"],
-      [EnumTypeProvider.discussion, "Создать обсуждение"],
+      [EnumTypeProvider.offer, "Создать умение или услугу"],
+      // [EnumTypeProvider.discussion, "Создать обсуждение"],
       [EnumTypeProvider.alert, "Создать SOS"],
       [EnumTypeProvider.POST, "Создать пост"],
     ])
@@ -112,7 +109,7 @@ export const ContainerSuggestions = () => {
     )
 
   if (
-    ([EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(state) && length === 0) ||
+    ([EnumTypeProvider.offer, EnumTypeProvider.alert].includes(state) && length === 0) ||
     (state === EnumTypeProvider.POST && lengthPosts === 0)
   )
     return (
@@ -125,9 +122,7 @@ export const ContainerSuggestions = () => {
                 "*:w-6 *:h-6 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2",
               )}
             >
-              {state === EnumTypeProvider.discussion ? (
-                <IconDiscussionBalloon />
-              ) : state === EnumTypeProvider.alert ? (
+              {state === EnumTypeProvider.alert ? (
                 <IconAlertCirlceRed />
               ) : state === EnumTypeProvider.offer ? (
                 <IconOfferBalloon />
