@@ -85,6 +85,8 @@ export const ServicesComponent = () => {
     return array
   }, [itemsOffers, stringJSON, timesFilter, idSearch, providers])
 
+  const isEmpty = items.length + itemsFilterPosts.length === 0
+
   if (isLoading || isLoadingPost)
     return (
       <ul className="load relative w-full flex flex-col items-start h-fit gap-2.5 *:bg-BG-first">
@@ -92,6 +94,17 @@ export const ServicesComponent = () => {
           <ServiceLoading key={`::item::loading::offers::${item}`} />
         ))}
       </ul>
+    )
+
+  /** @default issue/1-933 */
+  if (isEmpty)
+    return (
+      <section className="w-full h-full flex flex-col px-5 items-center justify-center gap-2.5 py-28">
+        <h3 className="text-center text-xl font-semibold text-text-primary">🥺Пока ничего</h3>
+        <p className="text-center text-sm font-normal text-text-primary">
+          В выбранной области радиусом 150 км временно нет доступных услуг и событий.
+        </p>
+      </section>
     )
 
   return <VirtualList list={items} listPosts={itemsFilterPosts} />

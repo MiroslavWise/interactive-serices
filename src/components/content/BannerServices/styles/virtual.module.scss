@@ -1,0 +1,7 @@
+.wrapper {
+  --h: 5.875rem;
+}
+
+.wrapper {
+  height: calc(100% - var(--h));
+}
