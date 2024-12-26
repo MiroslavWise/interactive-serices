@@ -9,7 +9,7 @@ export const descriptionImages = (value: EnumTypeProvider) =>
     : value === EnumTypeProvider.discussion
     ? "Фото или видео, раскрывающие суть предложенной темы, точно пригодятся"
     : value === EnumTypeProvider.offer
-    ? "Добавьте фотографии и видео, это помогает выделить предложение среди других"
+    ? "Добавьте фотографии и видео, это помогает выделить услугу среди других"
     : ""
 
 export const placeholderDescription = (value: EnumTypeProvider) =>
@@ -18,7 +18,7 @@ export const placeholderDescription = (value: EnumTypeProvider) =>
     : value === EnumTypeProvider.discussion
     ? "Раскройте более подробно тему обсуждения, добавив детали"
     : value === EnumTypeProvider.offer
-    ? "Добавьте описание, чтобы привлечь внимание к вашему предложению"
+    ? "Добавьте описание, чтобы привлечь внимание к вашей услуге"
     : ""
 
 export const description = (value: EnumTypeProvider) =>
@@ -27,7 +27,7 @@ export const description = (value: EnumTypeProvider) =>
     : value === EnumTypeProvider.discussion
     ? "Ваш комментарий"
     : value === EnumTypeProvider.offer
-    ? "Описание предложения"
+    ? "Описание услуги или умения"
     : null
 
 export const headerTitle = (value: EnumTypeProvider) =>
@@ -36,7 +36,7 @@ export const headerTitle = (value: EnumTypeProvider) =>
     : value === EnumTypeProvider.discussion
     ? "Новое обсуждение"
     : value === EnumTypeProvider.offer
-    ? "Новое предложение"
+    ? "Новое умение или услуга"
     : null
 
 export const titlePlaceholderContent = (value: EnumTypeProvider) =>

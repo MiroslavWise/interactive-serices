@@ -430,7 +430,7 @@ export default function CreateNewOptionModal() {
           {visible && step === 3 && <ArticleOnboarding />}
           <ControlFileAppend control={control} visible={visible} step={step} loading={loading} typeAdd={typeAdd!} progress={progress} />
           {visible && [4, 5].includes(step) && <ArticleOnboarding />}
-          {typeAdd === "offer" && !watch("help") ? <WalletPay /> : null}
+          {/* {typeAdd === "offer" && !watch("help") ? <WalletPay /> : null} */}
           <div data-footer>
             <Button
               type="submit"
