@@ -105,7 +105,7 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
           ref={ref}
         >
           <label htmlFor={field.name} title="Предложение">
-            Предложение
+            Умение или услуга
           </label>
           <input
             type="text"
@@ -166,7 +166,7 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
           <div
             data-list
             className={cx(
-              "absolute left-0 right-0 rounded-xl bg-BG-second overflow-hidden shadow-box-down", 
+              "absolute left-0 right-0 rounded-xl bg-BG-second overflow-hidden shadow-box-down",
               open ? "opacity-100 z-[90] visible" : "opacity-0 invisible -z-10",
             )}
           >

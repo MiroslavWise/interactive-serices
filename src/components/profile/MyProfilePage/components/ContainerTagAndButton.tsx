@@ -9,7 +9,7 @@ import { Segments } from "@/components/common/Segments"
 
 const TABS: ISegmentValues<EnumTypeProvider>[] = [
   {
-    label: "Мои предложения",
+    label: "Умения и услуги",
     value: EnumTypeProvider.offer,
   },
   {

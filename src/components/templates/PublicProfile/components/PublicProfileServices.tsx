@@ -54,7 +54,7 @@ function PublicProfileServices() {
 
   return (
     <section className={cx("w-full flex flex-col gap-3")}>
-      <nav className="w-full p-1 h-11 rounded-[1.375rem] bg-BG-second *:h-9 grid grid-cols-4">
+      <nav className="w-full p-1 h-11 rounded-[1.375rem] bg-BG-second *:h-9 grid grid-cols-3">
         {LINKS_PROVIDER_OFFERS.map(({ provider, label }) => (
           <a
             key={`::key::pr::${provider}::`}
@@ -85,7 +85,7 @@ function PublicProfileServices() {
             ? "Нет обсуждений"
             : state === EnumTypeProvider.alert
             ? "Нет SOS-сообщений"
-            : "Нет предложений"}
+            : "Нет умений и услуг"}
         </p>
       ) : (
         <ul className="w-full flex flex-col gap-3">

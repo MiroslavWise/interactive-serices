@@ -4,11 +4,11 @@ import LinkService, { EProviderLinkCustomer, ILink } from "../components/LinkSer
 
 export const LINKS_PROVIDER_OFFERS: ILink[] = [
   {
-    label: "Предложения",
+    label: "Умения и услуги",
     provider: EProviderLinkCustomer.offer,
   },
   {
-    label: "Посты",
+    label: "События",
     provider: EProviderLinkCustomer.post,
   },
   {

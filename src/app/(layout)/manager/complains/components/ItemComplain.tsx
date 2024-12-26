@@ -11,7 +11,7 @@ import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer } fr
 
 const titleMap: Map<EnumTypeProvider, string> = new Map([
   [EnumTypeProvider.profile, "Жалоба на пользователя"],
-  [EnumTypeProvider.offer, "Жалоба на предложение"],
+  [EnumTypeProvider.offer, "Жалоба на умение или услугу"],
   [EnumTypeProvider.discussion, "Жалоба на обсуждение"],
   [EnumTypeProvider.alert, "Жалоба на SOS-сообщение"],
 ])

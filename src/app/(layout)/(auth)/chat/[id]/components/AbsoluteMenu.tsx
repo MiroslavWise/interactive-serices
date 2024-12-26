@@ -87,14 +87,14 @@ function AbsoluteMenu({ thread }: { thread: IResponseThread }) {
             <div>
               <IconDefaultOffer />
             </div>
-            <span className="line-clamp-1 text-ellipsis">{offer?.category?.title || "Предложение"}</span>
+            <span className="line-clamp-1 text-ellipsis">{offer?.category?.title || "Умения и услуги"}</span>
           </Link>
         ) : !!dataO ? (
           <Link href={{ pathname: `/offer/${dataO?.id!}` }} target="_blank">
             <div>
               <IconDefaultOffer />
             </div>
-            <span className="line-clamp-1 text-ellipsis">{dataO?.category?.title || "Предложение"}</span>
+            <span className="line-clamp-1 text-ellipsis">{dataO?.category?.title || "Умения и услуги"}</span>
           </Link>
         ) : null}
         <a

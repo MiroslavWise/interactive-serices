@@ -100,7 +100,7 @@ function ControllerCategory({ control }: IProps) {
           ref={ref}
           className={styles.container}
         >
-          <label htmlFor={field.name} title="Преложение">
+          <label htmlFor={field.name} title="Предложение">
             Предложение
           </label>
           <input

@@ -147,7 +147,7 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
       {status === EnumStatusBarter.INITIATED ? (
         <ButtonLink
           typeButton="fill-primary"
-          label={threadId || id ? "Написать" : "Предложение удалено"}
+          label={threadId || id ? "Написать" : "Умение, или услуга, удалено"}
           href={
             !!threadId
               ? {
@@ -170,7 +170,7 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
       ) : status === EnumStatusBarter.EXECUTED ? (
         <ButtonLink
           typeButton="regular-primary"
-          label={threadId || id ? "Написать" : "Предложение удалено"}
+          label={threadId || id ? "Написать" : "Умение, или услуга, удалено"}
           href={
             !!threadId
               ? {
