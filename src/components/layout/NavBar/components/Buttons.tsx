@@ -9,7 +9,7 @@ import { cx } from "@/lib/cx"
 import { MENU_ICONS } from "../constants/menu-icons"
 import { useSign } from "../../FooterMenu/hooks/useSign"
 import { useStatusAuth } from "@/helpers/use-status-auth"
-import { dispatchDownloadApplication, dispatchIntro, dispatchNewServicesBanner, EModalData, EStatusAuth, useModal } from "@/store"
+import { dispatchIntro, dispatchNewServicesBanner, EModalData, EStatusAuth, useModal } from "@/store"
 
 import styles from "../styles/button-download-app.module.scss"
 
@@ -21,14 +21,15 @@ export const Buttons = () => {
 
   return (
     <div className="relative flex flex-row gap-3">
-      <Button
+      {/* Убрана кнопка "Скачать приложение" https://sheira.youtrack.cloud/agiles/154-2/155-47?issue=1-927" */}
+      {/* <Button
         type="button"
         label="Скачать приложение"
         typeButton="regular-primary"
         className="px-4 w-min max-2xl:[&>span]:hidden"
         prefixIcon={<IconDownloadApp />}
         onClick={() => dispatchDownloadApplication(true)}
-      />
+      /> */}
       <Button
         type="button"
         label="О Sheira"
