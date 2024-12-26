@@ -78,6 +78,11 @@ const base = z.object({
   typeModal: z.nativeEnum(EModalData),
   file: file,
   help: help,
+  company: z.object({
+    title: z.string().default("").optional(),
+    inn: z.string().default("").optional(),
+    erid: z.string().default("").optional(),
+  }),
 })
 
 const schemaAlertAndDiscussion = base.merge(z.object({ title: title, addressFeature: addressFeature }))

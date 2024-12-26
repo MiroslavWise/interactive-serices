@@ -6,11 +6,10 @@ import { useEffect, useMemo, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
 import { EnumHelper, EnumTypeProvider } from "@/types/enum"
-import { type IPostOffers } from "@/services/offers/types"
+import { TCompany, type IPostOffers } from "@/services/offers/types"
 import { type IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import { type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
-import { WalletPay } from "@/components/common"
 import Button from "@/components/common/Button"
 import ControlHelp from "./components/ControlHelp"
 import { ArticleOnboarding } from "@/components/templates"
@@ -46,6 +45,7 @@ import {
 } from "./utils/create.schema"
 import { headerTitle, placeholderDescription, titleContent, description, titlePlaceholderContent } from "./constants/titles"
 import { getUserIdOffers, patchOffer, postOffer, fileUploadService, getGeocodeSearch, getOffersCategories, postAddress } from "@/services"
+import env from "@/config/environment"
 
 export default function CreateNewOptionModal() {
   const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
@@ -105,6 +105,11 @@ export default function CreateNewOptionModal() {
       },
       help: false,
       type: typeAdd!,
+      company: {
+        title: "",
+        erid: "",
+        inn: "",
+      },
     },
     resolver: [EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!)
       ? stateModal === EModalData.CreateNewOptionModal
@@ -188,6 +193,25 @@ export default function CreateNewOptionModal() {
       slug: transliterateAndReplace(description).slice(0, 254),
       enabled: true,
       desired: true,
+    }
+
+    const company: TCompany = {}
+
+    const companyTitle = values.company.title?.trim()
+    if (companyTitle) {
+      company.title = companyTitle
+    }
+    const companyErid = values.company.erid?.trim()
+    if (companyErid) {
+      company.erid = companyErid
+    }
+    const companyINN = values.company.inn?.trim()
+    if (companyINN) {
+      company.inn = companyINN
+    }
+
+    if (Object.entries(company).length > 0) {
+      data.company = company
     }
 
     if (values.help) {
@@ -430,7 +454,52 @@ export default function CreateNewOptionModal() {
           {visible && step === 3 && <ArticleOnboarding />}
           <ControlFileAppend control={control} visible={visible} step={step} loading={loading} typeAdd={typeAdd!} progress={progress} />
           {visible && [4, 5].includes(step) && <ArticleOnboarding />}
-          {/* {typeAdd === "offer" && !watch("help") ? <WalletPay /> : null} */}
+          {env!?.server!?.host!?.includes("dev") && (
+            <section className="w-full flex flex-col gap-2.5">
+              <h2>
+                Данные компании <span>(если таковые имеются)</span>
+              </h2>
+              <Controller
+                name="company.title"
+                control={control}
+                render={({ field }) => (
+                  <fieldset>
+                    <label className="text-text-primary text-sm font-medium">TITLE</label>
+                    <input
+                      {...field}
+                      className="w-full border border-solid border-grey-stroke focus:border-text-accent bg-BG-second text-sm font-normal"
+                    />
+                  </fieldset>
+                )}
+              />
+              <Controller
+                name="company.erid"
+                control={control}
+                render={({ field }) => (
+                  <fieldset>
+                    <label className="text-text-primary text-sm font-medium">ERID</label>
+                    <input
+                      {...field}
+                      className="w-full border border-solid border-grey-stroke focus:border-text-accent bg-BG-second text-sm font-normal"
+                    />
+                  </fieldset>
+                )}
+              />
+              <Controller
+                name="company.inn"
+                control={control}
+                render={({ field }) => (
+                  <fieldset>
+                    <label className="text-text-primary text-sm font-medium">INN</label>
+                    <input
+                      {...field}
+                      className="w-full border border-solid border-grey-stroke focus:border-text-accent bg-BG-second text-sm font-normal"
+                    />
+                  </fieldset>
+                )}
+              />
+            </section>
+          )}
           <div data-footer>
             <Button
               type="submit"

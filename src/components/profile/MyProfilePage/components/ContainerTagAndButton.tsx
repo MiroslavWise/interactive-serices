@@ -13,7 +13,7 @@ const TABS: ISegmentValues<EnumTypeProvider>[] = [
     value: EnumTypeProvider.offer,
   },
   {
-    label: "Посты",
+    label: "События",
     value: EnumTypeProvider.POST,
   },
   {
