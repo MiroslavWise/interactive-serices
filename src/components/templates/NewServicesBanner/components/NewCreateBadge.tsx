@@ -65,7 +65,7 @@ const NewCreateBadge: TNewCreateBadge = ({ value, label, assistance }) => {
       </button>
       <button
         type="button"
-        className="relative w-6 h-6 [&>article]:hover:z-50 [&>article]:hover:visible [&>article]:hover:opacity-100 [&>article]:hover:translate-x-0 transition-transform"
+        className="group relative w-6 h-6 [&>article]:hover:z-50 [&>article]:hover:visible [&>article]:hover:opacity-100 [&>article]:hover:translate-x-0 transition-transform"
         onClick={(event) => event.stopPropagation()}
       >
         <IconCircleQuestion />
