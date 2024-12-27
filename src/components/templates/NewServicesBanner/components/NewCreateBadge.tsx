@@ -49,21 +49,23 @@ const NewCreateBadge: TNewCreateBadge = ({ value, label, assistance }) => {
   }
 
   return (
-    <button
-      className={cx(
-        "group relative z-0 text-text-primary hover:!text-text-button flex flex-row items-center justify-center gap-4 h-14 w-full rounded-[1.75rem] max-w-full md:max-w-[22.5rem] bg-BG-second cursor-pointer border border-solid border-grey-stroke-light hover:border-element-accent-1 hover:bg-element-accent-1 focus:border-element-accent-1 focus:bg-element-accent-1",
-        visible && type === value && "bg-element-accent-1",
-        visible && type !== value && "cursor-default",
-        "[&>svg]:w-8 [&>svg]:h-8",
-      )}
-      onClick={handleType}
-      id={`li-${value}-create`}
-    >
-      {mapIconCreateOffer.has(value) ? mapIconCreateOffer.get(value) : null}
-      <p className="text-current text-base font-medium">{label}</p>
+    <li className="relative w-full grid grid-cols-[1fr_1.5rem] gap-4 items-center">
+      <button
+        className={cx(
+          "group relative z-0 text-text-primary hover:!text-text-button flex flex-row items-center justify-center gap-4 h-14 w-full rounded-[1.75rem] bg-BG-second cursor-pointer border border-solid border-grey-stroke-light hover:border-element-accent-1 hover:bg-element-accent-1 focus:border-element-accent-1 focus:bg-element-accent-1",
+          visible && type === value && "bg-element-accent-1",
+          visible && type !== value && "cursor-default",
+          "[&>svg]:w-8 [&>svg]:h-8",
+        )}
+        onClick={handleType}
+        id={`li-${value}-create`}
+      >
+        {mapIconCreateOffer.has(value) ? mapIconCreateOffer.get(value) : null}
+        <p className="text-current text-base font-medium">{label}</p>
+      </button>
       <button
         type="button"
-        className="absolute top-1/2 -translate-y-1/2 -right-2 translate-x-full w-6 h-6 [&>article]:hover:z-50 [&>article]:hover:visible [&>article]:hover:opacity-100"
+        className="relative w-6 h-6 [&>article]:hover:z-50 [&>article]:hover:visible [&>article]:hover:opacity-100"
         onClick={(event) => event.stopPropagation()}
       >
         <IconCircleQuestion />
@@ -71,7 +73,7 @@ const NewCreateBadge: TNewCreateBadge = ({ value, label, assistance }) => {
           <span className="text-xs font-normal text-text-primary">{assistance}</span>
         </article>
       </button>
-    </button>
+    </li>
   )
 }
 

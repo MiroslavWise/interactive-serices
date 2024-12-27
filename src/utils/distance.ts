@@ -51,9 +51,14 @@ export function distance({ bounds, mapPoint }: IProps) {
 }
 
 export function distancePure({ bounds, mapPoint }: IProps): boolean {
-  const d = dis({ bounds, mapPoint })
+  /*
+    * @description Расчет расстояния между двумя точками на карте
+    * @param bounds - границы области
+    * @param mapPoint - координаты точки на карте
+    * 
+    const d = dis({ bounds, mapPoint })
 
-  if (typeof d !== "number") return false
+  if (typeof d !== "number") return false */
 
-  return d < DISTANCE
+  return true
 }
