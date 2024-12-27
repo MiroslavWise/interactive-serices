@@ -18,7 +18,7 @@ import { useBalloonDiscussion } from "@/store"
 
 function BalloonDiscussion() {
   const offer = useBalloonDiscussion(({ offer }) => offer)
-  const { description, title, images = [], urgent } = offer ?? {}
+  const { description, title, images = [] } = offer ?? {}
   const [expandComment, setExpandComment] = useState(false)
 
   return (

@@ -4,7 +4,6 @@ import { type IPosts } from "@/services/posts/types"
 import GeoData from "./components/GeoData"
 import IconPost from "@/components/icons/IconPost"
 import IconNote from "@/components/icons/IconNote"
-import IconHelp from "@/components/icons/IconHelp"
 import ComponentDots from "./components/ComponentDots"
 import CommentsCount from "./components/CommentsCount"
 import ItemProfile from "../CardBallon/components/ItemProfile"
@@ -12,6 +11,8 @@ import ItemProfile from "../CardBallon/components/ItemProfile"
 import { cx } from "@/lib/cx"
 import { nameTitle } from "@/lib/names"
 import { dispatchBallonPost } from "@/store"
+import ItemImages from "@/components/templates/Balloon/Offer/components/ItemImages"
+import { useMemo } from "react"
 
 interface IProps {
   post: IPosts
@@ -27,6 +28,20 @@ function CardPost({ post, className, ref }: IProps) {
   }
 
   const description = notes.find((item) => item.main)?.description ?? title
+
+  const replaceImageFiles = useMemo(() => {
+    const array = []
+
+    const noteMain = notes.find((item) => item.main)?.images ?? []
+
+    for (const item of noteMain) {
+      if (item.attributes.mime.includes("image") || item.attributes.mime.includes("video")) {
+        array.push(item)
+      }
+    }
+
+    return array
+  }, [notes])
 
   return (
     <article className={cx("w-full rounded-2xl cursor-pointer flex flex-col bg-card-yellow", className)} onClick={handle} ref={ref}>
@@ -57,6 +72,7 @@ function CardPost({ post, className, ref }: IProps) {
           <h3 className="text-base font-semibold text-text-primary text-ellipsis line-clamp-2">{title ?? "Заголовок поста"}</h3>
         </header>
         <p className="whitespace-pre-wrap text-text-primary text-sm font-normal line-clamp-4 text-ellipsis">{description}</p>
+        {replaceImageFiles.length > 0 ? <ItemImages images={replaceImageFiles} /> : null}
         <div className="w-full flex flex-row items-center justify-start gap-2.5 *:h-[1.875rem] *:rounded-[0.9375rem]">
           <div className="px-2.5 w-fit bg-[var(--card-bg-yellow)] py-[0.3125rem] gap-1 grid grid-cols-[1.25rem_minmax(0,1fr)] items-center">
             <div className="w-5 h-5 relative p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 *:scale-90">

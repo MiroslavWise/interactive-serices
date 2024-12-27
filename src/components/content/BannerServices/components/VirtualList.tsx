@@ -105,7 +105,7 @@ function VirtualList({ list, listPosts }: IProps) {
         itemContent={(_, item) => {
           if ([EnumTypeProvider.discussion, EnumTypeProvider.alert, EnumTypeProvider.offer].includes(item.type))
             return <CardBallon key={`:k:of:${item?.item?.id!}:l:`} offer={item?.item! as IResponseOffers} className="mt-4 last:mb-4" />
-
+ 
           if (item.type === EnumTypeProvider.POST)
             return <CardPost key={`:k:p:${item?.item?.id!}:a:`} post={item?.item! as IPosts} className="mt-4 last:mb-4" />
 
