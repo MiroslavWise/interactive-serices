@@ -69,7 +69,7 @@ export default async ({ params }: IParamsCustomer) => {
     jobTitle: about ?? "Предоставление услуг",
     url: `${env.server.host}/customer/${id}`,
     /** TODO: добавить ссылки на соцсети */
-    sameAs: [],
+    sameAs: ["https://t.me/sheirapeople", "https://t.me/sheira_ru", "https://t.me/sheirainfo"],
     worksFor: {
       "@type": "Organization",
       name: "Sheira",
