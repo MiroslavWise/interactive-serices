@@ -1,3 +1,7 @@
+/**
+ * @description Константы для работы с картой
+ */
+
 import { EnumTimesFilter } from "@/components/content/BannerServices/constants"
 
 const DAY = 86_400_000

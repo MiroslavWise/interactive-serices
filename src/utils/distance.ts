@@ -1,3 +1,7 @@
+/**
+ * @description Расчет расстояния между двумя точками на карте
+ */
+
 import { LngLatBounds } from "ymaps3"
 
 import { RADIAN } from "./utils-data-map"

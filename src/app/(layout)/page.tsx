@@ -1,8 +1,11 @@
 /**
  *
- * VERSION MAP 3.0
  * @default version 3
- *
+ * @author @MiroslavWise
+ * @description Версия 3.0.0
+ * @date 2024-12-27
+ * @version 3.0.0
+ * 
  */
 
 "use client"

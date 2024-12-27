@@ -1,3 +1,7 @@
+/**
+ * @description Сортировка по координатам на карте
+ */
+
 import { LngLatBounds } from "ymaps3"
 import { distancePure } from "./distance"
 
