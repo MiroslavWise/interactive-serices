@@ -95,19 +95,19 @@ function AllClusters() {
 
     if (!is(geometry.coordinates as number[])) return null
 
-    const title = provider === EnumTypeProvider.POST ? post?.title : offer?.title
+    const title =
+      provider === EnumTypeProvider.POST
+        ? post?.title
+        : provider === EnumTypeProvider.offer
+        ? offer?.category?.title ?? offer?.title
+        : offer?.title
     const created = provider === EnumTypeProvider.POST ? post?.updated ?? post?.created : offer?.updated ?? offer?.created
 
     const urgent = provider === EnumTypeProvider.POST ? !!post?.urgent : !!offer?.urgent
 
     return (
       <YMapMarker coordinates={geometry.coordinates}>
-        <div
-          className={cx(
-            "absolute z-20 -translate-x-1/2 -translate-y-1/2 max-md:scale-75 group",
-            urgent ? "w-[2.6875rem] h-[3.3125rem]" : "w-[1.8125rem] h-9",
-          )}
-        >
+        <div className={cx("absolute z-20 -translate-x-1/2 -translate-y-1/2 max-md:scale-75 group", "w-[2.1875rem] h-[2.5625rem]")}>
           <IconMap
             provider={provider}
             urgent={urgent}
@@ -131,7 +131,7 @@ function AllClusters() {
               <div className="w-4 h-4 relative p-2">
                 <IconHelp />
               </div>
-              <span className="text-xs text-text-button font-medium line-clamp-1 text-ellipsis">{title}</span>
+              <span className="text-xs text-text-button font-medium line-clamp-1 text-ellipsis">{title ?? "Щедрое сердце"}</span>
             </div>
           ) : (
             <div className="div-alert-text flex absolute w-max left-0 top-1/2 pointer-events-none translate-x-3.5 -translate-y-1/2 transition-opacity opacity-0 group-hover:opacity-100">
@@ -186,7 +186,12 @@ function AllClusters() {
               {features.map(({ id, properties, geometry }) => {
                 const { provider, offer, post } = properties ?? {}
 
-                const title = provider === EnumTypeProvider.POST ? post?.title : offer?.title
+                const title =
+                  provider === EnumTypeProvider.POST
+                    ? post?.title
+                    : provider === EnumTypeProvider.offer
+                    ? offer?.category?.title ?? offer?.title
+                    : offer?.title
 
                 return (
                   <li

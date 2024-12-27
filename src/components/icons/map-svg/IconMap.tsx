@@ -29,7 +29,7 @@ export default ({ provider, onClick, urgent }: IProps) => (
     height={urgent ? "53" : "41"}
     viewBox={urgent ? "0 0 43 53" : "0 0 35 41"}
     fill="none"
-    className={cx("absolute inset-0 cursor-pointer", urgent ? "w-[2.6875rem] h-[3.3125rem]" : "w-[1.8125rem] h-9")}
+    className={cx("absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer", "w-[2.1875rem] h-[2.5625rem]")}
     onClick={(event) => {
       event.stopPropagation()
       onClick()
