@@ -5,7 +5,6 @@ import dynamic from "next/dynamic"
 import {
   Intro,
   WelcomeModal,
-  // AboutSheiraPopup,
   NotificationsMobile,
   MobileFiltersMap,
   Onboarding,
@@ -48,7 +47,6 @@ const DeleteNote = dynamic(() => import("@/components/templates/DeleteNote"), { 
 const PhotoCarousel = dynamic(() => import("@/components/layout/PhotoCarousel"), { ssr: false })
 const PublicProfile = dynamic(() => import("@/components/templates/PublicProfile"), { ssr: false })
 const CreateNewCategory = dynamic(() => import("@/components/templates/CreateNewCategory"), { ssr: false })
-const DownloadApplication = dynamic(() => import("@/components/templates/DownloadApplication"), { ssr: false })
 const ToastContainer = dynamic(() => import("react-toastify").then((res) => res.ToastContainer), { ssr: false })
 const PreCloseCreateService = dynamic(() => import("@/components/templates/PreCloseCreateService"), { ssr: false })
 const ChangeService = dynamic(() => import("@/components/profile").then((res) => res.ChangeService), { ssr: false })
@@ -80,14 +78,12 @@ function Containers() {
       {visibleVideo && <VideoModal />}
       {statusAuth === EStatusAuth.UNAUTHORIZED && (
         <>
-          {/* <AboutSheiraPopup /> */}
           <ModalSign />
         </>
       )}
       <Friends />
       <CookiesToast />
       <PublicProfile />
-      <DownloadApplication />
       <ToastContainer limit={1} />
       {isTablet && <MobileFiltersMap />}
       {statusAuth === EStatusAuth.AUTHORIZED && (

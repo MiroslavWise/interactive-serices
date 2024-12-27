@@ -1,6 +1,6 @@
 import Link from "next/link"
-import { Controller, useForm } from "react-hook-form"
 import { ReactNode, memo, useState } from "react"
+import { Controller, useForm } from "react-hook-form"
 
 import { resolverEmailSignUp, TSchemaEmailSignUp } from "../utils/email-sign-up.schema"
 
@@ -12,7 +12,7 @@ import { dispatchAuthModalCreatePassword, dispatchAuthModalCurrentUser, useModal
 
 import styles from "../styles/form.module.scss"
 
-export const SignUpEmail = memo(function ({ children }: { children: ReactNode }) {
+export const SignUpEmail = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(false)
 
   const email = useModalAuth(({ email }) => email)
@@ -23,6 +23,7 @@ export const SignUpEmail = memo(function ({ children }: { children: ReactNode })
     control,
     setValue,
     formState: { errors },
+    setError,
   } = useForm<TSchemaEmailSignUp>({
     defaultValues: {
       email: email || "",
@@ -35,7 +36,13 @@ export const SignUpEmail = memo(function ({ children }: { children: ReactNode })
   const onRegister = async (values: TSchemaEmailSignUp) => {
     if (!loading) {
       setLoading(true)
-      getUserEmail(values.email!).then((response) => {
+      const email = values.email.trim()
+      if (email.split(".").at(-1) !== "ru") {
+        setError("email", { message: "Email должен заканчиваться на .ru" })
+        setLoading(false)
+        return
+      }
+      getUserEmail(email).then((response) => {
         const { data, error } = response
         console.log("response getEmailUser: ", response)
         if (!!data) {
@@ -43,7 +50,7 @@ export const SignUpEmail = memo(function ({ children }: { children: ReactNode })
         } else {
           if (error?.message === "user not found") {
             dispatchAuthModalCreatePassword({
-              email: values.email,
+              email: email,
               agree: !!values.agree,
               marketing: !!values.marketing,
             })
@@ -168,4 +175,4 @@ export const SignUpEmail = memo(function ({ children }: { children: ReactNode })
       {children}
     </form>
   )
-})
+}
