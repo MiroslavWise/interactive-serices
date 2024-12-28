@@ -102,15 +102,13 @@ function VirtualList({ list, listPosts }: IProps) {
           bottom: 1280,
         }}
         className="scroll-no scroll-no-children"
-        itemContent={(_, item) => {
-          if ([EnumTypeProvider.discussion, EnumTypeProvider.alert, EnumTypeProvider.offer].includes(item.type))
-            return <CardBallon key={`:k:of:${item?.item?.id!}:l:`} offer={item?.item! as IResponseOffers} className="mt-4 last:mb-4" />
- 
-          if (item.type === EnumTypeProvider.POST)
-            return <CardPost key={`:k:p:${item?.item?.id!}:a:`} post={item?.item! as IPosts} className="mt-4 last:mb-4" />
-
-          return null
-        }}
+        itemContent={(_, item) =>
+          [EnumTypeProvider.discussion, EnumTypeProvider.alert, EnumTypeProvider.offer].includes(item.type) ? (
+            <CardBallon key={`:k:of:${item?.item?.id!}:l:`} offer={item?.item! as IResponseOffers} className="mt-4 last:mb-4" />
+          ) : item.type === EnumTypeProvider.POST ? (
+            <CardPost key={`:k:p:${item?.item?.id!}:a:`} post={item?.item! as IPosts} className="mt-4 last:mb-4" />
+          ) : null
+        }
       />
     </ul>
   )

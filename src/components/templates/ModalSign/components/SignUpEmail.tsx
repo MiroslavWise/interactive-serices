@@ -1,5 +1,13 @@
+"use client"
+
+/**
+ *
+ * @description Компонент для регистрации через email
+ *
+ */
+
 import Link from "next/link"
-import { ReactNode, memo, useState } from "react"
+import { ReactNode, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
 import { resolverEmailSignUp, TSchemaEmailSignUp } from "../utils/email-sign-up.schema"

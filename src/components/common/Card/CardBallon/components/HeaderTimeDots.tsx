@@ -1,21 +1,26 @@
 "use client"
 
+import { ETitleRole } from "@/services/roles/types"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import IconShare from "@/components/icons/IconShare"
 import IconComplaint from "@/components/icons/IconComplaint"
 import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
+import IconCurrencyRubleCircle from "@/components/icons/IconCurrencyRubleCircle"
 
 import { cx } from "@/lib/cx"
-import { dispatchComplaintModalOffer } from "@/store"
+import useRole from "@/helpers/is-role"
 import { daysAgo, useOutsideClickEvent } from "@/helpers"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
+import { dispatchComplaintModalOffer, displayAddAdvert } from "@/store"
 
 const TITLE_SHARE = "Поделиться"
 const TITLE_COMPLAINT = "Пожаловаться"
+const LABEL_ADD_ADVERT = "Добавить рекламу"
 
 function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
   const [visible, setVisible, ref] = useOutsideClickEvent()
+  const isManager = useRole(ETitleRole.Manager)
 
   const onShare = useNavigator({
     url: `/offer/${offer.id}/${offer.slug ? String(offer.slug).replaceAll("/", "-") : ""}`,
@@ -74,6 +79,23 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
               <IconComplaint />
             </div>
             <span className="!text-text-error">{TITLE_COMPLAINT}</span>
+          </a>
+          <a
+            title={LABEL_ADD_ADVERT}
+            aria-label={LABEL_ADD_ADVERT}
+            aria-labelledby={LABEL_ADD_ADVERT}
+            onClick={(event) => {
+              event.stopPropagation()
+              event.preventDefault()
+              displayAddAdvert(offer?.provider!, offer?.id!)
+              setVisible(false)
+            }}
+            className={cx(!isManager && "!hidden")}
+          >
+            <div>
+              <IconCurrencyRubleCircle />
+            </div>
+            <span>{LABEL_ADD_ADVERT}</span>
           </a>
         </article>
       </div>

@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation"
 
+import { ETitleRole } from "@/services/roles/types"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import IconMap from "@/components/icons/IconMap"
@@ -9,15 +10,19 @@ import IconActivity from "@/components/icons/IconActivity"
 import IconAlertCircle from "@/components/icons/IconAlertCircle"
 
 import { cx } from "@/lib/cx"
+import useRole from "@/helpers/is-role"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
-import { dispatchComplaintModalOffer, dispatchMapCoordinates } from "@/store"
+import { dispatchComplaintModalOffer, dispatchMapCoordinates, displayAddAdvert } from "@/store"
+import IconCurrencyRubleCircle from "@/components/icons/IconCurrencyRubleCircle"
 
 const LABEL_MAP = "Показать на карте"
 const LABEL_SHARE = "Поделиться"
 const LABEL_COMPLAIN = "Пожаловаться"
+const LABEL_ADD_ADVERT = "Добавить рекламу"
 
 export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visible: boolean }) => {
   const { user, id, addresses, title, slug } = offer ?? {}
+  const isManager = useRole(ETitleRole.Manager)
 
   const pathname = usePathname()
   const { push } = useRouter()
@@ -96,6 +101,18 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
           <IconAlertCircle />
         </div>
         <span className="text-text-error text-sm font-normal text-left">{LABEL_COMPLAIN}</span>
+      </a>
+      <a
+        onClick={() => displayAddAdvert(offer?.provider!, offer?.id!)}
+        title={LABEL_ADD_ADVERT}
+        aria-label={LABEL_ADD_ADVERT}
+        aria-labelledby={LABEL_ADD_ADVERT}
+        className={cx(!isManager && "!hidden")}
+      >
+        <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
+          <IconCurrencyRubleCircle />
+        </div>
+        <span className="text-text-primary text-sm font-normal text-left">{LABEL_ADD_ADVERT}</span>
       </a>
     </article>
   )

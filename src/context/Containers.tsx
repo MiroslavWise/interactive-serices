@@ -31,6 +31,7 @@ import {
   useUpdatePost,
   useVideoModal,
   EStatusAuth,
+  useAddAdvert,
 } from "@/store"
 import { useResize } from "@/helpers"
 import Friends from "@/components/templates/Friends"
@@ -43,6 +44,7 @@ import ArchivePost from "@/components/templates/ArchivePost"
 const Modal = dynamic(() => import("@/components/templates/Modal"), { ssr: false })
 const VideoModal = dynamic(() => import("@/components/layout/VideoModal"), { ssr: false })
 const CookiesToast = dynamic(() => import("@/components/templates/Cookies"), { ssr: false })
+const AddAdverts = dynamic(() => import("@/components/templates/AddAdverts"), { ssr: false })
 const DeleteNote = dynamic(() => import("@/components/templates/DeleteNote"), { ssr: false })
 const PhotoCarousel = dynamic(() => import("@/components/layout/PhotoCarousel"), { ssr: false })
 const PublicProfile = dynamic(() => import("@/components/templates/PublicProfile"), { ssr: false })
@@ -66,6 +68,8 @@ function Containers() {
   const visibleArchivePost = useArchivePost(({ data }) => !!data)
   const visibleUpdatePost = useUpdatePost(({ data }) => !!data)
   const visibleVideo = useVideoModal(({ visible }) => visible)
+  const { type, id } = useAddAdvert()
+  const isOpen = type !== null && id !== null
 
   const { isTablet } = useResize()
 
@@ -91,6 +95,7 @@ function Containers() {
           <MyFriends />
           <Onboarding />
           <PreCloseCreateService />
+          {isOpen && <AddAdverts />}
           <NotificationCreateService />
           {visibleDeleteNote && <DeleteNote />}
           {visibleUpdatePost && <UpdatePost />}

@@ -5,7 +5,7 @@
  * @description Версия 3.0.0
  * @date 2024-12-27
  * @version 3.0.0
- * 
+ *
  */
 
 "use client"
@@ -25,7 +25,6 @@ const SearchCategory = dynamic(() => import("@/components/content/mobile/SearchC
 const ButtonNavigation = dynamic(() => import("@/components/content/BannerSign/components/ButtonNavigation"), { ssr: false })
 
 import { useResize } from "@/helpers"
-import env from "@/config/environment"
 import useUtm from "@/helpers/use-utm"
 
 export default () => {
@@ -33,42 +32,28 @@ export default () => {
   const { isTablet } = useResize()
 
   return (
-    <>
-      <main className="relative flex flex-col items-center justify-between h-full w-full overflow-hidden bg-transparent z-20">
-        <HeaderMap />
-        {isTablet ? (
-          <>
-            <MobileFilterMap />
-            <MapSearch />
-            <Navigation />
-            <SearchCategory />
-          </>
-        ) : (
-          <>
-            <ButtonNavigation />
-            <BannerSearch />
-            <FiltersScreen />
-            <SearchAndFilters />
-            <BannerServices />
-            <ButtonCollapseServices />
-          </>
-        )}
-        <ContextMap>
-          <AllClusters />
-        </ContextMap>
-      </main>
-      <div
-        itemScope
-        itemType="https://schema.org/WebPage"
-        className="fixed -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-2 max-w-96 opacity-0"
-      >
-        <meta itemProp="serviceType" content="Услуги, активность, обсуждения и срочные сообщения" />
-        <h1 itemProp="name">Sheira. Люди, события, услуги</h1>
-        <p itemProp="description">
-          Сервис с интерактивной картой города. Можно размещать свои услуги, проводить активности, общаться и помогать друг другу
-        </p>
-        <a itemProp="url" href={env.server.host} />
-      </div>
-    </>
+    <main className="relative flex flex-col items-center justify-between h-full w-full overflow-hidden bg-transparent z-20">
+      <HeaderMap />
+      {isTablet ? (
+        <>
+          <MobileFilterMap />
+          <MapSearch />
+          <Navigation />
+          <SearchCategory />
+        </>
+      ) : (
+        <>
+          <ButtonNavigation />
+          <BannerSearch />
+          <FiltersScreen />
+          <SearchAndFilters />
+          <BannerServices />
+          <ButtonCollapseServices />
+        </>
+      )}
+      <ContextMap>
+        <AllClusters />
+      </ContextMap>
+    </main>
   )
 }
