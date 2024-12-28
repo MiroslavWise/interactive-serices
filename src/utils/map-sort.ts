@@ -1,3 +1,7 @@
+/**
+ * @description Сортировка по координатам на карте
+ */
+
 import { LngLatBounds } from "ymaps3"
 import { distancePure } from "./distance"
 
@@ -19,6 +23,7 @@ export function mapSort<T = any>({ bounds, items }: IProps<T>) {
   const startB = [center.map((_) => _ - OFFSET), center.map((_) => _ + OFFSET)]
 
   let obj: Record<number | string, T[]> = {}
+  const length = Object.values(obj).flat().length
 
   recursion({ bounds: startB, items: items, number: 0 })!
 
@@ -54,7 +59,7 @@ export function mapSort<T = any>({ bounds, items }: IProps<T>) {
       }
     }
 
-    if (residue.length > 0 && Object.values(obj).length < 100) {
+    if (residue.length > 0 && length < 100) {
       const newStart = [
         [b[0][0] - OFFSET, b[0][1] - OFFSET],
         [b[1][0] + OFFSET, b[1][1] + OFFSET],

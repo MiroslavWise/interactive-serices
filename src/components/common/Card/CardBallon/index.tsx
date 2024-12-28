@@ -4,7 +4,6 @@ import type { IResponseOffers } from "@/services/offers/types"
 import GeoData from "./components/GeoData"
 import HeaderTitle from "./components/HeaderTitle"
 import ItemProfile from "./components/ItemProfile"
-import IconHelp from "@/components/icons/IconHelp"
 import HeaderTimeDots from "./components/HeaderTimeDots"
 import ItemImages from "@/components/templates/Balloon/Offer/components/ItemImages"
 

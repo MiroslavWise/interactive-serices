@@ -1,5 +1,6 @@
 import { Suspense } from "react"
-import { Metadata } from "next"
+import Script from "next/script"
+import { type Metadata } from "next"
 import { redirect } from "next/navigation"
 
 import { type IParamsCustomer } from "./layout"
@@ -9,7 +10,7 @@ import BlockMobileFriendsAndFeedback from "./components/BlockMobileFriendsAndFee
 
 import { cx } from "@/lib/cx"
 import { getUserId } from "@/services"
-import { keyWords } from "@/config/environment"
+import env, { keyWords } from "@/config/environment"
 
 export const generateMetadata = async ({ params }: IParamsCustomer): Promise<Metadata> => {
   const id = params?.userId ?? null
@@ -57,6 +58,25 @@ export default async ({ params }: IParamsCustomer) => {
   const { data } = await getUserId(id)
   if (!id || !data) return redirect("/")
 
+  const { profile } = data ?? {}
+  const { firstName, lastName, image, about } = profile ?? {}
+
+  const schemaORG = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: `${firstName ?? "Имя"} ${lastName}`,
+    image: image?.attributes?.url,
+    jobTitle: about ?? "Предоставление услуг",
+    url: `${env.server.host}/customer/${id}`,
+    /** TODO: добавить ссылки на соцсети */
+    sameAs: ["https://t.me/sheirapeople", "https://t.me/sheira_ru", "https://t.me/sheirainfo"],
+    worksFor: {
+      "@type": "Organization",
+      name: "Sheira",
+    },
+    description: about ?? "Предоставление услуг",
+  })
+
   return (
     <>
       <Accomplishments id={id} />
@@ -82,6 +102,13 @@ export default async ({ params }: IParamsCustomer) => {
       >
         <BlockMobileFriendsAndFeedback id={id!} />
       </Suspense>
+      <Script
+        id={`schema-customer-${id}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: schemaORG,
+        }}
+      />
     </>
   )
 }

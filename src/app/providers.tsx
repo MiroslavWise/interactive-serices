@@ -1,6 +1,5 @@
 "use client"
 
-import dynamic from "next/dynamic"
 import { type ReactNode, useEffect } from "react"
 import { NuqsAdapter } from "nuqs/adapters/next/app"
 
@@ -10,10 +9,6 @@ import { WebSocketProvider, NextThemesProvider, QueryClientProviderContext } fro
 import { clg } from "@console"
 import { Wait } from "@/lib/ex-ids"
 import { dispatchCookiesVisible, dispatchRefresh, useCookies } from "@/store"
-
-const YMapsProvider = dynamic(() => import("@/context/YMapsProvider"), {
-  ssr: false,
-})
 
 export default ({ children }: { children: ReactNode }) => {
   useEffect(() => {
@@ -33,16 +28,14 @@ export default ({ children }: { children: ReactNode }) => {
 
   return (
     <NuqsAdapter>
-      <YMapsProvider>
-        <NextThemesProvider>
-          <QueryClientProviderContext>
-            <WebSocketProvider>
-              {children}
-              <Containers />
-            </WebSocketProvider>
-          </QueryClientProviderContext>
-        </NextThemesProvider>
-      </YMapsProvider>
+      <NextThemesProvider>
+        <QueryClientProviderContext>
+          <WebSocketProvider>
+            {children}
+            <Containers />
+          </WebSocketProvider>
+        </QueryClientProviderContext>
+      </NextThemesProvider>
     </NuqsAdapter>
   )
 }

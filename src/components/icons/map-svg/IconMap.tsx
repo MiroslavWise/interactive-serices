@@ -6,35 +6,35 @@ import { EnumTypeProvider } from "@/types/enum"
 import Offer from "./offer"
 import Alert from "./alert"
 import Posts from "./posts"
-import Discussion from "./discussion"
+import { cx } from "@/lib/cx"
 
 interface IProps {
   image?: IImageData
   provider: EnumTypeProvider
   onClick: DispatchWithoutAction
+  urgent?: boolean
 }
 
 const prov = new Map([
-  [EnumTypeProvider.discussion, (image?: IImageData) => <Discussion image={image} />],
-  [EnumTypeProvider.offer, (image?: IImageData) => <Offer image={image} />],
-  [EnumTypeProvider.alert, (image?: IImageData) => <Alert image={image} />],
-  [EnumTypeProvider.POST, (image?: IImageData) => <Posts image={image} />],
+  [EnumTypeProvider.offer, (urgent: boolean) => <Offer urgent={!!urgent} />],
+  [EnumTypeProvider.alert, (urgent: boolean) => <Alert urgent={!!urgent} />],
+  [EnumTypeProvider.POST, (urgent: boolean) => <Posts urgent={!!urgent} />],
 ])
 
-const icon = (value: EnumTypeProvider) => (prov.has(value!) ? prov.get(value!)! : (image?: IImageData) => null)
+const icon = (value: EnumTypeProvider) => (prov.has(value!) ? prov.get(value!)! : (urgent: boolean) => null)
 
-export default ({ image, provider, onClick }: IProps) => (
+export default ({ provider, onClick, urgent }: IProps) => (
   <svg
-    width="35"
-    height="41"
-    viewBox="0 0 35 41"
+    width={urgent ? "43" : "35"}
+    height={urgent ? "53" : "41"}
+    viewBox={urgent ? "0 0 43 53" : "0 0 35 41"}
     fill="none"
-    className="absolute w-[1.8125rem] h-9 inset-0 cursor-pointer"
+    className={cx("absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer", "w-[2.1875rem] h-[2.5625rem]")}
     onClick={(event) => {
       event.stopPropagation()
       onClick()
     }}
   >
-    {icon(provider)(image)}
+    {icon(provider)(!!urgent)}
   </svg>
 )

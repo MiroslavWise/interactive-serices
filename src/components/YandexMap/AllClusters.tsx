@@ -11,6 +11,7 @@ import { type IResponseOffers } from "@/services/offers/types"
 import { type IPosts } from "@/services/posts/types"
 
 import IconPost from "../icons/IconPost"
+import IconHelp from "../icons/IconHelp"
 import { ImageCategory } from "../common"
 import IconMap from "../icons/map-svg/IconMap"
 import IconAlertBalloon from "../icons/IconAlertBalloon"
@@ -18,18 +19,17 @@ import IconAlertBalloon from "../icons/IconAlertBalloon"
 import {
   useBounds,
   useFiltersServices,
+  dispatchBallonPost,
   dispatchBallonOffer,
   dispatchBallonAlert,
   dispatchMapZoomClick,
-  dispatchBallonDiscussion,
   dispatchCollapseServicesTrue,
-  dispatchBallonPost,
 } from "@/store"
-import { formatOfMMM, fromNow } from "@/helpers"
+import { cx } from "@/lib/cx"
+import { formatOfMMM } from "@/helpers"
 import { getPosts } from "@/services/posts"
 import { JSONStringBounds } from "@/utils/map-sort"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
-import { cx } from "@/lib/cx"
 
 type ReactifiedApi = ReactifiedModule<typeof ymaps3>
 type FeatureCluster = Feature & {
@@ -95,14 +95,22 @@ function AllClusters() {
 
     if (!is(geometry.coordinates as number[])) return null
 
-    const title = provider === EnumTypeProvider.POST ? post?.title : offer?.title
+    const title =
+      provider === EnumTypeProvider.POST
+        ? post?.title
+        : provider === EnumTypeProvider.offer
+        ? offer?.category?.title ?? offer?.title
+        : offer?.title
     const created = provider === EnumTypeProvider.POST ? post?.updated ?? post?.created : offer?.updated ?? offer?.created
+
+    const urgent = provider === EnumTypeProvider.POST ? !!post?.urgent : !!offer?.urgent
 
     return (
       <YMapMarker coordinates={geometry.coordinates}>
-        <div className="absolute z-20 w-[1.8125rem] h-9 -translate-x-1/2 -translate-y-1/2 max-md:scale-75 group">
+        <div className={cx("absolute z-20 -translate-x-1/2 -translate-y-1/2 max-md:scale-75 group", "w-[2.1875rem] h-[2.5625rem]")}>
           <IconMap
             provider={provider}
+            urgent={urgent}
             onClick={() => {
               if (provider === EnumTypeProvider.offer) {
                 dispatchBallonOffer({ offer: offer! })
@@ -118,14 +126,23 @@ function AllClusters() {
               }
             }}
           />
-          <div className="div-alert-text flex absolute w-max left-0 top-1/2 pointer-events-none translate-x-3.5 -translate-y-1/2 transition-opacity opacity-0 group-hover:opacity-100">
-            <section className="flex flex-col h-11">
-              <p className="text-[#000] line-clamp-1 text-ellipsis text-sm font-medium">{title}</p>
-              <time className="text-text-secondary text-[0.8125rem] line-clamp-1 text-ellipsis font-normal leading-4">
-                {formatOfMMM(created ?? "")}
-              </time>
-            </section>
-          </div>
+          {urgent ? (
+            <div className="-z-[1] [background:var(--more-red-gradient)] rounded-r-md py-1.5 pr-2.5 pl-6 grid grid-cols-[1rem_minmax(0,1fr)] gap-2 items-center absolute w-max max-w- left-0 top-1/2 pointer-events-none translate-x-3.5 -translate-y-1/2 transition-opacity opacity-0 group-hover:opacity-100">
+              <div className="w-4 h-4 relative p-2">
+                <IconHelp />
+              </div>
+              <span className="text-xs text-text-button font-medium line-clamp-1 text-ellipsis">{title ?? "Щедрое сердце"}</span>
+            </div>
+          ) : (
+            <div className="div-alert-text flex absolute w-max left-0 top-1/2 pointer-events-none translate-x-3.5 -translate-y-1/2 transition-opacity opacity-0 group-hover:opacity-100">
+              <section className="flex flex-col h-11">
+                <p className="text-[#000] line-clamp-1 text-ellipsis text-sm font-medium">{title}</p>
+                <time className="text-text-secondary text-[0.8125rem] line-clamp-1 text-ellipsis font-normal leading-4">
+                  {formatOfMMM(created ?? "")}
+                </time>
+              </section>
+            </div>
+          )}
         </div>
       </YMapMarker>
     )
@@ -169,7 +186,12 @@ function AllClusters() {
               {features.map(({ id, properties, geometry }) => {
                 const { provider, offer, post } = properties ?? {}
 
-                const title = provider === EnumTypeProvider.POST ? post?.title : offer?.title
+                const title =
+                  provider === EnumTypeProvider.POST
+                    ? post?.title
+                    : provider === EnumTypeProvider.offer
+                    ? offer?.category?.title ?? offer?.title
+                    : offer?.title
 
                 return (
                   <li

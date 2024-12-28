@@ -14,6 +14,7 @@ import "@/scss/init.scss"
 import "./build.css"
 import "react-toastify/dist/ReactToastify.css"
 import ButtonHelpTelegram from "@/components/templates/ButtonHelpTelegram"
+import { schemaOrg } from "@/utils/schema-org"
 
 export const inter = Inter({ weight: ["400", "500", "600"], subsets: ["latin"], style: "normal", variable: "--font-inter" })
 
@@ -190,6 +191,13 @@ export default ({ children }: PropsWithChildren) => (
         strategy="beforeInteractive"
         type="text/javascript"
         id="yandex-3-0"
+      />
+      <Script
+        id="schema-org"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: schemaOrg,
+        }}
       />
     </body>
   </html>

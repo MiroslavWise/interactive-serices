@@ -1,9 +1,11 @@
+import Script from "next/script"
 import { type Metadata } from "next"
 import { type PropsWithChildren } from "react"
 
+import env from "@/config/environment"
 import { getPostId } from "@/services/posts"
 import { metadataPosts } from "@/helpers/metadata-post"
-import env from "@/config/environment"
+import { schemaOrgOffer } from "@/utils/schema-org"
 
 export const dynamicParams = true
 export const dynamic = "force-dynamic"
@@ -22,7 +24,9 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 export default async ({ children, params: { id } }: PropsWithChildren<{ params: { id: string } }>) => {
   const { data } = await getPostId(id)
 
-  const { title, notes = [], user } = data ?? {}
+  const { title, notes = [], user, addresses = [] } = data ?? {}
+
+  const address = addresses?.[0] ?? {}
 
   let description = ""
 
@@ -33,20 +37,50 @@ export default async ({ children, params: { id } }: PropsWithChildren<{ params: 
     }
   }
 
+  const images = function () {
+    const array = []
+
+    for (const item of notes) {
+      if (item.images.length > 0) {
+        for (const image of item.images) {
+          if (array.length < 15) {
+            array.push(image)
+          } else {
+            break
+          }
+        }
+      }
+    }
+
+    return array
+  }
+
   const url = new URL(`${env.server.host}/post/${id}`).toString()
 
+  const schemaOrg = schemaOrgOffer({
+    url: url,
+    name: title!,
+    description: description!,
+    images: images().map(({ attributes }) => attributes?.url!),
+    address: {
+      streetAddress: address?.additional,
+      addressLocality: address.city,
+      addressRegion: address?.district,
+      postalCode: address?.zip ? String(address.zip) : undefined,
+      addressCountry: address?.country,
+    },
+  })
+
   return (
-    <main className="w-full flex items-center justify-center h-full">
-      <section itemScope itemType="https://schema.org/Event" className="max-w-96 flex flex-col gap-2 my-auto">
-        <h1 itemProp="name">{title}</h1>
-        <link itemProp="mobileUrl" href={url} />
-        <link itemProp="url" href={url} />
-        <link itemProp="sameAs" href={url} />
-        <meta itemProp="seller" content={user?.firstName} />
-        <span itemProp="description">{description}</span>
-        <span itemProp="about">{description}</span>
-        {children}
-      </section>
-    </main>
+    <>
+      {children}
+      <Script
+        id={`posts-notes-${id}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: schemaOrg,
+        }}
+      />
+    </>
   )
 }
