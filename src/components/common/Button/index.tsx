@@ -7,24 +7,43 @@ import IconSpinner from "@/components/icons/IconSpinner"
 
 import { cx } from "@/lib/cx"
 
+const baseStyles = (loading: boolean) =>
+  cx(
+    "relative border-none outline-none w-full rounded-[1.375rem] px-6 py-2.5",
+    "flex flex-row items-center justify-center cursor-pointer gap-2 touch-manipulation",
+    "z-[2] h-11 max-md:h-9 rounded-[1.125rem] [&>span]:text-sm",
+    "[&>img]:w-6 [&>img]:h-6 [&>svg]:w-6 [&>svg]:h-6",
+    "disabled:opacity-50 disabled:cursor-no-drop",
+    loading && "opacity-50",
+  )
+
+const textStyles = (loading: boolean, label: string) =>
+  cx(
+    "text-sm text-center whitespace-nowrap font-medium selection:bg-transparent",
+    loading ? "opacity-60" : "opacity-100",
+    !label && "hidden",
+  )
+
+const typeStyles: Record<TTypeButtonPrimary, string> = {
+  white: "bg-text-button [&>span]:text-text-accent",
+  "fill-primary": "bg-btn-main-default [&>span]:text-text-button hover:bg-btn-main-hover",
+  "fill-opacity": "bg-opacity-white-hard [&>span]:text-supporting-white",
+  "regular-primary": "bg-btn-second-default [&>span]:text-text-accent hover:bg-btn-second-hover",
+}
+
+const spinnerStyles = (loading: boolean) =>
+  cx(
+    "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-5 w-5",
+    loading ? "opacity-100 visible flex" : "opacity-0 invisible hidden",
+  )
+
 const Button = forwardRef(function Button(props: TTypeButton, ref?: LegacyRef<HTMLButtonElement>) {
   const { loading, label, suffixIcon, prefixIcon, typeButton = "fill-primary", className, title, ...rest } = props ?? {}
 
   return (
     <button
       {...rest}
-      className={cx(
-        "relative border-none outline-none w-full rounded-[1.375rem] px-6 py-2.5 flex flex-row items-center justify-center cursor-pointer gap-2 touch-manipulation z-[2] h-11",
-        "max-md:h-9 rounded-[1.125rem] [&>span]:text-sm",
-        "[&>img]:w-6 [&>img]:h-6 [&>svg]:w-6 [&>svg]:h-6",
-        "disabled:opacity-50 disabled:cursor-no-drop",
-        loading && "opacity-50",
-        typeButton === "white" && "bg-text-button [&>span]:text-text-accent",
-        typeButton === "fill-primary" && "bg-btn-main-default [&>span]:text-text-button hover:bg-btn-main-hover",
-        typeButton === "fill-opacity" && "bg-opacity-white-hard [&>span]:text-supporting-white",
-        typeButton === "regular-primary" && "bg-btn-second-default [&>span]:text-text-accent hover:bg-btn-second-hover",
-        className,
-      )}
+      className={cx(baseStyles(!!loading), typeStyles[typeButton], className)}
       data-type-button={typeButton || "fill-primary"}
       disabled={!!loading || rest.disabled}
       data-disabled={rest.disabled}
@@ -36,22 +55,9 @@ const Button = forwardRef(function Button(props: TTypeButton, ref?: LegacyRef<HT
       aria-labelledby={title ? title : label}
     >
       {prefixIcon ? prefixIcon : null}
-      <span
-        className={cx(
-          !label && "!hidden",
-          "text-sm text-center whitespace-nowrap font-medium selection:bg-transparent",
-          loading ? "opacity-60" : "opacity-100",
-        )}
-      >
-        {label}
-      </span>
+      <span className={textStyles(!!loading, label ?? "")}>{label}</span>
       {suffixIcon ? suffixIcon : null}
-      <div
-        className={cx(
-          "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-5 w-5",
-          loading ? "opacity-100 visible flex" : "opacity-0 invisible hidden",
-        )}
-      >
+      <div className={spinnerStyles(!!loading)}>
         <IconSpinner />
       </div>
     </button>
@@ -62,7 +68,7 @@ Button.displayName = "Button"
 export default Button
 
 export const ButtonLink = forwardRef(function Button(props: TTypeButtonLink & typeof Link.defaultProps) {
-  const { label, href, suffixIcon, prefixIcon, title, typeButton, ...rest } = props ?? {}
+  const { label, href, suffixIcon, prefixIcon, title, typeButton = "fill-primary", ...rest } = props ?? {}
 
   return (
     <Link
@@ -73,10 +79,7 @@ export const ButtonLink = forwardRef(function Button(props: TTypeButtonLink & ty
         "max-md:h-9 rounded-[1.125rem] [&>span]:text-sm",
         "[&>img]:w-6 [&>img]:h-6",
         "disabled:opacity-50 disabled:cursor-no-drop",
-        typeButton === "white" && "bg-text-button [&>span]:text-text-accent",
-        typeButton === "fill-primary" && "bg-btn-main-default [&>span]:text-text-button hover:bg-btn-main-hover",
-        typeButton === "fill-opacity" && "bg-opacity-white-hard [&>span]:text-supporting-white",
-        typeButton === "regular-primary" && "bg-btn-second-default [&>span]:text-text-accent hover:bg-btn-second-hover",
+        typeStyles[typeButton],
       )}
       data-type-button={typeButton || "fill-primary"}
       data-button-forward
@@ -91,7 +94,7 @@ export const ButtonLink = forwardRef(function Button(props: TTypeButtonLink & ty
   )
 })
 
-type TTypeButtonPrimary = "fill-primary" | "fill-orange" | "regular-primary" | "regular-orange" | "white" | "fill-opacity"
+type TTypeButtonPrimary = "fill-primary" | "regular-primary" | "white" | "fill-opacity"
 
 interface IButton {
   label?: string
