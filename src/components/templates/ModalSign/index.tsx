@@ -1,5 +1,7 @@
 "use client"
 
+import { ReactNode } from "react"
+
 import { EnumSign } from "@/types/enum"
 
 import HeaderAuth from "./components/Header"
@@ -18,10 +20,27 @@ import { cx } from "@/lib/cx"
 import { useStatusAuth } from "@/helpers/use-status-auth"
 import { dispatchCloseModalAuth, EStatusAuth, useModalAuth } from "@/store"
 
+const OBJ: Record<EnumSign, ReactNode> = {
+  [EnumSign.NumberConfirmation]: null,
+  [EnumSign.SignIn]: <ContentSignIn />,
+  [EnumSign.SignUp]: <ContentSignUp />,
+  [EnumSign.CurrentUser]: <ContentCurrentUser />,
+  [EnumSign.ResetPassword]: <ContentCreatePassword />,
+  [EnumSign.ForgotPassword]: <ContentForgotPassword />,
+  [EnumSign.CreatePassword]: <ContentCreatePassword />,
+  [EnumSign.ExistingAccount]: <ContentExistingAccount />,
+  [EnumSign.CodeVerification]: <ContentCodeVerification />,
+  [EnumSign.InformationEmailReset]: <ContentInformationEmailReset />,
+  [EnumSign.InformationCreateAccount]: <ContentInformationCreateAccount />,
+}
+
+/** Модальное окно авторизации */
 function ModalSign() {
   const statusAuth = useStatusAuth()
   const type = useModalAuth(({ type }) => type)
   const visible = useModalAuth(({ visible }) => visible)
+
+  const component = type && OBJ.hasOwnProperty(type!) ? OBJ[type!] : null
 
   return (
     <div
@@ -36,27 +55,9 @@ function ModalSign() {
           onClick={dispatchCloseModalAuth}
           className="!top-0 !right-0 md:!-right-1 !translate-x-0 md:!translate-x-full max-md:!bg-transparent max-md:!border-none"
         />
-        <ul className="auth-ul overflow-x-hidden overflow-y-auto p-0 pb-10 w-full gap-8 h-full flex flex-col items-center z-[2] max-md:relative max-md:gap-[1.875rem]">
+        <ul className="scroll-no overflow-x-hidden overflow-y-auto p-0 pb-10 w-full gap-8 h-full flex flex-col items-center z-[2] max-md:relative max-md:gap-[1.875rem]">
           <HeaderAuth />
-          {type === EnumSign.SignIn ? (
-            <ContentSignIn />
-          ) : type === EnumSign.SignUp ? (
-            <ContentSignUp />
-          ) : type === EnumSign.CodeVerification ? (
-            <ContentCodeVerification />
-          ) : type === EnumSign.ForgotPassword ? (
-            <ContentForgotPassword />
-          ) : [EnumSign.ResetPassword, EnumSign.CreatePassword].includes(type!) ? (
-            <ContentCreatePassword />
-          ) : type === EnumSign.ExistingAccount ? (
-            <ContentExistingAccount />
-          ) : type === EnumSign.InformationEmailReset ? (
-            <ContentInformationEmailReset />
-          ) : type === EnumSign.InformationCreateAccount ? (
-            <ContentInformationCreateAccount />
-          ) : type === EnumSign.CurrentUser ? (
-            <ContentCurrentUser />
-          ) : null}
+          {component}
         </ul>
       </section>
     </div>

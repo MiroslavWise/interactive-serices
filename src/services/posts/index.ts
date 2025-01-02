@@ -1,6 +1,15 @@
-import { TGetPostId, TGetPostParticipants, TGetPosts, TGetPostsFromUser, TPatchPost, type TPostPosts } from "./types"
+import { type TSchemaAdvert } from "@/components/templates/AddAdverts/schema"
+
+import {
+  type TGetPosts,
+  type TPatchPost,
+  type TGetPostId,
+  type TPostPosts,
+  type TGetPostsFromUser,
+  type TGetPostParticipants,
+} from "./types"
+
 import { fetchGet, post, patch, wrapperDelete, wrapperPatch } from "../request"
-import { TSchemaAdvert } from "@/components/templates/AddAdverts/schema"
 
 const url = "/posts"
 
@@ -14,10 +23,9 @@ export const getPosts: TGetPosts = (query, isInvalid) => fetchGet({ url, query }
 export const getPostsFromUser: TGetPostsFromUser = ({ query, userId }) => fetchGet({ url: `${url}/user/${userId}`, query })
 /** Пост по {{post_id}} */
 export const getPostId: TGetPostId = (id) => fetchGet({ url: `${url}/${id}` })
-
+/** Получение участников поста по {{post_id}} */
 export const getPostParticipants: TGetPostParticipants = (id) => fetchGet({ url: `${url}/participants/${id}` })
-
+/** Удаление поста по {{post_id}} */
 export const deletePostId = (id: number) => wrapperDelete({ url, id })
-
 /** Запрос для модератора */
 export const patchAdvertPosts = (id: number, body: TSchemaAdvert) => wrapperPatch({ url, body: { company: body }, id })
