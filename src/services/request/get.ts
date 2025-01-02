@@ -1,7 +1,9 @@
 import { type IResponse } from "./types"
 
 import { URL_API } from "@/helpers"
-import { authToken } from "../auth/authService"
+
+import { handleError } from "./error"
+import { createHeaders } from "./header"
 import { invalidAccessTokenRefresh } from "@/helpers/functions/invalid-access-token-refresh"
 
 interface IGet {
@@ -9,33 +11,27 @@ interface IGet {
   query?: object | any
 }
 
-export async function fetchGet<T = any>({ url, query }: IGet, isInvalid?: boolean): Promise<IResponse<T>> {
+/** Функция для создания URL с query-параметрами */
+const createEndpoint = (url: string, query?: Record<string, any>): URL => {
   const endpoint = new URL(`${URL_API}${url}`)
-  if (query && typeof query === "object") {
-    for (const [key, value] of Object.entries(query)) {
+  if (query) {
+    Object.entries(query).forEach(([key, value]) => {
       endpoint.searchParams.append(key, typeof value === "string" ? value : String(value))
-    }
+    })
   }
+  return endpoint
+}
 
-  const head: HeadersInit = {
-    "Content-Type": "application/json",
-  }
+export async function fetchGet<T = any>({ url, query }: IGet, isInvalid?: boolean): Promise<IResponse<T>> {
+  const endpoint = createEndpoint(url, query)
+  const headers = createHeaders()
 
-  const fullTokenString = authToken()
-
-  if (fullTokenString) {
-    head.Authorization = fullTokenString
-  }
-
-  const dataRequestInit: RequestInit = {
-    method: "GET",
-    headers: head,
-  }
+  const dataRequestInit: RequestInit = { method: "GET", headers }
 
   try {
     const response = await fetch(endpoint, { ...dataRequestInit })
 
-    const responseAwait = (await response.json()) as IResponse
+    const responseAwait = (await response.json()) as IResponse<T>
 
     const { data, error, meta } = responseAwait
 
@@ -58,10 +54,6 @@ export async function fetchGet<T = any>({ url, query }: IGet, isInvalid?: boolea
       meta: meta,
     }
   } catch (e) {
-    console.log("catch: e:", e)
-    return {
-      data: null,
-      error: e,
-    }
+    return handleError(e)
   }
 }

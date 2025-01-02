@@ -1,10 +1,10 @@
-import axios from "axios"
+import axios, { RawAxiosRequestHeaders } from "axios"
 
 import { URL_API } from "@/helpers"
 
 import { authToken } from "../auth/authService"
 
-export function instanceHeader(): HeadersInit {
+export function instanceHeader(): HeadersInit | RawAxiosRequestHeaders {
   const head: HeadersInit = {
     "Content-Type": "application/json",
   }

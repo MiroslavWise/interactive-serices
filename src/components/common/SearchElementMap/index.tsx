@@ -7,13 +7,13 @@ import { type IFeatureMember } from "@/services/addresses/types/geocodeSearch"
 import IconMarkerPin from "@/components/icons/IconMarkerPin"
 
 import { cx } from "@/lib/cx"
+import { clg } from "@console"
 import { queryClient } from "@/context"
 import { getGeocodeSearch } from "@/services"
 import { dispatchMapCoordinates } from "@/store"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
 
 import styles from "./style.module.scss"
-import { clg } from "@console"
 
 export const SearchElementMap = () => {
   const [text, setText] = useState("")

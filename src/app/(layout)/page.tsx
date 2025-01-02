@@ -12,7 +12,7 @@
 
 import dynamic from "next/dynamic"
 
-const HeaderMap = dynamic(() => import("@/components/YandexMap/Header"), { ssr: false })
+const HeaderMap = dynamic(() => import("@/components/YandexMap/HeaderMap"), { ssr: false })
 const ContextMap = dynamic(() => import("@/components/YandexMap/ContextMap"), { ssr: false })
 import { MobileFilterMap, ButtonCollapseServices, FiltersScreen } from "@/components/content"
 const BannerSearch = dynamic(() => import("@/components/content/BannerSearch"), { ssr: false })
