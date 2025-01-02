@@ -3,7 +3,7 @@ $top-height-open: 1.625rem;
 .container {
   --h: 0;
   --h-header: 6rem;
-  --h-article: 0;
+  --h-article: 5.875rem;
   --h-section: 0;
 }
 
@@ -46,6 +46,10 @@ $top-height-open: 1.625rem;
           }
         }
       }
+    }
+
+    & > ul {
+      height: calc(100% - var(--h-article));
     }
   }
 }
