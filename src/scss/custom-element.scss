@@ -55,3 +55,19 @@
   background: var(--BG-second);
   display: flex;
 }
+
+.svg-icon-map {
+  filter: drop-shadow(0 0 0.75rem crimson);
+
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0.75rem crimson);
+  }
+  50% {
+    filter: drop-shadow(0 0 0.15rem crimson);
+  }
+}

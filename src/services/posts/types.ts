@@ -4,6 +4,7 @@ import { type IAddressesResponse } from "../addresses/types/serviceAddresses"
 import { INotes } from "../notes/types"
 import { EnumHelper } from "@/types/enum"
 import { IResponse } from "../request/types"
+import { ICompany } from "../types/company"
 
 export interface IBodyPost {
   title: string
@@ -28,10 +29,17 @@ export interface IPosts {
   created: string
   questionnaireId?: number //id опросника
   questionnaire: IQuestionnaire
-  archive: boolean //default - false
-  archived: string //время, когда запись была отправлена в архив
+  /** Пост в архиве
+   * @default false
+   */
+  archive: boolean
+  /** Время, когда запись была отправлена в архив */
+  archived: string
   notes: INotes[]
+  /** Признак участника */
   isParticipants: boolean
+  /** Рекламное агентство */
+  company?: ICompany
 }
 
 interface IQuestionnaire {

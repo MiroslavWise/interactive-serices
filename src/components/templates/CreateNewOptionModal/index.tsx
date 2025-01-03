@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
 import { EnumHelper, EnumTypeProvider } from "@/types/enum"
-import { TCompany, type IPostOffers } from "@/services/offers/types"
+import { type IPostOffers } from "@/services/offers/types"
 import { type IPostAddress } from "@/services/addresses/types/serviceAddresses"
 import { type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
@@ -193,25 +193,6 @@ export default function CreateNewOptionModal() {
       slug: transliterateAndReplace(description).slice(0, 254),
       enabled: true,
       desired: true,
-    }
-
-    const company: TCompany = {}
-
-    const companyTitle = values.company.title?.trim()
-    if (companyTitle) {
-      company.title = companyTitle
-    }
-    const companyErid = values.company.erid?.trim()
-    if (companyErid) {
-      company.erid = companyErid
-    }
-    const companyINN = values.company.inn?.trim()
-    if (companyINN) {
-      company.inn = companyINN
-    }
-
-    if (Object.entries(company).length > 0) {
-      data.company = company
     }
 
     if (values.help) {
