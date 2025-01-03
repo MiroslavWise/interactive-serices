@@ -96,7 +96,6 @@ export const ServicesComponent = () => {
       </ul>
     )
 
-  /** @default issue/1-933 */
   if (isEmpty)
     return (
       <section className="w-full h-full flex flex-col px-5 items-center justify-center gap-2.5 py-28">
