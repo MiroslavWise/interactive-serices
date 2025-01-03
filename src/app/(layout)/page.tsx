@@ -12,6 +12,7 @@
 
 import dynamic from "next/dynamic"
 
+import FormProviderSearch from "./components/FormProviderSearch"
 const HeaderMap = dynamic(() => import("@/components/YandexMap/HeaderMap"), { ssr: false })
 const ContextMap = dynamic(() => import("@/components/YandexMap/ContextMap"), { ssr: false })
 import { MobileFilterMap, ButtonCollapseServices, FiltersScreen } from "@/components/content"
@@ -34,26 +35,28 @@ export default () => {
   return (
     <main className="relative flex flex-col items-center justify-between h-full w-full overflow-hidden bg-transparent z-20">
       <HeaderMap />
-      {isTablet ? (
-        <>
-          <MobileFilterMap />
-          <MapSearch />
-          <Navigation />
-          <SearchCategory />
-        </>
-      ) : (
-        <>
-          <ButtonNavigation />
-          <BannerSearch />
-          <FiltersScreen />
-          <SearchAndFilters />
-          <BannerServices />
-          <ButtonCollapseServices />
-        </>
-      )}
-      <ContextMap>
-        <AllClusters />
-      </ContextMap>
+      <FormProviderSearch>
+        {isTablet ? (
+          <>
+            <MobileFilterMap />
+            <MapSearch />
+            <Navigation />
+            <SearchCategory />
+          </>
+        ) : (
+          <>
+            <ButtonNavigation />
+            <BannerSearch />
+            <FiltersScreen />
+            <SearchAndFilters />
+            <BannerServices />
+            <ButtonCollapseServices />
+          </>
+        )}
+        <ContextMap>
+          <AllClusters />
+        </ContextMap>
+      </FormProviderSearch>
     </main>
   )
 }

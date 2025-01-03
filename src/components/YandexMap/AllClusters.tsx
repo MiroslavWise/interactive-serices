@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import * as ReactDOM from "react-dom"
-import { type LngLatBounds } from "ymaps3"
 import { useQuery } from "@tanstack/react-query"
 import { type Feature } from "@yandex/ymaps3-clusterer"
 import { type ReactifiedModule } from "@yandex/ymaps3-types/reactify"
@@ -29,6 +28,7 @@ import { cx } from "@/lib/cx"
 import { getPosts } from "@/services/posts"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import { JSONStringBounds } from "@/utils/map-sort"
+import { useFormProviderSearch } from "@/app/(layout)/components/FormProviderSearch"
 
 export type ReactifiedApi = ReactifiedModule<typeof ymaps3>
 export type FeatureCluster = Feature & {
@@ -69,8 +69,13 @@ function AllClusters() {
     enabled: ["all", EnumTypeProvider.POST].includes(providers),
   })
 
+  const { isF, posts: searchPosts, offers: searchOffers } = useFormProviderSearch()
+
   const listPosts = data?.data ?? []
   const stringBounds = JSONStringBounds(bounds!)
+
+  const posts = isF ? searchPosts : listPosts
+  const offers = isF ? searchOffers : itemsOffers
 
   const is = React.useCallback(
     (value: number[]) => {
@@ -192,7 +197,7 @@ function AllClusters() {
 
   if (!MapClusterer)
     return [
-      ...itemsOffers.map((item) => {
+      ...offers.map((item) => {
         const coordinates = item?.addresses?.[0]?.coordinates?.split(" ")?.map((_) => Number(_)) ?? [0, 0]
 
         if (["all", EnumTypeProvider.offer, EnumTypeProvider.alert].includes(providers))
@@ -212,7 +217,7 @@ function AllClusters() {
           })
         return null
       }),
-      ...listPosts.map((item) => {
+      ...posts.map((item) => {
         const coordinates = item?.addresses?.[0]?.coordinates?.split(" ")?.map((_) => Number(_)) ?? [0, 0]
         if (["all", EnumTypeProvider.POST].includes(providers))
           return Marker({
@@ -239,7 +244,7 @@ function AllClusters() {
       cluster={cluster}
       method={size}
       features={[
-        ...(["all", EnumTypeProvider.offer, EnumTypeProvider.alert].includes(providers) ? itemsOffers : []).map((item) => {
+        ...(["all", EnumTypeProvider.offer, EnumTypeProvider.alert].includes(providers) ? offers : []).map((item) => {
           const coordinates = item?.addresses?.[0]?.coordinates?.split(" ")?.map((_) => Number(_)) ?? [0, 0]
 
           return {
@@ -257,7 +262,7 @@ function AllClusters() {
             reactifiedApi: reactifiedApi,
           }
         }),
-        ...(["all", EnumTypeProvider.POST].includes(providers) ? listPosts : []).map((item) => {
+        ...(["all", EnumTypeProvider.POST].includes(providers) ? posts : []).map((item) => {
           const coordinates = item?.addresses?.[0]?.coordinates?.split(" ")?.map((_) => Number(_)) ?? [0, 0]
 
           return {

@@ -1,39 +1,27 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Controller, useForm } from "react-hook-form"
+import { useFormContext, Controller } from "react-hook-form"
 
 import IconSearch from "@/components/icons/IconSearch"
 import IconXClose from "@/components/icons/IconXClose"
-
-import { type IPosts } from "@/services/posts/types"
-import { type IResponseOffers } from "@/services/offers/types"
-import { type IResponseOffersCategories } from "@/services/offers-categories/types"
 
 import ULServices from "./components/ULServices"
 import EmptyArticle from "./components/EmptyArticle"
 import LoadingArticle from "./components/LoadingArticle"
 
 import { cx } from "@/lib/cx"
-import { queryClient } from "@/context"
-import { getSearch } from "@/services/search"
+import { type TSchemaSearch } from "./utils/schema"
 import { dispatchVisibleSearchFilters, useSearchFilters } from "@/store"
-import { resolverSchemaSearch, type TSchemaSearch } from "./utils/schema"
+import { useFormProviderSearch } from "@/app/(layout)/components/FormProviderSearch"
 
 import styles from "./styles/style.module.scss"
 
 function BannerSearch() {
-  const [loading, setLoading] = useState(false)
   const visible = useSearchFilters(({ visible }) => visible)
-  const { control, setFocus, setValue, handleSubmit } = useForm<TSchemaSearch>({
-    defaultValues: { input: "" },
-    resolver: resolverSchemaSearch,
-  })
+  const { control, setFocus, setValue, handleSubmit } = useFormContext<TSchemaSearch>()
 
-  const [isF, setIsF] = useState(false)
-  const [valuesPosts, setValuesPosts] = useState<IPosts[]>([])
-  const [valuesOffers, setValuesOffers] = useState<IResponseOffers[]>([])
-  const [valuesCategories, setValuesCategories] = useState<IResponseOffersCategories[]>([])
+  const { loading, onSearch, offers, posts, isF, setIsF } = useFormProviderSearch()
 
   useEffect(() => {
     if (visible) {
@@ -49,38 +37,22 @@ function BannerSearch() {
 
   async function submit(values: TSchemaSearch) {
     const trim = values.input.trim().toLowerCase()
-
-    if (trim.length > 1) {
-      if (!loading) {
-        setLoading(true)
-        const response = await queryClient.fetchQuery({
-          queryFn: () => getSearch({ query: { query: trim } }),
-          queryKey: ["search", { search: trim }],
-        })
-        setIsF(true)
-        setLoading(false)
-
-        const { data } = response
-
-        if (data) {
-          const posts = data?.posts ?? []
-          const offers = data?.offers ?? []
-          const categories = data?.["offers-categories"] ?? []
-
-          setValuesPosts(posts)
-          setValuesOffers(offers)
-          setValuesCategories(categories)
-        }
-      }
-    }
+    await onSearch(trim)
   }
 
   const onSubmit = handleSubmit(submit)
 
-  const isAllEmpty = [valuesCategories, valuesOffers, valuesPosts].every((_) => _.length === 0)
+  const isAllEmpty = [offers, posts].every((_) => _.length === 0)
 
   return (
-    <div className={cx(styles.wrapper, "w-full h-full fixed inset-0 bg-translucent p-0")} data-visible={visible}>
+    <div
+      className={cx(styles.wrapper, "w-full h-full fixed inset-0 bg-translucent p-0")}
+      data-visible={visible}
+      onClick={(event) => {
+        event.stopPropagation()
+        close()
+      }}
+    >
       <form
         onSubmit={onSubmit}
         data-test="form-search-filters"
@@ -89,6 +61,7 @@ function BannerSearch() {
           "top-[calc(var(--height-header-nav-bar)_+_1.5rem)]",
           visible ? "h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem)]" : "h-[calc(100%_-_var(--height-header-nav-bar)_-_3rem)]",
         )}
+        onClick={(event) => event.stopPropagation()}
       >
         <header className="px-5 pt-5 pb-2 w-full items-center relative">
           <Controller
@@ -107,6 +80,7 @@ function BannerSearch() {
                     event.stopPropagation()
                     setValue("input", "")
                     close()
+                    setIsF(false)
                   }}
                   data-test="button-search-filters-on-clear"
                 >
@@ -123,7 +97,7 @@ function BannerSearch() {
         ) : isAllEmpty ? (
           <EmptyArticle />
         ) : (
-          <ULServices offers={valuesOffers} posts={valuesPosts} categories={valuesCategories} />
+          <ULServices offers={offers} posts={posts} />
         )}
       </form>
     </div>

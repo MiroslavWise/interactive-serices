@@ -3,10 +3,6 @@
   width: calc(var(--width-right-services) - 1.25rem - 1.25rem);
   z-index: 85;
 
-  transition-duration: 700ms;
-  transition-property: transform, width;
-  transition-timing-function: ease;
-
   & > [data-search] {
     border-color: var(--grey-stroke);
     box-shadow: 0;
@@ -36,13 +32,6 @@
     }
   }
 
-  & > button,
-  & > button > svg > path {
-    transition-duration: 150ms;
-    transition-property: border-color, background, fill;
-    transition-timing-function: ease;
-  }
-
   & > button {
     box-shadow: 0;
 
@@ -61,13 +50,6 @@
         }
       }
     }
-  }
-
-  & > [data-search],
-  & > button {
-    transition-duration: 700ms;
-    transition-property: box-shadow;
-    transition-timing-function: ease;
   }
 
   &[data-collapse="true"] {
