@@ -95,7 +95,7 @@ export const ServicesMobile = memo(({ posts, offers, isSearch, loading }: IProps
     return array
   }, [itemsOffers, stringBounds, timesFilter, idSearch, offers, isSearch])
 
-  if ((isSearch && loading) || (!isSearch && (isLoading || isLoadingPost)))
+  if (isLoading || isLoadingPost || loading)
     return (
       <ul className="w-full h-full p-5 flex flex-col gap-4 pb-[calc(var(--height-mobile-footer-nav)_+_2.875rem)] *:bg-BG-first">
         {[1, 2, 3].map((item) => (

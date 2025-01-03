@@ -59,7 +59,7 @@ function Marker({ properties, geometry, reactifiedApi, is }: FeatureCluster) {
             <span className="text-xs text-text-button font-medium line-clamp-1 text-ellipsis">{title ?? "Щедрое сердце"}</span>
           </div>
         ) : (
-          <div className="div-alert-text flex absolute w-max left-0 top-1/2 pointer-events-none translate-x-3.5 -translate-y-1/2 transition-opacity opacity-0 group-hover:opacity-100">
+          <div className="div-alert-text bg-text-button flex absolute w-max left-0 top-1/2 pointer-events-none translate-x-3.5 -translate-y-1/2 transition-opacity opacity-0 group-hover:opacity-100">
             <section className="flex flex-col h-min">
               <p className="text-[#000] line-clamp-1 text-ellipsis text-sm font-medium">{title}</p>
               {company ? (

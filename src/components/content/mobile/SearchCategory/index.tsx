@@ -33,6 +33,7 @@ import styles from "./styles/style.module.scss"
 
 export default function SearchCategory() {
   const [loading, setLoading] = useState(false)
+  const [loadingSearch, setLoadingSearch] = useState(false)
   const visible = useMobileSearchCategory(({ visible }) => visible)
   const providers = useFiltersServices(({ providers }) => providers)
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
@@ -73,6 +74,7 @@ export default function SearchCategory() {
     } else {
       setLoading(false)
     }
+    setLoadingSearch(false)
   }
 
   function setHeight(ref: HTMLInputElement, property: string) {
@@ -129,6 +131,7 @@ export default function SearchCategory() {
             onClick={() => dispatchMobileSearchCategoryVisible(true)}
             value={input}
             onChange={(event) => {
+              setLoadingSearch(true)
               setInput(event.target.value || "")
               debouncedValue()
             }}
@@ -201,7 +204,7 @@ export default function SearchCategory() {
           <TimesFilter />
           {activeFilters.length ? <ActiveFilters activeFilters={activeFilters} /> : null}
         </article>
-        <ServicesMobile posts={valuesPosts} offers={valuesOffers} isSearch={!!input.trim()} loading={loading} />
+        <ServicesMobile posts={valuesPosts} offers={valuesOffers} isSearch={!!input.trim()} loading={loadingSearch} />
       </section>
     </div>
   )
