@@ -66,14 +66,14 @@ function ControlAddress({ control, watch, trigger, setValue, errors }: IProps) {
       render={({ field, fieldState: { error } }) => (
         <fieldset
           id="fieldset-create-option-modal-address"
-          style={{ zIndex: 100 }}
+          style={{ zIndex: 3 }}
           data-test="fieldset-create-new-option-addressInit"
           ref={ref}
         >
-          <label htmlFor={field.name} title="Ваш адрес">
-            Ваш адрес
+          <label htmlFor={field.name} title="Адрес">
+            Адрес
           </label>
-          <div data-input-selector>
+          <div data-input-selector className="z-50">
             <input
               {...field}
               onChange={(event) => {
@@ -104,7 +104,7 @@ function ControlAddress({ control, watch, trigger, setValue, errors }: IProps) {
             <ul
               data-active={isFocus && (isEmptySearch || Array.isArray(exactAddresses))}
               data-is-empty-search={isEmptySearch}
-              className="absolute left-0 right-0 overflow-hidden overflow-y-auto flex flex-col w-full -translate-y-full"
+              className="absolute z-50 left-0 right-0 overflow-hidden overflow-y-auto flex flex-col w-full -translate-y-full"
             >
               {Array.isArray(exactAddresses) ? (
                 exactAddresses.map((item, index) => (

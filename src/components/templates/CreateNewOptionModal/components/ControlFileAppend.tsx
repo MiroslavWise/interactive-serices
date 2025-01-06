@@ -72,7 +72,7 @@ function ControlFileAppend({ control, visible, step, loading, typeAdd, progress 
             data-test="fieldset-create-new-option-images"
           >
             <label htmlFor={field.name}>Фото или видео</label>
-            <p>{descriptionImages(typeAdd!)}</p>
+            {/* <p>{descriptionImages(typeAdd!)}</p> */}
             <div className={_strings.other.length > 0 ? "w-full flex flex-col gap-2" : "hidden"}>
               {_strings.other.map((item) => (
                 <article
@@ -126,8 +126,8 @@ function ControlFileAppend({ control, visible, step, loading, typeAdd, progress 
                 </div>
               ) : null}
             </div>
-            {/* <i>Максимальный размер фото - 10 Мб, видео - 50 Мб</i>
-            <i>Не более 9 файлов</i> */}
+            <i>Максимальный размер фото - 10 Мб, видео - 50 Мб</i>
+            {/* <i>Не более 9 файлов</i> */}
           </fieldset>
         )
       }}

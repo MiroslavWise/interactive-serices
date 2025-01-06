@@ -3,15 +3,15 @@ import { Control, Controller } from "react-hook-form"
 import { type TSchemaCreate } from "../utils/create.schema"
 
 import { cx } from "@/lib/cx"
-// import { useOutsideClickEvent } from "@/helpers"
-// import { HELP_TEXT } from "@/helpers/constants/help-text"
+import { useOutsideClickEvent } from "@/helpers"
+import { HELP_TEXT } from "@/helpers/constants/help-text"
 
 interface IProps {
   control: Control<TSchemaCreate, any>
 }
 
 function ControlHelp({ control }: IProps) {
-  // const [open, setOpen, ref] = useOutsideClickEvent()
+  const [open, setOpen, ref] = useOutsideClickEvent()
 
   return (
     <Controller
@@ -57,7 +57,7 @@ function ControlHelp({ control }: IProps) {
             </div>
             <span className={cx("text-sm font-medium", field.value ? "text-text-button" : "text-text-primary")}>Щедрое сердце</span>
           </span>
-          {/* <button
+          <button
             type="button"
             className="w-4 h-4 relative"
             ref={ref}
@@ -111,7 +111,7 @@ function ControlHelp({ control }: IProps) {
                 <p className="text-text-primary text-[0.8125rem] font-normal text-left">{HELP_TEXT}</p>
               </article>
             </section>
-          </button> */}
+          </button>
         </fieldset>
       )}
     />
