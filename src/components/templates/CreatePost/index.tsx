@@ -182,7 +182,7 @@ function CreatePost() {
   return (
     <>
       <header className="w-full px-3 pt-5 md:pt-6 pb-4 md:pb-5 overflow-hidden flex flex-row items-center justify-start md:justify-center border-b border-solid border-grey-separator h-standard-header-modal">
-        <h3 className="text-text-primary text-2xl font-semibold">Новый пост</h3>
+        <h3 className="text-text-primary text-2xl font-semibold">Новое событие</h3>
       </header>
       <ul data-test="ul-create-new-post" className="w-full flex flex-col items-center gap-4 px-5 h-full-minus-standard-header-modal">
         <form
@@ -334,8 +334,7 @@ function CreatePost() {
                       </div>
                     ) : null}
                   </div>
-                  <i className="!text-text-disabled !-mt-3">Максимальный размер фото - 10 Мб, видео - 50 Мб</i>
-                  <i className="!text-text-disabled !-mt-3">Не более 9 файлов</i>
+                  <i className="!text-text-disabled !-mt-3">Фото, видео или постер</i>
                 </fieldset>
               )
             }}
