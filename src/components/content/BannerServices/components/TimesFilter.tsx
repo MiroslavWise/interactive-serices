@@ -1,15 +1,25 @@
 import IconHelp from "@/components/icons/IconHelp"
 import { IconXClose } from "@/components/icons/IconXClose"
 import IconHelpColor from "@/components/icons/IconHelpColor"
+import { IconFilters } from "@/components/icons/IconFilters"
 import IconChevronDown from "@/components/icons/IconChevronDown"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
 import { EnumTimesFilter, MAP_TIME, MAP_URGENT, OBJ_TIME } from "../constants"
-import { dispatchFiltersServiceTime, dispatchUrgentFilter, useFiltersServices, useUrgentFilter, dispatchMapCoordinatesZoom } from "@/store"
+import {
+  dispatchFiltersServiceTime,
+  dispatchUrgentFilter,
+  useFiltersServices,
+  useUrgentFilter,
+  dispatchMapCoordinatesZoom,
+  dispatchActiveFilterScreen,
+} from "@/store"
+import { EnumTypeProvider } from "@/types/enum"
 
 function TimesFilter() {
   const [open, setOpen, ref] = useOutsideClickEvent()
+  const providers = useFiltersServices(({ providers }) => providers)
   const timesFilter = useFiltersServices(({ timesFilter }) => timesFilter)
   const urgent = useUrgentFilter(({ urgent }) => urgent)
 
@@ -21,6 +31,19 @@ function TimesFilter() {
 
   return (
     <div className="w-full flex flex-row items-center gap-1">
+      {providers === EnumTypeProvider.offer ? (
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation()
+            dispatchActiveFilterScreen(true)
+          }}
+          data-test="button-search-and-filters-on-close"
+          className="w-8 h-8 rounded-full border border-solid bg-BG-second border-grey-stroke flex items-center justify-center *:w-4 *:h-4"
+        >
+          <IconFilters />
+        </button>
+      ) : null}
       <button
         type="button"
         ref={ref}

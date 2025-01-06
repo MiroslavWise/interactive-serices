@@ -59,17 +59,6 @@ export const SearchAndFilters = () => {
           </button>
         ) : null}
       </div>
-      <button
-        type="button"
-        onClick={(event) => {
-          event.stopPropagation()
-          dispatchActiveFilterScreen(true)
-        }}
-        data-test="button-search-and-filters-on-close"
-        className="w-12 h-12 rounded-full border border-solid bg-BG-second border-grey-stroke flex items-center justify-center p-3.5"
-      >
-        <IconFilters />
-      </button>
     </div>
   )
 }
