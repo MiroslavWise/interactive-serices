@@ -34,8 +34,8 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
   const categories = c?.data || []
   const trimValue = value.trim().toLowerCase()
 
-  const [expandSlug, setExpandSlug] = useState<string | null>(null)
-  const onExpandSlug = (slug: string) => setExpandSlug((_) => (_ === slug ? null : slug))
+  // const [expandSlug, setExpandSlug] = useState<string | null>(null)
+  // const onExpandSlug = (slug: string) => setExpandSlug((_) => (_ === slug ? null : slug))
 
   const main = useMemo(() => {
     const array: IResponseOffersCategories[] = []
@@ -73,20 +73,20 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
     return array
   }, [trimValue])
 
-  const subMainCategories = useCallback(
-    (slug: string) => {
-      const array: IResponseOffersCategories[] = []
+  // const subMainCategories = useCallback(
+  //   (slug: string) => {
+  //     const array: IResponseOffersCategories[] = []
 
-      for (const item of subs) {
-        if (item.provider === slug) {
-          array.push(item)
-        }
-      }
+  //     for (const item of subs) {
+  //       if (item.provider === slug) {
+  //         array.push(item)
+  //       }
+  //     }
 
-      return array
-    },
-    [subs],
-  )
+  //     return array
+  //   },
+  //   [subs],
+  // )
 
   const currentCategory = useCallback(
     (id: number | string) => (!!id ? categories.find((_) => Number(_.id) === Number(id)) : null),
@@ -171,7 +171,7 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
             )}
           >
             <ul className="w-full flex flex-col gap-0.5 py-3 px-1.5">
-              {(searchList.length > 0 ? searchList : []).map((item) => (
+              {/* {(searchList.length > 0 ? searchList : []).map((item) => (
                 <li
                   className={cx(
                     "w-full p-1.5 gap-2 bg-BG-second hover:bg-grey-field rounded-md",
@@ -207,7 +207,7 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
                   </div>
                   <span className="text-text-primary text-sm font-normal text-ellipsis line-clamp-1">{item.title}</span>
                 </li>
-              ))}
+              ))} */}
               {main.map((itemMain) => (
                 <>
                   <li
@@ -244,15 +244,24 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
                       <ImageCategory id={itemMain.id} slug={itemMain?.slug} provider={itemMain?.provider} />
                     </div>
                     <span
+                      // onClick={(event) => {
+                      //   event.stopPropagation()
+                      //   // onExpandSlug(itemMain.slug)
+                      // }}
                       onClick={(event) => {
                         event.stopPropagation()
-                        onExpandSlug(itemMain.slug)
+                        field.onChange(itemMain.id)
+                        if (itemMain?.slug === "kursk") {
+                          setValueForm("help", true)
+                        }
+                        setValue("")
+                        setOpen(false)
                       }}
                       className="text-text-primary text-sm font-normal text-ellipsis line-clamp-1 cursor-pointer"
                     >
                       {itemMain.title}
                     </span>
-                    <a
+                    {/* <a
                       onClick={(event) => {
                         event.stopPropagation()
                         onExpandSlug(itemMain.slug)
@@ -263,9 +272,9 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
                       )}
                     >
                       <IconChevron />
-                    </a>
+                    </a> */}
                   </li>
-                  {subMainCategories(itemMain.slug).map((itemSub) => (
+                  {/* {subMainCategories(itemMain.slug).map((itemSub) => (
                     <li
                       className={cx(
                         "w-full p-1.5 pl-3 gap-2 bg-BG-second hover:bg-grey-field rounded-md",
@@ -302,12 +311,24 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
                       </div>
                       <span className="text-text-primary text-sm font-normal text-ellipsis line-clamp-1">{itemSub.title}</span>
                     </li>
-                  ))}
+                  ))} */}
                 </>
               ))}
+              <button
+                type="button"
+                title="Предложить категорию"
+                aria-label="Предложить категорию"
+                data-span-new-category
+                onClick={(event) => {
+                  event.stopPropagation()
+                  dispatchVisibleCreateNewCategory(true)
+                }}
+              >
+                <span>Предложить категорию</span>
+              </button>
             </ul>
           </div>
-          {!visible ? (
+          {/* {!visible ? (
             <button
               type="button"
               title="Предложить категорию"
@@ -320,7 +341,7 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
             >
               <span>Предложить категорию</span>
             </button>
-          ) : null}
+          ) : null} */}
         </fieldset>
       )}
     />

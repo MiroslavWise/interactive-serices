@@ -101,7 +101,11 @@ function ControlAddress({ control, watch, trigger, setValue, errors }: IProps) {
             >
               <IconXClose />
             </button>
-            <ul data-active={isFocus && (isEmptySearch || Array.isArray(exactAddresses))} data-is-empty-search={isEmptySearch}>
+            <ul
+              data-active={isFocus && (isEmptySearch || Array.isArray(exactAddresses))}
+              data-is-empty-search={isEmptySearch}
+              className="absolute left-0 right-0 overflow-hidden overflow-y-auto flex flex-col w-full -translate-y-full"
+            >
               {Array.isArray(exactAddresses) ? (
                 exactAddresses.map((item, index) => (
                   <li

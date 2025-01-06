@@ -126,8 +126,8 @@ function ControlFileAppend({ control, visible, step, loading, typeAdd, progress 
                 </div>
               ) : null}
             </div>
-            <i>Максимальный размер фото - 10 Мб, видео - 50 Мб</i>
-            <i>Не более 9 файлов</i>
+            {/* <i>Максимальный размер фото - 10 Мб, видео - 50 Мб</i>
+            <i>Не более 9 файлов</i> */}
           </fieldset>
         )
       }}

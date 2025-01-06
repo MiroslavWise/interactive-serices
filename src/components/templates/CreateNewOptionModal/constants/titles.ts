@@ -1,7 +1,7 @@
 import { EnumTypeProvider } from "@/types/enum"
 
 export const titleContent = (value: EnumTypeProvider) =>
-  value === EnumTypeProvider.alert ? "Название проблемы" : value === EnumTypeProvider.discussion ? "Название обсуждения" : ""
+  value === EnumTypeProvider.alert ? "Название проблемы" : value === EnumTypeProvider.offer ? "Заголовок умения или услуги" : ""
 
 export const descriptionImages = (value: EnumTypeProvider) =>
   value === EnumTypeProvider.alert

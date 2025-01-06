@@ -35,6 +35,7 @@ import {
 } from "@/store"
 import {
   LIMIT_DESCRIPTION,
+  LIMIT_TITLE,
   type TSchemaCreate,
   resolverAlertAndDiscussion,
   resolverAlertAndDiscussionMap,
@@ -273,7 +274,7 @@ export default function CreateNewOptionModal() {
           data-enum-form={`from-create-new-option-${typeAdd}`}
           className="w-full h-full overflow-y-auto flex flex-col items-center gap-4 md:gap-5 overflow-x-hidden"
         >
-          {[EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!) ? (
+          {[EnumTypeProvider.alert, EnumTypeProvider.offer].includes(typeAdd!) ? (
             <Controller
               name="title"
               control={control}
@@ -286,6 +287,7 @@ export default function CreateNewOptionModal() {
                     type="text"
                     placeholder={titlePlaceholderContent(typeAdd!)}
                     data-error={!!error}
+                    maxLength={typeAdd === EnumTypeProvider.offer ? 52 : LIMIT_TITLE}
                   />
                   {!!error ? <i>{error.message}</i> : null}
                 </fieldset>
@@ -293,9 +295,6 @@ export default function CreateNewOptionModal() {
             />
           ) : null}
           {visible && step === 2 && <ArticleOnboarding />}
-          {[EnumTypeProvider.offer].includes(typeAdd!) ? (
-            <ControllerCategory control={control} visible={visible} disabled={visible && step !== 2.5} setValue={setValue} />
-          ) : null}
           {visible && step === 2.5 && <ArticleOnboarding />}
           <Controller
             name="description"
@@ -321,6 +320,9 @@ export default function CreateNewOptionModal() {
             )}
           />
           {typeAdd && [EnumTypeProvider.offer].includes(typeAdd) && <ControlHelp control={control} />}
+          {[EnumTypeProvider.offer].includes(typeAdd!) ? (
+            <ControllerCategory control={control} visible={visible} disabled={visible && step !== 2.5} setValue={setValue} />
+          ) : null}
           {visible && step === 3 && <ArticleOnboarding />}
           <ControlFileAppend control={control} visible={visible} step={step} loading={loading} typeAdd={typeAdd!} progress={progress} />
           {visible && [4, 5].includes(step) && <ArticleOnboarding />}

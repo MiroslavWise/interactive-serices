@@ -9,7 +9,7 @@ import { EModalData } from "@/store"
 const regexContent = /[^a-z0-9а-яёй\s]/i
 
 export const LIMIT_DESCRIPTION = 512
-const LIMIT_TITLE = 144
+export const LIMIT_TITLE = 144
 
 const help = z.boolean().default(false)
 
