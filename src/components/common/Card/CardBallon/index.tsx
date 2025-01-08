@@ -65,7 +65,7 @@ function CardBallon({ offer, ref, className }: IProps) {
         "w-full rounded-2xl cursor-pointer flex flex-col",
         provider === EnumTypeProvider.offer && "bg-BG-second",
         provider === EnumTypeProvider.alert && "bg-card-red",
-        provider === EnumTypeProvider.discussion && "bg-card-blue",
+        provider === EnumTypeProvider.discussion && "!hidden",
         className,
       )}
       onClick={(event) => {
@@ -92,7 +92,7 @@ function CardBallon({ offer, ref, className }: IProps) {
           "border rounded-2xl",
           provider === EnumTypeProvider.offer && "border-grey-stroke-light",
           provider === EnumTypeProvider.alert && "border-card-border-red",
-          provider === EnumTypeProvider.discussion && "border-card-border-blue",
+          // provider === EnumTypeProvider.discussion && "border-card-border-blue",
         )}
       >
         <HeaderTimeDots offer={offer} />

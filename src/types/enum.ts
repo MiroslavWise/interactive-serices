@@ -16,16 +16,27 @@ export enum EnumHelper {
 }
 
 export enum EnumSign {
+  /** Вход */
   SignIn = "sign-in",
+  /** Регистрация */
   SignUp = "sign-up",
+  /** Восстановление пароля */
   ForgotPassword = "forgot-password",
+  /** Сброс пароля */
   ResetPassword = "reset-password",
+  /** Проверка кода */
   CodeVerification = "code-verification",
+  /** Создание пароля */
   CreatePassword = "create-password",
+  /** Уже есть аккаунт */
   ExistingAccount = "existing-account",
+  /** Информация об электронной почте */
   InformationEmailReset = "information-email-reset",
+  /** Информация о создании аккаунта */
   InformationCreateAccount = "information-create-account",
+  /** Текущий пользователь */
   CurrentUser = "current-user",
+  /** Номер подтверждения */
   NumberConfirmation = "number-confirmation",
 }
 

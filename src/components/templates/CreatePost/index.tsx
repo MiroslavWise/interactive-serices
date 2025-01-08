@@ -334,7 +334,7 @@ function CreatePost() {
                       </div>
                     ) : null}
                   </div>
-                  <i className="!text-text-disabled !-mt-3">Фото, видео или постер</i>
+                  <i className="!text-text-disabled !-mt-3">Максимальный размер фото - 10 Мб, видео - 50 Мб</i>
                 </fieldset>
               )
             }}

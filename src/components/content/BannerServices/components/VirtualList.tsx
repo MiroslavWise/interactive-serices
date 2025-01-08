@@ -103,7 +103,7 @@ function VirtualList({ list, listPosts }: IProps) {
         }}
         className="scroll-no scroll-no-children"
         itemContent={(_, item) =>
-          [EnumTypeProvider.discussion, EnumTypeProvider.alert, EnumTypeProvider.offer].includes(item.type) ? (
+          [EnumTypeProvider.alert, EnumTypeProvider.offer].includes(item.type) ? (
             <CardBallon
               key={`:k:of:${item?.item?.id!}:l:`}
               offer={item?.item! as IResponseOffers}

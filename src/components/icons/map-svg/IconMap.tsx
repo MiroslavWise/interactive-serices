@@ -35,6 +35,7 @@ export default ({ provider, onClick, urgent, isAdvertising }: IProps) => (
       isAdvertising && "svg-icon-map",
     )}
     onClick={(event) => {
+      if (isAdvertising) return
       event.stopPropagation()
       onClick()
     }}
