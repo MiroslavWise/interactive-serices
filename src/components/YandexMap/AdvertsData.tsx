@@ -11,7 +11,7 @@ import { NextImageMotion } from "../common"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
-import { dispatchBallonAlert, dispatchBallonOffer, dispatchBallonPost } from "@/store"
+import { dispatchBallonAlert, dispatchBallonOffer, dispatchBallonPost, useAuth } from "@/store"
 
 interface IProps {
   isOpen: boolean
@@ -28,6 +28,7 @@ interface IProps {
 }
 
 function AdvertsData({ provider, isOpen, setIsOpen, title, images, description, address, company, offer, post }: IProps) {
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const ref = useRef<HTMLDivElement>(null)
   const [isOpenCompany, setIsOpenCompany, refCompany] = useOutsideClickEvent()
   const image = images.length > 0 ? images[0] : null
@@ -69,6 +70,8 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, images, description, 
     }
   }
 
+  const isParticipants = provider === EnumTypeProvider.POST && post?.isParticipants
+
   return (
     <article
       className={cx(
@@ -85,6 +88,7 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, images, description, 
           <h2 className="text-text-primary text-sm font-medium line-clamp-2 text-ellipsis cursor-pointer" onClick={handle}>
             {title}
           </h2>
+          <span className="text-text-secondary text-xs font-light whitespace-nowrap">Ещё нет отзывов</span>
         </div>
         <div className={cx("rounded-md overflow-hidden w-10 h-10 cursor-pointer", image ? "relative" : "hidden")} onClick={handle}>
           {image ? (
@@ -118,7 +122,7 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, images, description, 
         >
           <span className="text-text-primary text-xs font-medium">{companyTitle}</span>
           <span className="text-text-primary text-xs font-medium whitespace-nowrap">ИНН: {companyInn}</span>
-          <span className="text-text-secondary text-xs font-light whitespace-nowrap">erid: {companyErid}</span>
+          <span className="text-text-primary text-xs font-normal whitespace-nowrap">erid: {companyErid}</span>
         </div>
       </span>
       <footer className="flex flex-row items-center justify-start gap-2"></footer>
