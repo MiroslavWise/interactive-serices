@@ -191,21 +191,10 @@ export default function CreateNewOptionModal() {
       data.urgent = EnumHelper.HELP_KURSK
     }
 
-    if ([EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!)) {
-      const title = values.title.trim().replaceAll(regexMoreSpace, " ")
-      if (!!title) {
-        data.title = title
-        data.slug = transliterateAndReplace(title).slice(0, 254)
-      } else {
-        if (EnumTypeProvider.alert === typeAdd) {
-          data.title = "SOS-сообщение"
-          data.slug = transliterateAndReplace("SOS-сообщение").slice(0, 254)
-        } else if (EnumTypeProvider.discussion === typeAdd) {
-          data.title = "Обсуждение"
-          data.slug = transliterateAndReplace("Обсуждение").slice(0, 254)
-        }
-      }
-    }
+    const title = values.title.trim().replaceAll(regexMoreSpace, " ")
+    data.title = title
+    data.slug = transliterateAndReplace(title).slice(0, 254)
+
     if (typeAdd === EnumTypeProvider.offer && values?.categoryId) {
       const title = categories.find((_) => _.id === values.categoryId)?.title
       data.slug = transliterateAndReplace(title || description.slice(0, 144)).slice(0, 254)
