@@ -59,18 +59,17 @@
   display: flex;
 }
 
-.svg-icon-map {
-  filter: drop-shadow(0 0 0.75rem crimson);
-
-  animation: glow 2s infinite alternate;
+.div-rainbow {
+  background: conic-gradient(from 0deg, red, yellow, lime, aqua, blue, magenta, red);
+  background-size: 100% 100%;
+  animation: rotateBackground 5s linear infinite;
 }
 
-@keyframes glow {
-  0%,
-  100% {
-    filter: drop-shadow(0 0 0.75rem crimson);
+@keyframes rotateBackground {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
   }
-  50% {
-    filter: drop-shadow(0 0 0.15rem crimson);
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }

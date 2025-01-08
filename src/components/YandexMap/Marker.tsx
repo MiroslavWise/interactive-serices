@@ -48,13 +48,15 @@ function Marker({ properties, geometry, reactifiedApi, is }: FeatureCluster) {
         images={images}
         description={description}
         address={address}
+        company={company!}
+        offer={offer}
+        post={post}
       >
         <IconMap
           isAdvertising={isAdvertising}
           provider={provider}
           urgent={urgent}
           onClick={() => {
-            if (isAdvertising) return
             if (provider === EnumTypeProvider.offer) {
               dispatchBallonOffer({ offer: offer! })
               return

@@ -1,14 +1,17 @@
 "use client"
 
-import { PropsWithChildren } from "react"
+import { PropsWithChildren, useState } from "react"
 
-import { IImageData } from "@/types/type"
+import { type IImageData } from "@/types/type"
 import { EnumTypeProvider } from "@/types/enum"
-import { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
+import { type IPosts } from "@/services/posts/types"
+import { type ICompany } from "@/services/types/company"
+import { type IResponseOffers } from "@/services/offers/types"
+import { type IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 
 import AdvertsData from "./AdvertsData"
 
-import { useOutsideClickEvent } from "@/helpers"
+import { cx } from "@/lib/cx"
 
 interface IProps {
   isAdvertising: boolean
@@ -17,10 +20,28 @@ interface IProps {
   description: string
   address: IAddressesResponse
   images: IImageData[]
+  company: ICompany
+  /** @deprecated
+   * offer
+   * post
+   */
+  offer?: IResponseOffers
+  post?: IPosts
 }
 
-function DivMarker({ children, isAdvertising, provider, title, images, description, address }: PropsWithChildren<IProps>) {
-  const [isOpen, setIsOpen, ref] = useOutsideClickEvent()
+function DivMarker({
+  children,
+  isAdvertising,
+  provider,
+  title,
+  images,
+  description,
+  address,
+  company,
+  offer,
+  post,
+}: PropsWithChildren<IProps>) {
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
     <div
@@ -28,8 +49,10 @@ function DivMarker({ children, isAdvertising, provider, title, images, descripti
         event.stopPropagation()
         setIsOpen(true)
       }}
-      className="absolute z-20 -translate-x-1/2 -translate-y-1/2 max-md:scale-75 group w-[2.1875rem] h-[2.5625rem]"
-      ref={ref}
+      className={cx(
+        "absolute z-30 -translate-x-1/2 -translate-y-1/2 max-md:scale-75 group",
+        isAdvertising ? "w-[2.1875rem] h-[2.1875rem]" : "w-[2.1875rem] h-[2.5625rem]",
+      )}
     >
       {isAdvertising && (
         <AdvertsData
@@ -40,6 +63,13 @@ function DivMarker({ children, isAdvertising, provider, title, images, descripti
           images={images}
           description={description}
           address={address}
+          company={company}
+          /** @deprecated
+           * offer
+           * post
+           */
+          offer={offer}
+          post={post}
         />
       )}
       {children}
