@@ -26,7 +26,7 @@ function HeaderTitle({ offer }: IProps) {
       </div>
       <h3 className="text-text-primary text-base font-semibold">
         {provider === EnumTypeProvider.offer
-          ? category?.title
+          ? title ?? "Умение или услуга"
           : provider === EnumTypeProvider.alert
           ? title
             ? title

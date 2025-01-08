@@ -195,12 +195,6 @@ export default function CreateNewOptionModal() {
     data.title = title
     data.slug = transliterateAndReplace(title).slice(0, 254)
 
-    if (typeAdd === EnumTypeProvider.offer && values?.categoryId) {
-      const title = categories.find((_) => _.id === values.categoryId)?.title
-      data.slug = transliterateAndReplace(title || description.slice(0, 144)).slice(0, 254)
-      data.title = (title || description.slice(0, 144)).slice(0, 143)
-    }
-
     if (values?.categoryId) {
       data.categoryId = Number(values.categoryId!)
     }
