@@ -103,7 +103,7 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
           data-test="fieldset-create-new-option-categoryId"
           className={styles.container}
           ref={ref}
-          style={{ zIndex: 3 }}
+          style={{ zIndex: open ? 100 : 3 }}
         >
           <label htmlFor={field.name} title="Категория">
             Категория

@@ -66,7 +66,7 @@ function ControlAddress({ control, watch, trigger, setValue, errors }: IProps) {
       render={({ field, fieldState: { error } }) => (
         <fieldset
           id="fieldset-create-option-modal-address"
-          style={{ zIndex: 3 }}
+          style={{ zIndex: isFocus ? 100 : 3 }}
           data-test="fieldset-create-new-option-addressInit"
           ref={ref}
         >
