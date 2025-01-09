@@ -15,20 +15,26 @@ import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
 import {
+  dispatchAddTestimonials,
   dispatchBallonAlert,
   dispatchBallonDiscussion,
   dispatchBallonOffer,
   dispatchComplaintModalOffer,
   dispatchMapCoordinates,
+  useAuth,
 } from "@/store"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
+import IconStar01 from "@/components/icons/IconStar-01"
 
 const TITLE_TO_MAP = "Показать на карте"
 const TITLE_COMPLAINT = "Пожаловаться"
 const TITLE_SHARE = "Поделиться"
+const LABEL_REVIEW = "Оставить отзыв"
 
 function ButtonShare({ offer }: { offer: IResponseOffers }) {
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [open, setOpen, ref] = useOutsideClickEvent(close)
+  const { id, userId: userIdOffer, provider } = offer ?? {}
 
   const geoData = offer?.addresses?.length > 0 ? offer?.addresses[0] : null
 
@@ -38,6 +44,10 @@ function ButtonShare({ offer }: { offer: IResponseOffers }) {
   })
 
   function close() {}
+
+  function onReview() {
+    dispatchAddTestimonials({ offer, provider: provider })
+  }
 
   return (
     <article
@@ -101,6 +111,18 @@ function ButtonShare({ offer }: { offer: IResponseOffers }) {
             <IconShare />
           </div>
           <span>{TITLE_SHARE}</span>
+        </a>
+        <a
+          title={LABEL_REVIEW}
+          aria-label={LABEL_REVIEW}
+          aria-labelledby={LABEL_REVIEW}
+          onClick={onReview}
+          className={cx((userIdOffer === userId || !userId) && "!hidden")}
+        >
+          <div>
+            <IconStar01 />
+          </div>
+          <span>{LABEL_REVIEW}</span>
         </a>
         <a
           title={TITLE_COMPLAINT}

@@ -10,7 +10,9 @@ import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
-import { dispatchMapCoordinates, dispatchUpdatePost, useAuth } from "@/store"
+import { dispatchAddTestimonials, dispatchMapCoordinates, dispatchUpdatePost, useAuth } from "@/store"
+import IconStar01 from "@/components/icons/IconStar-01"
+import { EnumTypeProvider } from "@/types/enum"
 
 interface IProps {
   post: IPosts
@@ -20,6 +22,7 @@ const TITLE_UPDATE = "Редактировать"
 const TITLE_TO_MAP = "Показать на карте"
 const TITLE_COMPLAINT = "Пожаловаться"
 const TITLE_SHARE = "Поделиться"
+const LABEL_REVIEW = "Оставить отзыв"
 
 function ItemHeaderDotsPost({ post }: IProps) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -32,6 +35,10 @@ function ItemHeaderDotsPost({ post }: IProps) {
   })
 
   const geoData = addresses[0] ?? {}
+
+  function onReview() {
+    dispatchAddTestimonials({ post, provider: EnumTypeProvider.POST })
+  }
 
   return (
     <div className="w-6 h-6 relative flex" ref={ref}>
@@ -118,6 +125,17 @@ function ItemHeaderDotsPost({ post }: IProps) {
             <IconActivity />
           </div>
           <span className="text-text-primary text-sm font-normal text-left">{TITLE_SHARE}</span>
+        </a>
+        <a title={LABEL_REVIEW} aria-label={LABEL_REVIEW} aria-labelledby={LABEL_REVIEW} onClick={onReview}>
+          <div
+            className={cx(
+              "w-5 h-5 flex items-center justify-center relative p-2.5",
+              "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-primary",
+            )}
+          >
+            <IconStar01 />
+          </div>
+          <span className="text-text-primary text-sm font-normal text-left">{LABEL_REVIEW}</span>
         </a>
         <a
           title={TITLE_COMPLAINT}

@@ -141,11 +141,11 @@ function SharedDotsPost({ post }: IProps) {
           }}
           className={cx(
             "w-full gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field",
-            (!!userId && userId !== userIdPost) ? "grid grid-cols-[1.25rem_minmax(0,1fr)]" : "!hidden",
+            !!userId && userId !== userIdPost ? "grid grid-cols-[1.25rem_minmax(0,1fr)]" : "!hidden",
           )}
         >
           <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
-          <IconStar01 />
+            <IconStar01 />
           </div>
           <span className="text-sm font-normal text-left text-text-primary">{LABEL_REVIEW}</span>
         </a>
