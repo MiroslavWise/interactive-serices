@@ -50,7 +50,7 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, images, description, 
   const { data: testimonials } = useQuery({
     queryFn: () => getTestimonials({ target: targetId!, provider: provider, order: "DESC" }),
     queryKey: ["testimonials", targetId],
-    enabled: !!targetId,
+    enabled: !!targetId && isOpen,
   })
 
   const list = testimonials?.data ?? []
