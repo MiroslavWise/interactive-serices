@@ -76,8 +76,14 @@ export function distancePureForMapSort({ bounds, mapPoint = [0, 0] }: IProps): b
   const [minLat, maxLon] = topLeft // Минимальная широта и максимальная долгота
   const [maxLat, minLon] = bottomRight // Максимальная широта и минимальная долгота
 
-  const isLatInBounds = pointLat >= minLat && pointLat <= maxLat
-  const isLonInBounds = pointLon >= minLon && pointLon <= maxLon
+  const expandedMinLat = minLat - deviation
+  const expandedMaxLat = maxLat + deviation
+  const expandedMinLon = minLon - deviation
+  const expandedMaxLon = maxLon + deviation
+
+  // Проверяем, находится ли точка в пределах расширенных границ
+  const isLatInBounds = pointLat >= expandedMinLat && pointLat <= expandedMaxLat
+  const isLonInBounds = pointLon >= expandedMinLon && pointLon <= expandedMaxLon
 
   return isLatInBounds && isLonInBounds
 }

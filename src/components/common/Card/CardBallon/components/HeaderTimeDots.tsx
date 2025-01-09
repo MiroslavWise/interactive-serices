@@ -74,7 +74,10 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
             title={LABEL_REVIEW}
             aria-label={LABEL_REVIEW}
             aria-labelledby={LABEL_REVIEW}
-            onClick={onReview}
+            onClick={(event) => {
+              event.stopPropagation()
+              onReview()
+            }}
             className={cx((offer?.userId === userId || !userId) && "!hidden")}
           >
             <div>

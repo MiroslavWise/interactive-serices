@@ -119,7 +119,10 @@ function ComponentDots({ post }: IProps) {
             aria-label={LABEL_REVIEW}
             aria-labelledby={LABEL_REVIEW}
             className={cx((post?.userId === userId || !userId) && "!hidden")}
-            onClick={onReview}
+            onClick={(event) => {
+              event.stopPropagation()
+              onReview()
+            }}
           >
             <div>
               <IconStar01 />
