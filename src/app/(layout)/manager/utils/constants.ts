@@ -38,7 +38,7 @@ export const LINKS: I[] = [
   },
 ]
 
-export type TLOffer = "all" | "alert" | "discussion" | "offer"
+export type TLOffer = "all" | EnumTypeProvider.alert | EnumTypeProvider.offer
 
 interface ILOffer {
   label: string
@@ -52,14 +52,10 @@ export const LINKS_OFFER: ILOffer[] = [
   },
   {
     label: "Предложения",
-    path: "offer",
-  },
-  {
-    label: "Обсуждения",
-    path: "discussion",
+    path: EnumTypeProvider.offer,
   },
   {
     label: "SOS-сообщения",
-    path: "alert",
+    path: EnumTypeProvider.alert,
   },
 ]
