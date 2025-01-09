@@ -150,7 +150,7 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, images, description, 
           </h2>
           {length > 0 ? (
             <div className="flex flex-row items-center gap-1">
-              <div className="w-min flex flex-row items-center ml-1">
+              <div className="w-min flex flex-row items-center">
                 <div className="relative w-4 h-4 *:w-2.5 *:h-2.5">
                   <IconRating />
                 </div>
