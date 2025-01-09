@@ -24,14 +24,12 @@ const ItemProfile = ({ offer }: { offer: IResponseOffers }) => {
     queryKey: ["testimonials", offerId],
   })
 
-  clg("testimonials", testimonials, "warning")
-
   const list = testimonials?.data ?? []
   const length = list.length
   const rating = (list.reduce((acc, item) => acc + item.rating, 0) / (length || 1)).toFixed(1)
   const countText = DeclensionAllQuantityFeedback(length)
 
-  const name = `${firstName ?? "Имя"} ${lastName ?? ""}`
+  const name = `${firstName ?? "Имя"} ${lastName ?? ""}` 
 
   return (
     <div className="relative w-full grid grid-cols-[2.5rem_minmax(0,1fr)] items-start gap-2.5 !px-5 *:!px-0">
