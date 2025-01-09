@@ -12,6 +12,7 @@ import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
+import { titleOffer } from "@/utils/title-offer"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
 import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchMapCoordinates } from "@/store"
 
@@ -22,20 +23,11 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
   const { title, category, provider, categoryId, urgent } = offer ?? {}
   const [open, setOpen, ref] = useOutsideClickEvent(close)
 
-  const titleH2 =
-    provider === EnumTypeProvider.alert
-      ? title || "SOS-сообщение"
-      : provider === EnumTypeProvider.discussion
-      ? title || "Обсуждение"
-      : provider === EnumTypeProvider.offer
-      ? category?.title || "Умение или услуга"
-      : null
-
   const geoData = offer?.addresses?.length > 0 ? offer?.addresses[0] : null
 
   const onShare = useNavigator({
     url: `/offer/${offer.id}/${offer.slug ? String(offer.slug).replaceAll("/", "-") : ""}`,
-    title: titleH2! ?? "",
+    title: titleOffer(title, provider)! ?? "",
   })
 
   return (
@@ -49,7 +41,7 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
           <IconAlertCirlceRed />
         ) : null}
       </div>
-      <h2 className=" text-text-primary text-base font-semibold line-clamp-2 text-ellipsis">{titleH2}</h2>
+      <h2 className=" text-text-primary text-base font-semibold line-clamp-2 text-ellipsis">{titleOffer(title, provider)}</h2>
       <article
         className="w-6 h-6 relative flex items-center justify-center z-20"
         ref={ref}

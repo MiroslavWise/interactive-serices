@@ -8,7 +8,7 @@ import ItemImages from "./ItemImages"
 
 // import { getOffersCategories } from "@/services"
 
-function ItemDescriptions({ offer }: { offer: IResponseOffers }) {
+function ItemDescriptions({ offer }: { offer: IResponseOffers }) { 
   const { description: proposal, images = [], category } = offer ?? {}
 
   // const { data: c } = useQuery({

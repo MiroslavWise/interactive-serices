@@ -1,5 +1,7 @@
 import { ReactNode, useState } from "react"
 
+import { type TTypeNavigatePost } from "./utils/schema"
+
 import ListNotes from "./components/ListNotes"
 import IconPost from "@/components/icons/IconPost"
 import ComponentProfilePost from "./components/Profile"
@@ -10,7 +12,6 @@ import ComponentParticipants from "./components/ComponentParticipants"
 
 import { cx } from "@/lib/cx"
 import { useBalloonPost } from "@/store"
-import { TTypeNavigatePost } from "./utils/schema"
 
 function BallonPost() {
   const data = useBalloonPost(({ data }) => data)

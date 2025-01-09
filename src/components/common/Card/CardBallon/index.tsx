@@ -25,7 +25,7 @@ interface IProps {
 }
 
 function CardBallon({ offer, ref, className }: IProps) {
-  const { provider, description, images, addresses, user, urgent } = offer ?? {}
+  const { provider, description, images, addresses, user, category } = offer ?? {}
 
   function handleClick() {
     const [address] = addresses
@@ -97,7 +97,8 @@ function CardBallon({ offer, ref, className }: IProps) {
       >
         <HeaderTimeDots offer={offer} />
         <HeaderTitle offer={offer} />
-        <section className="overflow-hidden w-full">
+        <section className="overflow-hidden w-full flex flex-col gap-3">
+          <b className="text-text-primary text-base text-start font-medium">{category?.title ?? ""}</b>
           <p className="text-text-primary text-sm font-normal line-clamp-4">{description}</p>
         </section>
         {replaceImageFiles.length > 0 ? <ItemImages images={replaceImageFiles} /> : null}

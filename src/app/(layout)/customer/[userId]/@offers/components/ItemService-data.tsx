@@ -14,7 +14,7 @@ interface IProps {
 }
 
 function ItemServiceData({ offer }: IProps) {
-  const { created, user, description, images, urgent } = offer ?? {}
+  const { created, user, description, images, urgent, category } = offer ?? {}
 
   const { firstName, lastName = "", image } = user ?? {}
 
@@ -40,6 +40,7 @@ function ItemServiceData({ offer }: IProps) {
             <ButtonShare offer={offer} />
           </section>
           <ItemTitle offer={offer} />
+          <b className="text-text-primary text-base font-medium">{category?.title ?? ""}</b>
           <p className="text-text-primary text-ellipsis text-sm font-normal line-clamp-4">{description}</p>
           <ItemServiceImages images={images} />
         </article>
