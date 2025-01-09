@@ -10,7 +10,6 @@ import { IconXClose } from "@/components/icons/IconXClose"
 import { IconChevron } from "@/components/icons/IconChevron"
 
 import { cx } from "@/lib/cx"
-import { clg } from "@console"
 import { useOutsideClickEvent } from "@/helpers"
 import { getOffersCategories } from "@/services"
 import { dispatchVisibleCreateNewCategory } from "@/store"

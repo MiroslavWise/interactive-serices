@@ -44,6 +44,7 @@ import {
 } from "./utils/create.schema"
 import { headerTitle, placeholderDescription, titleContent, description, titlePlaceholderContent } from "./constants/titles"
 import { getUserIdOffers, patchOffer, postOffer, fileUploadService, getGeocodeSearch, getOffersCategories, postAddress } from "@/services"
+import ControlTitle from "./components/ControlTitle"
 
 export default function CreateNewOptionModal() {
   const [loading, setLoading] = useState(false)
@@ -257,24 +258,7 @@ export default function CreateNewOptionModal() {
           data-enum-form={`from-create-new-option-${typeAdd}`}
           className="w-full h-full overflow-y-auto flex flex-col items-center gap-4 md:gap-5 overflow-x-hidden"
         >
-          <Controller
-            name="title"
-            control={control}
-            render={({ field, fieldState: { error } }) => (
-              <fieldset id="fieldset-create-option-modal-offer" data-test="fieldset-create-new-option-title">
-                <label htmlFor={field.name}>{titleContent(typeAdd!)}</label>
-                <input
-                  {...field}
-                  onChange={(event) => field.onChange(event.target.value.replace(/\s{2,}/g, " "))}
-                  type="text"
-                  placeholder={titlePlaceholderContent(typeAdd!)}
-                  data-error={!!error}
-                  maxLength={typeAdd === EnumTypeProvider.offer ? 52 : LIMIT_TITLE}
-                />
-                {!!error ? <i>{error.message}</i> : null}
-              </fieldset>
-            )}
-          />
+          <ControlTitle control={control} typeAdd={typeAdd!} />
           {/* {visible && step === 2 && <ArticleOnboarding />} */}
           {/* {visible && step === 2.5 && <ArticleOnboarding />} */}
           <Controller
