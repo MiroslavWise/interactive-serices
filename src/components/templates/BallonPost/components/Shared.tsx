@@ -11,8 +11,16 @@ import { cx } from "@/lib/cx"
 import useRole from "@/helpers/is-role"
 import { useOutsideClickEvent } from "@/helpers"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
-import { dispatchArchivePost, dispatchComplaintModalPost, dispatchUpdatePost, displayAddAdvert, useAuth } from "@/store"
+import {
+  dispatchAddTestimonials,
+  dispatchArchivePost,
+  dispatchComplaintModalPost,
+  dispatchUpdatePost,
+  displayAddAdvert,
+  useAuth,
+} from "@/store"
 import IconCurrencyRubleCircle from "@/components/icons/IconCurrencyRubleCircle"
+import IconStar01 from "@/components/icons/IconStar-01"
 
 interface IProps {
   post: IPosts
@@ -23,6 +31,7 @@ const TITLE_ARCHIVE = "В архив"
 const TITLE_UPDATE = "Редактировать"
 const TITLE_COMPLAINT = "Пожаловаться"
 const LABEL_ADD_ADVERT = "Добавить рекламу"
+const LABEL_REVIEW = "Оставить отзыв"
 
 function SharedDotsPost({ post }: IProps) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -38,6 +47,10 @@ function SharedDotsPost({ post }: IProps) {
     url: `/post/${id}`,
     title: title! ?? "",
   })
+
+  function onReview() {
+    dispatchAddTestimonials({ post, provider: EnumTypeProvider.POST })
+  }
 
   return (
     <div className="absolute -top-1 -right-1 w-6 h-6 flex" ref={ref}>
@@ -113,6 +126,28 @@ function SharedDotsPost({ post }: IProps) {
             <IconActivity />
           </div>
           <span className="text-text-primary text-sm font-normal text-left">{TITLE_SHARE}</span>
+        </a>
+        <a
+          title={LABEL_REVIEW}
+          aria-label={LABEL_REVIEW}
+          aria-labelledby={LABEL_REVIEW}
+          onClick={(event) => {
+            event.stopPropagation()
+            event.preventDefault()
+            onReview()
+            requestAnimationFrame(() => {
+              set(false)
+            })
+          }}
+          className={cx(
+            "w-full gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field",
+            (!!userId && userId !== userIdPost) ? "grid grid-cols-[1.25rem_minmax(0,1fr)]" : "!hidden",
+          )}
+        >
+          <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
+          <IconStar01 />
+          </div>
+          <span className="text-sm font-normal text-left text-text-primary">{LABEL_REVIEW}</span>
         </a>
         {userIdPost === userId ? (
           !archive ? (

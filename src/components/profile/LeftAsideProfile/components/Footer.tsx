@@ -17,7 +17,7 @@ export const FooterAsideLeft = () => {
 
   return (
     <footer className="w-full flex flex-col gap-2.5 mt-auto" data-test="footer-aside-profile">
-      <Button
+      {/* <Button
         type="button"
         typeButton="fill-primary"
         label="Обучение"
@@ -25,7 +25,7 @@ export const FooterAsideLeft = () => {
         onClick={handleOpen}
         className="h-9"
         data-test="footer-aside-profile-button-on-modal-instruction"
-      />
+      /> */}
       <section className="w-full flex flex-row justify-between items-end gap-3">
         <div className="flex flex-col items-start">
           <p className="text-text-secondary text-xs text-left font-normal">Нужна помощь?</p>

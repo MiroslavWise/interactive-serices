@@ -26,11 +26,14 @@ function BallonPost() {
     setState("notes")
   }
 
-  const obj: Record<TTypeNavigatePost, ReactNode> = {
+  const obj = {
+    /** Вкладка заметок */
     notes: <ListNotes handleToComments={handleToComments} />,
+    /** Вкладка комментариев */
     comments: <ListCommentsPost post={data!} handleToNote={handleToNote} />,
+    /** Вкладка участников */
     participants: <ComponentParticipants postUserId={data?.userId!} id={id!} title={title ?? ""} isParticipant={!!isParticipants} />,
-  }
+  } as const
 
   return (
     <>

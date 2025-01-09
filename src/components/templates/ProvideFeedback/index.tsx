@@ -17,7 +17,7 @@ import Button from "@/components/common/Button"
 import { cx } from "@/lib/cx"
 import { clg } from "@console"
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchModal, EModalData, useAddTestimonials, useAuth } from "@/store"
+import { dispatchClearAddTestimonials, dispatchModal, EModalData, useAddTestimonials, useAuth } from "@/store"
 import { handleImageChange, MAX_LENGTH, resolver, TFiles, type TSchema } from "./utils"
 import { fileUploadService, getBarterId, patchTestimonial, postTestimonial, serviceNotifications } from "@/services"
 
@@ -28,24 +28,16 @@ export const CN_ProvideFeedback: HTMLAttributes<HTMLElement>["className"] = "h-a
 function ProvideFeedback() {
   const { onBarters } = useToast()
   const [loading, setLoading] = useState(false)
-  const user = useAddTestimonials(({ user }) => user)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const barterId = useAddTestimonials(({ barterId }) => barterId)
-  const notificationId = useAddTestimonials(({ notificationId }) => notificationId)
   const refImages = useRef<HTMLDivElement>(null)
 
-  const { data: dataBarter, refetch: refetchBarters } = useQuery({
-    queryFn: () => getBarterId(barterId!),
-    queryKey: ["barters", { id: barterId }],
-    enabled: !!barterId,
-  })
-  const { refetch: refetchNotifications } = useQuery({
-    queryFn: () => serviceNotifications.get({ order: "DESC" }),
-    queryKey: ["notifications", { userId: userId }],
-    enabled: false,
-  })
+  const offer = useAddTestimonials(({ offer }) => offer)
+  const post = useAddTestimonials(({ post }) => post)
+  const provider = useAddTestimonials(({ provider }) => provider)
 
-  const offer = dataBarter?.data?.consigner?.userId === userId ? dataBarter?.data?.initiator! : dataBarter?.data?.consigner!
+  const name = provider === EnumTypeProvider.POST ? post?.title ?? "" : offer?.title ?? ""
+  const userIdProvider = provider === EnumTypeProvider.POST ? post?.userId : offer?.userId
+  const user = provider === EnumTypeProvider.POST ? post?.user : offer?.user
 
   const {
     handleSubmit,
@@ -69,39 +61,20 @@ function ProvideFeedback() {
     if (!loading) {
       setLoading(true)
 
-      const idOffer = offer?.id! ?? null
-
-      const body: IBodyPostTestimonials = {
-        targetId: idOffer!,
-        provider: EnumTypeProvider.offer,
-        barterId: barterId!,
-        rating: values.rating!,
-        message: values.message ?? "",
-        status: "published",
-        enabled: true,
-        receiverId: user?.id!,
-      }
+      const id = provider === EnumTypeProvider.POST ? post?.id : offer?.id
 
       const response = await Promise.all([
-        postTestimonial(body),
-        !!notificationId
-          ? serviceNotifications.patch(
-              {
-                operation:
-                  dataBarter?.data?.status === "completed"
-                    ? "feedback-received"
-                    : dataBarter?.data?.status?.includes("destroyed")
-                    ? "feedback-received-no"
-                    : "feedback-received",
-                enabled: true,
-                read: true,
-              },
-              notificationId,
-            )
-          : Promise.resolve({ ok: true }),
+        postTestimonial({
+          targetId: id!,
+          provider: provider!,
+          rating: values.rating!,
+          message: values.message,
+          status: "published",
+          enabled: true,
+          receiverId: userIdProvider!,
+        }),
       ])
       if (!!response[0].res) {
-        refetchBarters()
         const idTerm = response[0].res.id
 
         const files = values.file.file
@@ -123,9 +96,6 @@ function ProvideFeedback() {
             await patchTestimonial({ images: ids }, idTerm)
           }
         }
-      }
-      if (!!response[1].ok) {
-        refetchNotifications()
       }
       onBarters({
         title: "Спасибо за обратную связь",
@@ -152,35 +122,30 @@ function ProvideFeedback() {
     return () => window.removeEventListener("beforeunload", onUnLoad)
   }, [])
 
+  useEffect(() => {
+    return dispatchClearAddTestimonials
+  }, [])
+
   return (
     <>
       <header className="h-standard-header-modal w-full md:rounded-t-2 p-5 max-md:pb-4 md:pt-6 flex items-center md:justify-center border-b border-solid border-grey-separator">
-        <h3 className="text-text-primary text-2xl font-semibold">Ваш отзыв об обмене</h3>
+        <h3 className="text-text-primary text-2xl font-semibold">
+          Ваш отзыв о <span className="text-text-accent">&#8220;{name}&#8222;</span>
+        </h3>
       </header>
       <form
         onSubmit={onSubmit}
         className={cx(styles.form, "h-full-minus-standard-header-modal overflow-y-auto flex flex-col gap-6 p-6 overflow-x-hidden")}
       >
         <div className={cx(styles.profile, "w-full grid gap-3 items-start")}>
-          <Avatar image={user?.profile?.image} className="w-10 h-10 rounded-.625" />
+          <Avatar image={user?.image} className="w-10 h-10 rounded-.625" />
           <div className="w-full flex flex-col gap-1">
             <div className="flex flex-row items-center gap-1">
               <p className="text-text-primary text-sm font-medium line-clamp-1 text-ellipsis">
-                {user?.profile?.firstName ?? "Имя"} {user?.profile?.lastName || ""}
+                {user?.firstName ?? "Имя"} {user?.lastName || ""}
               </p>
               <div className="relative w-5 h-5 p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5">
                 <IconVerifiedTick />
-              </div>
-            </div>
-            <div className="flex flex-row flex-nowrap gap-2.5 items-center">
-              <div className="flex relative w-4 h-4 p-2 [&>svg>path]:stroke-element-accent-1 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
-                <IconRepeat />
-              </div>
-              <div className="flex flex-nowrap flex-row gap-1.5 items-center">
-                <div className="flex relative h-4 w-4 p-2 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
-                  <ImageCategory id={offer?.categoryId} slug={offer?.category?.slug} provider={offer?.category?.provider} />
-                </div>
-                <p className="text-text-primary text-sm font-normal">{offer?.category?.title ?? "Категория"}</p>
               </div>
             </div>
           </div>
@@ -191,7 +156,7 @@ function ProvideFeedback() {
           render={({ field }) => (
             <fieldset className="w-full flex flex-col gap-2.5">
               <label htmlFor={field.name} className="text-text-primary text-sm font-semibold">
-                Оцените обмен
+                Оцените по 5-бальной шкале
               </label>
               <div className="grid grid-cols-5 gap-1 items-center w-fit">
                 {[1, 2, 3, 4, 5].map((item) => (
