@@ -52,12 +52,6 @@ export const MContainerAboutProfile = () => {
       : null
   }, [dataUser])
 
-  // const categories = (dataUser?.data?.categories || []).length
-
-  // function addDesiredService() {
-  //   dispatchActiveServicesFrom(true)
-  // }
-
   function handleOpenOption() {
     dispatchOptionProfileMobile(true)
   }
@@ -148,18 +142,6 @@ export const MContainerAboutProfile = () => {
         <BadgesColors userId={userId!} />
       </div>
       <div data-block-buttons className="w-full flex flex-row gap-2.5">
-        {/* <button
-          onClick={addDesiredService}
-          data-services
-          data-test="button-open-modal-add-desired-service"
-          className="w-full py-2.5 px-4 flex flex-col justify-between gap-2.5 rounded-xl bg-BG-second"
-        >
-          <h4 className="text-text-secondary text-sm font-normal">Желаемые услуги</h4>
-          <article className="w-full flex flex-row items-center justify-between gap-2.5">
-            <h3>{categories || "Добавить"}</h3>
-            <img src="/svg/arrow-right.svg" alt="light" width={20} height={20} />
-          </article>
-        </button> */}
         <button
           onClick={dispatchMyFriends}
           data-friends

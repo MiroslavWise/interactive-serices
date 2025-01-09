@@ -129,9 +129,7 @@ function ProvideFeedback() {
   return (
     <>
       <header className="h-standard-header-modal w-full md:rounded-t-2 p-5 max-md:pb-4 md:pt-6 flex items-center md:justify-center border-b border-solid border-grey-separator">
-        <h3 className="text-text-primary text-2xl font-semibold">
-          Ваш отзыв о <span className="text-text-accent">&#8220;{name}&#8222;</span>
-        </h3>
+        <h3 className="text-text-primary text-2xl font-semibold">Отзыв</h3>
       </header>
       <form
         onSubmit={onSubmit}
@@ -156,7 +154,7 @@ function ProvideFeedback() {
           render={({ field }) => (
             <fieldset className="w-full flex flex-col gap-2.5">
               <label htmlFor={field.name} className="text-text-primary text-sm font-semibold">
-                Оцените по 5-бальной шкале
+                Оцените <span className="text-text-accent">&#8220;{name}&#8222;</span>
               </label>
               <div className="grid grid-cols-5 gap-1 items-center w-fit">
                 {[1, 2, 3, 4, 5].map((item) => (

@@ -48,7 +48,7 @@ export const BadgesColors = ({ userId }: { userId: number | string }) => {
           <h2 className="text-text-button text-2xl font-semibold">{length}</h2>
         </article>
         <div data-icon>
-          <img src="/badges/star.svg" alt="barter" width={24} height={24} />
+          <img src="/badges/message-circle-01.svg" alt="barter" width={24} height={24} />
         </div>
       </section>
       <section data-orange className="rounded-2xl py-2 px-3 overflow-hidden">

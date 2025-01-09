@@ -62,3 +62,20 @@ export function distancePure({ bounds, mapPoint }: IProps): boolean {
 
   return true
 }
+
+const deviation = 0.02
+
+export function distancePureForMapSort({ bounds, mapPoint = [0, 0] }: IProps): boolean {
+  const minCoords = bounds[0]
+  const maxCoors = bounds[1]
+
+  console.log("distancePureForMapSort bounds: ", bounds)
+  console.log("distancePureForMapSort mapPoint: ", mapPoint)
+
+  return (
+    minCoords[0] - deviation < mapPoint[0] &&
+    maxCoors[0] + deviation > mapPoint[0] &&
+    minCoords[1] - deviation < mapPoint[1] &&
+    maxCoors[1] + deviation > mapPoint[1]
+  )
+}
