@@ -1,6 +1,8 @@
 import { useCallback } from "react"
 import { useQuery } from "@tanstack/react-query"
 
+import { EnumTypeProvider } from "@/types/enum"
+
 import { ImageCategory } from "@/components/common"
 import { IconXClose } from "@/components/icons/IconXClose"
 
@@ -22,7 +24,7 @@ function ActiveFilters() {
 
   const itemCategory = useCallback((id: number) => categories.find((item) => item.id === id), [categories])
 
-  if (activeFilters.length > 0)
+  if (activeFilters.length > 0 && providers === EnumTypeProvider.offer)
     return (
       <div data-filters-category data-test="filters-category-banner-services" className="w-full flex flex-row items-start">
         {activeFilters.map((item) => (

@@ -52,7 +52,7 @@ export default async ({ params, searchParams }: IParamsCustomer) => {
             ? "Нет обсуждений"
             : provider === EProviderLinkCustomer.alert
             ? "Нет SOS-сообщений"
-            : "Нет предложений"}
+            : "Нет умений или услуг"}
         </p>
       )}
     </section>

@@ -1,5 +1,6 @@
 .container {
   position: relative;
+  z-index: 3;
 
   & > input {
     height: 3rem !important;

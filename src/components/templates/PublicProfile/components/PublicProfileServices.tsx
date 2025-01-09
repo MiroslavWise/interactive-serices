@@ -78,14 +78,10 @@ function PublicProfileServices() {
           ))}
         </ul>
       ) : state === EnumTypeProvider.POST && lengthPosts === 0 ? (
-        <p className="text-text-primary text-sm font-normal text-center whitespace-nowrap mt-16">Нет постов</p>
+        <p className="text-text-primary text-sm font-normal text-center whitespace-nowrap mt-16">Нет событий</p>
       ) : [EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(state) && length === 0 ? (
         <p className="text-text-primary text-sm font-normal text-center whitespace-nowrap mt-16">
-          {state === EnumTypeProvider.discussion
-            ? "Нет обсуждений"
-            : state === EnumTypeProvider.alert
-            ? "Нет SOS-сообщений"
-            : "Нет умений и услуг"}
+          {state === EnumTypeProvider.alert ? "Нет SOS-сообщений" : "Нет умений и услуг"}
         </p>
       ) : (
         <ul className="w-full flex flex-col gap-3">

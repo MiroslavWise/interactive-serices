@@ -1,6 +1,13 @@
 $top-height-open: 1.625rem;
 
 .container {
+  --h: 0;
+  --h-header: 6rem;
+  --h-article: 5.875rem;
+  --h-section: 0;
+}
+
+.container {
   box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
   transition: var(--transition);
   transition-property: transform;
@@ -11,6 +18,8 @@ $top-height-open: 1.625rem;
   }
 
   & > section {
+    padding-bottom: var(--height-mobile-footer-nav);
+
     & > article {
       & > [data-filters-services] {
         & > a {
@@ -37,6 +46,10 @@ $top-height-open: 1.625rem;
           }
         }
       }
+    }
+
+    & > ul {
+      height: calc(100% - var(--h-article));
     }
   }
 }

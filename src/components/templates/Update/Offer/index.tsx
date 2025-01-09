@@ -261,9 +261,6 @@ export default function UpdateOffer() {
         <ControlHelp control={control} />
         <fieldset className="w-full flex flex-col gap-1">
           <label className="text-text-primary text-sm font-normal text-left">Фото и видео</label>
-          <p className="text-text-disabled text-sm font-normal text-left">
-            Добавьте фотографии и видео, это помогает выделить предложение среди других
-          </p>
           <div data-photos className="pt-3 w-full grid grid-cols-3 max-md:grid-cols-2 gap-4 z-10">
             {photos.map((item) => (
               <div

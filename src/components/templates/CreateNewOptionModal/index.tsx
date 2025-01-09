@@ -2,25 +2,23 @@
 
 import { AxiosProgressEvent } from "axios"
 import { useQuery } from "@tanstack/react-query"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
 import { EnumHelper, EnumTypeProvider } from "@/types/enum"
-import { TCompany, type IPostOffers } from "@/services/offers/types"
+import { type IPostOffers } from "@/services/offers/types"
 import { type IPostAddress } from "@/services/addresses/types/serviceAddresses"
-import { type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
 import Button from "@/components/common/Button"
 import ControlHelp from "./components/ControlHelp"
 import { ArticleOnboarding } from "@/components/templates"
-import { IconXClose } from "@/components/icons/IconXClose"
+import ControlAddress from "./components/ControlAddress"
 import ControlFileAppend from "./components/ControlFileAppend"
 import ControllerCategory from "./components/ControllerCategory"
 
-import { queryClient } from "@/context"
+import { transliterateAndReplace } from "@/helpers"
 import { createAddress } from "@/helpers/address/create"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
-import { transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
 import {
   useAddCreateModal,
   closeCreateOffers,
@@ -37,6 +35,7 @@ import {
 } from "@/store"
 import {
   LIMIT_DESCRIPTION,
+  LIMIT_TITLE,
   type TSchemaCreate,
   resolverAlertAndDiscussion,
   resolverAlertAndDiscussionMap,
@@ -45,14 +44,9 @@ import {
 } from "./utils/create.schema"
 import { headerTitle, placeholderDescription, titleContent, description, titlePlaceholderContent } from "./constants/titles"
 import { getUserIdOffers, patchOffer, postOffer, fileUploadService, getGeocodeSearch, getOffersCategories, postAddress } from "@/services"
-import env from "@/config/environment"
 
 export default function CreateNewOptionModal() {
-  const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
   const [loading, setLoading] = useState(false)
-  const debouncedValue = useDebounce(onChangeAddress, 750)
-  const [loadingAddresses, setLoadingAddresses] = useState(false)
-  const [valuesAddresses, setValuesAddresses] = useState<IResponseGeocode | null>(null)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const step = useOnboarding(({ step }) => step)
   const visible = useOnboarding(({ visible }) => visible)
@@ -85,11 +79,11 @@ export default function CreateNewOptionModal() {
   const {
     reset,
     watch,
-    trigger,
     control,
     handleSubmit,
     setValue,
     setError,
+    trigger,
     formState: { errors },
   } = useForm<TSchemaCreate>({
     defaultValues: {
@@ -164,7 +158,6 @@ export default function CreateNewOptionModal() {
                 dispatchModal(EModalData.SuccessNewOptional)
                 dispatchOnboarding("close")
                 reset()
-                // window.open(`/success/${typeAdd}?id=${id}`)
               })
             } else {
               refetch()
@@ -173,7 +166,6 @@ export default function CreateNewOptionModal() {
               dispatchModal(EModalData.SuccessNewOptional)
               dispatchOnboarding("close")
               reset()
-              // window.open(`/success/${typeAdd}?id=${id}`)
             }
           })
         }
@@ -195,49 +187,13 @@ export default function CreateNewOptionModal() {
       desired: true,
     }
 
-    const company: TCompany = {}
-
-    const companyTitle = values.company.title?.trim()
-    if (companyTitle) {
-      company.title = companyTitle
-    }
-    const companyErid = values.company.erid?.trim()
-    if (companyErid) {
-      company.erid = companyErid
-    }
-    const companyINN = values.company.inn?.trim()
-    if (companyINN) {
-      company.inn = companyINN
-    }
-
-    if (Object.entries(company).length > 0) {
-      data.company = company
-    }
-
     if (values.help) {
       data.urgent = EnumHelper.HELP_KURSK
     }
 
-    if ([EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!)) {
-      const title = values.title.trim().replaceAll(regexMoreSpace, " ")
-      if (!!title) {
-        data.title = title
-        data.slug = transliterateAndReplace(title).slice(0, 254)
-      } else {
-        if (EnumTypeProvider.alert === typeAdd) {
-          data.title = "SOS-сообщение"
-          data.slug = transliterateAndReplace("SOS-сообщение").slice(0, 254)
-        } else if (EnumTypeProvider.discussion === typeAdd) {
-          data.title = "Обсуждение"
-          data.slug = transliterateAndReplace("Обсуждение").slice(0, 254)
-        }
-      }
-    }
-    if (typeAdd === EnumTypeProvider.offer && values?.categoryId) {
-      const title = categories.find((_) => _.id === values.categoryId)?.title
-      data.slug = transliterateAndReplace(title || description.slice(0, 144)).slice(0, 254)
-      data.title = (title || description.slice(0, 144)).slice(0, 143)
-    }
+    const title = values.title.trim().replaceAll(regexMoreSpace, " ")
+    data.title = title
+    data.slug = transliterateAndReplace(title).slice(0, 254)
 
     if (values?.categoryId) {
       data.categoryId = Number(values.categoryId!)
@@ -266,34 +222,9 @@ export default function CreateNewOptionModal() {
     }
   }
 
-  async function onChangeAddress() {
-    if (watch("address")?.length > 2 && isFocus) {
-      const slug = watch("address")?.replaceAll(" ", "-")!?.toLowerCase()
-      const response = await queryClient.fetchQuery({
-        queryFn: () => getGeocodeSearch(watch("address")),
-        queryKey: ["addresses", { string: slug }],
-      })
-
-      setValuesAddresses(response)
-      setLoadingAddresses(false)
-    }
-  }
-
   async function createAddressPost(values: IPostAddress) {
     return postAddress(values)
   }
-
-  const exactAddresses = useMemo(() => {
-    if (!valuesAddresses) {
-      return null
-    }
-
-    const addresses = valuesAddresses?.response?.GeoObjectCollection?.featureMember?.filter((item) =>
-      ["RU", "BY"].includes(item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.Address?.country_code!),
-    )
-
-    return Array.isArray(addresses) && addresses?.length > 0 ? addresses : null
-  }, [valuesAddresses])
 
   const onSubmit = handleSubmit(submit)
 
@@ -314,10 +245,6 @@ export default function CreateNewOptionModal() {
     }
   }, [watch("description"), watch("categoryId"), watch("title"), watch("file.file"), visible])
 
-  const isEmptySearch = !loadingAddresses && Array.isArray(valuesAddresses?.response?.GeoObjectCollection?.featureMember)
-  const focusAddress = () => setIsFocus(true)
-  const blurAddress = () => setIsFocus(false)
-
   return (
     <>
       <header className="w-full px-3 pt-5 md:pt-6 pb-4 md:pb-5 overflow-hidden flex flex-row items-center justify-start md:justify-center border-b border-solid border-grey-separator h-standard-header-modal">
@@ -330,80 +257,7 @@ export default function CreateNewOptionModal() {
           data-enum-form={`from-create-new-option-${typeAdd}`}
           className="w-full h-full overflow-y-auto flex flex-col items-center gap-4 md:gap-5 overflow-x-hidden"
         >
-          <Controller
-            name="address"
-            control={control}
-            rules={{
-              required: stateModal === EModalData.CreateNewOptionModal,
-            }}
-            render={({ field, fieldState: { error } }) => (
-              <fieldset
-                id="fieldset-create-option-modal-address"
-                style={{ zIndex: 100 }}
-                data-test="fieldset-create-new-option-addressInit"
-                ref={ref}
-              >
-                <label htmlFor={field.name} title="Ваш адрес">
-                  Ваш адрес
-                </label>
-                <div data-input-selector>
-                  <input
-                    {...field}
-                    onChange={(event) => {
-                      field.onChange(event.target.value)
-                      debouncedValue()
-                      setLoadingAddresses(true)
-                    }}
-                    value={stateModal === EModalData.CreateNewOptionModalMap ? initMapAddress?.additional : field.value}
-                    type="text"
-                    data-error={!!errors.addressFeature}
-                    onFocus={focusAddress}
-                    placeholder="Введите адрес"
-                    disabled={(visible && step !== 2) || (stateModal === EModalData.CreateNewOptionModalMap && !!initMapAddress)}
-                    data-focus={visible && step === 2}
-                    autoComplete="off"
-                  />
-                  <button
-                    data-select-icon={isFocus}
-                    type="button"
-                    onClick={(event) => {
-                      event.stopPropagation()
-                      field.onChange("")
-                      blurAddress()
-                    }}
-                  >
-                    <IconXClose />
-                  </button>
-                  <ul data-active={isFocus && (isEmptySearch || Array.isArray(exactAddresses))} data-is-empty-search={isEmptySearch}>
-                    {Array.isArray(exactAddresses) ? (
-                      exactAddresses.map((item, index) => (
-                        <li
-                          key={`${item.GeoObject.uri}-${index}`}
-                          onClick={(event) => {
-                            event.stopPropagation()
-                            dispatchValidating({
-                              isAddress: !!item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!,
-                            })
-                            field.onChange(item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!)
-                            setValue("addressFeature", item)
-                            blurAddress()
-                            trigger("address")
-                            trigger("addressFeature")
-                          }}
-                        >
-                          <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
-                        </li>
-                      ))
-                    ) : isEmptySearch ? (
-                      <p>По вашему запросу нет подходящих адресов</p>
-                    ) : null}
-                  </ul>
-                </div>
-                {!!error || !!errors.addressFeature ? <i>Выберите существующий адрес</i> : null}
-              </fieldset>
-            )}
-          />
-          {[EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!) ? (
+          {[EnumTypeProvider.alert, EnumTypeProvider.offer].includes(typeAdd!) ? (
             <Controller
               name="title"
               control={control}
@@ -416,6 +270,7 @@ export default function CreateNewOptionModal() {
                     type="text"
                     placeholder={titlePlaceholderContent(typeAdd!)}
                     data-error={!!error}
+                    maxLength={typeAdd === EnumTypeProvider.offer ? 52 : LIMIT_TITLE}
                   />
                   {!!error ? <i>{error.message}</i> : null}
                 </fieldset>
@@ -423,9 +278,6 @@ export default function CreateNewOptionModal() {
             />
           ) : null}
           {visible && step === 2 && <ArticleOnboarding />}
-          {[EnumTypeProvider.offer].includes(typeAdd!) ? (
-            <ControllerCategory control={control} visible={visible} disabled={visible && step !== 2.5} setValue={setValue} />
-          ) : null}
           {visible && step === 2.5 && <ArticleOnboarding />}
           <Controller
             name="description"
@@ -450,11 +302,15 @@ export default function CreateNewOptionModal() {
               </fieldset>
             )}
           />
-          <ControlHelp control={control} />
+          {typeAdd && [EnumTypeProvider.offer].includes(typeAdd) && <ControlHelp control={control} />}
+          {[EnumTypeProvider.offer].includes(typeAdd!) ? (
+            <ControllerCategory control={control} visible={visible} disabled={visible && step !== 2.5} setValue={setValue} />
+          ) : null}
           {visible && step === 3 && <ArticleOnboarding />}
           <ControlFileAppend control={control} visible={visible} step={step} loading={loading} typeAdd={typeAdd!} progress={progress} />
           {visible && [4, 5].includes(step) && <ArticleOnboarding />}
-          {env!?.server!?.host!?.includes("dev") && (
+          <ControlAddress control={control} watch={watch("address")} trigger={trigger} setValue={setValue} errors={errors} />
+          {/* {env!?.server!?.host!?.includes("dev") && (
             <section className="w-full flex flex-col gap-2.5">
               <h2>
                 Данные компании <span>(если таковые имеются)</span>
@@ -499,7 +355,7 @@ export default function CreateNewOptionModal() {
                 )}
               />
             </section>
-          )}
+          )} */}
           <div data-footer>
             <Button
               type="submit"

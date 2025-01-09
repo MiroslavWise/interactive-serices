@@ -39,7 +39,7 @@ function BalloonOffer() {
             />
           ) : null}
         </div>
-        <h3 className="line-clamp-2 text-ellipsis">{offer?.category?.title}</h3>
+        <h3 className="line-clamp-2 text-ellipsis">{offer?.title ?? "Без названия"}</h3>
       </header>
       <div data-container className="w-full p-0 md:rounded-b-2">
         <div data-container-children className="p-0 py-5 w-full flex flex-col gap-5">

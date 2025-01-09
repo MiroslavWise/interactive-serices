@@ -9,7 +9,7 @@ import { EModalData } from "@/store"
 const regexContent = /[^a-z0-9а-яёй\s]/i
 
 export const LIMIT_DESCRIPTION = 512
-const LIMIT_TITLE = 144
+export const LIMIT_TITLE = 144
 
 const help = z.boolean().default(false)
 
@@ -87,8 +87,8 @@ const base = z.object({
 
 const schemaAlertAndDiscussion = base.merge(z.object({ title: title, addressFeature: addressFeature }))
 const schemaAlertAndDiscussionMap = base.merge(z.object({ title: title, initAddress: initAddress }))
-const schemaOffer = base.merge(z.object({ categoryId: categoryId, addressFeature: addressFeature }))
-const schemaOfferMap = base.merge(z.object({ categoryId: categoryId, initAddress: initAddress }))
+const schemaOffer = base.merge(z.object({ title: title, categoryId: categoryId, addressFeature: addressFeature }))
+const schemaOfferMap = base.merge(z.object({ title: title, categoryId: categoryId, initAddress: initAddress }))
 
 const schemaCreate = base.extend({
   title: title,

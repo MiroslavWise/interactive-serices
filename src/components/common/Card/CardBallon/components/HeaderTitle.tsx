@@ -2,9 +2,10 @@ import { EnumTypeProvider } from "@/types/enum"
 import { IResponseOffers } from "@/services/offers/types"
 
 import { ImageCategory } from "@/components/common/Image"
-
 import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
 import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
+
+import { titleOffer } from "@/utils/title-offer"
 
 interface IProps {
   offer: IResponseOffers
@@ -24,19 +25,7 @@ function HeaderTitle({ offer }: IProps) {
           <IconDiscussionBalloon />
         ) : null}
       </div>
-      <h3 className="text-text-primary text-base font-semibold">
-        {provider === EnumTypeProvider.offer
-          ? category?.title
-          : provider === EnumTypeProvider.alert
-          ? title
-            ? title
-            : "SOS-сообщение"
-          : provider === EnumTypeProvider.discussion
-          ? title
-            ? title
-            : "Обсуждение"
-          : null}
-      </h3>
+      <h3 className="text-text-primary text-base font-semibold">{titleOffer(title, provider)}</h3>
     </header>
   )
 }

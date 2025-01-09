@@ -3,41 +3,42 @@
 import * as React from "react"
 import * as ReactDOM from "react-dom"
 import { useQuery } from "@tanstack/react-query"
-import { Feature } from "@yandex/ymaps3-clusterer"
-import { ReactifiedModule } from "@yandex/ymaps3-types/reactify"
+import { type Feature } from "@yandex/ymaps3-clusterer"
+import { type ReactifiedModule } from "@yandex/ymaps3-types/reactify"
 
 import { EnumTypeProvider } from "@/types/enum"
-import { type IResponseOffers } from "@/services/offers/types"
 import { type IPosts } from "@/services/posts/types"
+import { type IResponseOffers } from "@/services/offers/types"
 
+import Marker from "./Marker"
 import IconPost from "../icons/IconPost"
-import IconHelp from "../icons/IconHelp"
 import { ImageCategory } from "../common"
-import IconMap from "../icons/map-svg/IconMap"
 import IconAlertBalloon from "../icons/IconAlertBalloon"
 
 import {
-  useBounds,
   useFiltersServices,
   dispatchBallonPost,
   dispatchBallonOffer,
   dispatchBallonAlert,
   dispatchMapZoomClick,
   dispatchCollapseServicesTrue,
+  useBounds,
 } from "@/store"
 import { cx } from "@/lib/cx"
-import { formatOfMMM } from "@/helpers"
 import { getPosts } from "@/services/posts"
-import { JSONStringBounds } from "@/utils/map-sort"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
+import { JSONStringBounds } from "@/utils/map-sort"
+import { useFormProviderSearch } from "@/app/(layout)/components/FormProviderSearch"
 
-type ReactifiedApi = ReactifiedModule<typeof ymaps3>
-type FeatureCluster = Feature & {
+export type ReactifiedApi = ReactifiedModule<typeof ymaps3>
+export type FeatureCluster = Feature & {
   properties: {
     provider: EnumTypeProvider
     offer?: IResponseOffers
     post?: IPosts
   }
+  reactifiedApi?: ReactifiedApi
+  is: (value: number[]) => boolean
 }
 
 function AllClusters() {
@@ -68,8 +69,13 @@ function AllClusters() {
     enabled: ["all", EnumTypeProvider.POST].includes(providers),
   })
 
+  const { isF, posts: searchPosts, offers: searchOffers } = useFormProviderSearch()
+
   const listPosts = data?.data ?? []
   const stringBounds = JSONStringBounds(bounds!)
+
+  const posts = isF ? searchPosts : listPosts
+  const offers = isF ? searchOffers : itemsOffers
 
   const is = React.useCallback(
     (value: number[]) => {
@@ -89,64 +95,6 @@ function AllClusters() {
   if (!reactifiedApi) return null
 
   const { YMapMarker } = reactifiedApi ?? {}
-
-  function marker({ properties, geometry }: FeatureCluster) {
-    const { provider, post, offer } = properties ?? {}
-
-    if (!is(geometry.coordinates as number[])) return null
-
-    const title =
-      provider === EnumTypeProvider.POST
-        ? post?.title
-        : provider === EnumTypeProvider.offer
-        ? offer?.category?.title ?? offer?.title
-        : offer?.title
-    const created = provider === EnumTypeProvider.POST ? post?.updated ?? post?.created : offer?.updated ?? offer?.created
-
-    const urgent = provider === EnumTypeProvider.POST ? !!post?.urgent : !!offer?.urgent
-
-    return (
-      <YMapMarker coordinates={geometry.coordinates}>
-        <div className={cx("absolute z-20 -translate-x-1/2 -translate-y-1/2 max-md:scale-75 group", "w-[2.1875rem] h-[2.5625rem]")}>
-          <IconMap
-            provider={provider}
-            urgent={urgent}
-            onClick={() => {
-              if (provider === EnumTypeProvider.offer) {
-                dispatchBallonOffer({ offer: offer! })
-                return
-              }
-              if (provider === EnumTypeProvider.alert) {
-                dispatchBallonAlert({ offer: offer! })
-                return
-              }
-              if (provider === EnumTypeProvider.POST) {
-                dispatchBallonPost(post!)
-                return
-              }
-            }}
-          />
-          {urgent ? (
-            <div className="-z-[1] [background:var(--more-red-gradient)] rounded-r-md py-1.5 pr-2.5 pl-6 grid grid-cols-[1rem_minmax(0,1fr)] gap-2 items-center absolute w-max max-w- left-0 top-1/2 pointer-events-none translate-x-3.5 -translate-y-1/2 transition-opacity opacity-0 group-hover:opacity-100">
-              <div className="w-4 h-4 relative p-2">
-                <IconHelp />
-              </div>
-              <span className="text-xs text-text-button font-medium line-clamp-1 text-ellipsis">{title ?? "Щедрое сердце"}</span>
-            </div>
-          ) : (
-            <div className="div-alert-text flex absolute w-max left-0 top-1/2 pointer-events-none translate-x-3.5 -translate-y-1/2 transition-opacity opacity-0 group-hover:opacity-100">
-              <section className="flex flex-col h-11">
-                <p className="text-[#000] line-clamp-1 text-ellipsis text-sm font-medium">{title}</p>
-                <time className="text-text-secondary text-[0.8125rem] line-clamp-1 text-ellipsis font-normal leading-4">
-                  {formatOfMMM(created ?? "")}
-                </time>
-              </section>
-            </div>
-          )}
-        </div>
-      </YMapMarker>
-    )
-  }
 
   const cluster = (coordinates: any, features: FeatureCluster[]) => {
     const lengthAll = features.length ?? 1
@@ -249,11 +197,11 @@ function AllClusters() {
 
   if (!MapClusterer)
     return [
-      ...itemsOffers.map((item) => {
+      ...offers.map((item) => {
         const coordinates = item?.addresses?.[0]?.coordinates?.split(" ")?.map((_) => Number(_)) ?? [0, 0]
 
         if (["all", EnumTypeProvider.offer, EnumTypeProvider.alert].includes(providers))
-          return marker({
+          return Marker({
             type: "Feature",
             id: `${item.provider}-${item.id}`,
             geometry: {
@@ -264,13 +212,15 @@ function AllClusters() {
               provider: item.provider,
               offer: item,
             },
+            is: is,
+            reactifiedApi: reactifiedApi,
           })
         return null
       }),
-      ...listPosts.map((item) => {
+      ...posts.map((item) => {
         const coordinates = item?.addresses?.[0]?.coordinates?.split(" ")?.map((_) => Number(_)) ?? [0, 0]
         if (["all", EnumTypeProvider.POST].includes(providers))
-          return marker({
+          return Marker({
             type: "Feature",
             id: `${EnumTypeProvider.POST}-${item.id}`,
             geometry: {
@@ -281,6 +231,8 @@ function AllClusters() {
               provider: EnumTypeProvider.POST,
               post: item,
             },
+            is: is,
+            reactifiedApi: reactifiedApi,
           })
         return null
       }),
@@ -288,11 +240,11 @@ function AllClusters() {
 
   return (
     <MapClusterer
-      marker={marker}
+      marker={Marker}
       cluster={cluster}
       method={size}
       features={[
-        ...(["all", EnumTypeProvider.offer, EnumTypeProvider.alert].includes(providers) ? itemsOffers : []).map((item) => {
+        ...(["all", EnumTypeProvider.offer, EnumTypeProvider.alert].includes(providers) ? offers : []).map((item) => {
           const coordinates = item?.addresses?.[0]?.coordinates?.split(" ")?.map((_) => Number(_)) ?? [0, 0]
 
           return {
@@ -306,9 +258,11 @@ function AllClusters() {
               provider: item.provider,
               offer: item,
             },
+            is: is,
+            reactifiedApi: reactifiedApi,
           }
         }),
-        ...(["all", EnumTypeProvider.POST].includes(providers) ? listPosts : []).map((item) => {
+        ...(["all", EnumTypeProvider.POST].includes(providers) ? posts : []).map((item) => {
           const coordinates = item?.addresses?.[0]?.coordinates?.split(" ")?.map((_) => Number(_)) ?? [0, 0]
 
           return {
@@ -322,6 +276,8 @@ function AllClusters() {
               provider: EnumTypeProvider.POST,
               post: item,
             },
+            is: is,
+            reactifiedApi: reactifiedApi,
           }
         }),
       ]}

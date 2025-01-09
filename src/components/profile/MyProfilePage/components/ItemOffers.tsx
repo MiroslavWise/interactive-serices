@@ -22,7 +22,7 @@ import {
 import { cx } from "@/lib/cx"
 
 function ItemOffers({ offer }: { offer: IResponseOffers }) {
-  const { images, description, addresses, provider, id, urgent } = offer ?? {}
+  const { images, description, addresses, provider, id, urgent, category } = offer ?? {}
 
   const firstAddress = addresses.length ? addresses[0] : null
   const additional = firstAddress?.additional?.replace(`${firstAddress?.country}, `, "").replace(`${firstAddress?.region}, `, "") ?? ""
@@ -64,6 +64,7 @@ function ItemOffers({ offer }: { offer: IResponseOffers }) {
         <ItemTitle offer={offer} />
         <article className="w-full flex flex-col gap-4 h-full">
           <section className="w-full flex flex-col gap-3 h-full">
+            <b className="text-text-primary text-base font-medium">{category?.title ?? ""}</b>
             <p className="text-text-primary text-sm font-normal text-ellipsis overflow-hidden line-clamp-4">{description || ""}</p>
             <ItemServiceImages images={images} />
             <Link

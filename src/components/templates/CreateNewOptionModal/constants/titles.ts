@@ -1,7 +1,7 @@
 import { EnumTypeProvider } from "@/types/enum"
 
 export const titleContent = (value: EnumTypeProvider) =>
-  value === EnumTypeProvider.alert ? "Название проблемы" : value === EnumTypeProvider.discussion ? "Название обсуждения" : ""
+  value === EnumTypeProvider.alert ? "Название проблемы" : value === EnumTypeProvider.offer ? "Название" : ""
 
 export const descriptionImages = (value: EnumTypeProvider) =>
   value === EnumTypeProvider.alert
@@ -44,4 +44,6 @@ export const titlePlaceholderContent = (value: EnumTypeProvider) =>
     ? "Например, потерял(а) телефон"
     : value === EnumTypeProvider.discussion
     ? "Например, турнир по петангу 12.01"
+    : value === EnumTypeProvider.offer
+    ? "Введите название умения или услуги"
     : ""

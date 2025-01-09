@@ -51,7 +51,7 @@ export const useMapOffers = () => {
     return array
   }, [categories, activeFilters])
 
-  const obj = activeCategories.length && ["all", EnumTypeProvider.offer].includes(providers) ? { category: activeCategories.join(",") } : {}
+  const obj = activeCategories.length && EnumTypeProvider.offer === providers ? { category: activeCategories.join(",") } : {}
 
   const {
     data: dataOffers,

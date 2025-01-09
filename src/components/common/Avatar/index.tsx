@@ -18,54 +18,56 @@ interface IProps {
   userId?: number
 }
 
+/** Функция для рендеринга аватара (изображение или иконка) */
+const renderAvatar = (image?: IImageData) => {
+  if (image?.attributes?.url) {
+    return (
+      <NextImageMotion
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full"
+        src={image.attributes.url}
+        alt="avatar"
+        width={160}
+        height={160}
+        hash={image.attributes.blur}
+      />
+    )
+  }
+  return <IconEmptyProfile className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full scale-50" />
+}
+
 function Avatar({ className, image, userId }: IProps) {
   const { isTablet } = useResize()
 
-  if (!!userId)
+  /** Общие стили для контейнера аватара */
+  const containerStyles = cx(
+    "relative flex overflow-hidden",
+    className,
+    image ? "bg-BG-second" : "bg-grey-stroke-light",
+    userId && "cursor-pointer",
+  )
+
+  /** Обработчик клика для открытия профиля */
+  const handleClick = () => {
+    if (!isTablet && userId) {
+      dispatchPublicProfile(userId)
+    }
+  }
+
+  /** Если есть userId, используем Link, иначе — обычный div */
+  if (userId) {
     return (
       <Link
-        {...{
-          target: isTablet ? "_blank" : undefined,
-          href: isTablet ? { pathname: `/customer/${userId}` } : {},
-          className: cx("relative flex overflow-hidden cursor-pointer", className, !!image ? "bg-BG-second" : "bg-grey-stroke-light"),
-          onClick() {
-            if (!isTablet) {
-              dispatchPublicProfile(userId!)
-            }
-          },
-        }}
+        target={isTablet ? "_blank" : undefined}
+        href={isTablet ? `/customer/${userId}` : {}}
+        className={containerStyles}
+        onClick={handleClick}
       >
-        {!!image ? (
-          <NextImageMotion
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full"
-            src={image?.attributes?.url!}
-            alt="avatar"
-            width={160}
-            height={160}
-            hash={image?.attributes?.blur}
-          />
-        ) : (
-          <IconEmptyProfile className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full scale-50" />
-        )}
+        {renderAvatar(image)}
       </Link>
     )
+  }
 
-  return (
-    <a className={cx("relative flex overflow-hidden", className, !!image ? "bg-BG-second" : "bg-grey-stroke-light")}>
-      {!!image ? (
-        <NextImageMotion
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full"
-          src={image?.attributes?.url!}
-          alt="avatar"
-          width={160}
-          height={160}
-          hash={image?.attributes?.blur}
-        />
-      ) : (
-        <IconEmptyProfile className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full scale-50" />
-      )}
-    </a>
-  )
+  return <div className={containerStyles}>{renderAvatar(image)}</div>
 }
 
 Avatar.displayName = "Avatar"

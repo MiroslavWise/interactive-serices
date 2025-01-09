@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { type DispatchWithoutAction, memo, useEffect, useMemo, useState } from "react"
+import { type DispatchWithoutAction, useEffect, useState } from "react"
 
 import { type INotes } from "@/services/notes/types"
 
@@ -35,7 +35,7 @@ function ListNotes({ handleToComments }: { handleToComments: DispatchWithoutActi
   )
 }
 
-const List = memo(function ({
+function List({
   newState,
   notes,
   handleToComments,
@@ -46,12 +46,13 @@ const List = memo(function ({
   newState: boolean
   isLoading: boolean
 }) {
-  const filter = useMemo(() => notes.sort((a, b) => (newState ? b.id - a.id : a.id - b.id)), [newState, notes])
+  const filter = notes.sort((a, b) => (newState ? b.id - a.id : a.id - b.id))
 
   const data = useBalloonPost(({ data }) => data)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { userId: userIdPost, archive } = data ?? {}
   const { onNoteCurrent, isBecomeMember } = useContextPostsComments()
+
   useEffect(() => {
     return () => onNoteCurrent(null)
   }, [])
@@ -59,7 +60,7 @@ const List = memo(function ({
   return (
     <ul
       className={cx(
-        "w-full flex flex-col gap-2.5", 
+        "w-full flex flex-col gap-2.5",
         ((userIdPost === userId && !archive) || isBecomeMember) && "pb-16",
         !!archive && "pb-14",
       )}
@@ -88,7 +89,7 @@ const List = memo(function ({
         : filter.map((item) => <ItemNote note={item} key={`:key:note:${item.id}:`} handleToComments={handleToComments} />)}
     </ul>
   )
-})
+}
 
 ListNotes.displayName = "ListNotes"
-export default memo(ListNotes)
+export default ListNotes

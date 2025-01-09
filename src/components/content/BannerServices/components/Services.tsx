@@ -40,7 +40,7 @@ export const ServicesComponent = () => {
   const itemsFilterPosts = useMemo(() => {
     const array: IPosts[] = []
 
-    if (!itemsPost.length || !!idSearch || activeFilters.length > 0) {
+    if (!itemsPost.length || !!idSearch) {
       return array
     }
 
@@ -59,7 +59,7 @@ export const ServicesComponent = () => {
     }
 
     return array
-  }, [itemsPost, stringJSON, timesFilter, activeFilters, idSearch, providers])
+  }, [itemsPost, stringJSON, timesFilter, idSearch, providers])
 
   const items = useMemo(() => {
     const array: IResponseOffers[] = []
@@ -96,7 +96,6 @@ export const ServicesComponent = () => {
       </ul>
     )
 
-  /** @default issue/1-933 */
   if (isEmpty)
     return (
       <section className="w-full h-full flex flex-col px-5 items-center justify-center gap-2.5 py-28">

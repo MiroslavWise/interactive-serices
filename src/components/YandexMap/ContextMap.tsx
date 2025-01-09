@@ -6,6 +6,8 @@ import { useTheme } from "next-themes"
 import { LngLat, YMapHotspot } from "ymaps3"
 import { ReactifiedModule } from "@yandex/ymaps3-types/reactify"
 
+import PrivacyPolicy from "@/components/content/PrivacyPolicy"
+
 import { clg } from "@console"
 import { useStatusAuth } from "@/helpers/use-status-auth"
 import {
@@ -108,6 +110,7 @@ function ContextMap({ children }: React.PropsWithChildren) {
           }
         }}
       />
+      <PrivacyPolicy />
     </YMap>
   )
 }

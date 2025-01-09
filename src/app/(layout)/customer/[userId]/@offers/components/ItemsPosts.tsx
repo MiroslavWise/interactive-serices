@@ -63,7 +63,7 @@ function ItemsPosts({ id }: { id: number }) {
         </>
       ) : (
         <p className="text-text-primary text-sm font-normal whitespace-nowrap mt-10">
-          {archive ? "Архивированных" : "Активных"} постов нет
+          {archive ? "Архивированных" : "Активных"} событий нет
         </p>
       )}
     </section>

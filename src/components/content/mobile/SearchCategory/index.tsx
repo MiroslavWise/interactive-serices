@@ -1,7 +1,7 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 import { type IPosts } from "@/services/posts/types"
 import { type IResponseOffers } from "@/services/offers/types"
@@ -33,12 +33,15 @@ import styles from "./styles/style.module.scss"
 
 export default function SearchCategory() {
   const [loading, setLoading] = useState(false)
+  const [loadingSearch, setLoadingSearch] = useState(false)
   const visible = useMobileSearchCategory(({ visible }) => visible)
   const providers = useFiltersServices(({ providers }) => providers)
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
   const visibleFilter = useFiltersScreen(({ visible }) => visible)
   const [input, setInput] = useState("")
   const ref = useRef<HTMLInputElement>(null)
+  const refSection = useRef<HTMLInputElement>(null)
+  const refArticle = useRef<HTMLInputElement>(null)
 
   const debouncedValue = useDebounce(search, 1250)
   const [valuesPosts, setValuesPosts] = useState<IPosts[]>([])
@@ -71,7 +74,31 @@ export default function SearchCategory() {
     } else {
       setLoading(false)
     }
+    setLoadingSearch(false)
   }
+
+  function setHeight(ref: HTMLInputElement, property: string) {
+    const height = ref.clientHeight
+    ref.style.setProperty(property, `${height / 16}rem`)
+  }
+
+  useEffect(() => {
+    if (ref.current && refSection.current && refArticle.current) {
+      const setDiv = () => setHeight(ref.current!, "--h")
+      const setArticle = () => setHeight(refArticle.current!, "--h-article")
+      const setSection = () => setHeight(refSection.current!, "--h-section")
+
+      ref.current.addEventListener("resize", setDiv)
+      refSection.current.addEventListener("resize", setSection)
+      refArticle.current.addEventListener("resize", setArticle)
+
+      return () => {
+        ref.current?.removeEventListener("resize", setDiv)
+        refSection.current?.removeEventListener("resize", setSection)
+        refArticle.current?.removeEventListener("resize", setArticle)
+      }
+    }
+  }, [])
 
   return (
     <div
@@ -80,6 +107,7 @@ export default function SearchCategory() {
         "w-full fixed z-[90] h-full rounded-t-3xl bg-BG-second inset-0",
         visible ? " translate-y-[1.625rem]" : "translate-y-[calc(100%_-_var(--height-mobile-footer-nav)_-_6rem)]",
       )}
+      ref={ref}
     >
       <button
         type="button"
@@ -100,24 +128,16 @@ export default function SearchCategory() {
         <div data-search className="relative h-12 w-full">
           <input
             type="text"
-            onClick={(event) => {
-              event.stopPropagation()
-              dispatchMobileSearchCategoryVisible(true)
-              requestAnimationFrame(() => {
-                if (ref.current) {
-                  ref.current.focus()
-                }
-              })
-            }}
+            onClick={() => dispatchMobileSearchCategoryVisible(true)}
             value={input}
             onChange={(event) => {
+              setLoadingSearch(true)
               setInput(event.target.value || "")
               debouncedValue()
             }}
             readOnly={!visible}
             required
             placeholder="Что Вы ищете"
-            ref={ref}
             className="h-3 rounded-3xl !pl-[2.625rem]"
             inputMode="search"
             enterKeyHint="search"
@@ -158,8 +178,11 @@ export default function SearchCategory() {
           <IconFilters />
         </button>
       </header>
-      <section className="w-full h-[calc(100%_-_6rem)] overflow-x-hidden overflow-y-auto">
-        <article className={cx("w-full flex flex-col gap-[1.125rem] py-2.5 px-5", "*:flex *:w-full *:flex-row *:items-start")}>
+      <section className={cx("w-full h-[calc(100%_-_6rem)] overflow-x-hidden overflow-y-auto")} ref={refSection}>
+        <article
+          className={cx("w-full flex flex-col gap-[1.125rem] py-2.5 px-5", "*:flex *:w-full *:flex-row *:items-start")}
+          ref={refArticle}
+        >
           <div data-filters-services className="justify-start gap-4">
             {SERVICES.map((item) => (
               <a
@@ -181,7 +204,7 @@ export default function SearchCategory() {
           <TimesFilter />
           {activeFilters.length ? <ActiveFilters activeFilters={activeFilters} /> : null}
         </article>
-        <ServicesMobile posts={valuesPosts} offers={valuesOffers} isSearch={!!input.trim()} loading={loading} />
+        <ServicesMobile posts={valuesPosts} offers={valuesOffers} isSearch={!!input.trim()} loading={loadingSearch} />
       </section>
     </div>
   )

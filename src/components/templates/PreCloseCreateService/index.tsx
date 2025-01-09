@@ -16,7 +16,7 @@ const H: Map<EnumTypeProvider, string> = new Map([
   [EnumTypeProvider.offer, "Умения и услуги"],
   [EnumTypeProvider.alert, "SOS-сообщения"],
   [EnumTypeProvider.discussion, "Обсуждения"],
-  [EnumTypeProvider.POST, "Пост"],
+  [EnumTypeProvider.POST, "Событие"],
   [EnumTypeProvider.NOTE, "Запись"],
 ])
 

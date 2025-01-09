@@ -1,28 +1,15 @@
-import { z } from "zod"
-
-import { type IPromiseReturn, type TOrder } from "../types/general"
 import { type IImageData } from "@/types/type"
-import { type IAddressesResponse } from "../addresses/types/serviceAddresses"
+import { type ICompany } from "../types/company"
+import { type IResponse } from "../request/types"
 import { EnumHelper, EnumTypeProvider } from "@/types/enum"
-import { type TGenderForm } from "@/components/templates/UpdateProfile/utils/update-form.schema"
+import { type IPromiseReturn, type TOrder } from "../types/general"
 import { type IResponseOffersCategories } from "../offers-categories/types"
-import { IResponse } from "../request/types"
+import { type IAddressesResponse } from "../addresses/types/serviceAddresses"
+import { type TGenderForm } from "@/components/templates/UpdateProfile/utils/update-form.schema"
 
 export interface IResponseCreate {
   id: number
 }
-
-const schemaCompany = z.object({
-  provider: z.string().optional(),
-  title: z.string().optional(),
-  ad: z.string().optional(),
-  inn: z.string().optional(),
-  erid: z.string().optional(),
-  enabled: z.boolean().default(true).optional(),
-  imageId: z.number().optional(),
-})
-
-export type TCompany = z.infer<typeof schemaCompany>
 export interface IPostOffers {
   parentId?: number
   categoryId?: number
@@ -43,7 +30,6 @@ export interface IPostOffers {
   desired: boolean
   images?: number[]
   urgent?: EnumHelper | ""
-  company?: TCompany
 }
 
 export type IPatchOffers = Partial<IPostOffers> & { categories?: number[] }
@@ -81,6 +67,7 @@ export interface IResponseOffers {
   created: Date | string
   threadId: number | null
   urgent: EnumHelper | null
+  company?: ICompany
 }
 
 export interface IQueriesOffers {

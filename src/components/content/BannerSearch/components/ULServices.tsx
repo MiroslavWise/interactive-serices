@@ -16,7 +16,6 @@ import { JSONStringBounds, mapSort } from "@/utils/map-sort"
 interface IProps {
   posts: IPosts[]
   offers: IResponseOffers[]
-  categories: IResponseOffersCategories[]
 }
 
 interface IListAll {

@@ -118,7 +118,7 @@ export const PersonalData = () => {
         valuesProfile.lastName = lastName
       }
       const username = values.username?.trim()
-      if (username !== profile?.username) {
+      if (username !== profile?.username && username) {
         valuesProfile.username = username?.replace("@", "")
       }
       const gender = values.gender

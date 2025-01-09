@@ -182,7 +182,7 @@ function CreatePost() {
   return (
     <>
       <header className="w-full px-3 pt-5 md:pt-6 pb-4 md:pb-5 overflow-hidden flex flex-row items-center justify-start md:justify-center border-b border-solid border-grey-separator h-standard-header-modal">
-        <h3 className="text-text-primary text-2xl font-semibold">Новый пост</h3>
+        <h3 className="text-text-primary text-2xl font-semibold">Новое событие</h3>
       </header>
       <ul data-test="ul-create-new-post" className="w-full flex flex-col items-center gap-4 px-5 h-full-minus-standard-header-modal">
         <form
@@ -191,71 +191,8 @@ function CreatePost() {
           className="w-full h-full overflow-y-auto flex flex-col items-center gap-4 md:gap-5 overflow-x-hidden"
         >
           <p className="text-text-primary text-sm text-left font-normal">
-            Пост это ваша персональная новостная лента. Формат подходит для мероприятий, регулярных активностей, турниров. В пост можно
-            добавлять новые записи: тексты и фото. Другие пользователи смогут комментировать ваш пост.
+            Событие - это ваша персональная новостная лента. Формат подходит для мероприятий, регулярных активностей, турниров
           </p>
-          <Controller
-            control={control}
-            name="address"
-            render={({ field, fieldState: { error } }) => (
-              <fieldset ref={ref}>
-                <label htmlFor={field.name} title="Адрес">
-                  Адрес
-                </label>
-                <div data-input-selector>
-                  <input
-                    {...field}
-                    onChange={(event) => {
-                      field.onChange(event.target.value)
-                      debouncedValue()
-                      setLoadingAddresses(true)
-                    }}
-                    className="font-normal"
-                    value={field.value}
-                    type="text"
-                    data-error={!!error}
-                    onFocus={focusAddress}
-                    placeholder="Введите адрес"
-                    autoComplete="off"
-                    disabled={stateModal === EModalData.CREATE_POST_MAP && !!initMapAddress}
-                  />
-                  <button
-                    data-select-icon={isFocus}
-                    type="button"
-                    onClick={(event) => {
-                      event.stopPropagation()
-                      field.onChange("")
-                      blurAddress()
-                    }}
-                  >
-                    <IconXClose />
-                  </button>
-                  <ul data-active={isFocus && (isEmptySearch || Array.isArray(exactAddresses))} data-is-empty-search={isEmptySearch}>
-                    {Array.isArray(exactAddresses) ? (
-                      exactAddresses.map((item, index) => (
-                        <li
-                          key={`${item.GeoObject.uri}-${index}`}
-                          onClick={(event) => {
-                            event.stopPropagation()
-                            field.onChange(item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!)
-                            setValue("addressFeature", item)
-                            blurAddress()
-                            trigger("address")
-                            trigger("addressFeature")
-                          }}
-                        >
-                          <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
-                        </li>
-                      ))
-                    ) : isEmptySearch ? (
-                      <p>По вашему запросу нет подходящих адресов</p>
-                    ) : null}
-                  </ul>
-                </div>
-                {!!error || !!errors.addressFeature ? <i>Выберите существующий адрес</i> : null}
-              </fieldset>
-            )}
-          />
           <Controller
             name="title"
             control={control}
@@ -339,8 +276,8 @@ function CreatePost() {
 
               return (
                 <fieldset className="!gap-4">
-                  <label htmlFor={field.name}>Фото или видео</label>
-                  <p className="-mt-3 text-text-disabled text-sm font-normal">Добавьте к посту фото, видео или постер</p>
+                  <label htmlFor={field.name}>Фото, видео или постер</label>
+                  {/* <p className="-mt-3 text-text-disabled text-sm font-normal">Добавьте к посту фото, видео или постер</p> */}
                   <div className={cx("w-full flex flex-col gap-2", _strings.other.length > 0 ? "flex" : "hidden")}>
                     {_strings.other.map((item) => (
                       <article
@@ -398,10 +335,75 @@ function CreatePost() {
                     ) : null}
                   </div>
                   <i className="!text-text-disabled !-mt-3">Максимальный размер фото - 10 Мб, видео - 50 Мб</i>
-                  <i className="!text-text-disabled !-mt-3">Не более 9 файлов</i>
                 </fieldset>
               )
             }}
+          />
+          <Controller
+            control={control}
+            name="address"
+            render={({ field, fieldState: { error } }) => (
+              <fieldset ref={ref}>
+                <label htmlFor={field.name} title="Адрес">
+                  Адрес
+                </label>
+                <div data-input-selector>
+                  <input
+                    {...field}
+                    onChange={(event) => {
+                      field.onChange(event.target.value)
+                      debouncedValue()
+                      setLoadingAddresses(true)
+                    }}
+                    className="font-normal"
+                    value={field.value}
+                    type="text"
+                    data-error={!!error}
+                    onFocus={focusAddress}
+                    placeholder="Введите адрес"
+                    autoComplete="off"
+                    disabled={stateModal === EModalData.CREATE_POST_MAP && !!initMapAddress}
+                  />
+                  <button
+                    data-select-icon={isFocus}
+                    type="button"
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      field.onChange("")
+                      blurAddress()
+                    }}
+                  >
+                    <IconXClose />
+                  </button>
+                  <ul
+                    className="-translate-y-full"
+                    data-active={isFocus && (isEmptySearch || Array.isArray(exactAddresses))}
+                    data-is-empty-search={isEmptySearch}
+                  >
+                    {Array.isArray(exactAddresses) ? (
+                      exactAddresses.map((item, index) => (
+                        <li
+                          key={`${item.GeoObject.uri}-${index}`}
+                          onClick={(event) => {
+                            event.stopPropagation()
+                            field.onChange(item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!)
+                            setValue("addressFeature", item)
+                            blurAddress()
+                            trigger("address")
+                            trigger("addressFeature")
+                          }}
+                        >
+                          <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
+                        </li>
+                      ))
+                    ) : isEmptySearch ? (
+                      <p>По вашему запросу нет подходящих адресов</p>
+                    ) : null}
+                  </ul>
+                </div>
+                {!!error || !!errors.addressFeature ? <i>Выберите существующий адрес</i> : null}
+              </fieldset>
+            )}
           />
           <ControlParticipant control={control} />
           <footer className="w-full pt-2.5 mt-auto bg-BG-second">
