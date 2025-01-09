@@ -25,7 +25,7 @@ function HeaderTitle({ offer }: IProps) {
           <IconDiscussionBalloon />
         ) : null}
       </div>
-      <h3 className="text-text-primary text-base font-semibold">{titleOffer(title, provider)}</h3>
+      <h3 className="text-text-primary text-base font-semibold line-clamp-2 text-ellipsis">{titleOffer(title, provider)}</h3>
     </header>
   )
 }

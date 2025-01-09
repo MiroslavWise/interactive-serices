@@ -7,6 +7,7 @@ import { EnumTypeProvider } from "@/types/enum"
 import { useQuery } from "@tanstack/react-query"
 import { getOffers } from "@/services"
 import { clg } from "@console"
+import CardBallon from "@/components/common/Card/CardBallon"
 
 interface IObj {
   provider?: EnumTypeProvider
@@ -51,7 +52,13 @@ function ComponentsOffers() {
 
   clg("list: ", list)
 
-  return <ul className="w-full grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"></ul>
+  return (
+    <ul className="w-full grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 h-full overflow-y-auto">
+      {list.map((item) => (
+        <CardBallon key={`manager:offer-${page}-${item.id}`} offer={item} />
+      ))}
+    </ul>
+  )
 }
 
 ComponentsOffers.displayName = "ComponentsOffers"

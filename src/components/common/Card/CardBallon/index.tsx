@@ -72,7 +72,6 @@ function CardBallon({ offer, ref, className }: IProps) {
         event.stopPropagation()
         handleClick()
       }}
-      ref={ref}
     >
       {/* <header
         className={cx(

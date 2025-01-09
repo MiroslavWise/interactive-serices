@@ -6,6 +6,7 @@
   & > aside,
   & > section {
     border-radius: 2rem;
+    height: calc(100% - 3rem);
   }
 
   @media screen and (max-width: 768px) {
