@@ -23,7 +23,6 @@ export function mapSort<T = any>({ bounds, items }: IProps<T>) {
   const startB = [center.map((_) => _ - OFFSET), center.map((_) => _ + OFFSET)]
 
   let obj: Record<number | string, T[]> = {}
-  // const length = Object.values(obj).flat().length
 
   recursion({ bounds: startB, items: items, number: 0 })
 
@@ -38,22 +37,20 @@ export function mapSort<T = any>({ bounds, items }: IProps<T>) {
 
       const bool = distancePureForMapSort({ bounds, mapPoint: coordinates })
 
-      if (
-        Array.isArray(coordinates) &&
-        coordinates[0] < maxNewCoors[0] &&
-        coordinates[0] > minNewCoords[0] &&
-        coordinates[1] < maxNewCoors[1] &&
-        coordinates[1] > minNewCoords[1]
-      ) {
-        if (bool) {
+      if (bool) {
+        if (
+          Array.isArray(coordinates) &&
+          coordinates[0] < maxNewCoors[0] &&
+          coordinates[0] > minNewCoords[0] &&
+          coordinates[1] < maxNewCoors[1] &&
+          coordinates[1] > minNewCoords[1]
+        ) {
           if (!!obj[number]) {
             obj[number].push(item)
           } else {
             obj[number] = [item]
           }
-        }
-      } else {
-        if (bool) {
+        } else {
           residue.push(item)
         }
       }

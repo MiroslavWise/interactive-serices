@@ -65,17 +65,19 @@ export function distancePure({ bounds, mapPoint }: IProps): boolean {
 
 const deviation = 0.02
 
+/** Попадает ли точка в область */
 export function distancePureForMapSort({ bounds, mapPoint = [0, 0] }: IProps): boolean {
-  const minCoords = bounds[0]
-  const maxCoors = bounds[1]
+  const topLeft = bounds[0]
+  const bottomRight = bounds[1]
 
-  console.log("distancePureForMapSort bounds: ", bounds)
-  console.log("distancePureForMapSort mapPoint: ", mapPoint)
+  const point = mapPoint
 
-  return (
-    minCoords[0] - deviation < mapPoint[0] &&
-    maxCoors[0] + deviation > mapPoint[0] &&
-    minCoords[1] - deviation < mapPoint[1] &&
-    maxCoors[1] + deviation > mapPoint[1]
-  )
+  const [pointLat, pointLon] = point // Широта и долгота точки
+  const [minLat, maxLon] = topLeft // Минимальная широта и максимальная долгота
+  const [maxLat, minLon] = bottomRight // Максимальная широта и минимальная долгота
+
+  const isLatInBounds = pointLat >= minLat && pointLat <= maxLat
+  const isLonInBounds = pointLon >= minLon && pointLon <= maxLon
+
+  return isLatInBounds && isLonInBounds
 }

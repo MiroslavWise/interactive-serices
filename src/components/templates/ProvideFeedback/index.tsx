@@ -186,7 +186,7 @@ function ProvideFeedback() {
                     "w-full h-full whitespace-pre-wrap rounded-2xl resize-none p-3.5 pb-6 border border-solid  text-text-primary placeholder:text-text-disabled text-sm font-normal",
                     !!error || field.value.length >= MAX_LENGTH ? "border-text-error" : "border-grey-stroke focus:border-element-accent-1",
                   )}
-                  placeholder="Поделитесь впечатлениями, как всё прошло? Это повлияет на рейтинг и поможет другим пользователям сделать выбор"
+                  placeholder="Поделитесь впечатлениями об умении, услуге или событии. Это повлияет на рейтинг и поможет другим пользователям сделать выбор"
                 />
                 <span
                   className={cx(
