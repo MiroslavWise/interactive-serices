@@ -3,20 +3,20 @@
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import { IUserOffer } from "@/services/offers/types"
+import { IResponseOffers, IUserOffer } from "@/services/offers/types"
 
 import Avatar from "@avatar"
 import IconRating from "@/components/icons/IconRating"
 
 import { getTestimonials } from "@/services"
 
-function ItemProfile({ user }: { user: IUserOffer }) {
-  const { id, firstName, lastName, image } = user ?? {}
+function ItemProfile({ user, offer }: { user: IUserOffer; offer: IResponseOffers }) {
+  const { firstName, lastName, image } = user ?? {}
+  const { id: offerId, provider } = offer ?? {}
 
   const { data: dataTestimonials } = useQuery({
-    queryFn: () => getTestimonials({ receiver: id!, order: "DESC" }),
-    queryKey: ["testimonials", { receiver: id, order: "DESC" }],
-    enabled: !!id,
+    queryFn: () => getTestimonials({ target: offerId!, provider: provider, order: "DESC" }),
+    queryKey: ["testimonials", offerId],
   })
 
   const rating = useMemo(() => {
@@ -44,7 +44,7 @@ function ItemProfile({ user }: { user: IUserOffer }) {
         </article>
         {rating ? (
           <div className="flex flex-row items-center">
-            <div className="w-4 h-4 p-[0.1875rem] flex items-center justify-center *:w-2.5 *:h-2.5">
+            <div className="relative w-4 h-4 p-[0.1875rem] flex items-center justify-center *:w-2.5 *:h-2.5">
               <IconRating />
             </div>
             <span className="text-text-accent text-xs font-medium">{rating?.toFixed(1)}</span>

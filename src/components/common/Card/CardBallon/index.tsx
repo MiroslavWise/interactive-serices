@@ -103,7 +103,7 @@ function CardBallon({ offer, ref, className }: IProps) {
         </section>
         {replaceImageFiles.length > 0 ? <ItemImages images={replaceImageFiles} /> : null}
         <GeoData offer={offer} />
-        <ItemProfile user={user} />
+        <ItemProfile user={user} offer={offer} />
       </section>
     </article>
   )
