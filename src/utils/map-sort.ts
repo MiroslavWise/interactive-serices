@@ -3,14 +3,14 @@
  */
 
 import { LngLatBounds } from "ymaps3"
-import { distancePure } from "./distance"
+import { distancePureForMapSort } from "./distance"
 
 interface IProps<T = any> {
   bounds: number[][] | LngLatBounds
   items: T[]
 }
 
-const OFFSET = 0.1
+const OFFSET = 0.02
 
 export function mapSort<T = any>({ bounds, items }: IProps<T>) {
   const minCoords = bounds[0]
@@ -23,43 +23,40 @@ export function mapSort<T = any>({ bounds, items }: IProps<T>) {
   const startB = [center.map((_) => _ - OFFSET), center.map((_) => _ + OFFSET)]
 
   let obj: Record<number | string, T[]> = {}
-  const length = Object.values(obj).flat().length
 
-  recursion({ bounds: startB, items: items, number: 0 })!
+  recursion({ bounds: startB, items: items, number: 0 })
 
-  function recursion({ bounds: b, items: offers, number }: IProps & { number: number }) {
+  function recursion({ bounds: b, items, number }: IProps & { number: number }) {
     const residue: T[] = []
 
-    for (const item of offers) {
+    for (const item of items) {
       const coordinates = item?.addresses?.[0]?.coordinates?.split(" ")?.map(Number)?.filter(Boolean) ?? [0, 0]
 
       const minNewCoords = b[0]
       const maxNewCoors = b[1]
 
-      if (
-        Array.isArray(coordinates) &&
-        coordinates[0] < maxNewCoors[0] &&
-        coordinates[0] > minNewCoords[0] &&
-        coordinates[1] < maxNewCoors[1] &&
-        coordinates[1] > minNewCoords[1]
-      ) {
-        if (!!obj[number]) {
-          obj[number].push(item)
-        } else {
-          obj[number] = [item]
-        }
-      } else {
-        const address = item?.addresses?.[0]
-        const coordinates = address?.coordinates?.split(" ")?.map(Number)?.filter(Boolean) ?? [0, 0]
-        const d = distancePure({ bounds, mapPoint: coordinates })
+      const bool = distancePureForMapSort({ bounds, mapPoint: coordinates })
 
-        if (d) {
+      if (bool) {
+        if (
+          Array.isArray(coordinates) &&
+          coordinates[0] < maxNewCoors[0] &&
+          coordinates[0] > minNewCoords[0] &&
+          coordinates[1] < maxNewCoors[1] &&
+          coordinates[1] > minNewCoords[1]
+        ) {
+          if (!!obj[number]) {
+            obj[number].push(item)
+          } else {
+            obj[number] = [item]
+          }
+        } else {
           residue.push(item)
         }
       }
     }
 
-    if (residue.length > 0 && length < 100) {
+    if (residue.length > 0) {
       const newStart = [
         [b[0][0] - OFFSET, b[0][1] - OFFSET],
         [b[1][0] + OFFSET, b[1][1] + OFFSET],

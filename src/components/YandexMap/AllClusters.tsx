@@ -134,12 +134,7 @@ function AllClusters() {
               {features.map(({ id, properties, geometry }) => {
                 const { provider, offer, post } = properties ?? {}
 
-                const title =
-                  provider === EnumTypeProvider.POST
-                    ? post?.title
-                    : provider === EnumTypeProvider.offer
-                    ? offer?.category?.title ?? offer?.title
-                    : offer?.title
+                const title = provider === EnumTypeProvider.POST ? post?.title : offer?.title
 
                 return (
                   <li

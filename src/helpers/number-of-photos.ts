@@ -7,4 +7,14 @@ function onNumberOfPhotos(value: number): string | null {
   return `${value} фотографий`
 }
 
-export { onNumberOfPhotos }
+function getCommentEnding(number: number) {
+  if (number % 10 === 1 && number % 100 !== 11) {
+    return `${number} комментарий`
+  } else if ([2, 3, 4].includes(number % 10) && ![12, 13, 14].includes(number % 100)) {
+    return `${number} комментария`
+  } else {
+    return `${number} комментариев`
+  }
+}
+
+export { onNumberOfPhotos, getCommentEnding }

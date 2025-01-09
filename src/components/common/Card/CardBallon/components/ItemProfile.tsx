@@ -9,14 +9,15 @@ import Avatar from "@avatar"
 import IconRating from "@/components/icons/IconRating"
 
 import { getTestimonials } from "@/services"
+import { EnumTypeProvider } from "@/types/enum"
 
-function ItemProfile({ user }: { user: IUserOffer }) {
-  const { id, firstName, lastName, image } = user ?? {}
+function ItemProfile({ user, provider, targetId }: { user: IUserOffer; provider: EnumTypeProvider; targetId: number }) {
+  const { firstName, lastName, image } = user ?? {}
 
   const { data: dataTestimonials } = useQuery({
-    queryFn: () => getTestimonials({ receiver: id!, order: "DESC" }),
-    queryKey: ["testimonials", { receiver: id, order: "DESC" }],
-    enabled: !!id,
+    queryFn: () => getTestimonials({ target: targetId!, provider: provider, order: "DESC" }),
+    queryKey: ["testimonials", targetId],
+    enabled: !!targetId,
   })
 
   const rating = useMemo(() => {
@@ -44,7 +45,7 @@ function ItemProfile({ user }: { user: IUserOffer }) {
         </article>
         {rating ? (
           <div className="flex flex-row items-center">
-            <div className="w-4 h-4 p-[0.1875rem] flex items-center justify-center *:w-2.5 *:h-2.5">
+            <div className="relative w-4 h-4 p-[0.1875rem] flex items-center justify-center *:w-2.5 *:h-2.5">
               <IconRating />
             </div>
             <span className="text-text-accent text-xs font-medium">{rating?.toFixed(1)}</span>

@@ -3,6 +3,7 @@ import { ETitleRole } from "@/services/roles/types"
 import { type IPosts } from "@/services/posts/types"
 
 import IconShare from "@/components/icons/IconShare"
+import IconStar01 from "@/components/icons/IconStar-01"
 import IconComplaint from "@/components/icons/IconComplaint"
 import IconDotsHorizontal from "@/components/icons/IconDotsHorizontal"
 import IconCurrencyRubleCircle from "@/components/icons/IconCurrencyRubleCircle"
@@ -11,12 +12,13 @@ import { cx } from "@/lib/cx"
 import useRole from "@/helpers/is-role"
 import { daysAgo, useOutsideClickEvent } from "@/helpers"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
-import { dispatchComplaintModalPost, dispatchUpdatePost, displayAddAdvert, useAuth } from "@/store"
+import { dispatchAddTestimonials, dispatchComplaintModalPost, dispatchUpdatePost, displayAddAdvert, useAuth } from "@/store"
 
 const TITLE_UPDATE = "Редактировать"
 const TITLE_SHARE = "Поделиться"
 const TITLE_COMPLAINT = "Пожаловаться"
 const LABEL_ADD_ADVERT = "Добавить рекламу"
+const LABEL_REVIEW = "Оставить отзыв"
 
 interface IProps {
   post: IPosts
@@ -32,6 +34,10 @@ function ComponentDots({ post }: IProps) {
     url: `/post/${id}`,
     title: title! ?? "",
   })
+
+  function onReview() {
+    dispatchAddTestimonials({ post, provider: EnumTypeProvider.POST })
+  }
 
   return (
     <div data-time-dots className="w-full h-auto flex items-center justify-between relative">
@@ -107,6 +113,21 @@ function ComponentDots({ post }: IProps) {
               <IconShare />
             </div>
             <span>{TITLE_SHARE}</span>
+          </a>
+          <a
+            title={LABEL_REVIEW}
+            aria-label={LABEL_REVIEW}
+            aria-labelledby={LABEL_REVIEW}
+            className={cx((post?.userId === userId || !userId) && "!hidden")}
+            onClick={(event) => {
+              event.stopPropagation()
+              onReview()
+            }}
+          >
+            <div>
+              <IconStar01 />
+            </div>
+            <span>{LABEL_REVIEW}</span>
           </a>
           <a
             title={TITLE_COMPLAINT}

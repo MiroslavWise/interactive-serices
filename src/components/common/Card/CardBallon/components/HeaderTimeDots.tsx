@@ -4,6 +4,7 @@ import { ETitleRole } from "@/services/roles/types"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import IconShare from "@/components/icons/IconShare"
+import IconStar01 from "@/components/icons/IconStar-01"
 import IconComplaint from "@/components/icons/IconComplaint"
 import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 import IconCurrencyRubleCircle from "@/components/icons/IconCurrencyRubleCircle"
@@ -12,20 +13,26 @@ import { cx } from "@/lib/cx"
 import useRole from "@/helpers/is-role"
 import { daysAgo, useOutsideClickEvent } from "@/helpers"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
-import { dispatchComplaintModalOffer, displayAddAdvert } from "@/store"
+import { dispatchAddTestimonials, dispatchComplaintModalOffer, displayAddAdvert, useAuth } from "@/store"
 
 const TITLE_SHARE = "Поделиться"
 const TITLE_COMPLAINT = "Пожаловаться"
 const LABEL_ADD_ADVERT = "Добавить рекламу"
+const LABEL_REVIEW = "Оставить отзыв"
 
 function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
   const [visible, setVisible, ref] = useOutsideClickEvent()
   const isManager = useRole(ETitleRole.Manager)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const onShare = useNavigator({
     url: `/offer/${offer.id}/${offer.slug ? String(offer.slug).replaceAll("/", "-") : ""}`,
     title: offer.title! ?? "",
   })
+
+  function onReview() {
+    dispatchAddTestimonials({ offer, provider: offer.provider })
+  }
 
   return (
     <div data-time-dots className="w-full h-auto flex items-center justify-between">
@@ -62,6 +69,21 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
               <IconShare />
             </div>
             <span>{TITLE_SHARE}</span>
+          </a>
+          <a
+            title={LABEL_REVIEW}
+            aria-label={LABEL_REVIEW}
+            aria-labelledby={LABEL_REVIEW}
+            onClick={(event) => {
+              event.stopPropagation()
+              onReview()
+            }}
+            className={cx((offer?.userId === userId || !userId) && "!hidden")}
+          >
+            <div>
+              <IconStar01 />
+            </div>
+            <span>{LABEL_REVIEW}</span>
           </a>
           <a
             title={TITLE_COMPLAINT}

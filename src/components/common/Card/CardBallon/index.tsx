@@ -25,7 +25,7 @@ interface IProps {
 }
 
 function CardBallon({ offer, ref, className }: IProps) {
-  const { provider, description, images, addresses, user, category } = offer ?? {}
+  const { provider, description, images, addresses, user, category, id } = offer ?? {}
 
   function handleClick() {
     const [address] = addresses
@@ -62,9 +62,9 @@ function CardBallon({ offer, ref, className }: IProps) {
     <article
       className={cx(
         styles.container,
-        "w-full rounded-2xl cursor-pointer flex flex-col",
-        provider === EnumTypeProvider.offer && "bg-BG-second",
-        provider === EnumTypeProvider.alert && "bg-card-red",
+        "w-full cursor-pointer p-4 flex flex-col gap-3 border-solid border rounded-2xl",
+        provider === EnumTypeProvider.offer && "bg-BG-second border-grey-stroke-light",
+        provider === EnumTypeProvider.alert && "bg-card-red border-card-border-red",
         provider === EnumTypeProvider.discussion && "!hidden",
         className,
       )}
@@ -72,7 +72,6 @@ function CardBallon({ offer, ref, className }: IProps) {
         event.stopPropagation()
         handleClick()
       }}
-      ref={ref}
     >
       {/* <header
         className={cx(
@@ -85,26 +84,15 @@ function CardBallon({ offer, ref, className }: IProps) {
         </div>
         <span className="text-text-button text-xs font-medium">Щедрое сердце</span>
       </header> */}
-      <section
-        className={cx(
-          "w-full p-4 flex flex-col gap-3  border-solid",
-          // !!urgent ? "border-r border-l border-b rounded-b-2xl" :
-          "border rounded-2xl",
-          provider === EnumTypeProvider.offer && "border-grey-stroke-light",
-          provider === EnumTypeProvider.alert && "border-card-border-red",
-          // provider === EnumTypeProvider.discussion && "border-card-border-blue",
-        )}
-      >
-        <HeaderTimeDots offer={offer} />
-        <HeaderTitle offer={offer} />
-        <section className="overflow-hidden w-full flex flex-col gap-3">
-          <b className="text-text-primary text-base text-start font-medium">{category?.title ?? ""}</b>
-          <p className="text-text-primary text-sm font-normal line-clamp-4">{description}</p>
-        </section>
-        {replaceImageFiles.length > 0 ? <ItemImages images={replaceImageFiles} /> : null}
-        <GeoData offer={offer} />
-        <ItemProfile user={user} />
+      <HeaderTimeDots offer={offer} />
+      <HeaderTitle offer={offer} />
+      <section className="overflow-hidden w-full flex flex-col gap-3">
+        <b className="text-text-primary text-base text-start font-medium">{category?.title ?? ""}</b>
+        <p className="text-text-primary text-sm font-normal line-clamp-4">{description}</p>
       </section>
+      {replaceImageFiles.length > 0 ? <ItemImages images={replaceImageFiles} /> : null}
+      <GeoData offer={offer} />
+      <ItemProfile user={user} provider={provider} targetId={id!} />
     </article>
   )
 }

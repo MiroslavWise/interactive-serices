@@ -89,7 +89,7 @@ function VirtualList({ list, listPosts }: IProps) {
     : []
 
   return (
-    <ul className="relative w-full h-full resize max-md:px-5" data-test="ul-services-component">
+    <ul className="relative w-full h-full resize" data-test="ul-services-component">
       <Virtuoso
         totalCount={totalCount}
         data={data}
@@ -104,13 +104,9 @@ function VirtualList({ list, listPosts }: IProps) {
         className="scroll-no scroll-no-children"
         itemContent={(_, item) =>
           [EnumTypeProvider.alert, EnumTypeProvider.offer].includes(item.type) ? (
-            <CardBallon
-              key={`:k:of:${item?.item?.id!}:l:`}
-              offer={item?.item! as IResponseOffers}
-              className="mt-4 last:pb-4 max-md:last:pb-8"
-            />
+            <CardBallon key={`:k:of:${item?.item?.id!}:l:`} offer={item?.item! as IResponseOffers} className="mt-4" />
           ) : item.type === EnumTypeProvider.POST ? (
-            <CardPost key={`:k:p:${item?.item?.id!}:a:`} post={item?.item! as IPosts} className="mt-4 last:pb-4 max-md:last:pb-8" />
+            <CardPost key={`:k:p:${item?.item?.id!}:a:`} post={item?.item! as IPosts} className="mt-4" />
           ) : null
         }
       />

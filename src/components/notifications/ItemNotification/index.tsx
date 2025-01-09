@@ -528,12 +528,12 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
 
   function handleRecall() {
     serviceNotifications.patch({ enabled: true, read: true }, id!).then(() => refetch())
-    dispatchAddTestimonials({
-      user: resUser!,
-      barterId: data?.id!,
-      testimonials: dataTestimonials?.data!,
-      notificationId: id!,
-    })
+    // dispatchAddTestimonials({
+    //   user: resUser!,
+    //   barterId: data?.id!,
+    //   testimonials: dataTestimonials?.data!,
+    //   notificationId: id!,
+    // })
     dispatchModal(EModalData.CompletionTransaction)
     if (close) {
       close()

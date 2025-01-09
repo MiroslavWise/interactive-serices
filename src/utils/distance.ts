@@ -62,3 +62,28 @@ export function distancePure({ bounds, mapPoint }: IProps): boolean {
 
   return true
 }
+
+const deviation = 0.02
+
+/** Попадает ли точка в область */
+export function distancePureForMapSort({ bounds, mapPoint = [0, 0] }: IProps): boolean {
+  const topLeft = bounds[0]
+  const bottomRight = bounds[1]
+
+  const point = mapPoint
+
+  const [pointLat, pointLon] = point // Широта и долгота точки
+  const [minLat, maxLon] = topLeft // Минимальная широта и максимальная долгота
+  const [maxLat, minLon] = bottomRight // Максимальная широта и минимальная долгота
+
+  const expandedMinLat = minLat - deviation
+  const expandedMaxLat = maxLat + deviation
+  const expandedMinLon = minLon - deviation
+  const expandedMaxLon = maxLon + deviation
+
+  // Проверяем, находится ли точка в пределах расширенных границ
+  const isLatInBounds = pointLat >= expandedMinLat && pointLat <= expandedMaxLat
+  const isLonInBounds = pointLon >= expandedMinLon && pointLon <= expandedMaxLon
+
+  return isLatInBounds && isLonInBounds
+}

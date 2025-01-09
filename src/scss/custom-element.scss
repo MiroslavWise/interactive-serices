@@ -62,7 +62,7 @@
 .div-rainbow {
   background: conic-gradient(from 0deg, red, yellow, lime, aqua, blue, magenta, red);
   background-size: 100% 100%;
-  animation: rotateBackground 5s linear infinite;
+  animation: rotateBackground 8s linear infinite;
 }
 
 @keyframes rotateBackground {
@@ -71,5 +71,16 @@
   }
   to {
     transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+[data-testid="virtuoso-item-list"] {
+  &:last-child {
+    padding-bottom: 1rem;
+  }
+  @media screen and (max-width: 768px) {
+    &:last-child {
+      padding-bottom: 2rem;
+    }
   }
 }

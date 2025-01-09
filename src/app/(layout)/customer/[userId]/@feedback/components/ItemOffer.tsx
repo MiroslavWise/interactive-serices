@@ -3,7 +3,6 @@
 import { useQuery } from "@tanstack/react-query"
 
 import AOffer from "./AOffer"
-import IconReAccent from "@/components/icons/IconReAccent"
 
 import { getIdOffer } from "@/services"
 
@@ -20,14 +19,7 @@ function ItemOffer({ idOffer }: IProps) {
 
   const { data: offer } = data ?? {}
 
-  return (
-    <div className="w-full grid items-center grid-cols-[1rem_minmax(0,1fr)] gap-2.5">
-      <div className="w-4 h-4 relative p-2 flex items-center justify-center *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
-        <IconReAccent />
-      </div>
-      <AOffer offer={offer!} />
-    </div>
-  )
+  return <AOffer offer={offer!} />
 }
 
 ItemOffer.displayName = "ItemOffer"

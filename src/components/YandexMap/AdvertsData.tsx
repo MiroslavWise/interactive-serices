@@ -16,6 +16,9 @@ import { useOutsideClickEvent } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { getPostParticipants, patchPost } from "@/services/posts"
 import { dispatchAuthModal, dispatchBallonAlert, dispatchBallonOffer, dispatchBallonPost, useAuth } from "@/store"
+import { getTestimonials } from "@/services"
+import { DeclensionAllQuantityFeedback } from "@/lib/declension"
+import IconRating from "../icons/IconRating"
 
 interface IProps {
   isOpen: boolean
@@ -40,8 +43,20 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, images, description, 
   const [isOpenCompany, setIsOpenCompany, refCompany] = useOutsideClickEvent()
   const image = images.length > 0 ? images[0] : null
   const addressName = address?.additional ?? ""
-
   const { title: companyTitle, erid: companyErid, inn: companyInn } = company ?? {}
+
+  const targetId = provider === EnumTypeProvider.POST ? post?.id : offer?.id
+
+  const { data: testimonials } = useQuery({
+    queryFn: () => getTestimonials({ target: targetId!, provider: provider, order: "DESC" }),
+    queryKey: ["testimonials", targetId],
+    enabled: !!targetId && isOpen,
+  })
+
+  const list = testimonials?.data ?? []
+  const length = list.length
+  const rating = (list.reduce((acc, item) => acc + item.rating, 0) / (length || 1)).toFixed(1)
+  const countText = DeclensionAllQuantityFeedback(length)
 
   const {
     data: dataP,
@@ -133,7 +148,19 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, images, description, 
           <h2 className="text-text-primary text-sm font-medium line-clamp-2 text-ellipsis cursor-pointer" onClick={handle}>
             {title}
           </h2>
-          <span className="text-text-secondary text-xs font-light whitespace-nowrap">Ещё нет отзывов</span>
+          {length > 0 ? (
+            <div className="flex flex-row items-center gap-1">
+              <div className="w-min flex flex-row items-center">
+                <div className="relative w-4 h-4 *:w-2.5 *:h-2.5">
+                  <IconRating />
+                </div>
+                <span className="whitespace-nowrap text-text-accent text-xs">{rating}</span>
+              </div>
+              <span className="text-text-secondary text-xs">{countText}</span>
+            </div>
+          ) : (
+            <span className="text-text-secondary text-xs font-light whitespace-nowrap">Ещё нет отзывов</span>
+          )}
         </div>
         <div className={cx("rounded-md overflow-hidden w-10 h-10 cursor-pointer", image ? "relative" : "hidden")} onClick={handle}>
           {image ? (

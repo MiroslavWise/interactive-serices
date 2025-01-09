@@ -6,23 +6,26 @@ import { ETitleRole } from "@/services/roles/types"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import IconMap from "@/components/icons/IconMap"
+import IconStar01 from "@/components/icons/IconStar-01"
 import IconActivity from "@/components/icons/IconActivity"
 import IconAlertCircle from "@/components/icons/IconAlertCircle"
+import IconCurrencyRubleCircle from "@/components/icons/IconCurrencyRubleCircle"
 
 import { cx } from "@/lib/cx"
 import useRole from "@/helpers/is-role"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
-import { dispatchComplaintModalOffer, dispatchMapCoordinates, displayAddAdvert } from "@/store"
-import IconCurrencyRubleCircle from "@/components/icons/IconCurrencyRubleCircle"
+import { dispatchAddTestimonials, dispatchComplaintModalOffer, dispatchMapCoordinates, displayAddAdvert, useAuth } from "@/store"
 
 const LABEL_MAP = "Показать на карте"
 const LABEL_SHARE = "Поделиться"
 const LABEL_COMPLAIN = "Пожаловаться"
 const LABEL_ADD_ADVERT = "Добавить рекламу"
+const LABEL_REVIEW = "Оставить отзыв"
 
 export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visible: boolean }) => {
-  const { user, id, addresses, title, slug } = offer ?? {}
+  const { user, id, addresses, title, slug, userId: offerUserId, provider } = offer ?? {}
   const isManager = useRole(ETitleRole.Manager)
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
   const pathname = usePathname()
   const { push } = useRouter()
@@ -43,6 +46,10 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
     url: `/offer/${id}/${slug ? String(slug).replaceAll("/", "-") : ""}`,
     title: title! ?? "",
   })
+
+  function onReview() {
+    dispatchAddTestimonials({ offer, provider: provider })
+  }
 
   return (
     <article
@@ -89,7 +96,19 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
         >
           <IconActivity />
         </div>
-        <span className="text-text-primary text-sm font-normal text-left">Поделиться</span>
+        <span className="text-text-primary text-sm font-normal text-left">{LABEL_SHARE}</span>
+      </a>
+      <a
+        onClick={onReview}
+        title={LABEL_REVIEW}
+        aria-label={LABEL_REVIEW}
+        aria-labelledby={LABEL_REVIEW}
+        className={cx((offerUserId === userId || !userId) && "!hidden")}
+      >
+        <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
+          <IconStar01 />
+        </div>
+        <span className="text-text-primary text-sm font-normal text-left">{LABEL_REVIEW}</span>
       </a>
       <a onClick={handle} title={LABEL_COMPLAIN} aria-label={LABEL_COMPLAIN} aria-labelledby={LABEL_COMPLAIN}>
         <div

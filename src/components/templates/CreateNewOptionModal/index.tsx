@@ -44,6 +44,7 @@ import {
 } from "./utils/create.schema"
 import { headerTitle, placeholderDescription, titleContent, description, titlePlaceholderContent } from "./constants/titles"
 import { getUserIdOffers, patchOffer, postOffer, fileUploadService, getGeocodeSearch, getOffersCategories, postAddress } from "@/services"
+import ControlTitle from "./components/ControlTitle"
 
 export default function CreateNewOptionModal() {
   const [loading, setLoading] = useState(false)
@@ -257,28 +258,9 @@ export default function CreateNewOptionModal() {
           data-enum-form={`from-create-new-option-${typeAdd}`}
           className="w-full h-full overflow-y-auto flex flex-col items-center gap-4 md:gap-5 overflow-x-hidden"
         >
-          {[EnumTypeProvider.alert, EnumTypeProvider.offer].includes(typeAdd!) ? (
-            <Controller
-              name="title"
-              control={control}
-              render={({ field, fieldState: { error } }) => (
-                <fieldset id="fieldset-create-option-modal-offer" data-test="fieldset-create-new-option-title">
-                  <label htmlFor={field.name}>{titleContent(typeAdd!)}</label>
-                  <input
-                    {...field}
-                    onChange={(event) => field.onChange(event.target.value.replace(/\s{2,}/g, " "))}
-                    type="text"
-                    placeholder={titlePlaceholderContent(typeAdd!)}
-                    data-error={!!error}
-                    maxLength={typeAdd === EnumTypeProvider.offer ? 52 : LIMIT_TITLE}
-                  />
-                  {!!error ? <i>{error.message}</i> : null}
-                </fieldset>
-              )}
-            />
-          ) : null}
-          {visible && step === 2 && <ArticleOnboarding />}
-          {visible && step === 2.5 && <ArticleOnboarding />}
+          <ControlTitle control={control} typeAdd={typeAdd!} />
+          {/* {visible && step === 2 && <ArticleOnboarding />} */}
+          {/* {visible && step === 2.5 && <ArticleOnboarding />} */}
           <Controller
             name="description"
             control={control}
@@ -306,9 +288,9 @@ export default function CreateNewOptionModal() {
           {[EnumTypeProvider.offer].includes(typeAdd!) ? (
             <ControllerCategory control={control} visible={visible} disabled={visible && step !== 2.5} setValue={setValue} />
           ) : null}
-          {visible && step === 3 && <ArticleOnboarding />}
+          {/* {visible && step === 3 && <ArticleOnboarding />} */}
           <ControlFileAppend control={control} visible={visible} step={step} loading={loading} typeAdd={typeAdd!} progress={progress} />
-          {visible && [4, 5].includes(step) && <ArticleOnboarding />}
+          {/* {visible && [4, 5].includes(step) && <ArticleOnboarding />} */}
           <ControlAddress control={control} watch={watch("address")} trigger={trigger} setValue={setValue} errors={errors} />
           {/* {env!?.server!?.host!?.includes("dev") && (
             <section className="w-full flex flex-col gap-2.5">
