@@ -25,7 +25,7 @@ interface IProps {
 }
 
 function CardBallon({ offer, ref, className }: IProps) {
-  const { provider, description, images, addresses, user, category } = offer ?? {}
+  const { provider, description, images, addresses, user, category, id } = offer ?? {}
 
   function handleClick() {
     const [address] = addresses
@@ -103,7 +103,7 @@ function CardBallon({ offer, ref, className }: IProps) {
         </section>
         {replaceImageFiles.length > 0 ? <ItemImages images={replaceImageFiles} /> : null}
         <GeoData offer={offer} />
-        <ItemProfile user={user} offer={offer} />
+        <ItemProfile user={user} provider={provider} targetId={id!} />
       </section>
     </article>
   )

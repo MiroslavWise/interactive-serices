@@ -3,20 +3,21 @@
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import { IResponseOffers, IUserOffer } from "@/services/offers/types"
+import { IUserOffer } from "@/services/offers/types"
 
 import Avatar from "@avatar"
 import IconRating from "@/components/icons/IconRating"
 
 import { getTestimonials } from "@/services"
+import { EnumTypeProvider } from "@/types/enum"
 
-function ItemProfile({ user, offer }: { user: IUserOffer; offer: IResponseOffers }) {
+function ItemProfile({ user, provider, targetId }: { user: IUserOffer; provider: EnumTypeProvider; targetId: number }) {
   const { firstName, lastName, image } = user ?? {}
-  const { id: offerId, provider } = offer ?? {}
 
   const { data: dataTestimonials } = useQuery({
-    queryFn: () => getTestimonials({ target: offerId!, provider: provider, order: "DESC" }),
-    queryKey: ["testimonials", offerId],
+    queryFn: () => getTestimonials({ target: targetId!, provider: provider, order: "DESC" }),
+    queryKey: ["testimonials", targetId],
+    enabled: !!targetId,
   })
 
   const rating = useMemo(() => {

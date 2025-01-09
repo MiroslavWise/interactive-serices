@@ -85,7 +85,7 @@ function CardPost({ post, className, ref }: IProps) {
           <CommentsCount id={id!} />
         </div>
         <GeoData post={post} />
-        <ItemProfile user={user} />
+        <ItemProfile user={user} provider={EnumTypeProvider.POST} targetId={id!} />
       </section>
     </article>
   )
