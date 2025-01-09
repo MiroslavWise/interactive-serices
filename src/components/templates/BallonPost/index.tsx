@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { ReactNode, useState } from "react"
 
 import ListNotes from "./components/ListNotes"
 import IconPost from "@/components/icons/IconPost"
@@ -15,7 +15,6 @@ import { TTypeNavigatePost } from "./utils/schema"
 function BallonPost() {
   const data = useBalloonPost(({ data }) => data)
   const { title, archive, urgent, id, isParticipants } = data ?? {}
-
   const [state, setState] = useState<TTypeNavigatePost>("notes")
 
   function handleToComments() {
@@ -24,6 +23,12 @@ function BallonPost() {
 
   function handleToNote(id: number) {
     setState("notes")
+  }
+
+  const obj: Record<TTypeNavigatePost, ReactNode> = {
+    notes: <ListNotes handleToComments={handleToComments} />,
+    comments: <ListCommentsPost post={data!} handleToNote={handleToNote} />,
+    participants: <ComponentParticipants postUserId={data?.userId!} id={id!} title={title ?? ""} isParticipant={!!isParticipants} />,
   }
 
   return (
@@ -50,13 +55,7 @@ function BallonPost() {
           <ComponentProfilePost post={data!} />
           <ContextComments>
             <NavigationNoteAndComments post={data!} {...{ state, setState }} />
-            {state === "notes" ? (
-              <ListNotes handleToComments={handleToComments} />
-            ) : state === "comments" ? (
-              <ListCommentsPost post={data!} handleToNote={handleToNote} />
-            ) : state === "participants" ? (
-              <ComponentParticipants postUserId={data?.userId!} id={id!} title={title ?? ""} isParticipant={!!isParticipants} />
-            ) : null}
+            {obj[state]}
           </ContextComments>
         </ul>
       </section>
