@@ -92,15 +92,15 @@ function Marker({ properties, geometry, reactifiedApi, is }: FeatureCluster) {
           >
             <section className="flex flex-col h-min">
               <p className="text-[#000] line-clamp-1 text-ellipsis text-sm font-medium">{title}</p>
-              {company ? (
+              <time className="text-text-secondary text-[0.8125rem] line-clamp-1 text-ellipsis font-normal leading-4">
+                {formatOfMMM(created ?? "")}
+              </time>
+              {/* {company ? (
                 <span className="text-text-secondary text-[0.625rem] line-clamp-2 text-ellipsis font-light leading-3">
                   <span className="text-text-disabled">Реклама:</span> {companyTitle} {companyErid} {companyInn}
                 </span>
               ) : (
-                <time className="text-text-secondary text-[0.8125rem] line-clamp-1 text-ellipsis font-normal leading-4">
-                  {formatOfMMM(created ?? "")}
-                </time>
-              )}
+              )} */}
             </section>
           </div>
         )}
