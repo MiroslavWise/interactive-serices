@@ -60,10 +60,9 @@
 }
 
 .div-rainbow {
-  background: conic-gradient(from 0deg, var(--element-accent-1), #e836e1);
+  background: linear-gradient(to right, rgba(47, 31, 161, 1), rgba(153, 24, 213, 1), rgba(255, 37, 246, 1));
   background-size: 100% 100%;
   animation: rotateBackground 8s linear infinite;
-  filter: blur(1px);
 }
 
 @keyframes rotateBackground {

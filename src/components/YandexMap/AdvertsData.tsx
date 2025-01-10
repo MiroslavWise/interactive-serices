@@ -2,23 +2,24 @@ import { useQuery } from "@tanstack/react-query"
 import { useEffect, useRef, type SetStateAction, Dispatch, useState } from "react"
 
 import { type IImageData } from "@/types/type"
-import { EnumSign, EnumTypeProvider } from "@/types/enum"
 import { type IPosts } from "@/services/posts/types"
 import { type ICompany } from "@/services/types/company"
+import { EnumSign, EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 import { type IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 
 import Button from "../common/Button"
 import { NextImageMotion } from "../common"
+import IconRating from "../icons/IconRating"
 
 import { cx } from "@/lib/cx"
+import { getTestimonials } from "@/services"
+import { ButtonToChat } from "./AdvertsButtons"
 import { useOutsideClickEvent } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
+import { DeclensionAllQuantityFeedback } from "@/lib/declension"
 import { getPostParticipants, patchPost } from "@/services/posts"
 import { dispatchAuthModal, dispatchBallonAlert, dispatchBallonOffer, dispatchBallonPost, useAuth } from "@/store"
-import { getTestimonials } from "@/services"
-import { DeclensionAllQuantityFeedback } from "@/lib/declension"
-import IconRating from "../icons/IconRating"
 
 interface IProps {
   isOpen: boolean
@@ -34,7 +35,7 @@ interface IProps {
   post?: IPosts
 }
 
-function AdvertsData({ provider, isOpen, setIsOpen, title, images, description, address, company, offer, post }: IProps) {
+function AdvertsData({ provider, isOpen, setIsOpen, title, images, address, company, offer, post }: IProps) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [loading, setLoading] = useState(false)
   const { on } = useToast()
@@ -145,7 +146,7 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, images, description, 
     >
       <header className={cx("w-full grid gap-3 items-start", image ? "grid-cols-[minmax(0,1fr)_2.5rem]" : "grid-cols-[minmax(0,1fr)]")}>
         <div className="w-full flex flex-col items-start justify-between gap-1">
-          <h2 className="text-text-primary text-sm font-medium line-clamp-2 text-ellipsis cursor-pointer" onClick={handle}>
+          <h2 className="text-text-primary text-sm font-semibold line-clamp-2 text-ellipsis cursor-pointer" onClick={handle}>
             {title}
           </h2>
           {length > 0 ? (
@@ -212,6 +213,7 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, images, description, 
             disabled={loading || isLoading || is}
           />
         )}
+        {provider === EnumTypeProvider.offer && <ButtonToChat offer={offer!} />}
       </footer>
     </article>
   )
