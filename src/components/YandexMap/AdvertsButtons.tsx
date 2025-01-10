@@ -57,7 +57,7 @@ function ButtonToChat({ offer }: IPropsButtonToChat) {
     }
   }
 
-  return userId !== offer?.userId && !!userId ? (
+  return userId !== offer?.userId ? (
     <Button
       label="Перейти в чат"
       type="button"
