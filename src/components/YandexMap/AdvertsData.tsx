@@ -205,7 +205,7 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, images, address, comp
             type="button"
             typeButton="fill-primary"
             style={{ backgroundColor: "var(--card-svg-yellow) !important" }}
-            className="rounded-lg px-2.5 w-min hover:opacity-85 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="rounded-lg px-2.5 w-min hover:opacity-85 disabled:opacity-50 disabled:cursor-not-allowed *:font-normal h-9"
             onClick={(event) => {
               event.stopPropagation()
               handleBecomeMember()
