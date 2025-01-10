@@ -4,7 +4,7 @@ export default () => (
     height="22"
     viewBox="0 0 22 22"
     fill="none"
-    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6"
+    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 z-20"
     id={`${Math.random()}`}
   >
     <path

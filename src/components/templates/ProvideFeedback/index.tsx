@@ -160,7 +160,7 @@ function ProvideFeedback() {
                 {[1, 2, 3, 4, 5].map((item) => (
                   <article
                     key={`:key:item:star:${item}:`}
-                    className={cx("cursor-pointer w-6 h-6 p-3", item <= field.value ? "grayscale-0" : "grayscale")}
+                    className={cx("cursor-pointer w-6 h-6 p-3 relative z-10", item <= field.value ? "grayscale-0" : "grayscale")}
                     onClick={(event) => field.onChange(item)}
                   >
                     <IconStar />
