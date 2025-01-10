@@ -30,6 +30,7 @@ import { getSearch } from "@/services/search"
 import { SERVICES } from "../../BannerServices/constants"
 
 import styles from "./styles/style.module.scss"
+import { EnumTypeProvider } from "@/types/enum"
 
 export default function SearchCategory() {
   const [loading, setLoading] = useState(false)
@@ -162,21 +163,6 @@ export default function SearchCategory() {
             <IconXClose />
           </button>
         </div>
-        <button
-          type="button"
-          data-filter
-          className={cx(
-            "w-12 h-12 p-6 relative rounded-full border border-solid border-grey-stroke bg-BG-second",
-            "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 *:z-[2]",
-          )}
-          onClick={(event) => {
-            event.stopPropagation()
-            dispatchActiveFilterScreen(true)
-            dispatchMobileSearchCategoryVisible(true)
-          }}
-        >
-          <IconFilters />
-        </button>
       </header>
       <section className={cx("w-full h-[calc(100%_-_6rem)] overflow-x-hidden overflow-y-auto")} ref={refSection}>
         <article
@@ -202,7 +188,7 @@ export default function SearchCategory() {
             ))}
           </div>
           <TimesFilter />
-          {activeFilters.length ? <ActiveFilters activeFilters={activeFilters} /> : null}
+          {activeFilters.length && providers == EnumTypeProvider.offer ? <ActiveFilters activeFilters={activeFilters} /> : null}
         </article>
         <ServicesMobile posts={valuesPosts} offers={valuesOffers} isSearch={!!input.trim()} loading={loadingSearch} />
       </section>

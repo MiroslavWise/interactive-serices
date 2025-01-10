@@ -74,8 +74,8 @@ function Marker({ properties, geometry, reactifiedApi, is }: FeatureCluster) {
         {urgent ? (
           <div
             className={cx(
-              "-z-[1] [background:var(--more-red-gradient)] rounded-r-md py-1.5 pr-2.5 pl-6 grid-cols-[1rem_minmax(0,1fr)] gap-2 items-center absolute w-max max-w- left-0 top-1/2 pointer-events-none translate-x-3.5 -translate-y-1/2 transition-opacity opacity-0 group-hover:opacity-100",
-              isAdvertising ? "hidden" : "grid",
+              "-z-[1] [background:var(--more-red-gradient)] grid rounded-r-md py-1.5 pr-2.5 pl-6 grid-cols-[1rem_minmax(0,1fr)] gap-2 items-center absolute w-max max-w- left-0 top-1/2 pointer-events-none translate-x-3.5 -translate-y-1/2",
+              !isAdvertising && "transition-opacity opacity-0 group-hover:opacity-100",
             )}
           >
             <div className="w-4 h-4 relative p-2">
@@ -86,8 +86,8 @@ function Marker({ properties, geometry, reactifiedApi, is }: FeatureCluster) {
         ) : (
           <div
             className={cx(
-              "div-alert-text bg-text-button absolute w-max left-0 top-1/2 pointer-events-none translate-x-3.5 -translate-y-1/2 transition-opacity opacity-0 group-hover:opacity-100",
-              isAdvertising ? "hidden" : "flex",
+              "flex div-alert-text bg-text-button absolute w-max left-0 top-1/2 pointer-events-none translate-x-3.5 -translate-y-1/2",
+              !isAdvertising && "transition-opacity opacity-0 group-hover:opacity-100",
             )}
           >
             <section className="flex flex-col h-min">
