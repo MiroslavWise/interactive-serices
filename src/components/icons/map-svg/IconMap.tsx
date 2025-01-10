@@ -9,6 +9,7 @@ import Posts from "./posts"
 
 /** @deprecated */
 import IconPost from "@/components/icons/IconPost"
+import IconCategoryDefault from "../IconCategoryDefault"
 import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
 
 interface IProps {
@@ -28,7 +29,7 @@ const prov = {
 const icon = (value: EnumTypeProvider) => (prov.hasOwnProperty(value!) ? prov[value!]! : (urgent: boolean) => null)
 
 const Rainbow = {
-  [EnumTypeProvider.offer]: <img src="/svg/category/default.svg" alt="offer" width={32} height={32} className="w-8 h-8" />,
+  [EnumTypeProvider.offer]: <IconCategoryDefault />,
   [EnumTypeProvider.alert]: <IconAlertCirlceRed />,
   [EnumTypeProvider.POST]: <IconPost />,
 } as Record<EnumTypeProvider, ReactElement>

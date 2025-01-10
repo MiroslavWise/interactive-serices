@@ -59,3 +59,39 @@ export enum EnumProviderThreads {
 export enum EStatusAuth {
   NOT_AUTHORIZATION = "Not Authorization",
 }
+
+/** Наименование действия и ссылка на это действие */
+export interface EActionCompany {
+  action: EAdvertsButton
+  url: string
+}
+
+/** Дополнительная кнопка действия для рекламных публикаций */
+export enum EAdvertsButton {
+  /** Сайт */
+  WEBSITE = "website",
+  /** Подробнее */
+  READ_MORE = "read-more",
+  /** Перейти в чат */
+  GO_TO_CHAT = "go-to-chat",
+  /** Позвонить */
+  CALL = "call",
+  /** Позвонить по WhatsApp */
+  CALL_ON_WHATSAPP = "call-on-whatsapp",
+  /** Стать участником */
+  BECOME_A_MEMBER = "become-a-member",
+  /** Записаться */
+  ENROLLING = "enrolling",
+  /** Зарегистрироваться */
+  SIGN_UP = "sign-up",
+  /** Купить */
+  BUY = "buy",
+  /** Заказать */
+  ORDER = "order",
+  /** Канал в Telegram */
+  TELEGRAM_CHANNEL = "telegram-channel",
+  /** Задать вопрос */
+  ASK_A_QUESTION = "ask-a-question",
+  /** Перейти к обсуждению */
+  GO_TO_DISCUSSION = "go-to-discussion",
+}

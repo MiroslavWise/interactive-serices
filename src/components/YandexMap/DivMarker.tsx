@@ -12,6 +12,8 @@ import { type IAddressesResponse } from "@/services/addresses/types/serviceAddre
 import AdvertsData from "./AdvertsData"
 
 import { cx } from "@/lib/cx"
+import IconHelp from "../icons/IconHelp"
+import { formatOfMMM } from "@/helpers/functions/daysAgo"
 
 interface IProps {
   isAdvertising: boolean
@@ -43,12 +45,16 @@ function DivMarker({
 }: PropsWithChildren<IProps>) {
   const [isOpen, setIsOpen] = useState(false)
 
+  const urgent = provider === EnumTypeProvider.POST ? !!post?.urgent : !!offer?.urgent
+  const created = provider === EnumTypeProvider.POST ? post?.updated ?? post?.created : offer?.updated ?? offer?.created
+
   return (
     <div
       onClick={(event) => {
         event.stopPropagation()
         setIsOpen(true)
       }}
+      onMouseOver={() => setIsOpen(true)}
       className={cx(
         "absolute z-30 -translate-x-1/2 -translate-y-1/2 max-md:scale-75 group",
         isAdvertising ? "w-[2.1875rem] h-[2.1875rem]" : "w-[2.1875rem] h-[2.5625rem]",
@@ -73,6 +79,33 @@ function DivMarker({
         />
       )}
       {children}
+      {urgent ? (
+        <div
+          className={cx(
+            "-z-[1] [background:var(--more-red-gradient)] grid rounded-r-md py-1.5 pr-2.5 pl-6 grid-cols-[1rem_minmax(0,1fr)] gap-2 items-center absolute w-max max-w- left-0 top-1/2 pointer-events-none translate-x-3.5 -translate-y-1/2",
+            !isAdvertising && "transition-opacity opacity-0 group-hover:opacity-100",
+          )}
+        >
+          <div className="w-4 h-4 relative p-2">
+            <IconHelp />
+          </div>
+          <span className="text-xs text-text-button font-medium line-clamp-1 text-ellipsis">{title ?? "Щедрое сердце"}</span>
+        </div>
+      ) : (
+        <div
+          className={cx(
+            "flex div-alert-text bg-text-button absolute w-max left-0 top-1/2 pointer-events-none translate-x-3.5 -translate-y-1/2",
+            !isAdvertising && "transition-opacity opacity-0 group-hover:opacity-100",
+          )}
+        >
+          <section className="flex flex-col h-min">
+            <p className="text-[#000] line-clamp-1 text-ellipsis text-sm font-medium">{title}</p>
+            <time className="text-text-secondary text-[0.8125rem] line-clamp-1 text-ellipsis font-normal leading-4">
+              {formatOfMMM(created ?? "")}
+            </time>
+          </section>
+        </div>
+      )}
     </div>
   )
 }
