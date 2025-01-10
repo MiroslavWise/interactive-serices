@@ -43,7 +43,7 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, images, description, 
   const [isOpenCompany, setIsOpenCompany, refCompany] = useOutsideClickEvent()
   const image = images.length > 0 ? images[0] : null
   const addressName = address?.additional ?? ""
-  const { title: companyTitle, erid: companyErid, inn: companyInn } = company ?? {}
+  const { title: companyTitle, erid: companyErid, inn: companyInn, ad } = company ?? {}
 
   const targetId = provider === EnumTypeProvider.POST ? post?.id : offer?.id
 
@@ -176,7 +176,7 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, images, description, 
       <p className="text-text-secondary text-xs font-normal line-clamp-3 text-ellipsis cursor-pointer" onClick={handle}>
         {addressName}
       </p>
-      <p className="text-text-primary text-xs font-normal line-clamp-4">{description}</p>
+      <p className={cx(!!ad && "text-text-primary text-xs font-normal line-clamp-4")}>{ad}</p>
       <span
         className="relative text-[0.625rem] font-light text-text-disabled cursor-pointer -mt-1 w-fit"
         ref={refCompany}
