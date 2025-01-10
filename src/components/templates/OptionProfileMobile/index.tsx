@@ -5,24 +5,17 @@ import { useSwipeable } from "react-swipeable"
 import Button from "@/components/common/Button"
 
 import { cx } from "@/lib/cx"
-import {
-  useOptionProfileMobile,
-  dispatchOptionProfileMobile,
-  dispatchOnboarding,
-  dispatchMobileChangeAbout,
-  dispatchModal,
-  EModalData,
-} from "@/store"
+import { useOptionProfileMobile, dispatchOptionProfileMobile, dispatchMobileChangeAbout, dispatchModal, EModalData } from "@/store"
 
 import styles from "./style.module.scss"
 
 export const OptionProfileMobile = () => {
   const visible = useOptionProfileMobile(({ visible }) => visible)
 
-  function handleOpen() {
-    dispatchOnboarding("open")
-    dispatchOptionProfileMobile(false)
-  }
+  // function handleOpen() {
+  //   dispatchOnboarding("open")
+  //   dispatchOptionProfileMobile(false)
+  // }
 
   function handleChangeAbout() {
     dispatchMobileChangeAbout(true)
@@ -48,14 +41,14 @@ export const OptionProfileMobile = () => {
         <div data-line-gray />
         <div data-buttons>
           <Button type="button" typeButton="regular-primary" label="Изменить описание обо мне" onClick={handleChangeAbout} />
-          <Button
+          {/* <Button
             type="button"
             typeButton="regular-primary"
             label="Обучение"
             prefixIcon={<img src="/svg/graduation-cap-primary.svg" alt="g" width={24} height={24} />}
             onClick={handleOpen}
             data-test="button-option-profile-mobile-on-modal-onboarding"
-          />
+          /> */}
         </div>
         <article>
           <div>
