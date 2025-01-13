@@ -31,6 +31,7 @@ function Marker({ properties, geometry, reactifiedApi, is }: FeatureCluster) {
     provider === EnumTypeProvider.POST ? post?.notes?.find((note) => note.main)?.description ?? "" : offer?.description ?? ""
   const address = provider === EnumTypeProvider.POST ? post?.addresses?.[0]! : offer?.addresses?.[0]!
 
+  const { image } = company ?? {}
   const isAdvertising = !!company
 
   return (
@@ -39,7 +40,7 @@ function Marker({ properties, geometry, reactifiedApi, is }: FeatureCluster) {
         isAdvertising={isAdvertising}
         provider={provider}
         title={title! ?? ""}
-        images={images}
+        image={image}
         description={description}
         address={address}
         company={company!}
@@ -50,6 +51,7 @@ function Marker({ properties, geometry, reactifiedApi, is }: FeatureCluster) {
           isAdvertising={isAdvertising}
           provider={provider}
           urgent={urgent}
+          image={image}
           onClick={() => {
             if (provider === EnumTypeProvider.offer) {
               dispatchBallonOffer({ offer: offer! })

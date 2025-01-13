@@ -1,6 +1,6 @@
 import { type IServiceOffers } from "./types"
 import { wrapperPatch, fetchGet, post } from "../request"
-import { TSchemaAdvert } from "@/components/templates/AddAdverts/schema"
+import { EAdvertsButton } from "@/types/enum"
 
 const url = "/offers"
 
@@ -12,5 +12,15 @@ export const getUserIdOffers: IServiceOffers["getUserId"] = (id, query, isInvali
 
 export const postOffer: IServiceOffers["post"] = (body) => post({ url, body }, true)
 
+export interface IBodyAdvert {
+  title?: string
+  ad?: string
+  erid?: string
+  inn?: string
+  ogrn?: string
+  imageId?: number
+  actions?: [EAdvertsButton, string]
+}
+
 /** Запрос для модератора */
-export const patchAdvertOffer = (id: number, body: TSchemaAdvert) => wrapperPatch({ url, body: { company: body }, id })
+export const patchAdvertOffer = (id: number, body: IBodyAdvert) => wrapperPatch({ url, body: { company: body }, id })

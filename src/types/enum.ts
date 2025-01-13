@@ -95,3 +95,21 @@ export enum EAdvertsButton {
   /** Перейти к обсуждению */
   GO_TO_DISCUSSION = "go-to-discussion",
 }
+
+export const advertsButtonLabels: Record<EAdvertsButton, string> = {
+  [EAdvertsButton.WEBSITE]: "Сайт",
+  [EAdvertsButton.READ_MORE]: "Подробнее",
+  [EAdvertsButton.GO_TO_CHAT]: "Перейти в чат",
+  [EAdvertsButton.CALL]: "Позвонить",
+  [EAdvertsButton.CALL_ON_WHATSAPP]: "Позвонить по WhatsApp",
+  [EAdvertsButton.BECOME_A_MEMBER]: "Стать участником",
+  [EAdvertsButton.ENROLLING]: "Записаться",
+  [EAdvertsButton.SIGN_UP]: "Зарегистрироваться",
+  [EAdvertsButton.BUY]: "Купить",
+  [EAdvertsButton.ORDER]: "Заказать",
+  [EAdvertsButton.TELEGRAM_CHANNEL]: "Канал в Telegram",
+  [EAdvertsButton.ASK_A_QUESTION]: "Задать вопрос",
+  [EAdvertsButton.GO_TO_DISCUSSION]: "Перейти к обсуждению",
+}
+
+export const arrayAdvertsButtonLabels = Object.entries(advertsButtonLabels) as [EAdvertsButton, string][]

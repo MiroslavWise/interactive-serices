@@ -21,7 +21,7 @@ interface IProps {
   title: string
   description: string
   address: IAddressesResponse
-  images: IImageData[]
+  image?: IImageData
   company: ICompany
   /** @deprecated
    * offer
@@ -36,7 +36,7 @@ function DivMarker({
   isAdvertising,
   provider,
   title,
-  images,
+  image,
   description,
   address,
   company,
@@ -66,7 +66,7 @@ function DivMarker({
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           title={title}
-          images={images}
+          image={image}
           description={description}
           address={address}
           company={company}

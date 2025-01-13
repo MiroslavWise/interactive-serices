@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation"
 
+import { EnumTypeProvider } from "@/types/enum"
 import { ETitleRole } from "@/services/roles/types"
 import { type IResponseOffers } from "@/services/offers/types"
 
@@ -126,7 +127,7 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
         title={LABEL_ADD_ADVERT}
         aria-label={LABEL_ADD_ADVERT}
         aria-labelledby={LABEL_ADD_ADVERT}
-        className={cx(!isManager && "!hidden")}
+        className={cx(!isManager && provider === EnumTypeProvider.offer && "!hidden")}
       >
         <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
           <IconCurrencyRubleCircle />

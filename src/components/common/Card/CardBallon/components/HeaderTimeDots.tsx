@@ -14,6 +14,7 @@ import useRole from "@/helpers/is-role"
 import { daysAgo, useOutsideClickEvent } from "@/helpers"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
 import { dispatchAddTestimonials, dispatchComplaintModalOffer, displayAddAdvert, useAuth } from "@/store"
+import { EnumTypeProvider } from "@/types/enum"
 
 const TITLE_SHARE = "Поделиться"
 const TITLE_COMPLAINT = "Пожаловаться"
@@ -112,7 +113,7 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
               displayAddAdvert(offer?.provider!, offer?.id!)
               setVisible(false)
             }}
-            className={cx(!isManager && "!hidden")}
+            className={cx(!isManager && offer.provider === EnumTypeProvider.offer && "!hidden")}
           >
             <div>
               <IconCurrencyRubleCircle />
