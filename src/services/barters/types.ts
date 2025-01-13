@@ -4,6 +4,7 @@ import { EnumHelper, EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 import { type IAddressesResponse } from "../addresses/types/serviceAddresses"
 import { type IResponseOffersCategories } from "../offers-categories/types"
 import { IResponse } from "../request/types"
+import { ICompany } from "../types/company"
 
 export interface ISmallDataOfferBarter {
   id: number
@@ -24,6 +25,7 @@ export interface ISmallDataOfferBarter {
   categories: number[]
   user: IUserOffer
   urgent?: EnumHelper
+  company?: ICompany
 }
 
 export interface IBarterResponse {

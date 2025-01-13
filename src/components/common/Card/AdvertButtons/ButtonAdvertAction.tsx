@@ -1,7 +1,6 @@
 import Link from "next/link"
 
 import { TTypeActionCompany } from "@/services/types/company"
-
 import { advertsButtonLabels, EAdvertsButton, EnumSign } from "@/types/enum"
 
 import { useToast } from "@/helpers/hooks/useToast"
@@ -11,13 +10,13 @@ const buttonCN =
   "relative bg-grey-field border-none outline-none flex flex-row items-center justify-center cursor-pointer touch-manipulation rounded-lg px-2.5 w-min hover:opacity-85 disabled:opacity-50 disabled:cursor-not-allowed *:font-normal h-9"
 const textCN = "text-sm text-center whitespace-nowrap font-normal selection:bg-transparent text-text-primary"
 
-function ButtonAdvertAction({ actions }: { actions?: TTypeActionCompany }) {
+function ButtonAdvertAction({ actions }: { actions?: TTypeActionCompany[] }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { on } = useToast()
 
-  if (!actions) return null
+  if (!actions || (actions && actions.length === 0)) return null
 
-  const [enumType, url = ""] = actions
+  const [enumType, url = ""] = actions[0]
 
   if (EAdvertsButton.CALL === enumType)
     return (

@@ -9,6 +9,6 @@ export interface ICompany {
   erid?: string
   inn?: string
   ogrn?: string
-  actions?: TTypeActionCompany
+  actions?: TTypeActionCompany[]
   image?: IImageData
 }

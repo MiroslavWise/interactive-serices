@@ -19,7 +19,10 @@ function AdvertButtons({ provider, offer, post }: IProps) {
   const company = provider === EnumTypeProvider.offer ? offer?.company : provider === EnumTypeProvider.POST ? post?.company : undefined
   const { actions } = company ?? {}
 
-  const isEmpty = provider === EnumTypeProvider.offer && !!userId && userId === offer?.userId && !actions
+  const isEmpty =
+    provider === EnumTypeProvider.offer &&
+    ((!!userId && userId === offer?.userId) || !userId) &&
+    (!actions || (actions && actions!?.length === 0))
 
   return (
     <footer className={cx("flex-row items-center justify-start gap-2", isEmpty ? "hidden" : "flex")}>

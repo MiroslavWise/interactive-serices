@@ -8,7 +8,6 @@ import Avatar from "@avatar"
 import SharedPopupButton from "./SharedPopup"
 import IconRating from "@/components/icons/IconRating"
 
-import { clg } from "@console"
 import { getTestimonials } from "@/services"
 import { daysAgo, useResize } from "@/helpers"
 import { dispatchPublicProfile } from "@/store"
