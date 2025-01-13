@@ -19,7 +19,11 @@ export interface IBodyAdvert {
   inn?: string
   ogrn?: string
   imageId?: number
-  actions?: [EAdvertsButton, string]
+  actions?: {
+    action: EAdvertsButton
+    url: string
+    enabled: true
+  }[]
 }
 
 /** Запрос для модератора */

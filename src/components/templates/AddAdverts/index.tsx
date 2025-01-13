@@ -76,7 +76,13 @@ function AddAdverts() {
           url = ""
         }
 
-        body.actions = [actionAdvertButton, url]
+        body.actions = [
+          {
+            action: actionAdvertButton,
+            url: url,
+            enabled: true,
+          },
+        ]
       }
 
       const files = values.file.file
