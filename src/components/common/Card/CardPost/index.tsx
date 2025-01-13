@@ -13,10 +13,12 @@ import ItemImages from "@/components/templates/Balloon/Offer/components/ItemImag
 import { cx } from "@/lib/cx"
 import { nameTitle } from "@/lib/names"
 import { dispatchBallonPost } from "@/store"
+import AdvertisingTitleCompany from "../CardBallon/components/AdvertisingTitleCompany"
+import AdvertisingData from "../CardBallon/components/AdvertisingData"
+import AdvertButtons from "../AdvertButtons"
 
 interface IProps {
   post: IPosts
-  ref?: any
   className?: string
 }
 
@@ -33,8 +35,8 @@ function replaceImageFiles(notes: INotes[]) {
 
   return array
 }
-function CardPost({ post, className, ref }: IProps) {
-  const { title, user, notes = [], id } = post ?? {}
+function CardPost({ post, className }: IProps) {
+  const { title, user, notes = [], id, company } = post ?? {}
 
   function handle() {
     dispatchBallonPost(post)
@@ -42,6 +44,26 @@ function CardPost({ post, className, ref }: IProps) {
 
   const description = notes.find((item) => item.main)?.description ?? title
   const replaceImage = replaceImageFiles(notes)
+
+  const isAdvertising = !!company
+
+  if (isAdvertising)
+    return (
+      <article
+        className={cx(
+          "w-full border border-solid rounded-2xl cursor-pointer flex flex-col bg-card-yellow gap-3 p-4 border-card-border-yellow border-l-2 border-l-[var(--card-svg-yellow)]",
+          className,
+        )}
+        onClick={handle}
+      >
+        <ComponentDots post={post} />
+        <AdvertisingTitleCompany company={company} post={post} provider={EnumTypeProvider.POST} />
+        <p className="whitespace-pre-wrap text-text-primary text-sm font-normal line-clamp-4 text-ellipsis">{description}</p>
+        {replaceImage.length > 0 ? <ItemImages images={replaceImage} /> : null}
+        <AdvertisingData company={company} />
+        <AdvertButtons provider={EnumTypeProvider.POST} post={post} />
+      </article>
+    )
 
   return (
     <article

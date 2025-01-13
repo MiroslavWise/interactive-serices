@@ -20,7 +20,7 @@ import { useOutsideClickEvent } from "@/helpers"
 import { patchAdvertPosts } from "@/services/posts"
 import { useToast } from "@/helpers/hooks/useToast"
 import { hideAddAdvert, useAddAdvert, useAuth } from "@/store"
-import { IBodyAdvert, patchAdvertOffer } from "@/services/offers"
+import { IBodyAdvert, IBodyAdvertAction, patchAdvertOffer } from "@/services/offers"
 import { resolver, type TSchemaAdvert, TFiles, handleImageChange } from "./schema"
 
 import styles from "./style.module.scss"
@@ -53,6 +53,7 @@ function AddAdverts() {
     if (!loading) {
       setLoading(true)
       const body: IBodyAdvert = {}
+      const bodyAction: IBodyAdvertAction = {}
 
       const title = values.title?.trim()
       const inn = values.inn?.trim()
@@ -76,7 +77,7 @@ function AddAdverts() {
           url = ""
         }
 
-        body.actions = [
+        bodyAction.actions = [
           {
             action: actionAdvertButton,
             url: url,
@@ -110,18 +111,24 @@ function AddAdverts() {
 
       if (Object.keys(body).length > 0) {
         if (type && [EnumTypeProvider.offer, EnumTypeProvider.alert].includes(type)) {
-          const response = await patchAdvertOffer(id!, body)
+          const response = await Promise.all([
+            patchAdvertOffer(id!, body),
+            Object.keys(bodyAction).length > 0 ? patchAdvertOffer(id!, bodyAction) : Promise.resolve(true),
+          ])
 
-          if (response.ok) {
+          if (response[0].ok) {
             on({
               message: "Реклама добавлена",
             })
           }
         }
         if (type && EnumTypeProvider.POST === type) {
-          const response = await patchAdvertPosts(id!, body)
+          const response = await Promise.all([
+            patchAdvertPosts(id!, body),
+            Object.keys(bodyAction).length > 0 ? patchAdvertPosts(id!, bodyAction) : Promise.resolve(true),
+          ])
 
-          if (response.ok) {
+          if (response[0].ok) {
             on({
               message: "Реклама добавлена",
             })

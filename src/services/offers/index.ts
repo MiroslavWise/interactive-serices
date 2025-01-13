@@ -19,6 +19,9 @@ export interface IBodyAdvert {
   inn?: string
   ogrn?: string
   imageId?: number
+}
+
+export interface IBodyAdvertAction {
   actions?: {
     action: EAdvertsButton
     url: string
@@ -27,4 +30,4 @@ export interface IBodyAdvert {
 }
 
 /** Запрос для модератора */
-export const patchAdvertOffer = (id: number, body: IBodyAdvert) => wrapperPatch({ url, body: { company: body }, id })
+export const patchAdvertOffer = (id: number, body: IBodyAdvert | IBodyAdvertAction) => wrapperPatch({ url, body: { company: body }, id })

@@ -1,26 +1,39 @@
+import { IPosts } from "@/services/posts/types"
+import { EnumTypeProvider } from "@/types/enum"
 import { ICompany } from "@/services/types/company"
 import { IResponseOffers } from "@/services/offers/types"
 
-import { cx } from "@/lib/cx"
+import IconRating from "@/components/icons/IconRating"
 import { NextImageMotion } from "@/components/common/Image"
+
+import { cx } from "@/lib/cx"
 import { useQuery } from "@tanstack/react-query"
 import { getTestimonials } from "@/services"
 import { DeclensionAllQuantityFeedback } from "@/lib/declension"
-import IconRating from "@/components/icons/IconRating"
 
 interface IProps {
   company: ICompany
-  offer: IResponseOffers
+  offer?: IResponseOffers
+  post?: IPosts
+  provider: EnumTypeProvider
 }
 
-function AdvertisingTitleCompany({ company, offer }: IProps) {
-  const { title, ad, erid, inn, ogrn, actions, image } = company ?? {}
-  const { addresses, provider, id } = offer ?? {}
-  const address = addresses && addresses.length > 0 ? addresses[0].additional : null
+function AdvertisingTitleCompany({ company, offer, post, provider }: IProps) {
+  const { title, image } = company ?? {}
+
+  const { addresses: postAddresses, id: postId } = post ?? {}
+  const { addresses: offerAddresses, id: offerId } = offer ?? {}
+  const address =
+    provider === EnumTypeProvider.offer
+      ? offerAddresses && offerAddresses.length > 0 && offerAddresses[0].additional
+      : provider === EnumTypeProvider.POST
+      ? postAddresses && postAddresses.length > 0 && postAddresses[0].additional
+      : null
+  const id = provider === EnumTypeProvider.offer ? offerId : provider === EnumTypeProvider.POST ? postId : null
 
   const { data: testimonials } = useQuery({
     queryFn: () => getTestimonials({ target: id!, provider: provider!, order: "DESC" }),
-    queryKey: ["testimonials", provider, id],
+    queryKey: ["testimonials", provider, id!],
     enabled: !!id,
   })
 

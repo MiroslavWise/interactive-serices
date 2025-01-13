@@ -58,7 +58,7 @@ function CardBallon({ offer, className }: IProps) {
         }}
       >
         <HeaderTimeDots offer={offer} />
-        <AdvertisingTitleCompany offer={offer} company={company} />
+        <AdvertisingTitleCompany offer={offer} company={company} provider={provider} />
         <p className="text-text-primary text-sm font-normal line-clamp-4">{description}</p>
         {replaceImageFiles.length > 0 ? <ItemImages images={replaceImageFiles} /> : null}
         <AdvertisingData company={company} />
