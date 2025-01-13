@@ -12,7 +12,7 @@ import { type IResponseOffers } from "@/services/offers/types"
 
 import Marker from "./Marker"
 import IconPost from "../icons/IconPost"
-import { ImageCategory } from "../common"
+import { ImageCategory, NextImageMotion } from "../common"
 import IconAlertBalloon from "../icons/IconAlertBalloon"
 
 import {
@@ -135,6 +135,8 @@ function AllClusters() {
                 const { provider, offer, post } = properties ?? {}
 
                 const title = provider === EnumTypeProvider.POST ? post?.title : offer?.title
+                const company = provider === EnumTypeProvider.POST ? post?.company : offer?.company
+                const { image: imageCompany } = company ?? {}
 
                 return (
                   <li
@@ -163,19 +165,26 @@ function AllClusters() {
                     <div
                       className={cx(
                         "w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2",
-                        properties.provider === EnumTypeProvider.offer ? "*:w-4 *:h-4" : "*:w-6 *:h-6",
+                        properties.provider === EnumTypeProvider.offer && !imageCompany ? "*:w-4 *:h-4" : "*:w-6 *:h-6",
                       )}
                     >
-                      {properties.provider === EnumTypeProvider.offer ? (
+                      {imageCompany ? (
+                        <NextImageMotion
+                          src={imageCompany?.attributes?.url}
+                          hash={imageCompany?.attributes?.blur}
+                          alt={provider}
+                          className="object-cover absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-sm"
+                        />
+                      ) : provider === EnumTypeProvider.offer ? (
                         <ImageCategory
                           isUrgent={!!properties?.offer?.urgent}
                           provider={properties?.offer?.provider}
                           slug={properties?.offer?.slug}
                           id={properties?.offer?.categoryId!}
                         />
-                      ) : properties.provider === EnumTypeProvider.alert ? (
+                      ) : provider === EnumTypeProvider.alert ? (
                         <IconAlertBalloon />
-                      ) : properties.provider === EnumTypeProvider.POST ? (
+                      ) : provider === EnumTypeProvider.POST ? (
                         <IconPost />
                       ) : null}
                     </div>

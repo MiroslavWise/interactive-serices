@@ -24,9 +24,10 @@ const LABEL_ADD_ADVERT = "Добавить рекламу"
 const LABEL_REVIEW = "Оставить отзыв"
 
 export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visible: boolean }) => {
-  const { user, id, addresses, title, slug, userId: offerUserId, provider } = offer ?? {}
+  const { user, id, addresses, title, slug, userId: offerUserId, provider, company } = offer ?? {}
   const isManager = useRole(ETitleRole.Manager)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
+  const isAdvertising = !!company
 
   const pathname = usePathname()
   const { push } = useRouter()
@@ -127,7 +128,7 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
         title={LABEL_ADD_ADVERT}
         aria-label={LABEL_ADD_ADVERT}
         aria-labelledby={LABEL_ADD_ADVERT}
-        className={cx(!isManager && provider === EnumTypeProvider.offer && "!hidden")}
+        className={cx((!isManager || provider !== EnumTypeProvider.offer || isAdvertising) && "!hidden")}
       >
         <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
           <IconCurrencyRubleCircle />

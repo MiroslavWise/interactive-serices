@@ -26,6 +26,8 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
   const isManager = useRole(ETitleRole.Manager)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
+  const isAdvertising = !!offer?.company
+
   const onShare = useNavigator({
     url: `/offer/${offer.id}/${offer.slug ? String(offer.slug).replaceAll("/", "-") : ""}`,
     title: offer.title! ?? "",
@@ -113,7 +115,7 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
               displayAddAdvert(offer?.provider!, offer?.id!)
               setVisible(false)
             }}
-            className={cx(!isManager && offer.provider === EnumTypeProvider.offer && "!hidden")}
+            className={cx((!isManager || offer.provider !== EnumTypeProvider.offer || isAdvertising) && "!hidden")}
           >
             <div>
               <IconCurrencyRubleCircle />
