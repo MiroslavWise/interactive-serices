@@ -10,13 +10,13 @@ import { type IAddressesResponse } from "@/services/addresses/types/serviceAddre
 
 import { NextImageMotion } from "../common"
 import IconRating from "../icons/IconRating"
+import AdvertButtons from "../common/Card/AdvertButtons"
 
 import { cx } from "@/lib/cx"
 import { getTestimonials } from "@/services"
 import { useOutsideClickEvent } from "@/helpers"
 import { DeclensionAllQuantityFeedback } from "@/lib/declension"
 import { dispatchBallonAlert, dispatchBallonOffer, dispatchBallonPost } from "@/store"
-import AdvertButtons from "../common/Card/AdvertButtons"
 
 interface IProps {
   isOpen: boolean
@@ -122,6 +122,8 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, image, address, compa
               src={image.attributes.url}
               hash={image.attributes.blur}
               alt={provider}
+              width={80}
+              height={80}
               className="object-cover absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10"
             />
           ) : null}
