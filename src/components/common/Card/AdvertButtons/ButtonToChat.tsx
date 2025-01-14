@@ -1,17 +1,20 @@
+"use client"
+
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { IPostThreads } from "@/services/threads/types"
-import { EnumProviderThreads } from "@/types/enum"
 
 import { EnumSign } from "@/types/enum"
-import { EnumTypeProvider } from "@/types/enum"
-
-import Button from "@/components/common/Button"
-
-import { postThread } from "@/services"
-import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchAuthModal, useAuth } from "@/store"
+import { EnumProviderThreads } from "@/types/enum"
+import { IPostThreads } from "@/services/threads/types"
 import { IResponseOffers } from "@/services/offers/types"
+
+import Button from "../../Button"
+
+import { useAuth } from "@/store"
+import { dispatchAuthModal } from "@/store"
+import { EnumTypeProvider } from "@/types/enum"
+import { postThread } from "@/services/threads"
+import { useToast } from "@/helpers/hooks/useToast"
 import { providerIsAscending } from "@/lib/sortIdAscending"
 
 interface IPropsButtonToChat {
@@ -72,4 +75,4 @@ function ButtonToChat({ offer }: IPropsButtonToChat) {
   ) : null
 }
 
-export { ButtonToChat }
+export default ButtonToChat

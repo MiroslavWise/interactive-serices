@@ -2,25 +2,25 @@ import { EnumTypeProvider } from "@/types/enum"
 import { ETitleRole } from "@/services/roles/types"
 import { type IPosts } from "@/services/posts/types"
 
+import IconStar01 from "@/components/icons/IconStar-01"
 import IconArchive from "@/components/icons/IconArchive"
 import IconActivity from "@/components/icons/IconActivity"
 import IconComplaint from "@/components/icons/IconComplaint"
 import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
+import IconCurrencyRubleCircle from "@/components/icons/IconCurrencyRubleCircle"
 
 import { cx } from "@/lib/cx"
 import useRole from "@/helpers/is-role"
 import { useOutsideClickEvent } from "@/helpers"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
 import {
-  dispatchAddTestimonials,
-  dispatchArchivePost,
-  dispatchComplaintModalPost,
-  dispatchUpdatePost,
-  displayAddAdvert,
   useAuth,
+  displayAddAdvert,
+  dispatchUpdatePost,
+  dispatchArchivePost,
+  dispatchAddTestimonials,
+  dispatchComplaintModalPost,
 } from "@/store"
-import IconCurrencyRubleCircle from "@/components/icons/IconCurrencyRubleCircle"
-import IconStar01 from "@/components/icons/IconStar-01"
 
 interface IProps {
   post: IPosts
@@ -35,9 +35,10 @@ const LABEL_REVIEW = "Оставить отзыв"
 
 function SharedDotsPost({ post }: IProps) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { title, id, userId: userIdPost, archive } = post ?? {}
+  const { title, id, userId: userIdPost, archive, company } = post ?? {}
   const [open, set, ref] = useOutsideClickEvent()
   const isManager = useRole(ETitleRole.Manager)
+  const isAdvertising = !!company
 
   function handleArchive() {
     dispatchArchivePost(post)
@@ -207,7 +208,7 @@ function SharedDotsPost({ post }: IProps) {
           }}
           className={cx(
             "w-full gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field",
-            isManager ? "grid grid-cols-[1.25rem_minmax(0,1fr)]" : "!hidden",
+            isManager && !isAdvertising ? "grid grid-cols-[1.25rem_minmax(0,1fr)]" : "!hidden",
           )}
         >
           <div className="w-5 h-5 flex items-center justify-center relative p-2.5">

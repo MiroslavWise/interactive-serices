@@ -10,6 +10,7 @@ import Posts from "./posts"
 /** @deprecated */
 import IconPost from "@/components/icons/IconPost"
 import IconCategoryDefault from "../IconCategoryDefault"
+import { NextImageMotion } from "@/components/common/Image"
 import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
 
 interface IProps {
@@ -36,12 +37,23 @@ const Rainbow = {
 
 const iconRainbow = (value: EnumTypeProvider) => (Rainbow.hasOwnProperty(value!) ? Rainbow[value!]! : null)
 
-export default ({ provider, onClick, urgent, isAdvertising }: IProps) =>
+export default ({ provider, onClick, urgent, isAdvertising, image }: IProps) =>
   isAdvertising ? (
     <>
       <div className="div-rainbow z-10 rounded-full overflow-hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer w-[2.1875rem] h-[2.1875rem] flex" />
-      <div className="z-20 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none w-7 h-7 bg-BG-second overflow-hidden *:w-5 *:h-5 flex items-center justify-center">
-        {iconRainbow(provider)}
+      <div className="z-20 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none w-7 h-7 bg-BG-second overflow-hidden [&>svg]:w-5 [&>svg]:h-5 flex items-center justify-center">
+        {!!image ? (
+          <NextImageMotion
+            src={image?.attributes?.url}
+            hash={image?.attributes?.blur}
+            alt={provider}
+            width={80}
+            height={80}
+            className="object-cover absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-7 h-7 rounded-full"
+          />
+        ) : (
+          iconRainbow(provider)
+        )}
       </div>
     </>
   ) : (

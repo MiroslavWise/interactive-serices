@@ -14,6 +14,7 @@ import useRole from "@/helpers/is-role"
 import { daysAgo, useOutsideClickEvent } from "@/helpers"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
 import { dispatchAddTestimonials, dispatchComplaintModalOffer, displayAddAdvert, useAuth } from "@/store"
+import { EnumTypeProvider } from "@/types/enum"
 
 const TITLE_SHARE = "Поделиться"
 const TITLE_COMPLAINT = "Пожаловаться"
@@ -24,6 +25,8 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
   const [visible, setVisible, ref] = useOutsideClickEvent()
   const isManager = useRole(ETitleRole.Manager)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
+
+  const isAdvertising = !!offer?.company
 
   const onShare = useNavigator({
     url: `/offer/${offer.id}/${offer.slug ? String(offer.slug).replaceAll("/", "-") : ""}`,
@@ -112,7 +115,7 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
               displayAddAdvert(offer?.provider!, offer?.id!)
               setVisible(false)
             }}
-            className={cx(!isManager && "!hidden")}
+            className={cx((!isManager || offer.provider !== EnumTypeProvider.offer || isAdvertising) && "!hidden")}
           >
             <div>
               <IconCurrencyRubleCircle />

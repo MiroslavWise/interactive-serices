@@ -2,30 +2,27 @@ import { EnumTypeProvider } from "@/types/enum"
 import type { IResponseOffers } from "@/services/offers/types"
 
 import GeoData from "./components/GeoData"
+import AdvertButtons from "../AdvertButtons"
 import HeaderTitle from "./components/HeaderTitle"
 import ItemProfile from "./components/ItemProfile"
 import HeaderTimeDots from "./components/HeaderTimeDots"
+import AdvertisingData from "./components/AdvertisingData"
+import AdvertisingTitleCompany from "./components/AdvertisingTitleCompany"
 import ItemImages from "@/components/templates/Balloon/Offer/components/ItemImages"
 
 import { cx } from "@/lib/cx"
-import {
-  dispatchBallonAlert,
-  dispatchBallonOffer,
-  dispatchMapCoordinates,
-  dispatchBallonDiscussion,
-  dispatchMobileSearchCategoryVisible,
-} from "@/store"
+import { dispatchBallonAlert, dispatchBallonOffer, dispatchMapCoordinates, dispatchMobileSearchCategoryVisible } from "@/store"
 
 import styles from "./styles/style.module.scss"
-import { useMemo } from "react"
 interface IProps {
   offer: IResponseOffers
-  ref?: any
   className?: string
 }
 
-function CardBallon({ offer, ref, className }: IProps) {
-  const { provider, description, images, addresses, user, category, id } = offer ?? {}
+function CardBallon({ offer, className }: IProps) {
+  const { provider, description, images, addresses, user, category, id, company } = offer ?? {}
+
+  const isAdvertising = !!company
 
   function handleClick() {
     const [address] = addresses
@@ -38,25 +35,37 @@ function CardBallon({ offer, ref, className }: IProps) {
 
     if (provider === EnumTypeProvider.offer) {
       dispatchBallonOffer({ offer: offer })
-    } else if (provider === EnumTypeProvider.discussion) {
-      dispatchBallonDiscussion({ offer: offer })
     } else if (provider === EnumTypeProvider.alert) {
       dispatchBallonAlert({ offer: offer })
     }
     dispatchMobileSearchCategoryVisible(false)
   }
 
-  const replaceImageFiles = useMemo(() => {
-    const array = []
+  const replaceImageFiles = images.filter((item) => item.attributes.mime.includes("image") || item.attributes.mime.includes("video"))
 
-    for (const item of images) {
-      if (item.attributes.mime.includes("image") || item.attributes.mime.includes("video")) {
-        array.push(item)
-      }
-    }
-
-    return array
-  }, [images])
+  if (isAdvertising) {
+    return (
+      <div
+        className={cx(
+          styles.container,
+          "w-full cursor-pointer p-4 flex flex-col gap-3 border-solid border rounded-2xl border-l-2 border-l-element-accent-1",
+          provider === EnumTypeProvider.offer && "bg-BG-second border-grey-stroke-light",
+          className,
+        )}
+        onClick={(event) => {
+          event.stopPropagation()
+          handleClick()
+        }}
+      >
+        <HeaderTimeDots offer={offer} />
+        <AdvertisingTitleCompany offer={offer} company={company} provider={provider} />
+        <p className="text-text-primary text-sm font-normal line-clamp-4">{description}</p>
+        {replaceImageFiles.length > 0 ? <ItemImages images={replaceImageFiles} /> : null}
+        <AdvertisingData company={company} />
+        <AdvertButtons provider={provider} offer={offer} />
+      </div>
+    )
+  }
 
   return (
     <article

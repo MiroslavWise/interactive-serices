@@ -16,7 +16,7 @@ function ItemProfile({ user, provider, targetId }: { user: IUserOffer; provider:
 
   const { data: dataTestimonials } = useQuery({
     queryFn: () => getTestimonials({ target: targetId!, provider: provider, order: "DESC" }),
-    queryKey: ["testimonials", targetId],
+    queryKey: ["testimonials", provider, targetId],
     enabled: !!targetId,
   })
 

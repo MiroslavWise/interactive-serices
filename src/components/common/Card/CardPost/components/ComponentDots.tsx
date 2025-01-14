@@ -26,9 +26,10 @@ interface IProps {
 
 function ComponentDots({ post }: IProps) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { created, id, title, userId: userIdPost, archive } = post ?? {}
+  const { created, id, title, userId: userIdPost, archive, company } = post ?? {}
   const [visible, setVisible, ref] = useOutsideClickEvent()
   const isManager = useRole(ETitleRole.Manager)
+  const isAdvertising = !!company
 
   const onShare = useNavigator({
     url: `/post/${id}`,
@@ -151,7 +152,7 @@ function ComponentDots({ post }: IProps) {
             title={LABEL_ADD_ADVERT}
             aria-label={LABEL_ADD_ADVERT}
             aria-labelledby={LABEL_ADD_ADVERT}
-            className={cx(!isManager && "!hidden")}
+            className={cx((!isManager || isAdvertising) && "!hidden")}
             onClick={(event) => {
               event.stopPropagation()
               event.preventDefault()

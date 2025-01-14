@@ -2,30 +2,27 @@ import { useQuery } from "@tanstack/react-query"
 import { useEffect, useRef, type SetStateAction, Dispatch, useState } from "react"
 
 import { type IImageData } from "@/types/type"
+import { EnumTypeProvider } from "@/types/enum"
 import { type IPosts } from "@/services/posts/types"
 import { type ICompany } from "@/services/types/company"
-import { EnumSign, EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 import { type IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 
-import Button from "../common/Button"
 import { NextImageMotion } from "../common"
 import IconRating from "../icons/IconRating"
+import AdvertButtons from "../common/Card/AdvertButtons"
 
 import { cx } from "@/lib/cx"
 import { getTestimonials } from "@/services"
-import { ButtonToChat } from "./AdvertsButtons"
 import { useOutsideClickEvent } from "@/helpers"
-import { useToast } from "@/helpers/hooks/useToast"
 import { DeclensionAllQuantityFeedback } from "@/lib/declension"
-import { getPostParticipants, patchPost } from "@/services/posts"
-import { dispatchAuthModal, dispatchBallonAlert, dispatchBallonOffer, dispatchBallonPost, useAuth } from "@/store"
+import { dispatchBallonAlert, dispatchBallonOffer, dispatchBallonPost } from "@/store"
 
 interface IProps {
   isOpen: boolean
   title: string
   description: string
-  images: IImageData[]
+  image?: IImageData
   address: IAddressesResponse
   provider: EnumTypeProvider
   setIsOpen: Dispatch<SetStateAction<boolean>>
@@ -35,14 +32,10 @@ interface IProps {
   post?: IPosts
 }
 
-function AdvertsData({ provider, isOpen, setIsOpen, title, images, address, company, offer, post }: IProps) {
-  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const [loading, setLoading] = useState(false)
-  const { on } = useToast()
+function AdvertsData({ provider, isOpen, setIsOpen, title, image, address, company, offer, post }: IProps) {
   const ref = useRef<HTMLDivElement>(null)
 
   const [isOpenCompany, setIsOpenCompany, refCompany] = useOutsideClickEvent()
-  const image = images.length > 0 ? images[0] : null
   const addressName = address?.additional ?? ""
   const { title: companyTitle, erid: companyErid, inn: companyInn, ad } = company ?? {}
 
@@ -50,7 +43,7 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, images, address, comp
 
   const { data: testimonials } = useQuery({
     queryFn: () => getTestimonials({ target: targetId!, provider: provider, order: "DESC" }),
-    queryKey: ["testimonials", targetId],
+    queryKey: ["testimonials", provider, targetId],
     enabled: !!targetId && isOpen,
   })
 
@@ -58,17 +51,6 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, images, address, comp
   const length = list.length
   const rating = (list.reduce((acc, item) => acc + item.rating, 0) / (length || 1)).toFixed(1)
   const countText = DeclensionAllQuantityFeedback(length)
-
-  const {
-    data: dataP,
-    refetch,
-    isLoading,
-  } = useQuery({
-    queryFn: () => getPostParticipants(post?.id!),
-    queryKey: ["participants", { id: post?.id }],
-    enabled: post?.isParticipants && userId !== post?.userId && !!userId,
-    refetchOnMount: true,
-  })
 
   useEffect(() => {
     if (isOpen) {
@@ -101,35 +83,6 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, images, address, comp
     if (provider === EnumTypeProvider.POST) {
       dispatchBallonPost(post!)
       return
-    }
-  }
-
-  const isParticipants = provider === EnumTypeProvider.POST && post?.isParticipants && userId !== post?.userId
-  const is = !!dataP?.data && dataP?.data?.participants?.length > 0 && dataP?.data?.participants.some((_) => _.id === userId)
-
-  async function handleBecomeMember() {
-    if (provider === EnumTypeProvider.POST) {
-      if (isParticipants) {
-        if (!loading && !isLoading) {
-          if (!userId) {
-            dispatchAuthModal({ visible: true, type: EnumSign.SignIn })
-            on({
-              message: "Для того чтобы стать участником события, необходимо авторизоваться",
-            })
-            return
-          }
-          if (userId && userId !== post?.userId && !is) {
-            setLoading(true)
-            await patchPost(post?.id!, {})
-            on({
-              message: "Вы были добавлены в список участнитков данного мероприятия",
-            })
-            await refetch()
-            setLoading(false)
-            return
-          }
-        }
-      }
     }
   }
 
@@ -169,6 +122,8 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, images, address, comp
               src={image.attributes.url}
               hash={image.attributes.blur}
               alt={provider}
+              width={80}
+              height={80}
               className="object-cover absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10"
             />
           ) : null}
@@ -198,23 +153,7 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, images, address, comp
           <span className="text-text-primary text-xs font-normal whitespace-nowrap">erid: {companyErid}</span>
         </div>
       </span>
-      <footer className="flex flex-row items-center justify-start gap-2">
-        {isParticipants && (
-          <Button
-            label="Стать участником"
-            type="button"
-            typeButton="fill-primary"
-            style={{ backgroundColor: "var(--card-svg-yellow) !important" }}
-            className="rounded-lg px-2.5 w-min hover:opacity-85 disabled:opacity-50 disabled:cursor-not-allowed *:font-normal h-9"
-            onClick={(event) => {
-              event.stopPropagation()
-              handleBecomeMember()
-            }}
-            disabled={loading || isLoading || is}
-          />
-        )}
-        {provider === EnumTypeProvider.offer && <ButtonToChat offer={offer!} />}
-      </footer>
+      <AdvertButtons provider={provider} offer={offer} post={post} />
     </article>
   )
 }

@@ -49,7 +49,6 @@ function CreateNewNote() {
       const responseCreate = await postNote(data)
       if (!!responseCreate.data) {
         const idNote = responseCreate!.data!.id!
-        clg("files: ", files)
         if (files.length > 0) {
           const responseImages = await Promise.all(
             files.map((item) =>
