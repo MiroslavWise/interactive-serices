@@ -12,7 +12,7 @@ export const getUserIdOffers: IServiceOffers["getUserId"] = (id, query, isInvali
 
 export const postOffer: IServiceOffers["post"] = (body) => post({ url, body }, true)
 
-export interface IBodyAdvert {
+export interface IBodyAdvert extends IBodyAdvertAction {
   title?: string
   ad?: string
   erid?: string
@@ -30,4 +30,4 @@ export interface IBodyAdvertAction {
 }
 
 /** Запрос для модератора */
-export const patchAdvertOffer = (id: number, body: IBodyAdvert | IBodyAdvertAction) => wrapperPatch({ url, body: { company: body }, id })
+export const patchAdvertOffer = (id: number, body: IBodyAdvert) => wrapperPatch({ url, body: { company: body }, id })

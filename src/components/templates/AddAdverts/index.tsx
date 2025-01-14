@@ -3,7 +3,7 @@
  */
 "use client"
 
-import { HTMLInputTypeAttribute, useState } from "react"
+import { useState } from "react"
 import { useForm, Controller } from "react-hook-form"
 
 import { EAdvertsButton, EnumTypeProvider } from "@/types/enum"
@@ -16,12 +16,11 @@ import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
 import { cx } from "@/lib/cx"
 import { fileUploadService } from "@/services"
-import { useOutsideClickEvent } from "@/helpers"
 import { patchAdvertPosts } from "@/services/posts"
 import { useToast } from "@/helpers/hooks/useToast"
 import { hideAddAdvert, useAddAdvert, useAuth } from "@/store"
-import { IBodyAdvert, IBodyAdvertAction, patchAdvertOffer } from "@/services/offers"
 import { resolver, type TSchemaAdvert, TFiles, handleImageChange } from "./schema"
+import { IBodyAdvert, IBodyAdvertAction, patchAdvertOffer } from "@/services/offers"
 
 import styles from "./style.module.scss"
 
@@ -107,28 +106,33 @@ function AddAdverts() {
         })
       }
 
+      if (Object.keys(bodyAction).length > 0) {
+        body.actions = bodyAction.actions
+      }
+
       if (ids.length > 0) body.imageId = ids[0]!
 
       if (Object.keys(body).length > 0) {
         if (type && [EnumTypeProvider.offer, EnumTypeProvider.alert].includes(type)) {
-          const response = await Promise.all([
-            patchAdvertOffer(id!, body),
-            Object.keys(bodyAction).length > 0 ? patchAdvertOffer(id!, bodyAction) : Promise.resolve(true),
-          ])
+          const response = await patchAdvertOffer(id!, body)
 
-          if (response[0].ok) {
+          if (response.ok) {
+            // if (Object.keys(bodyAction).length > 0) {
+            //   await patchAdvertOffer(id!, bodyAction)
+            // }
+
             on({
               message: "Реклама добавлена",
             })
           }
         }
         if (type && EnumTypeProvider.POST === type) {
-          const response = await Promise.all([
-            patchAdvertPosts(id!, body),
-            Object.keys(bodyAction).length > 0 ? patchAdvertPosts(id!, bodyAction) : Promise.resolve(true),
-          ])
+          const response = await patchAdvertPosts(id!, body)
 
-          if (response[0].ok) {
+          if (response.ok) {
+            // if (Object.keys(bodyAction).length > 0) {
+            //   patchAdvertPosts(id!, bodyAction)
+            // }
             on({
               message: "Реклама добавлена",
             })

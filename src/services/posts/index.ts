@@ -27,4 +27,4 @@ export const getPostParticipants: TGetPostParticipants = (id) => fetchGet({ url:
 /** Удаление поста по {{post_id}} */
 export const deletePostId = (id: number) => wrapperDelete({ url, id })
 /** Запрос для модератора */
-export const patchAdvertPosts = (id: number, body: IBodyAdvert | IBodyAdvertAction) => wrapperPatch({ url, body: { company: body }, id })
+export const patchAdvertPosts = (id: number, body: IBodyAdvert) => wrapperPatch({ url, body: { company: body }, id })

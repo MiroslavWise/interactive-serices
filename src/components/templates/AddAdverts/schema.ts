@@ -16,7 +16,7 @@ const schema = z.object({
   ad: z.string().default(""),
   erid: z.string().min(1, { message: "ID рекламы компании не может быть пустым" }).default(""),
   inn: z.string().min(1, { message: "ИНН компании не может быть пустым" }).default(""),
-  ogrn: z.string().min(1, { message: "ОГРН компании не может быть пустым" }).default(""),
+  ogrn: z.string().default(""),
   file: file,
   actionAdvertButton,
   actionUrl,
