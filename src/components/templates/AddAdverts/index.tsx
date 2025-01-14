@@ -19,7 +19,7 @@ import { fileUploadService } from "@/services"
 import { patchAdvertPosts } from "@/services/posts"
 import { useToast } from "@/helpers/hooks/useToast"
 import { hideAddAdvert, useAddAdvert, useAuth } from "@/store"
-import { resolver, type TSchemaAdvert, TFiles, handleImageChange } from "./schema"
+import { resolver, type TSchemaAdvert, TFiles, handleImageChange, MAX_LENGTH_OGRN, MAX_LENGTH_INN } from "./schema"
 import { IBodyAdvert, IBodyAdvertAction, patchAdvertOffer } from "@/services/offers"
 
 import styles from "./style.module.scss"
@@ -60,11 +60,11 @@ function AddAdverts() {
       const ad = values.ad?.trim()
       const ogrn = values.ogrn?.trim()
 
-      if (title) body.title = title
-      if (inn) body.inn = inn
-      if (erid) body.erid = erid
-      if (ad) body.ad = ad
-      if (ogrn) body.ogrn = ogrn
+      if (!!title) body.title = title
+      if (!!inn) body.inn = inn
+      if (!!erid) body.erid = erid
+      if (!!ad) body.ad = ad
+      if (!!ogrn) body.ogrn = ogrn
 
       const actionAdvertButton = values.actionAdvertButton
       const actionUrl = values.actionUrl.trim()
@@ -117,10 +117,6 @@ function AddAdverts() {
           const response = await patchAdvertOffer(id!, body)
 
           if (response.ok) {
-            // if (Object.keys(bodyAction).length > 0) {
-            //   await patchAdvertOffer(id!, bodyAction)
-            // }
-
             on({
               message: "Реклама добавлена",
             })
@@ -130,9 +126,6 @@ function AddAdverts() {
           const response = await patchAdvertPosts(id!, body)
 
           if (response.ok) {
-            // if (Object.keys(bodyAction).length > 0) {
-            //   patchAdvertPosts(id!, bodyAction)
-            // }
             on({
               message: "Реклама добавлена",
             })
@@ -178,7 +171,7 @@ function AddAdverts() {
                 <label htmlFor={field.name} title="ИНН компании">
                   ИНН компании
                 </label>
-                <input type="text" placeholder="Введите ИНН" {...field} />
+                <input type="text" placeholder="Введите ИНН" {...field} maxLength={MAX_LENGTH_INN} />
               </fieldset>
             )}
           />
@@ -190,7 +183,7 @@ function AddAdverts() {
                 <label htmlFor={field.name} title="ОГРН компании">
                   ОГРН (Основной гос. регистрационный номер)
                 </label>
-                <input type="text" placeholder="Введите ОГРН" {...field} />
+                <input type="text" placeholder="Введите ОГРН" {...field} maxLength={MAX_LENGTH_OGRN} />
               </fieldset>
             )}
           />

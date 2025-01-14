@@ -11,12 +11,24 @@ const file = z.object({
 const actionAdvertButton = z.nativeEnum(EAdvertsButton).optional()
 const actionUrl = z.string().default("")
 
+export const MAX_LENGTH_INN = 12
+export const MAX_LENGTH_OGRN = 13
+
 const schema = z.object({
-  title: z.string().min(1, { message: "Заголовок компании не может быть пустым" }).default(""),
-  ad: z.string().default(""),
-  erid: z.string().min(1, { message: "ID рекламы компании не может быть пустым" }).default(""),
-  inn: z.string().min(1, { message: "ИНН компании не может быть пустым" }).default(""),
-  ogrn: z.string().default(""),
+  title: z.string().trim().min(1, { message: "Заголовок компании не может быть пустым" }).default(""),
+  ad: z.string().trim().default(""),
+  erid: z.string().trim().min(1, { message: "ID рекламы компании не может быть пустым" }).default(""),
+  inn: z
+    .string()
+    .trim()
+    .min(1, { message: "ИНН компании не может быть пустым" })
+    .max(MAX_LENGTH_INN, { message: `Не более ${MAX_LENGTH_INN} цифр для ИНН` })
+    .default(""),
+  ogrn: z
+    .string()
+    .trim()
+    .max(MAX_LENGTH_OGRN, { message: `Не более ${MAX_LENGTH_OGRN} символов для ОРГН` })
+    .default(""),
   file: file,
   actionAdvertButton,
   actionUrl,
