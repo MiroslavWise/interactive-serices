@@ -198,7 +198,7 @@ function CreatePost() {
             control={control}
             render={({ field, fieldState: { error } }) => (
               <fieldset data-test="fieldset-create-new-option-title">
-                <label htmlFor={field.name}>Тема поста</label>
+                <label htmlFor={field.name}>Тема События</label>
                 <input
                   {...field}
                   onChange={(event) => field.onChange(event.target.value.replace(/\s{2,}/g, " "))}
