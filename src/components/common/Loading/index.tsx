@@ -51,3 +51,23 @@ export function ServiceLoading() {
     </div>
   )
 }
+
+export function LoadingFeedback() {
+  return (
+    <section className="loading-screen w-full flex flex-col gap-4 max-md:px-5">
+      {[1, 2, 3].map((_) => (
+        <div key={`::key::load::feedback::${_}::`} className="w-full flex flex-col gap-4">
+          <div className="w-full h-1px bg-grey-field" />
+          <div className="w-full grid grid-cols-[2.25rem_minmax(0,1fr)] gap-[0.45rem]">
+            <span className="w-full h-9 rounded-.625" />
+            <div className="w-full flex flex-col [&>span]:w-full [&>span]:h-4 [&>span]:rounded-lg gap-1">
+              <span className="max-w-[11.1875rem]" />
+              <span className="max-w-[6.875rem]" />
+            </div>
+          </div>
+          <span className="w-full rounded-2xl h-[6.875rem]" />
+        </div>
+      ))}
+    </section>
+  )
+}

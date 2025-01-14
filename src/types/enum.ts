@@ -97,7 +97,7 @@ export enum EAdvertsButton {
 }
 
 export const advertsButtonLabels: Record<EAdvertsButton, string> = {
-  [EAdvertsButton.WEBSITE]: "Сайт",
+  [EAdvertsButton.WEBSITE]: "Перейти на сайт",
   [EAdvertsButton.READ_MORE]: "Подробнее",
   [EAdvertsButton.GO_TO_CHAT]: "Перейти в чат",
   [EAdvertsButton.CALL]: "Позвонить",

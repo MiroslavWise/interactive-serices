@@ -16,7 +16,7 @@ function ButtonAdvertAction({ actions }: { actions?: TTypeActionCompany[] }) {
 
   if (!actions || (actions && actions.length === 0)) return null
 
-  const [enumType, url = ""] = actions[0]
+  const { action: enumType, url } = actions[0]
 
   if (EAdvertsButton.CALL === enumType)
     return (
