@@ -12,11 +12,11 @@ const actionAdvertButton = z.nativeEnum(EAdvertsButton).optional()
 const actionUrl = z.string().default("")
 
 const schema = z.object({
-  title: z.string().min(1, { message: "Заголовок компании не может быть пустым" }).default("").optional(),
-  ad: z.string().min(1, { message: "Описание компании не может быть пустым" }).default("").optional(),
-  erid: z.string().min(1, { message: "ID рекламы компании не может быть пустым" }).default("").optional(),
-  inn: z.string().min(1, { message: "ИНН компании не может быть пустым" }).default("").optional(),
-  ogrn: z.string().min(1, { message: "ОГРН компании не может быть пустым" }).default("").optional(),
+  title: z.string().min(1, { message: "Заголовок компании не может быть пустым" }).default(""),
+  ad: z.string().default(""),
+  erid: z.string().min(1, { message: "ID рекламы компании не может быть пустым" }).default(""),
+  inn: z.string().min(1, { message: "ИНН компании не может быть пустым" }).default(""),
+  ogrn: z.string().min(1, { message: "ОГРН компании не может быть пустым" }).default(""),
   file: file,
   actionAdvertButton,
   actionUrl,
