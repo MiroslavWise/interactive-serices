@@ -50,11 +50,8 @@ function DivMarker({
 
   return (
     <div
-      onClick={(event) => {
-        event.stopPropagation()
-        setIsOpen(true)
-      }}
       onMouseOver={() => setIsOpen(true)}
+      onMouseLeave={() => setIsOpen(false)}
       className={cx(
         "absolute z-30 -translate-x-1/2 -translate-y-1/2 max-md:scale-75 group",
         isAdvertising ? "w-[2.1875rem] h-[2.1875rem]" : "w-[2.1875rem] h-[2.5625rem]",
@@ -94,7 +91,7 @@ function DivMarker({
       ) : (
         <div
           className={cx(
-            "flex div-alert-text bg-text-button absolute w-max left-0 top-1/2 pointer-events-none -translate-y-1/2",
+            "flex div-alert-text bg-text-button absolute w-max left-0 top-1/2 -translate-y-1/2",
             isAdvertising ? "translate-x-5" : "translate-x-3.5 transition-opacity opacity-0 group-hover:opacity-100",
           )}
         >
