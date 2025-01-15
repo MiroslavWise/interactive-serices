@@ -40,7 +40,13 @@ const iconRainbow = (value: EnumTypeProvider) => (Rainbow.hasOwnProperty(value!)
 export default ({ provider, onClick, urgent, isAdvertising, image }: IProps) =>
   isAdvertising ? (
     <>
-      <div className="div-rainbow z-10 rounded-full overflow-hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer w-[2.1875rem] h-[2.1875rem] flex" />
+      <div
+        onClick={(event) => {
+          event.stopPropagation()
+          onClick()
+        }}
+        className="div-rainbow z-10 rounded-full overflow-hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer w-[2.1875rem] h-[2.1875rem] flex"
+      />
       <div className="z-20 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none w-7 h-7 bg-BG-second overflow-hidden [&>svg]:w-5 [&>svg]:h-5 flex items-center justify-center">
         {!!image ? (
           <NextImageMotion
