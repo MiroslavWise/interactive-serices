@@ -11,12 +11,13 @@ import { dispatchAuthToken, dispatchOnboarding } from "@/store"
 
 async function fetchVK({ access_token, user_id }: { access_token: string; user_id: string }) {
   try {
-    const response = await fetch(`https://api.vk.com/method/account.getInfo?user_id=${user_id}&scope=email,phone&v=5.131`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    })
+    const response = await fetch(`https://id.vk.com/authorize?client_id=${user_id}&redirect_uri=https://sheira.ru`)
+    // const response = await fetch(`https://api.vk.com/method/account.getInfo?user_id=${user_id}&scope=email,phone`, {
+    //   method: "POST",
+    //   headers: {
+    //     Authorization: `Bearer ${access_token}`,
+    //   },
+    // })
 
     const { data } = (await response.json()) ?? {}
 
