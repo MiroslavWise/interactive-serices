@@ -7,7 +7,7 @@ import { URL_API } from "@/helpers"
 export const LinkItem: TLinkItem = ({ src, path, isActive }) => (
   <Link
     className="flex items-center justify-center p-2.5 rounded-[6.25rem] h-11 w-[3.4375rem] shadow-social-link bg-BG-icons cursor-pointer"
-    href={isActive ? `${URL_API}${path}` : {}}
+    href={isActive ? (path.includes("https") ? path : `${URL_API}${path}`) : {}}
     rel="external"
     prefetch={false}
   >
