@@ -9,9 +9,12 @@ import { serviceAuth } from "@/services/auth"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchAuthToken, dispatchOnboarding } from "@/store"
 
-async function fetchVK({ access_token, user_id }: { access_token: string; user_id: string }) {
+/** ID VK */
+const ID_VK = 51817076
+
+async function fetchVK({}: { access_token: string; user_id: string }) {
   try {
-    const response = await fetch(`https://id.vk.com/authorize?client_id=${user_id}&redirect_uri=https://sheira.ru`)
+    const response = await fetch(`https://id.vk.com/authorize?client_id=${ID_VK}&redirect_uri=https://sheira.ru`)
     // const response = await fetch(`https://api.vk.com/method/account.getInfo?user_id=${user_id}&scope=email,phone`, {
     //   method: "POST",
     //   headers: {
@@ -19,13 +22,13 @@ async function fetchVK({ access_token, user_id }: { access_token: string; user_i
     //   },
     // })
 
-    const { data } = (await response.json()) ?? {}
+    const res = (await response.json()) ?? {}
 
-    console.log("response: fetchVK", data)
+    console.log("response: fetchVK", res)
 
     return {
       ok: true,
-      response: data,
+      response: res?.data,
     }
   } catch (e) {
     console.log("error fetchVK: ", e)
