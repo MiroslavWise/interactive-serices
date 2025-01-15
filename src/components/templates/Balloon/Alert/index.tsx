@@ -22,12 +22,9 @@ function BalloonAlert() {
 
   return (
     <>
-      {/* <ComponentHelper urgent={!!urgent} /> */}
       <header
         className={cx(
           "w-full grid grid-cols-[1.5rem_minmax(0,1fr)] items-start gap-2.5 p-5 border-b border-solid border-grey-stroke-light overflow-hidden",
-          // !!urgent ?
-          //   "!h-auto py-4" :
           "rounded-t-3xl md:rounded-t-2 h-standard-header-modal",
         )}
         data-color={EnumTypeProvider.alert}
