@@ -73,7 +73,7 @@ function BalloonOffer() {
         </div>
         <h3 className="line-clamp-2 text-ellipsis">{offer?.title ?? "Без названия"}</h3>
       </header>
-      <div data-container className="w-full p-0 md:rounded-b-2">
+      <div data-container className="w-full p-0 md:rounded-b-2 bg-BG-second">
         <div data-container-children className="p-0 py-5 w-full flex flex-col gap-5">
           <ItemProfile offer={offer as unknown as IResponseOffers} />
           <ItemDescriptions offer={offer as unknown as IResponseOffers} />

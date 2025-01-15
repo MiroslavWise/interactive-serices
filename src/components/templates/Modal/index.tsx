@@ -184,8 +184,9 @@ function Modal() {
       <section
         data-test={`modal-section-${data}`}
         className={cx(
-          "bg-BG-second rounded-t-3xl rounded-b-none max-md:overflow-hidden max-md:min-h-20 md:rounded-2 w-full relative",
+          "rounded-t-3xl rounded-b-none max-md:overflow-hidden max-md:min-h-20 md:rounded-2 w-full relative",
           STYLE_MODAL.has(data!) ? STYLE_MODAL.get(data!) : "",
+          [EModalData.BALLOON_POST, EModalData.BalloonAlert, EModalData.BalloonOffer].includes(data!) ? "" : "bg-BG-second",
         )}
         id={ID_MODAL.has(data!) ? ID_MODAL.get(data!) : ""}
         onClick={(event) => {
