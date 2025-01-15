@@ -64,7 +64,6 @@ export default ({ provider, onClick, urgent, isAdvertising, image }: IProps) =>
       fill="none"
       className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer w-[2.1875rem] h-[2.5625rem]"
       onClick={(event) => {
-        if (isAdvertising) return
         event.stopPropagation()
         onClick()
       }}
