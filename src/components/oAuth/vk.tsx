@@ -21,12 +21,12 @@ async function _vk(data: Record<string, any>) {
     endpoint.searchParams.set("access_token", data?.access_token ?? "")
     endpoint.searchParams.set("v", "5.199")
 
-    const requestInit: RequestInit = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-encoded",
-      },
-    }
+    // const requestInit: RequestInit = {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/x-www-form-encoded",
+    //   },
+    // }
 
     // const body = {
     //   access_token: data?.access_token ?? "",
@@ -37,7 +37,7 @@ async function _vk(data: Record<string, any>) {
     //   requestInit.body = JSON.stringify(body)
     // }
 
-    const response = await fetch(endpoint, requestInit)
+    const response = await fetch(endpoint)
 
     console.log("response: _vk", response)
   } catch (e) {
