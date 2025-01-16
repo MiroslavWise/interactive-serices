@@ -14,6 +14,9 @@ async function _vk(data: Record<string, any>) {
   try {
     const endpoint = new URL(`https://api.vk.com/method/account.getProfileInfo`)
 
+    endpoint.searchParams.set("access_token", data?.access_token ?? "")
+    endpoint.searchParams.set("v", "5.199")
+
     const requestInit: RequestInit = {
       method: "POST",
       headers: {
@@ -21,14 +24,14 @@ async function _vk(data: Record<string, any>) {
       },
     }
 
-    const body = {
-      access_token: data?.access_token ?? "",
-      v: 5.199,
-    }
+    // const body = {
+    //   access_token: data?.access_token ?? "",
+    //   v: 5.199,
+    // }
 
-    if (Object.entries(body).length > 0) {
-      requestInit.body = JSON.stringify(body)
-    }
+    // if (Object.entries(body).length > 0) {
+    //   requestInit.body = JSON.stringify(body)
+    // }
 
     const response = await fetch(endpoint, requestInit)
 
