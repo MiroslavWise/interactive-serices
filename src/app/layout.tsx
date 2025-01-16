@@ -115,7 +115,7 @@ export function generateMetadata(): Metadata {
 
 var ymaps3 = null
 
-export default ({ children }: PropsWithChildren) => (
+export default async ({ children }: PropsWithChildren) => (
   <html lang="ru" suppressHydrationWarning>
     <head>
       <link rel="preconnect" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}`} />

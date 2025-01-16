@@ -16,7 +16,7 @@ export const FooterAsideLeft = () => {
   }
 
   return (
-    <footer className="w-full flex flex-col gap-2.5 mt-auto" data-test="footer-aside-profile">
+    <footer className="w-full flex flex-col gap-2.5 mt-auto mb-5" data-test="footer-aside-profile">
       {/* <Button
         type="button"
         typeButton="fill-primary"

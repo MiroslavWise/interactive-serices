@@ -10,7 +10,7 @@ import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
 
-function LeftAsideProfile({}: { isCollapsed?: boolean; isBanner?: boolean }) {
+function LeftAsideProfile() {
   return (
     <aside
       className={cx(
