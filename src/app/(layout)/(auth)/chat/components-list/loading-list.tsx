@@ -1,6 +1,6 @@
 import { cx } from "@/lib/cx"
 
-import LoadingItem from "./components/LoadingItem"
+import LoadingItem from "./LoadingItem"
 
 export default () => (
   <div
