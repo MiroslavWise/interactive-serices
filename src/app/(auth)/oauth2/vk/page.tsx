@@ -17,15 +17,15 @@ async function fetchVK(data: Record<string, any>) {
     url.searchParams.set("access_token", data?.access_token ?? "")
     url.searchParams.set("v", (5.199).toString())
 
-    const response = await axios.post(url.toString())
+    const response = await fetch(url.toString())
 
-    const res = response.data
+    const res = response
 
     console.log("response: fetchVK", res)
 
     return {
       ok: true,
-      response: res?.data,
+      response: res,
     }
   } catch (e) {
     console.log("error fetchVK: ", e)
