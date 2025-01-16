@@ -15,6 +15,7 @@ import { daysAgo, useOutsideClickEvent } from "@/helpers"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
 import { dispatchAddTestimonials, dispatchComplaintModalOffer, displayAddAdvert, useAuth } from "@/store"
 import { EnumTypeProvider } from "@/types/enum"
+import XPElement from "@/components/common/Shadow/ShadowAddress"
 
 const TITLE_SHARE = "Поделиться"
 const TITLE_COMPLAINT = "Пожаловаться"

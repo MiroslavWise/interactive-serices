@@ -68,27 +68,37 @@ export interface EActionCompany {
 
 /** Дополнительная кнопка действия для рекламных публикаций */
 export enum EAdvertsButton {
-  /** Сайт */
+  /** Сайт
+   * @public
+   * */
   WEBSITE = "website",
   /** Подробнее */
   READ_MORE = "read-more",
   /** Перейти в чат */
   GO_TO_CHAT = "go-to-chat",
-  /** Позвонить */
+  /** Позвонить
+   * @public
+   */
   CALL = "call",
-  /** Позвонить по WhatsApp */
+  /** Позвонить по WhatsApp
+   * @public
+   */
   CALL_ON_WHATSAPP = "call-on-whatsapp",
   /** Стать участником */
   BECOME_A_MEMBER = "become-a-member",
   /** Записаться */
   ENROLLING = "enrolling",
-  /** Зарегистрироваться */
+  /** Зарегистрироваться
+   * @public
+   */
   SIGN_UP = "sign-up",
   /** Купить */
   BUY = "buy",
   /** Заказать */
   ORDER = "order",
-  /** Канал в Telegram */
+  /** Канал в Telegram
+   * @public
+   */
   TELEGRAM_CHANNEL = "telegram-channel",
   /** Задать вопрос */
   ASK_A_QUESTION = "ask-a-question",
@@ -101,7 +111,7 @@ export const advertsButtonLabels: Record<EAdvertsButton, string> = {
   [EAdvertsButton.READ_MORE]: "Подробнее",
   [EAdvertsButton.GO_TO_CHAT]: "Перейти в чат",
   [EAdvertsButton.CALL]: "Позвонить",
-  [EAdvertsButton.CALL_ON_WHATSAPP]: "Позвонить по WhatsApp",
+  [EAdvertsButton.CALL_ON_WHATSAPP]: "Поз-ть по WhatsApp",
   [EAdvertsButton.BECOME_A_MEMBER]: "Стать участником",
   [EAdvertsButton.ENROLLING]: "Записаться",
   [EAdvertsButton.SIGN_UP]: "Зарегистрироваться",
@@ -113,3 +123,13 @@ export const advertsButtonLabels: Record<EAdvertsButton, string> = {
 }
 
 export const arrayAdvertsButtonLabels = Object.entries(advertsButtonLabels) as [EAdvertsButton, string][]
+
+const ACTIVE = [
+  EAdvertsButton.WEBSITE,
+  EAdvertsButton.CALL,
+  EAdvertsButton.CALL_ON_WHATSAPP,
+  EAdvertsButton.SIGN_UP,
+  EAdvertsButton.TELEGRAM_CHANNEL,
+]
+
+export const activeArrayAdvertsButtonLabels = arrayAdvertsButtonLabels.filter(([key, _]) => ACTIVE.includes(key))

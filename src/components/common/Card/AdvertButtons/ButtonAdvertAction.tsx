@@ -12,6 +12,7 @@ const textCN = "text-sm text-center whitespace-nowrap font-normal selection:bg-t
 
 function ButtonAdvertAction({ actions }: { actions?: TTypeActionCompany[] }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
+  const auth = useAuth(({ auth }) => auth)
   const { on } = useToast()
 
   if (!actions || (actions && actions.length === 0)) return null
@@ -79,6 +80,21 @@ function ButtonAdvertAction({ actions }: { actions?: TTypeActionCompany[] }) {
         className={buttonCN}
       >
         <span className={textCN}>{advertsButtonLabels[EAdvertsButton.ENROLLING]}</span>
+      </button>
+    )
+  if (EAdvertsButton.SIGN_UP === enumType)
+    return (
+      <button
+        type="button"
+        onClick={() => {
+          if (!auth) {
+            dispatchAuthModal({ visible: true, type: EnumSign.SignUp })
+            return
+          }
+        }}
+        className={buttonCN}
+      >
+        <span className={textCN}>{advertsButtonLabels[EAdvertsButton.SIGN_UP]}</span>
       </button>
     )
 
