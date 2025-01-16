@@ -19,7 +19,6 @@ async function fetchVK(data: Record<string, any>) {
 
     const response = await fetch(url.toString(), {
       method: "POST",
-      body: JSON.stringify({}),
     })
 
     const res = response
