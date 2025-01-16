@@ -17,7 +17,10 @@ async function fetchVK(data: Record<string, any>) {
     url.searchParams.set("access_token", data?.access_token ?? "")
     url.searchParams.set("v", (5.199).toString())
 
-    const response = await fetch(url.toString())
+    const response = await fetch(url.toString(), {
+      method: "POST",
+      body: JSON.stringify({}),
+    })
 
     const res = response
 
