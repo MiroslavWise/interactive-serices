@@ -35,7 +35,6 @@ export const ITEMS_SOCIAL_LINK: ILinkSocial[] = [
     value: "vk",
     srcWorking: "/icons/fill/vk.svg",
     srcNotWorking: "/icons/fill/vk.svg",
-    // path: url.toString(),
     path: "/vk/login",
     isWorkingLink: true,
   },
