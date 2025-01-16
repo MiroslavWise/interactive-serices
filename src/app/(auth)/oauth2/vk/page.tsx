@@ -9,21 +9,15 @@ import { URL_API, usePush } from "@/helpers"
 import { serviceAuth } from "@/services/auth"
 import { useToast } from "@/helpers/hooks/useToast"
 
-// const url = new URL(`https://api.vk.com/method/account.getProfileInfo`)
-
 async function fetchVK(data: Record<string, any>) {
   console.log("response: fetchVK - data: ", data)
   try {
     const url = new URL(`${URL_API}/auth/vk`)
-    // url.searchParams.set("access_token", data?.access_token ?? "")
-    // url.searchParams.set("user_id", data?.user_id)
-    // url.searchParams.set("expires_in", data?.expires_in)
-    // url.searchParams.set("state", data?.state)
 
     const body = {
-      access_token: data?.access_token ?? "",
-      user_id: data?.user_id ?? "",
-      expires_in: data?.expires_in ?? null,
+      accessToken: data?.access_token ?? "",
+      userId: data?.user_id ?? "",
+      expiresIn: data?.expires_in ?? null,
       state: data?.state ?? "",
     }
 

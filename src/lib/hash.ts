@@ -1,3 +1,5 @@
+"use client"
+
 import crypto from "crypto"
 
 export function generateShortHash(inputString: string): string {
