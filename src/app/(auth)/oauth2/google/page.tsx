@@ -33,9 +33,9 @@ export default () => {
             })
             .then(({ data }) => {
               if (!!data) {
-                if (!data?.profile?.username) {
-                  dispatchOnboarding("open")
-                }
+                // if (!data?.profile?.username) {
+                //   dispatchOnboarding("open")
+                // }
                 dispatchAuthToken({ auth: response?.res!, user: data! })
                 handlePush("/")
                 on({
