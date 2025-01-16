@@ -22,6 +22,9 @@ export default ({ children }: { children: ReactNode }) => {
         dispatchCookiesVisible()
       }
     })
+    import("@/components/common/Shadow/class").then(() => {
+      clg("Shadow => ", "ok")
+    })
   }, [])
 
   return (

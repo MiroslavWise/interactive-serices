@@ -2,7 +2,7 @@ import { useState } from "react"
 import { HTMLInputTypeAttribute } from "react"
 import { Control, Controller } from "react-hook-form"
 
-import { advertsButtonLabels, arrayAdvertsButtonLabels, EAdvertsButton } from "@/types/enum"
+import { advertsButtonLabels, activeArrayAdvertsButtonLabels, EAdvertsButton } from "@/types/enum"
 
 import IconChevron from "@/components/icons/IconChevron"
 
@@ -83,7 +83,7 @@ function ControllerAddAction({ control }: { control: Control<TSchemaAdvert, any>
               )}
             >
               <ul className="w-full flex flex-col gap-0.5 py-3 px-1.5">
-                {arrayAdvertsButtonLabels.map(([key, label]) => (
+                {activeArrayAdvertsButtonLabels.map(([key, label]) => (
                   <li
                     key={`:fD:vc:bv:-${key}`}
                     className={cx(

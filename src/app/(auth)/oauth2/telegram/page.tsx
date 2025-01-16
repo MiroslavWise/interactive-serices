@@ -30,9 +30,9 @@ export default function CallbackTelegram() {
               })
               .then(({ data }) => {
                 if (!!data) {
-                  if (!data?.profile?.username) {
-                    dispatchOnboarding("open")
-                  }
+                  // if (!data?.profile?.username) {
+                  //   dispatchOnboarding("open")
+                  // }
                   dispatchAuthToken({ user: data!, auth: response?.res! })
                   handlePush("/")
                   on({

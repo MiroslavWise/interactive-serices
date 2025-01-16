@@ -9,11 +9,10 @@ import styles from "./styles/button-collapse.module.scss"
 
 function BannerSign() {
   const visible = useCollapsePersonalScreen(({ visible }) => visible)
-  const visibleAdvertisingBanner = useAdvertisingBanner(({ visible }) => visible)
 
   return (
     <>
-      <LeftAsideProfile isCollapsed={visible} isBanner={visibleAdvertisingBanner} />
+      <LeftAsideProfile />
       <button
         data-collapse={visible}
         className={cx(

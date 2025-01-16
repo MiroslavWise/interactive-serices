@@ -2,29 +2,43 @@
 
 import { useEffect } from "react"
 
-import { usePush } from "@/helpers"
 import { getUserId } from "@/services"
 import { queryClient } from "@/context"
+import { dispatchAuthToken } from "@/store"
+import { URL_API, usePush } from "@/helpers"
 import { serviceAuth } from "@/services/auth"
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchAuthToken, dispatchOnboarding } from "@/store"
 
-async function fetchVK({ access_token, user_id }: { access_token: string; user_id: string }) {
+// const url = new URL(`https://api.vk.com/method/account.getProfileInfo`)
+
+async function fetchVK(data: Record<string, any>) {
+  console.log("response: fetchVK - data: ", data)
   try {
-    const response = await fetch(`https://api.vk.com/method/account.getInfo?user_id=${user_id}&scope=email,phone&v=5.131`, {
+    const url = new URL(`${URL_API}/auth/vk`)
+    // url.searchParams.set("access_token", data?.access_token ?? "")
+    // url.searchParams.set("user_id", data?.user_id)
+    // url.searchParams.set("expires_in", data?.expires_in)
+    // url.searchParams.set("state", data?.state)
+
+    const body = {
+      access_token: data?.access_token ?? "",
+      user_id: data?.user_id ?? "",
+      expires_in: data?.expires_in ?? null,
+      state: data?.state ?? "",
+    }
+
+    const response = await fetch(url.toString(), {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
+      body: JSON.stringify(body),
     })
 
-    const { data } = (await response.json()) ?? {}
+    const res = response
 
-    console.log("response: fetchVK", data)
+    console.log("response: fetchVK", res)
 
     return {
       ok: true,
-      response: data,
+      response: res,
     }
   } catch (e) {
     console.log("error fetchVK: ", e)
@@ -54,8 +68,8 @@ export default function CallbackVK() {
         data[key] = value
       })
 
-      if (data?.access_token && data?.user_id) {
-        fetchVK({ access_token: data?.access_token, user_id: data?.user_id }).then((response) => {
+      if (Object.entries(data).length > 0) {
+        fetchVK(data).then((response) => {
           if (response.ok) {
             if (response?.response) {
               serviceAuth.postVK(response?.response).then((response) => {
@@ -69,9 +83,9 @@ export default function CallbackVK() {
                       })
                       .then(({ data }) => {
                         if (!!data) {
-                          if (!data?.profile?.username) {
-                            dispatchOnboarding("open")
-                          }
+                          // if (!data?.profile?.username) {
+                          //   dispatchOnboarding("open")
+                          // }
                           dispatchAuthToken({ auth: response.res!, user: data! })
                           handlePush("/")
                           on({
