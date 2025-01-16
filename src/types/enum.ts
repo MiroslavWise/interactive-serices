@@ -133,3 +133,10 @@ const ACTIVE = [
 ]
 
 export const activeArrayAdvertsButtonLabels = arrayAdvertsButtonLabels.filter(([key, _]) => ACTIVE.includes(key))
+
+export enum ETypeAuth {
+  GOOGLE = "google",
+  VK = "vk",
+  TELEGRAM = "telegram",
+  YANDEX = "yandex",
+}

@@ -4,14 +4,14 @@ import { useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 
 import { queryClient } from "@/context"
+import { dispatchAuthToken } from "@/store"
 import { URL_API, usePush } from "@/helpers"
 import { getUserId, serviceAuth } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchAuthToken, dispatchOnboarding } from "@/store"
 
 const ARRAY_QUERY = ["access_token", "client_id", "email", "id", "login", "name", "picture", "psuid", "refresh_token"]
 
-export default function CallbackYandex() {
+export default () => {
   const { on } = useToast()
   const searchParam = useSearchParams()
   const { handlePush } = usePush()

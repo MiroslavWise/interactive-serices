@@ -7,8 +7,8 @@ import { ImageCategory } from "@/components/common"
 import { dispatchBallonOffer } from "@/store"
 
 function AOffer({ offer }: { offer: IResponseOffers }) {
-  const { category } = offer ?? {}
-  const { id, title, slug, provider } = category ?? {}
+  const { category, title = "" } = offer ?? {}
+  const { id, slug, provider } = category ?? {}
 
   function handle() {
     if (!!offer) {

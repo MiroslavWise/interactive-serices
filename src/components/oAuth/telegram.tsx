@@ -3,12 +3,12 @@
 import { useEffect } from "react"
 
 import { queryClient } from "@/context"
+import { dispatchAuthToken } from "@/store"
 import { URL_API, usePush } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { getUserId, serviceAuth } from "@/services"
-import { dispatchAuthToken, dispatchOnboarding } from "@/store"
 
-export default function CallbackTelegram() {
+export default () => {
   const { on } = useToast()
   const { handlePush } = usePush()
 
