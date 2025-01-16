@@ -8,6 +8,10 @@ import { dispatchAuthToken } from "@/store"
 import { URL_API, usePush } from "@/helpers"
 import { serviceAuth } from "@/services/auth"
 import { useToast } from "@/helpers/hooks/useToast"
+import { clg } from "@console"
+
+/** @private */
+const CLIENT_ID = 51817076
 
 async function _vk(data: Record<string, any>) {
   console.log("data _vk: ", data)
@@ -20,7 +24,7 @@ async function _vk(data: Record<string, any>) {
     const requestInit: RequestInit = {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-encoded",
       },
     }
 
