@@ -14,13 +14,7 @@ async function fetchVK(data: Record<string, any>) {
   console.log("response: fetchVK - data: ", data)
   try {
     const response = await axios.post(
-      `https://api.vk.com/method/account.getInfo?user_id=${data?.user_id ?? ""}&v=5.131`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${data?.access_token ?? ""}`,
-        },
-      },
+      `https://api.vk.com/method/users.get?access_token=${data?.access_token ?? ""}&user_ids=${data?.user_id ?? ""}&v=5.199`,
     )
 
     const res = response.data
