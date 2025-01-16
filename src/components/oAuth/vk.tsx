@@ -9,6 +9,39 @@ import { URL_API, usePush } from "@/helpers"
 import { serviceAuth } from "@/services/auth"
 import { useToast } from "@/helpers/hooks/useToast"
 
+async function _vk(data: Record<string, any>) {
+  console.log("data _vk: ", data)
+  try {
+    const endpoint = new URL(`https://api.vk.com/method/account.getProfileInfo`)
+
+    const requestInit: RequestInit = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+
+    const body = {
+      access_token: data?.access_token ?? "",
+      v: 5.199,
+    }
+
+    if (Object.entries(body).length > 0) {
+      requestInit.body = JSON.stringify(body)
+    }
+
+    const response = await fetch(endpoint, requestInit)
+
+    console.log("response: _vk", response)
+  } catch (e) {
+    console.log("error _vk: ", e)
+    return {
+      error: true,
+      message: e,
+    }
+  }
+}
+
 async function fetchVK(data: Record<string, any>) {
   console.log("response: fetchVK - data: ", data)
   try {
@@ -71,6 +104,7 @@ export default () => {
       })
 
       if (Object.entries(data).length > 0) {
+        _vk(data)
         fetchVK(data).then((response) => {
           if (response.ok) {
             if (response?.response) {
