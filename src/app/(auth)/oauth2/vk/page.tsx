@@ -13,8 +13,9 @@ import { dispatchAuthToken } from "@/store"
 async function fetchVK(data: Record<string, any>) {
   console.log("response: fetchVK - data: ", data)
   try {
-    const url = new URL(`https://api.vk.com/method/account.getInfo`)
+    const url = new URL(`https://api.vk.com/method/account.getProfileInfo`)
     url.searchParams.set("access_token", data?.access_token ?? "")
+    url.searchParams.set("v", (5.199).toString())
 
     const response = await axios.post(url.toString())
 
