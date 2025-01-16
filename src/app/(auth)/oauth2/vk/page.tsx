@@ -11,6 +11,7 @@ import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchAuthToken } from "@/store"
 
 async function fetchVK(data: Record<string, any>) {
+  console.log("response: fetchVK - data: ", data)
   try {
     const response = await axios.post(
       `https://api.vk.com/method/account.getInfo?user_id=${data?.user_id ?? ""}&v=5.131`,
