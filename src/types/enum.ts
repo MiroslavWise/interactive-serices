@@ -111,7 +111,7 @@ export const advertsButtonLabels: Record<EAdvertsButton, string> = {
   [EAdvertsButton.READ_MORE]: "Подробнее",
   [EAdvertsButton.GO_TO_CHAT]: "Перейти в чат",
   [EAdvertsButton.CALL]: "Позвонить",
-  [EAdvertsButton.CALL_ON_WHATSAPP]: "Поз-ть по WhatsApp",
+  [EAdvertsButton.CALL_ON_WHATSAPP]: "WhatsApp",
   [EAdvertsButton.BECOME_A_MEMBER]: "Стать участником",
   [EAdvertsButton.ENROLLING]: "Записаться",
   [EAdvertsButton.SIGN_UP]: "Зарегистрироваться",

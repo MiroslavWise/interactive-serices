@@ -9,11 +9,11 @@ function userInterlocutor({ m, r = [], userId }: { m: IUserOffer; r: IUserOffer[
 }
 
 const objProvider: Record<EnumProviderThreads, string> = {
-  [EnumProviderThreads.PERSONAL]: "Личные",
-  [EnumProviderThreads.OFFER_PAY]: "Покупка:",
-  [EnumProviderThreads.BARTER]: "Обмен:",
+  [EnumProviderThreads.PERSONAL]: "",
+  [EnumProviderThreads.OFFER_PAY]: "",
+  [EnumProviderThreads.BARTER]: "",
   [EnumProviderThreads.GROUPS]: "",
-  [EnumProviderThreads.HELP]: "Личный",
+  [EnumProviderThreads.HELP]: "",
 }
 
 function typeMessage({
