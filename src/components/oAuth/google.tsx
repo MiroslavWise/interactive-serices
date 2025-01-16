@@ -4,10 +4,10 @@ import { useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 
 import { queryClient } from "@/context"
+import { dispatchAuthToken } from "@/store"
 import { URL_API, usePush } from "@/helpers"
 import { useToast } from "@/helpers/hooks/useToast"
 import { getUserId, serviceAuth } from "@/services"
-import { dispatchAuthToken, dispatchOnboarding } from "@/store"
 
 const ARRAY_QUERY = ["access_token", "client_id", "email", "id", "name", "picture", "verified_email"]
 

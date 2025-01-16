@@ -12,7 +12,14 @@ import { useToast } from "@/helpers/hooks/useToast"
 async function fetchVK(data: Record<string, any>) {
   console.log("response: fetchVK - data: ", data)
   try {
-    const url = new URL(`${URL_API}/auth/vk`)
+    const endpoint = new URL(`${URL_API}/auth/vk`)
+
+    const requestInit: RequestInit = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
 
     const body = {
       accessToken: data?.access_token ?? "",
@@ -21,10 +28,11 @@ async function fetchVK(data: Record<string, any>) {
       state: data?.state ?? "",
     }
 
-    const response = await fetch(url.toString(), {
-      method: "POST",
-      body: JSON.stringify(body),
-    })
+    if (Object.entries(body).length > 0) {
+      requestInit.body = JSON.stringify(body)
+    }
+
+    const response = await fetch(endpoint, requestInit)
 
     const res = response
 
@@ -43,7 +51,7 @@ async function fetchVK(data: Record<string, any>) {
   }
 }
 
-export default function CallbackVK() {
+export default () => {
   const { on } = useToast()
   const { handlePush } = usePush()
 
