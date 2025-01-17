@@ -23,6 +23,13 @@ async function _vk(data: Record<string, any>) {
     endpoint.searchParams.set("access_token", data?.access_token ?? "")
     endpoint.searchParams.set("v", "5.199")
 
+    VKID.Config.init({
+      app: 51817076,
+      redirectUrl: "https://dev.sheira.ru/oauth2/vk",
+      source: VKID.ConfigSource.LOWCODE,
+      scope: "email phone",
+    })
+
     VKID.Auth.userInfo(data?.access_token ?? "").then((res) => {
       clg("VKID.Auth.userInfo: ", res)
     })
