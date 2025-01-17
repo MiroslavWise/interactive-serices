@@ -75,13 +75,13 @@ export default () => {
   }, [])
 
   return (
-    <main className="w-full h-dvh flex items-center justify-center">
+    <main className="w-full h-dvh flex items-center justify-center p-5">
       {loading && (
         <div className="fixed z-50 inset-0 flex items-center justify-center bg-translucent">
           <img className={cx("w-20 h-20 rotate-0", styles.img)} src="/svg/spinner.svg" alt="loading" width={50} height={50} />
         </div>
       )}
-      <section className="py-10 md:rounded-2 w-full max-w-[30.625rem] bg-BG-second flex flex-col items-center justify-center">
+      <section className="py-10 md:rounded-2 w-full max-w-[30.625rem] bg-BG-second flex flex-col items-center justify-center px-5">
         <div className="max-w-[23.125rem]" ref={ref} />
       </section>
     </main>
