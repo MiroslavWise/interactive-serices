@@ -20,9 +20,10 @@ import {
   dispatchUpdateOffer,
 } from "@/store"
 import { cx } from "@/lib/cx"
+import AdvertisingData from "@/components/common/Card/CardBallon/components/AdvertisingData"
 
 function ItemOffers({ offer }: { offer: IResponseOffers }) {
-  const { images, description, addresses, provider, id, urgent, category } = offer ?? {}
+  const { images, description, addresses, provider, id, urgent, category, company } = offer ?? {}
 
   const firstAddress = addresses.length ? addresses[0] : null
   const additional = firstAddress?.additional?.replace(`${firstAddress?.country}, `, "").replace(`${firstAddress?.region}, `, "") ?? ""
@@ -94,6 +95,7 @@ function ItemOffers({ offer }: { offer: IResponseOffers }) {
                 <IconArrowRight />
               </div>
             </Link>
+            {!!company && <AdvertisingData company={company!} />}
             <footer className="w-full *:h-9 *:rounded-[1.125rem] grid grid-cols-[minmax(0,1fr)_2.25rem] gap-3">
               <Button
                 type="button"

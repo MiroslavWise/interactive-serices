@@ -3,19 +3,19 @@ import { INotes } from "@/services/notes/types"
 import { type IPosts } from "@/services/posts/types"
 
 import GeoData from "./components/GeoData"
+import AdvertButtons from "../AdvertButtons"
 import IconPost from "@/components/icons/IconPost"
 import IconNote from "@/components/icons/IconNote"
 import ComponentDots from "./components/ComponentDots"
 import CommentsCount from "./components/CommentsCount"
 import ItemProfile from "../CardBallon/components/ItemProfile"
+import AdvertisingData from "../CardBallon/components/AdvertisingData"
 import ItemImages from "@/components/templates/Balloon/Offer/components/ItemImages"
+import AdvertisingTitleCompany from "../CardBallon/components/AdvertisingTitleCompany"
 
 import { cx } from "@/lib/cx"
 import { nameTitle } from "@/lib/names"
 import { dispatchBallonPost } from "@/store"
-import AdvertisingTitleCompany from "../CardBallon/components/AdvertisingTitleCompany"
-import AdvertisingData from "../CardBallon/components/AdvertisingData"
-import AdvertButtons from "../AdvertButtons"
 
 interface IProps {
   post: IPosts

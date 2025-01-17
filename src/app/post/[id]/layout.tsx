@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 export default async ({ children, params: { id } }: PropsWithChildren<{ params: { id: string } }>) => {
   const { data } = await getPostId(id)
 
-  const { title, notes = [], user, addresses = [] } = data ?? {}
+  const { title, notes = [], addresses = [] } = data ?? {}
 
   const address = addresses?.[0] ?? {}
 
@@ -41,12 +41,14 @@ export default async ({ children, params: { id } }: PropsWithChildren<{ params: 
     const array = []
 
     for (const item of notes) {
-      if (item.images.length > 0) {
-        for (const image of item.images) {
-          if (array.length < 15) {
-            array.push(image)
-          } else {
-            break
+      if (item?.images) {
+        if (item.images?.length > 0) {
+          for (const image of item.images) {
+            if (array.length < 15) {
+              array.push(image)
+            } else {
+              break
+            }
           }
         }
       }
