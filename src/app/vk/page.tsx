@@ -13,7 +13,12 @@ export default () => {
   function vkidOnSuccess(event: any) {
     clg("vkidOnSuccess: ", event)
 
-    //   VKID.Auth.userInfo()
+    VKID.Auth.userInfo(event?.access_token ?? "").then((res) => {
+      clg("VKID.Auth.userInfo: ", res)
+    })
+    VKID.Auth.publicInfo(event?.id_token ?? "").then((res) => {
+      clg("VKID.Auth.publicInfo: ", res)
+    })
   }
 
   useEffect(() => {
