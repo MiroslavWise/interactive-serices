@@ -35,7 +35,8 @@ export const ITEMS_SOCIAL_LINK: ILinkSocial[] = [
     value: "vk",
     srcWorking: "/icons/fill/vk.svg",
     srcNotWorking: "/icons/fill/vk.svg",
-    path: "/vk/login",
+    // path: "/vk/login",
+    path: `${env.server.host}/vk`,
     isWorkingLink: true,
   },
   {
