@@ -36,9 +36,10 @@ export default () => {
           }
 
           const jsonString = JSON.stringify(dataToHash)
-          const hashString = window.btoa(jsonString)
+          const hashString = encodeURIComponent(jsonString)
+          const base64String = btoa(hashString)
 
-          clg("hashString: ", hashString)
+          clg("hashString: ", base64String)
         })
       }
 
