@@ -3,7 +3,7 @@ import Link from "next/link"
 import type { TLinkItem } from "../types/types"
 
 import { URL_API } from "@/helpers"
-import { dispatchModalClose } from "@/store"
+import { dispatchCloseModalAuth } from "@/store"
 
 export const LinkItem: TLinkItem = ({ src, path, isActive }) => (
   <Link
@@ -11,7 +11,7 @@ export const LinkItem: TLinkItem = ({ src, path, isActive }) => (
     href={isActive ? (path.includes("https") ? path : `${URL_API}${path}`) : {}}
     onClick={() => {
       if (path.includes("/vk")) {
-        dispatchModalClose()
+        dispatchCloseModalAuth()
       }
     }}
     rel="external"
