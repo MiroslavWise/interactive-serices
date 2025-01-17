@@ -45,13 +45,13 @@ export default () => {
         scope: "email phone",
       })
 
-      const oneTap = new VKID.OneTap()
+      const oneTap = new VKID.OAuthList()
 
       oneTap
         .render({
           container: ref.current,
-          showAlternativeLogin: true,
-          oauthList: [VKID.OAuthName.MAIL, VKID.OAuthName.OK],
+          // showAlternativeLogin: true,
+          oauthList: [VKID.OAuthName.VK, VKID.OAuthName.MAIL, VKID.OAuthName.OK],
         })
         .on(VKID.WidgetEvents.ERROR, vkidOnError)
         .on(VKID.OAuthListInternalEvents.LOGIN_SUCCESS, function (payload: any) {
