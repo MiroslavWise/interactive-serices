@@ -39,7 +39,7 @@ export default () => {
     if (ref.current) {
       VKID.Config.init({
         app: 51817076,
-        redirectUrl: "https://dev.sheira.ru/oauth2/vk",
+        redirectUrl: "https://dev.sheira.ru/vk",
         responseMode: VKID.ConfigResponseMode.Callback,
         source: VKID.ConfigSource.LOWCODE,
         scope: "email phone",
