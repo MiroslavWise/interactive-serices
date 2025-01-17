@@ -45,7 +45,7 @@ export const SignUpEmail = ({ children }: { children: ReactNode }) => {
     if (!loading) {
       setLoading(true)
       const email = values.email.trim()
-      if (["ru", "рф"].includes(email.split(".").at(-1)!)) {
+      if (!["ru", "рф"].includes(email.split(".").at(-1)!)) {
         setError("email", { message: "Email должен заканчиваться на .ru или .рф" })
         setLoading(false)
         return
