@@ -1,6 +1,7 @@
 import Link from "next/link"
 
 import { EnumTypeProvider } from "@/types/enum"
+import { ETitleRole } from "@/services/roles/types"
 import { IResponseOffers } from "@/services/offers/types"
 
 import IconMap from "@/components/icons/IconMap"
@@ -11,16 +12,18 @@ import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
+import useRole from "@/helpers/is-role"
 import { useOutsideClickEvent } from "@/helpers"
 import { titleOffer } from "@/utils/title-offer"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
-import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchMapCoordinates } from "@/store"
+import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchMapCoordinates, displayAddAdvert } from "@/store"
 
 const TITLE_SHARE = "Поделиться"
 const TITLE_TO_MAP = "Показать на карте"
+const LABEL_ADD_ADVERT = "Добавить рекламу"
 
 function ItemTitle({ offer }: { offer: IResponseOffers }) {
-  const { title, category, provider, categoryId, urgent } = offer ?? {}
+  const { title, category, provider, categoryId, urgent, company, id } = offer ?? {}
   const [open, setOpen, ref] = useOutsideClickEvent(close)
 
   const geoData = offer?.addresses?.length > 0 ? offer?.addresses[0] : null
@@ -29,6 +32,9 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
     url: `/offer/${offer.id}/${offer.slug ? String(offer.slug).replaceAll("/", "-") : ""}`,
     title: titleOffer(title, provider)! ?? "",
   })
+
+  const isAdvertising = !!company
+  const isManager = useRole(ETitleRole.Manager)
 
   return (
     <section className="w-full gap-2.5 grid grid-cols-[1.5rem_minmax(0,1fr)_1.5rem]">
@@ -99,6 +105,22 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
             <span>{TITLE_TO_MAP}</span>
           </Link>
           <a title={TITLE_SHARE} aria-label={TITLE_SHARE} aria-labelledby={TITLE_SHARE} onClick={onShare}>
+            <div>
+              <IconShare />
+            </div>
+            <span>{TITLE_SHARE}</span>
+          </a>
+          <a
+            title={LABEL_ADD_ADVERT}
+            aria-label={LABEL_ADD_ADVERT}
+            aria-labelledby={LABEL_ADD_ADVERT}
+            onClick={(event) => {
+              event.stopPropagation()
+              event.preventDefault()
+              displayAddAdvert(provider!, id!)
+            }}
+            className={cx((!isManager || isAdvertising) && "!hidden")}
+          >
             <div>
               <IconShare />
             </div>

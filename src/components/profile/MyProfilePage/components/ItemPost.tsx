@@ -14,13 +14,14 @@ import IconArrowRight from "@/components/icons/IconArrowRight"
 import { cx } from "@/lib/cx"
 import { nameTitle } from "@/lib/names"
 import { dispatchMapCoordinates, dispatchOpenCreateNote, dispatchBallonPost, dispatchUpdatePost } from "@/store"
+import AdvertisingData from "@/components/common/Card/CardBallon/components/AdvertisingData"
 
 interface IProps {
   post: IPosts
 }
 
 function ItemPost({ post }: IProps) {
-  const { id, title, archive, addresses, notes, urgent } = post ?? {}
+  const { id, title, archive, addresses, notes, urgent, company } = post ?? {}
 
   const firstAddress = addresses.length ? addresses[0] : null
   const additional = firstAddress?.additional?.replace(`${firstAddress?.country}, `, "").replace(`${firstAddress?.region}, `, "") ?? ""
@@ -90,6 +91,7 @@ function ItemPost({ post }: IProps) {
             <IconArrowRight />
           </div>
         </Link>
+        {!!company && <AdvertisingData company={company!} />}
         <footer
           className={cx("w-full grid-cols-[minmax(0,1fr)_2.25rem] gap-3 *:w-full *:h-9 *:rounded-[1.125rem]", archive ? "hidden" : "grid")}
         >

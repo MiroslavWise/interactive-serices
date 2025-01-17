@@ -1,16 +1,18 @@
-import { useState } from "react"
-
+import { EnumTypeProvider } from "@/types/enum"
+import { ETitleRole } from "@/services/roles/types"
 import { type IPosts } from "@/services/posts/types"
 
 import IconArchive from "@/components/icons/IconArchive"
 import IconActivity from "@/components/icons/IconActivity"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 import IconDotsHorizontal from "@/components/icons/IconDotsHorizontal"
+import IconCurrencyRubleCircle from "@/components/icons/IconCurrencyRubleCircle"
 
 import { cx } from "@/lib/cx"
+import useRole from "@/helpers/is-role"
 import { useOutsideClickEvent } from "@/helpers"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
-import { dispatchArchivePost, dispatchOpenDeletePost, dispatchUpdatePost, useAuth } from "@/store"
+import { dispatchArchivePost, dispatchOpenDeletePost, dispatchUpdatePost, displayAddAdvert, useAuth } from "@/store"
 
 interface IProps {
   post: IPosts
@@ -20,16 +22,20 @@ const TITLE_UPDATE = "Редактировать"
 const LABEL_SHARE = "Поделиться"
 const TITLE_ARCHIVE = "В архив"
 const LABEL_DELETE = "Удалить"
+const LABEL_ADD_ADVERT = "Добавить рекламу"
 
 function HeaderItemDotsPost({ post }: IProps) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { id, title, userId: userIdPost, archive } = post ?? {}
+  const { id, title, userId: userIdPost, archive, company } = post ?? {}
   const [open, setOpen, ref] = useOutsideClickEvent()
 
   const onShare = useNavigator({
     url: `/post/${id}`,
     title: title! ?? "",
   })
+
+  const isAdvertising = !!company
+  const isManager = useRole(ETitleRole.Manager)
 
   return (
     <div className="w-6 h-6 relative flex" ref={ref}>
@@ -101,7 +107,28 @@ function HeaderItemDotsPost({ post }: IProps) {
             {!!window?.navigator?.share ? "Поделиться" : "Скопировать ссылку"}
           </span>
         </a>
-        {!post?.archive ? (
+        {!!post?.archive ? (
+          <a
+            title={LABEL_DELETE}
+            aria-label={LABEL_DELETE}
+            aria-labelledby={LABEL_DELETE}
+            className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field cursor-pointer"
+            onClick={(event) => {
+              event.stopPropagation()
+              dispatchOpenDeletePost(id!, title)
+            }}
+          >
+            <div
+              className={cx(
+                "w-5 h-5 flex items-center justify-center relative p-2.5",
+                "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-error",
+              )}
+            >
+              <IconTrashBlack />
+            </div>
+            <span className="text-text-error text-sm font-normal text-left">{LABEL_DELETE}</span>
+          </a>
+        ) : (
           <a
             title={TITLE_ARCHIVE}
             aria-label={TITLE_ARCHIVE}
@@ -122,26 +149,30 @@ function HeaderItemDotsPost({ post }: IProps) {
             </div>
             <span className="text-text-primary text-sm font-normal text-left">{TITLE_ARCHIVE}</span>
           </a>
-        ) : null}
+        )}
         <a
-          title={LABEL_DELETE}
-          aria-label={LABEL_DELETE}
-          aria-labelledby={LABEL_DELETE}
-          className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field cursor-pointer"
+          title={LABEL_ADD_ADVERT}
+          aria-label={LABEL_ADD_ADVERT}
+          aria-labelledby={LABEL_ADD_ADVERT}
           onClick={(event) => {
             event.stopPropagation()
-            dispatchOpenDeletePost(id!, title)
+            event.preventDefault()
+            displayAddAdvert(EnumTypeProvider.POST, post?.id!)
           }}
+          className={cx(
+            "w-full py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field cursor-pointer",
+            isManager && !isAdvertising ? "grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5" : "hidden",
+          )}
         >
           <div
             className={cx(
               "w-5 h-5 flex items-center justify-center relative p-2.5",
-              "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-error",
+              "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5",
             )}
           >
-            <IconTrashBlack />
+            <IconCurrencyRubleCircle />
           </div>
-          <span className="text-text-error text-sm font-normal text-left">{LABEL_DELETE}</span>
+          <span className="text-text-primary text-sm font-normal text-left">{LABEL_ADD_ADVERT}</span>
         </a>
       </article>
     </div>

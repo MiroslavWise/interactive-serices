@@ -2,6 +2,8 @@
 
 import { useEffect } from "react"
 
+import * as VKID from "@vkid/sdk"
+
 import { getUserId } from "@/services"
 import { queryClient } from "@/context"
 import { dispatchAuthToken } from "@/store"
@@ -21,21 +23,17 @@ async function _vk(data: Record<string, any>) {
     endpoint.searchParams.set("access_token", data?.access_token ?? "")
     endpoint.searchParams.set("v", "5.199")
 
-    // const requestInit: RequestInit = {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/x-www-form-encoded",
-    //   },
-    // }
+    // VKID.Config.init({
+    //   app: 51817076,
+    //   redirectUrl: "https://dev.sheira.ru/oauth2/vk",
+    //   source: VKID.ConfigSource.LOWCODE,
+    //   scope: "email phone",
+    // })
 
-    // const body = {
-    //   access_token: data?.access_token ?? "",
-    //   v: 5.199,
-    // }
-
-    // if (Object.entries(body).length > 0) {
-    //   requestInit.body = JSON.stringify(body)
-    // }
+    // VKID.ConfigSource
+    // VKID.Auth.userInfo(data?.access_token ?? "").then((res) => {
+    //   clg("VKID.Auth.userInfo: ", res)
+    // })
 
     const response = await fetch(endpoint)
 
@@ -111,56 +109,56 @@ export default () => {
       })
 
       if (Object.entries(data).length > 0) {
-        _vk(data)
-        fetchVK(data).then((response) => {
-          if (response.ok) {
-            if (response?.response) {
-              console.log("response: postVK", response)
-              // serviceAuth.postVK(response?.response).then((response) => {
-              //   console.log("response: postVK", response)
-              //   if (response.ok) {
-              //     if (response?.res) {
-              //       queryClient
-              //         .fetchQuery({
-              //           queryFn: () => getUserId(response.res?.id!),
-              //           queryKey: ["user", { userId: response.res?.id }],
-              //         })
-              //         .then(({ data }) => {
-              //           if (!!data) {
-              //             // if (!data?.profile?.username) {
-              //             //   dispatchOnboarding("open")
-              //             // }
-              //             dispatchAuthToken({ auth: response.res!, user: data! })
-              //             handlePush("/")
-              //             on({
-              //               message: "Авторизация через сервис ВКонтакте прошла успешно",
-              //             })
-              //           } else {
-              //             on({
-              //               message:
-              //                 "К сожалению, сейчас мы не можем авторизовать вас через ВКонтакте. Пожалуйста, попробуйте другой способ.",
-              //             })
-              //             handlePush("/")
-              //           }
-              //         })
-              //     }
-              //   } else {
-              //     on({
-              //       message:
-              //         "У нас произошла какая-то ошибка, и мы не смогли вас авторизовать на сервисе. Возможно, ВКонтакте проводит какие-то операции, попробуйте чуть позже",
-              //     })
-              //     handlePush("/")
-              //   }
-              // })
-            }
-          } else {
-            console.log("error vk: ", response?.message)
-            on({
-              message: "ошибка на стороне ВКонтакте. Мы её решаем сейчас",
-            })
-            handlePush("/")
-          }
-        })
+        // _vk(data)
+        // fetchVK(data).then((response) => {
+        //   if (response.ok) {
+        //     if (response?.response) {
+        //       console.log("response: postVK", response)
+        //       // serviceAuth.postVK(response?.response).then((response) => {
+        //       //   console.log("response: postVK", response)
+        //       //   if (response.ok) {
+        //       //     if (response?.res) {
+        //       //       queryClient
+        //       //         .fetchQuery({
+        //       //           queryFn: () => getUserId(response.res?.id!),
+        //       //           queryKey: ["user", { userId: response.res?.id }],
+        //       //         })
+        //       //         .then(({ data }) => {
+        //       //           if (!!data) {
+        //       //             // if (!data?.profile?.username) {
+        //       //             //   dispatchOnboarding("open")
+        //       //             // }
+        //       //             dispatchAuthToken({ auth: response.res!, user: data! })
+        //       //             handlePush("/")
+        //       //             on({
+        //       //               message: "Авторизация через сервис ВКонтакте прошла успешно",
+        //       //             })
+        //       //           } else {
+        //       //             on({
+        //       //               message:
+        //       //                 "К сожалению, сейчас мы не можем авторизовать вас через ВКонтакте. Пожалуйста, попробуйте другой способ.",
+        //       //             })
+        //       //             handlePush("/")
+        //       //           }
+        //       //         })
+        //       //     }
+        //       //   } else {
+        //       //     on({
+        //       //       message:
+        //       //         "У нас произошла какая-то ошибка, и мы не смогли вас авторизовать на сервисе. Возможно, ВКонтакте проводит какие-то операции, попробуйте чуть позже",
+        //       //     })
+        //       //     handlePush("/")
+        //       //   }
+        //       // })
+        //     }
+        //   } else {
+        //     console.log("error vk: ", response?.message)
+        //     on({
+        //       message: "ошибка на стороне ВКонтакте. Мы её решаем сейчас",
+        //     })
+        //     handlePush("/")
+        //   }
+        // })
       }
     } else {
       on({
