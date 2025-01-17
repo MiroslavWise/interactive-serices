@@ -8,6 +8,10 @@ import { dispatchAuthToken } from "@/store"
 import { URL_API, usePush } from "@/helpers"
 import { serviceAuth } from "@/services/auth"
 import { useToast } from "@/helpers/hooks/useToast"
+import { clg } from "@console"
+
+/** @private */
+const CLIENT_ID = 51817076
 
 async function _vk(data: Record<string, any>) {
   console.log("data _vk: ", data)
@@ -17,12 +21,12 @@ async function _vk(data: Record<string, any>) {
     endpoint.searchParams.set("access_token", data?.access_token ?? "")
     endpoint.searchParams.set("v", "5.199")
 
-    const requestInit: RequestInit = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
+    // const requestInit: RequestInit = {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/x-www-form-encoded",
+    //   },
+    // }
 
     // const body = {
     //   access_token: data?.access_token ?? "",
@@ -33,7 +37,7 @@ async function _vk(data: Record<string, any>) {
     //   requestInit.body = JSON.stringify(body)
     // }
 
-    const response = await fetch(endpoint, requestInit)
+    const response = await fetch(endpoint)
 
     console.log("response: _vk", response)
   } catch (e) {
