@@ -108,36 +108,6 @@ export default () => {
         data[key] = value
       })
 
-      function vkidOnError(event: any) {
-        clg("vkidOnError: ", event, "error")
-      }
-      function vkidOnSuccess(event: any) {
-        clg("vkidOnSuccess: ", event)
-
-        VKID.Auth.userInfo(event?.access_token ?? "").then((res) => {
-          clg("VKID.Auth.userInfo: ", res)
-
-          const dataToHash = {
-            email: res?.user?.email ?? "",
-            firstName: res?.user?.first_name ?? "",
-            lastName: res?.user?.last_name ?? "",
-            userId: res?.user?.user_id,
-          }
-
-          const jsonString = JSON.stringify(dataToHash)
-          const hashString = btoa(jsonString)
-        })
-      }
-
-      const oAuth = new VKID.OAuthList()
-      oAuth.on(VKID.WidgetEvents.ERROR, vkidOnError).on(VKID.OAuthListInternalEvents.LOGIN_SUCCESS, function (payload: any) {
-        clg("LOGIN_SUCCESS payload: ", payload)
-        const code = payload.code
-        const deviceId = payload.device_id
-
-        VKID.Auth.exchangeCode(code, deviceId).then(vkidOnSuccess).catch(vkidOnError)
-      })
-
       if (Object.entries(data).length > 0) {
         // _vk(data)
         // fetchVK(data).then((response) => {

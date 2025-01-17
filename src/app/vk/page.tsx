@@ -1,16 +1,21 @@
 "use client"
 
-import { clg } from "@console"
 import * as VKID from "@vkid/sdk"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
+
+import { cx } from "@/lib/cx"
+import { clg } from "@console"
+
+import styles from "./spinner.module.scss"
 
 export default () => {
+  const [loading, setLoading] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
   function vkidOnError(event: any) {
     clg("vkidOnError: ", event, "error")
   }
-  function vkidOnSuccess(event: any) {
+  async function vkidOnSuccess(event: any) {
     clg("vkidOnSuccess: ", event)
 
     VKID.Auth.userInfo(event?.access_token ?? "").then((res) => {
@@ -25,6 +30,8 @@ export default () => {
 
       const jsonString = JSON.stringify(dataToHash)
       const hashString = btoa(jsonString)
+
+      clg("hashString: ", hashString)
     })
   }
 
@@ -38,29 +45,36 @@ export default () => {
         scope: "email phone",
       })
 
-      const oAuth = new VKID.OAuthList()
+      const oneTap = new VKID.OneTap()
 
-      oAuth
+      oneTap
         .render({
           container: ref.current,
-          styles: {
-            borderRadius: 20,
-          },
-          oauthList: [VKID.OAuthName.VK, VKID.OAuthName.MAIL, VKID.OAuthName.OK],
+          showAlternativeLogin: true,
+          oauthList: [VKID.OAuthName.MAIL, VKID.OAuthName.OK],
         })
         .on(VKID.WidgetEvents.ERROR, vkidOnError)
         .on(VKID.OAuthListInternalEvents.LOGIN_SUCCESS, function (payload: any) {
+          setLoading(true)
           clg("LOGIN_SUCCESS payload: ", payload)
           const code = payload.code
           const deviceId = payload.device_id
 
-          VKID.Auth.exchangeCode(code, deviceId).then(vkidOnSuccess).catch(vkidOnError)
+          VKID.Auth.exchangeCode(code, deviceId)
+            .then(vkidOnSuccess)
+            .catch(vkidOnError)
+            .finally(() => setLoading(false))
         })
     }
   }, [])
 
   return (
     <main className="w-full h-dvh flex items-center justify-center">
+      {loading && (
+        <div className="fixed z-50 inset-0 flex items-center justify-center bg-translucent">
+          <img className={cx("w-20 h-20 rotate-0", styles.img)} src="/svg/spinner.svg" alt="loading" width={50} height={50} />
+        </div>
+      )}
       <div className="max-w-80" ref={ref} />
     </main>
   )
