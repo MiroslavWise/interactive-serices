@@ -80,8 +80,8 @@ export default () => {
           <img className={cx("w-20 h-20 rotate-0", styles.img)} src="/svg/spinner.svg" alt="loading" width={50} height={50} />
         </div>
       )}
-      <section className="py-10 md:rounded-2 w-full max-w-[30.625rem] bg-BG-second">
-        <div className="max-w-80" ref={ref} />
+      <section className="py-10 md:rounded-2 w-full max-w-[30.625rem] bg-BG-second flex flex-col items-center justify-center">
+        <div className="max-w-[23.125rem]" ref={ref} />
       </section>
     </main>
   )
