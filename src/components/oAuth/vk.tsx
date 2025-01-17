@@ -2,6 +2,8 @@
 
 import { useEffect } from "react"
 
+import * as VKID from "@vkid/sdk"
+
 import { getUserId } from "@/services"
 import { queryClient } from "@/context"
 import { dispatchAuthToken } from "@/store"
@@ -21,21 +23,9 @@ async function _vk(data: Record<string, any>) {
     endpoint.searchParams.set("access_token", data?.access_token ?? "")
     endpoint.searchParams.set("v", "5.199")
 
-    // const requestInit: RequestInit = {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/x-www-form-encoded",
-    //   },
-    // }
-
-    // const body = {
-    //   access_token: data?.access_token ?? "",
-    //   v: 5.199,
-    // }
-
-    // if (Object.entries(body).length > 0) {
-    //   requestInit.body = JSON.stringify(body)
-    // }
+    VKID.Auth.userInfo(data?.access_token ?? "").then((res) => {
+      clg("VKID.Auth.userInfo: ", res)
+    })
 
     const response = await fetch(endpoint)
 
