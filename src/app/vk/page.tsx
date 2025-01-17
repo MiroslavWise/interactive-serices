@@ -36,7 +36,7 @@ export default () => {
           }
 
           const jsonString = JSON.stringify(dataToHash)
-          const hashString = btoa(jsonString)
+          const hashString = window.btoa(jsonString)
 
           clg("hashString: ", hashString)
         })
