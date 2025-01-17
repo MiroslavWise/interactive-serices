@@ -15,28 +15,33 @@ export default () => {
   function vkidOnError(event: any) {
     clg("vkidOnError: ", event, "error")
   }
-  async function vkidOnSuccess(event: any) {
-    clg("vkidOnSuccess: ", event)
-
-    VKID.Auth.userInfo(event?.access_token ?? "").then((res) => {
-      clg("VKID.Auth.userInfo: ", res)
-
-      const dataToHash = {
-        email: res?.user?.email ?? "",
-        firstName: res?.user?.first_name ?? "",
-        lastName: res?.user?.last_name ?? "",
-        userId: res?.user?.user_id,
-      }
-
-      const jsonString = JSON.stringify(dataToHash)
-      const hashString = btoa(jsonString)
-
-      clg("hashString: ", hashString)
-    })
-  }
 
   useEffect(() => {
     if (ref.current) {
+      async function vkidOnSuccess(event: any) {
+        clg("vkidOnSuccess: ", event)
+
+        VKID.Auth.publicInfo(event?.id_token ?? "").then((res) => {
+          clg("VKID.Auth.publicInfo: ", res)
+        })
+
+        VKID.Auth.userInfo(event?.access_token ?? "").then((res) => {
+          clg("VKID.Auth.userInfo: ", res)
+
+          const dataToHash = {
+            email: res?.user?.email ?? "",
+            firstName: res?.user?.first_name ?? "",
+            lastName: res?.user?.last_name ?? "",
+            userId: res?.user?.user_id,
+          }
+
+          const jsonString = JSON.stringify(dataToHash)
+          const hashString = btoa(jsonString)
+
+          clg("hashString: ", hashString)
+        })
+      }
+
       VKID.Config.init({
         app: 51817076,
         redirectUrl: "https://dev.sheira.ru/vk",
@@ -75,7 +80,9 @@ export default () => {
           <img className={cx("w-20 h-20 rotate-0", styles.img)} src="/svg/spinner.svg" alt="loading" width={50} height={50} />
         </div>
       )}
-      <div className="max-w-80" ref={ref} />
+      <section className="py-10 md:rounded-2 w-full max-w-[30.625rem]">
+        <div className="max-w-80" ref={ref} />
+      </section>
     </main>
   )
 }

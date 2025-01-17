@@ -1,13 +1,13 @@
 import env from "@/config/environment"
 import type { ILinkSocial } from "../types/types"
 
-const ID_VK = 51817076
+// const ID_VK = 51817076
 
-const url = new URL(`https://id.vk.com/auth`)
-url.searchParams.set(`client_id`, ID_VK.toString())
-url.searchParams.set(`redirect_uri`, `${env.server.host}/oauth2/vk`)
-url.searchParams.set(`response_type`, "code")
-url.searchParams.set(`state`, "1f3hxIi1BC5uB5afKOiH")
+// const url = new URL(`https://id.vk.com/auth`)
+// url.searchParams.set(`client_id`, ID_VK.toString())
+// url.searchParams.set(`redirect_uri`, `${env.server.host}/oauth2/vk`)
+// url.searchParams.set(`response_type`, "code")
+// url.searchParams.set(`state`, "1f3hxIi1BC5uB5afKOiH")
 
 export const ITEMS_SOCIAL_LINK: ILinkSocial[] = [
   // {

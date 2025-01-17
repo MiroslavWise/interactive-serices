@@ -3,11 +3,17 @@ import Link from "next/link"
 import type { TLinkItem } from "../types/types"
 
 import { URL_API } from "@/helpers"
+import { dispatchModalClose } from "@/store"
 
 export const LinkItem: TLinkItem = ({ src, path, isActive }) => (
   <Link
     className="flex items-center justify-center p-2.5 rounded-[6.25rem] h-11 w-[3.4375rem] shadow-social-link bg-BG-icons cursor-pointer"
     href={isActive ? (path.includes("https") ? path : `${URL_API}${path}`) : {}}
+    onClick={() => {
+      if (path.includes("/vk")) {
+        dispatchModalClose()
+      }
+    }}
     rel="external"
     prefetch={false}
   >
