@@ -15,9 +15,16 @@ export default () => {
 
     VKID.Auth.userInfo(event?.access_token ?? "").then((res) => {
       clg("VKID.Auth.userInfo: ", res)
-    })
-    VKID.Auth.publicInfo(event?.id_token ?? "").then((res) => {
-      clg("VKID.Auth.publicInfo: ", res)
+
+      const dataToHash = {
+        email: res?.user?.email ?? "",
+        firstName: res?.user?.first_name ?? "",
+        lastName: res?.user?.last_name ?? "",
+        userId: res?.user?.user_id,
+      }
+
+      const jsonString = JSON.stringify(dataToHash)
+      const hashString = btoa(jsonString)
     })
   }
 

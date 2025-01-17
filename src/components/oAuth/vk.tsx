@@ -23,17 +23,17 @@ async function _vk(data: Record<string, any>) {
     endpoint.searchParams.set("access_token", data?.access_token ?? "")
     endpoint.searchParams.set("v", "5.199")
 
-    VKID.Config.init({
-      app: 51817076,
-      redirectUrl: "https://dev.sheira.ru/oauth2/vk",
-      source: VKID.ConfigSource.LOWCODE,
-      scope: "email phone",
-    })
+    // VKID.Config.init({
+    //   app: 51817076,
+    //   redirectUrl: "https://dev.sheira.ru/oauth2/vk",
+    //   source: VKID.ConfigSource.LOWCODE,
+    //   scope: "email phone",
+    // })
 
-    VKID.ConfigSource
-    VKID.Auth.userInfo(data?.access_token ?? "").then((res) => {
-      clg("VKID.Auth.userInfo: ", res)
-    })
+    // VKID.ConfigSource
+    // VKID.Auth.userInfo(data?.access_token ?? "").then((res) => {
+    //   clg("VKID.Auth.userInfo: ", res)
+    // })
 
     const response = await fetch(endpoint)
 
@@ -108,57 +108,87 @@ export default () => {
         data[key] = value
       })
 
-      if (Object.entries(data).length > 0) {
-        _vk(data)
-        fetchVK(data).then((response) => {
-          if (response.ok) {
-            if (response?.response) {
-              console.log("response: postVK", response)
-              // serviceAuth.postVK(response?.response).then((response) => {
-              //   console.log("response: postVK", response)
-              //   if (response.ok) {
-              //     if (response?.res) {
-              //       queryClient
-              //         .fetchQuery({
-              //           queryFn: () => getUserId(response.res?.id!),
-              //           queryKey: ["user", { userId: response.res?.id }],
-              //         })
-              //         .then(({ data }) => {
-              //           if (!!data) {
-              //             // if (!data?.profile?.username) {
-              //             //   dispatchOnboarding("open")
-              //             // }
-              //             dispatchAuthToken({ auth: response.res!, user: data! })
-              //             handlePush("/")
-              //             on({
-              //               message: "Авторизация через сервис ВКонтакте прошла успешно",
-              //             })
-              //           } else {
-              //             on({
-              //               message:
-              //                 "К сожалению, сейчас мы не можем авторизовать вас через ВКонтакте. Пожалуйста, попробуйте другой способ.",
-              //             })
-              //             handlePush("/")
-              //           }
-              //         })
-              //     }
-              //   } else {
-              //     on({
-              //       message:
-              //         "У нас произошла какая-то ошибка, и мы не смогли вас авторизовать на сервисе. Возможно, ВКонтакте проводит какие-то операции, попробуйте чуть позже",
-              //     })
-              //     handlePush("/")
-              //   }
-              // })
-            }
-          } else {
-            console.log("error vk: ", response?.message)
-            on({
-              message: "ошибка на стороне ВКонтакте. Мы её решаем сейчас",
-            })
-            handlePush("/")
+      function vkidOnError(event: any) {
+        clg("vkidOnError: ", event, "error")
+      }
+      function vkidOnSuccess(event: any) {
+        clg("vkidOnSuccess: ", event)
+
+        VKID.Auth.userInfo(event?.access_token ?? "").then((res) => {
+          clg("VKID.Auth.userInfo: ", res)
+
+          const dataToHash = {
+            email: res?.user?.email ?? "",
+            firstName: res?.user?.first_name ?? "",
+            lastName: res?.user?.last_name ?? "",
+            userId: res?.user?.user_id,
           }
+
+          const jsonString = JSON.stringify(dataToHash)
+          const hashString = btoa(jsonString)
         })
+      }
+
+      const oAuth = new VKID.OAuthList()
+      oAuth.on(VKID.WidgetEvents.ERROR, vkidOnError).on(VKID.OAuthListInternalEvents.LOGIN_SUCCESS, function (payload: any) {
+        clg("LOGIN_SUCCESS payload: ", payload)
+        const code = payload.code
+        const deviceId = payload.device_id
+
+        VKID.Auth.exchangeCode(code, deviceId).then(vkidOnSuccess).catch(vkidOnError)
+      })
+
+      if (Object.entries(data).length > 0) {
+        // _vk(data)
+        // fetchVK(data).then((response) => {
+        //   if (response.ok) {
+        //     if (response?.response) {
+        //       console.log("response: postVK", response)
+        //       // serviceAuth.postVK(response?.response).then((response) => {
+        //       //   console.log("response: postVK", response)
+        //       //   if (response.ok) {
+        //       //     if (response?.res) {
+        //       //       queryClient
+        //       //         .fetchQuery({
+        //       //           queryFn: () => getUserId(response.res?.id!),
+        //       //           queryKey: ["user", { userId: response.res?.id }],
+        //       //         })
+        //       //         .then(({ data }) => {
+        //       //           if (!!data) {
+        //       //             // if (!data?.profile?.username) {
+        //       //             //   dispatchOnboarding("open")
+        //       //             // }
+        //       //             dispatchAuthToken({ auth: response.res!, user: data! })
+        //       //             handlePush("/")
+        //       //             on({
+        //       //               message: "Авторизация через сервис ВКонтакте прошла успешно",
+        //       //             })
+        //       //           } else {
+        //       //             on({
+        //       //               message:
+        //       //                 "К сожалению, сейчас мы не можем авторизовать вас через ВКонтакте. Пожалуйста, попробуйте другой способ.",
+        //       //             })
+        //       //             handlePush("/")
+        //       //           }
+        //       //         })
+        //       //     }
+        //       //   } else {
+        //       //     on({
+        //       //       message:
+        //       //         "У нас произошла какая-то ошибка, и мы не смогли вас авторизовать на сервисе. Возможно, ВКонтакте проводит какие-то операции, попробуйте чуть позже",
+        //       //     })
+        //       //     handlePush("/")
+        //       //   }
+        //       // })
+        //     }
+        //   } else {
+        //     console.log("error vk: ", response?.message)
+        //     on({
+        //       message: "ошибка на стороне ВКонтакте. Мы её решаем сейчас",
+        //     })
+        //     handlePush("/")
+        //   }
+        // })
       }
     } else {
       on({
