@@ -30,6 +30,7 @@ async function _vk(data: Record<string, any>) {
       scope: "email phone",
     })
 
+    VKID.ConfigSource
     VKID.Auth.userInfo(data?.access_token ?? "").then((res) => {
       clg("VKID.Auth.userInfo: ", res)
     })

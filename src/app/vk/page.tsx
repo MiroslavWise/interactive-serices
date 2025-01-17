@@ -43,6 +43,7 @@ export default () => {
         })
         .on(VKID.WidgetEvents.ERROR, vkidOnError)
         .on(VKID.OAuthListInternalEvents.LOGIN_SUCCESS, function (payload: any) {
+          clg("LOGIN_SUCCESS payload: ", payload)
           const code = payload.code
           const deviceId = payload.device_id
 
