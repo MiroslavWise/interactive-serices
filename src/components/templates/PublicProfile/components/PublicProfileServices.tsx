@@ -89,12 +89,13 @@ function PublicProfileServices() {
             {state === EnumTypeProvider.POST ? lengthPosts : length} {name}
           </p>
           {state === EnumTypeProvider.POST
-            ? itemsPosts.map((item) => <ItemPost post={item} key={`:d:s:Dg:a:s:${item.id}:`} />)
+            ? itemsPosts.map((item) => <ItemPost post={item} key={`:d:s:Dg:a:s:${item.id}:`} on={() => dispatchPublicProfile(null)} />)
             : itemsOffers.map((item) => (
                 <li
                   key={`:key:${item.id}:${item.provider}:`}
                   onClick={() => {
                     handle(item)
+                    dispatchPublicProfile(null)
                   }}
                   className="relative w-full px-4 pt-3 pb-4 bg-BG-second rounded-2xl flex flex-col gap-4 cursor-pointer"
                 >
