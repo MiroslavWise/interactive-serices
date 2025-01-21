@@ -32,8 +32,8 @@ export const NextImageMotion = (props: TTypes) => {
       loading="lazy"
       src={src}
       alt={alt}
-      height={height}
-      width={width}
+      height={height ?? 80}
+      width={width ?? 80}
       style={{
         objectFit: "cover",
       }}

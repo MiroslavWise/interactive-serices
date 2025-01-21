@@ -10,6 +10,7 @@ export interface ICompanyExtend extends ICompany {
   users?: IUserOffer[]
 }
 
+export const getCompanies = () => fetchGet<ICompanyExtend[]>({ url })
 export const getCompanyId = (id: number) => fetchGet<ICompanyExtend>({ url: `${url}/${id}` })
 
 export interface IBodyCompany {
