@@ -1,5 +1,7 @@
 import { Metadata } from "next"
 
+import ComponentUsers from "../components/ComponentUsers"
+
 export const metadata: Metadata = {
   title: "Аккаунты компании",
   robots: {
@@ -12,4 +14,8 @@ export const metadata: Metadata = {
   },
 }
 
-export default () => "sdf"
+export default () => (
+  <section className="relative w-full bg-BG-second h-full px-5">
+    <ComponentUsers />
+  </section>
+)
