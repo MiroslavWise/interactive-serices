@@ -96,7 +96,7 @@ function FormSelectCompany() {
               {c ? (
                 <div className="absolute z-50 top-6 -translate-y-1/2 h-10 max-w-[calc(100%_-_0.5rem)] left-1 rounded-[1.25rem] p-1 pr-1.5 border border-grey-field grid items-center grid-cols-[minmax(0,1fr)_1rem] gap-1">
                   <div className="flex flex-row flex-nowrap items-center">
-                    <span className="text-xs text-text-primary whitespace-nowrap line-clamp-1 text-ellipsis">{c.title},</span>
+                    <span className="text-xs text-text-primary whitespace-nowrap line-clamp-1 text-ellipsis">{c.title}</span>
                     &nbsp;
                     <span className="line-clamp-1 text-ellipsis text-xs text-text-secondary">
                       {c?.inn ? `ИНН: ${c?.inn}` : null}&nbsp;{c?.erid ? `erid: ${c?.erid}` : null}
