@@ -16,9 +16,10 @@ import { cx } from "@/lib/cx"
 import { daysAgo } from "@/helpers"
 import { useContextPostsComments } from "./ContextComments"
 import { dispatchPhotoCarousel, dispatchVideoStream, useBalloonPost } from "@/store"
+import AdvertisingData from "@/components/common/Card/CardBallon/components/AdvertisingData"
 
 function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: DispatchWithoutAction }) {
-  const { archive } = useBalloonPost(({ data }) => data) ?? {}
+  const { archive, company } = useBalloonPost(({ data }) => data) ?? {}
   const { description, created, images = [], id } = note ?? {}
   const refImages = useRef<HTMLDivElement>(null)
   const ref = useRef<HTMLLIElement>(null)
@@ -124,6 +125,7 @@ function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: 
       >
         {expand ? "Скрыть" : "Читать всё"}
       </a>
+      <AdvertisingData company={company!} />
       <div className={cx("w-full flex-col gap-2", files.file.length > 0 ? "flex" : "hidden")}>
         {files.file.map((item) => (
           <Link

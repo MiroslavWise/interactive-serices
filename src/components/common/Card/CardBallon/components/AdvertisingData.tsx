@@ -8,10 +8,10 @@ interface IProps {
 }
 
 function AdvertisingData({ company }: IProps) {
-  const { title: companyTitle, erid: companyErid, inn: companyInn, ad } = company ?? {}
+  const { title: companyTitle, erid: companyErid, inn: companyInn } = company ?? {}
   const [isOpenCompany, setIsOpenCompany, refCompany] = useOutsideClickEvent()
 
-  return (
+  return !!company ? (
     <span
       className="relative text-[0.625rem] font-light text-text-disabled cursor-pointer -mt-1 w-fit"
       ref={refCompany}
@@ -32,7 +32,7 @@ function AdvertisingData({ company }: IProps) {
         <span className="text-text-primary text-xs font-normal whitespace-nowrap">erid: {companyErid}</span>
       </div>
     </span>
-  )
+  ) : null
 }
 
 export default AdvertisingData
