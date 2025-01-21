@@ -1,10 +1,16 @@
 import { ICompany } from "../types/company"
 
+import { IUserOffer } from "../offers/types"
 import { fetchGet, wrapperPatch } from "../request"
 
 const url = "/companies"
 
-export const getCompanyId = (id: number) => fetchGet<ICompany>({ url: `${url}/${id}` })
+export interface ICompanyExtend extends ICompany {
+  owner: IUserOffer
+  users?: IUserOffer[]
+}
+
+export const getCompanyId = (id: number) => fetchGet<ICompanyExtend>({ url: `${url}/${id}` })
 
 export interface IBodyCompany {
   title?: string

@@ -1,9 +1,11 @@
 import { type Metadata } from "next"
 
+import AsideMenu from "./components/AsideMenu"
+import ContextCompany from "./components/ContextCompany"
+
 import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
-import AsideMenu from "./components/AsideMenu"
 
 export const metadata: Metadata = {
   title: "Компания",
@@ -20,6 +22,6 @@ export const metadata: Metadata = {
 export default ({ children }: { children: React.ReactNode }) => (
   <main className={cx(styles.main, "w-full grid px-6 gap-6 pb-6")}>
     <AsideMenu />
-    {children}
+    <ContextCompany>{children}</ContextCompany>
   </main>
 )

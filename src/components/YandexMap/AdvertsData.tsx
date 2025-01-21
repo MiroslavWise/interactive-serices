@@ -40,6 +40,8 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, image, address, compa
   const { title: companyTitle, erid: companyErid, inn: companyInn, ad } = company ?? {}
 
   const targetId = provider === EnumTypeProvider.POST ? post?.id : offer?.id
+  const description =
+    provider === EnumTypeProvider.POST ? post?.notes?.find((_) => _.main)?.description ?? null : offer?.description ?? null
 
   const { data: testimonials } = useQuery({
     queryFn: () => getTestimonials({ target: targetId!, provider: provider, order: "DESC" }),
@@ -132,7 +134,7 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, image, address, compa
       <p className="text-text-secondary text-xs font-normal line-clamp-3 text-ellipsis cursor-pointer" onClick={handle}>
         {addressName}
       </p>
-      <p className={cx(!!ad && "text-text-primary text-xs font-normal line-clamp-4")}>{ad}</p>
+      <p className={cx(!!ad && "text-text-primary text-xs font-normal line-clamp-4")}>{description}</p>
       <span
         className="relative text-[0.625rem] font-light text-text-disabled cursor-pointer -mt-1 w-fit"
         ref={refCompany}

@@ -3,24 +3,27 @@
 import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
-import { ICompany } from "@/services/types/company"
+import { ICompanyExtend } from "@/services/companies"
 
+import Button from "@/components/common/Button"
+
+import { cx } from "@/lib/cx"
 import { updateCompany } from "../utils/update"
 import { resolverSchemaCompany, TSchemaCompany } from "../utils/schema"
-
-import styles from "../styles/form.module.scss"
-import { cx } from "@/lib/cx"
-import Button from "@/components/common/Button"
 import { MAX_LENGTH_INN, MAX_LENGTH_OGRN } from "@/components/templates/AddAdverts/schema"
 
+import styles from "../styles/form.module.scss"
+import { useAuth } from "@/store"
+
 interface IProps {
-  company: ICompany
+  company: ICompanyExtend
   refetch(): Promise<any>
 }
 
 function UpdateCompanyInfo({ company, refetch }: IProps) {
   const [loading, setLoading] = useState(false)
-  const { title, ad, erid, inn, ogrn } = company ?? {}
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
+  const { title, ad, erid, inn, ogrn, owner } = company ?? {}
   const { handleSubmit, control } = useForm<TSchemaCompany>({
     defaultValues: {
       title: title ?? "",
@@ -33,7 +36,7 @@ function UpdateCompanyInfo({ company, refetch }: IProps) {
   })
 
   const onSubmit = handleSubmit(async (values) => {
-    if (!loading) {
+    if (!loading && isMain) {
       setLoading(true)
       const response = await updateCompany({ values, defaults: company! })
       if (response.ok !== "not update") {
@@ -42,6 +45,8 @@ function UpdateCompanyInfo({ company, refetch }: IProps) {
       setLoading(false)
     }
   })
+
+  const isMain = userId === owner?.id
 
   return (
     <form onSubmit={onSubmit} className={cx("w-full flex flex-col gap-3 overflow-y-auto h-full py-5", styles.form)}>
@@ -58,7 +63,7 @@ function UpdateCompanyInfo({ company, refetch }: IProps) {
             <label className="text-sm text-text-primary font-medium" htmlFor={field.name} title="Название компании">
               Название компании
             </label>
-            <input type="text" placeholder="Введите название" {...field} data-error={!!error} />
+            <input type="text" placeholder="Введите название" {...field} data-error={!!error} disabled={!isMain} />
           </fieldset>
         )}
       />
@@ -70,7 +75,7 @@ function UpdateCompanyInfo({ company, refetch }: IProps) {
             <label className="text-sm text-text-primary font-medium" htmlFor={field.name} title="ИНН компании">
               ИНН компании
             </label>
-            <input type="text" placeholder="Введите ИНН" {...field} data-error={!!error} maxLength={MAX_LENGTH_INN} />
+            <input type="text" placeholder="Введите ИНН" {...field} data-error={!!error} maxLength={MAX_LENGTH_INN} disabled={!isMain} />
           </fieldset>
         )}
       />
@@ -82,7 +87,7 @@ function UpdateCompanyInfo({ company, refetch }: IProps) {
             <label className="text-sm text-text-primary font-medium" htmlFor={field.name} title="ОГРН компании">
               ОГРН (Основной гос. регистрационный номер)
             </label>
-            <input type="text" placeholder="Введите ОГРН" {...field} data-error={!!error} maxLength={MAX_LENGTH_OGRN} />
+            <input type="text" placeholder="Введите ОГРН" {...field} data-error={!!error} maxLength={MAX_LENGTH_OGRN} disabled={!isMain} />
           </fieldset>
         )}
       />
@@ -94,7 +99,7 @@ function UpdateCompanyInfo({ company, refetch }: IProps) {
             <label className="text-sm text-text-primary font-medium" htmlFor={field.name} title="ERID рекламной компании">
               ERID рекламной компании
             </label>
-            <input type="text" placeholder="Введите ERID" {...field} data-error={!!error} />
+            <input type="text" placeholder="Введите ERID" {...field} data-error={!!error} disabled={!isMain} />
           </fieldset>
         )}
       />
@@ -106,11 +111,11 @@ function UpdateCompanyInfo({ company, refetch }: IProps) {
             <label className="text-sm text-text-primary font-medium" htmlFor={field.name} title="Описание">
               Описание (не обязательно)
             </label>
-            <input type="text" placeholder="Введите описание" {...field} data-error={!!error} />
+            <input type="text" placeholder="Введите описание" {...field} data-error={!!error} disabled={!isMain} />
           </fieldset>
         )}
       />
-      <Button type="submit" label="Обновить" loading={loading} className="mt-3" />
+      <Button type="submit" label="Обновить" loading={loading} className="mt-3" disabled={!isMain} />
     </form>
   )
 }

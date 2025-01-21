@@ -19,7 +19,8 @@ interface IProps {
 }
 
 function AdvertisingTitleCompany({ company, offer, post, provider }: IProps) {
-  const { title, image } = company ?? {}
+  const { title = "" } = provider === EnumTypeProvider.POST ? post ?? {} : offer ?? {}
+  const { image } = company ?? {}
 
   const { addresses: postAddresses, id: postId } = post ?? {}
   const { addresses: offerAddresses, id: offerId } = offer ?? {}
@@ -46,7 +47,7 @@ function AdvertisingTitleCompany({ company, offer, post, provider }: IProps) {
     <div className="w-full flex flex-col gap-1">
       <section className={cx("w-full", image ? "grid gap-2 grid-cols-[minmax(0,1fr)_2.5rem]" : "flex")}>
         <div className="w-full flex flex-col items-start justify-between gap-1">
-          <h2 className="text-text-primary text-base font-bold">{title ?? ""}</h2>
+          <h2 className="text-text-primary text-base font-bold text-ellipsis line-clamp-2">{title ?? ""}</h2>
           {length > 0 ? (
             <div className="flex flex-row items-center gap-1">
               <div className="w-min flex flex-row items-center">

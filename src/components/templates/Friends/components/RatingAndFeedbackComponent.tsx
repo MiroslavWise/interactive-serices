@@ -1,4 +1,3 @@
-import { memo, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { getTestimonials } from "@/services"
@@ -14,10 +13,8 @@ function RatingAndFeedbackComponent({ id }: { id: number }) {
   const items = data?.data || []
   const length = items.length
   const name = DeclensionAllQuantityFeedback(length)
-  const rating = useMemo(() => {
-    if (items.length === 0) return null
-    return Number(items.reduce((acc, cur) => acc + Number(cur.rating ?? 0), 0) / (items.length || 1)).toFixed(1)
-  }, [items])
+  const rating =
+    items.length === 0 ? null : Number(items.reduce((acc, cur) => acc + Number(cur.rating ?? 0), 0) / (items.length || 1)).toFixed(1)
 
   if (isLoading)
     return (
@@ -38,7 +35,6 @@ function RatingAndFeedbackComponent({ id }: { id: number }) {
       <article className="flex flex-row items-center flex-nowrap gap-[0.0625rem] h-[1.125rem]">
         <div className="relative w-4 h-4 p-2">
           <svg
-            xmlns="http://www.w3.org/2000/svg"
             width="12"
             height="12"
             viewBox="0 0 12 12"
@@ -60,4 +56,4 @@ function RatingAndFeedbackComponent({ id }: { id: number }) {
 }
 
 RatingAndFeedbackComponent.displayName = "RatingAndFeedbackComponent"
-export default memo(RatingAndFeedbackComponent)
+export default RatingAndFeedbackComponent
