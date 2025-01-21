@@ -16,7 +16,7 @@ function ActiveServicesFrom() {
     enabled: !!userId && data === EModalData.ActiveServicesFrom,
   })
 
-  const categories = dataUser?.data?.categories || []
+  // const categories = []
 
   return (
     <>
@@ -35,9 +35,9 @@ function ActiveServicesFrom() {
           Добавьте услуги, которые вам интересны и вы бы хотели их получить. Вы можете добавить не более 5 услуг.
         </p>
         <ul data-test="ul-modal-active-services-from" className="w-full grid max-md:grid-cols-2 grid-cols-3 gap-[0.6875rem] h-fit">
-          {categories?.map((item) => (
+          {/* {categories?.map((item) => (
             <ItemCategory key={`::key::item::category::${item.id}::`} {...item} refetch={refetch} categories={categories} />
-          ))}
+          ))} */}
           <ItemCategoryAdd />
         </ul>
       </div>

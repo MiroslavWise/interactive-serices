@@ -47,9 +47,10 @@ export const MContainerAboutProfile = () => {
   }, [data?.data])
 
   const geoData = useMemo(() => {
-    return dataUser?.data && dataUser?.data?.addresses?.length > 0
-      ? dataUser?.data?.addresses?.find((item) => item.addressType === "main")
-      : null
+    return null
+    // return dataUser?.data && dataUser?.data?.addresses?.length > 0
+    //   ? dataUser?.data?.addresses?.find((item) => item.addressType === "main")
+    //   : null
   }, [dataUser])
 
   function handleOpenOption() {
@@ -102,7 +103,7 @@ export const MContainerAboutProfile = () => {
                 </h3>
                 {geoData ? (
                   <p className="text-text-secondary text-[0.8125rem] font-normal line-clamp-2 text-ellipsis leading-4">
-                    {geoData?.additional}
+                    {/* {geoData?.additional} */}
                   </p>
                 ) : null}
                 <time className="text-text-disabled text-xs font-normal" dateTime={`${dataUser?.data?.created!}`}>

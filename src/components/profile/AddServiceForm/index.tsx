@@ -40,14 +40,14 @@ export const ChangeService = () => {
     enabled: !!userId,
   })
 
-  useEffect(() => {
-    if (data?.data && Array.isArray(data?.data?.categories)) {
-      setValue(
-        "categories",
-        data?.data?.categories?.map((item) => item?.id!),
-      )
-    }
-  }, [data])
+  // useEffect(() => {
+  //   if (data?.data && Array.isArray(data?.data?.categories)) {
+  //     setValue(
+  //       "categories",
+  //       data?.data?.categories?.map((item) => item?.id!),
+  //     )
+  //   }
+  // }, [data])
 
   const idsActive = watch("categories")
   const isFilter = watch("search-categories")?.trim()?.length > 0
@@ -88,7 +88,8 @@ export const ChangeService = () => {
   function submit(values: IValuesCategories) {
     if (!loading) {
       setLoading(true)
-      if (JSON.stringify(watch("categories")?.sort()) === JSON.stringify(data?.data?.categories?.map((item) => item.id)?.sort())) {
+      //JSON.stringify(watch("categories")?.sort()) === JSON.stringify(data?.data?.categories?.map((item) => item.id)?.sort())
+      if (true) {
         setLoading(false)
         dispatchChangeService({ visible: false })
       } else {

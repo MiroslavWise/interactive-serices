@@ -3,22 +3,12 @@ import { useMemo } from "react"
 import type { TBlockTitle } from "./types/types"
 
 import Avatar from "@avatar"
-import { GeoTagging } from "@/components/common"
+// import { GeoTagging } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 
-export const BlockTitle: TBlockTitle = ({ profile, addresses, id: userId }) => {
+export const BlockTitle: TBlockTitle = ({ profile, id: userId }) => {
   const { firstName, lastName } = profile ?? {}
-
-  const geo = useMemo(() => {
-    if (!addresses) {
-      return null
-    }
-    if (Array.isArray(addresses) && !addresses.length) {
-      return null
-    }
-    return addresses[0]?.additional
-  }, [addresses])
 
   return (
     <div className="w-full gap-3 grid grid-cols-[2.75rem_minmax(0,1fr)]">
@@ -27,7 +17,7 @@ export const BlockTitle: TBlockTitle = ({ profile, addresses, id: userId }) => {
         <h4 className="text-text-primary text-base font-medium">
           {firstName || "Имя"} {lastName || ""}
         </h4>
-        {geo ? <GeoTagging fontSize={12} location={geo} /> : null}
+        {/* {geo ? <GeoTagging fontSize={12} location={geo} /> : null} */}
       </div>
     </div>
   )
