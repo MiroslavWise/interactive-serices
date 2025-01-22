@@ -410,7 +410,7 @@ function CreatePost() {
             <Button
               type="submit"
               typeButton="fill-primary"
-              label="Создать пост"
+              label="Создать событие"
               className="w-full h-11 py-2.5"
               loading={loading}
               disabled={loading || disabled}
