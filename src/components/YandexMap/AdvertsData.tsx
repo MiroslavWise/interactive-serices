@@ -114,7 +114,7 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, address, company, off
       <p className="text-text-secondary text-xs font-normal line-clamp-3 text-ellipsis cursor-pointer" onClick={handle}>
         {addressName}
       </p>
-      <p className={cx(!!ad && "text-text-primary text-xs font-normal line-clamp-4")}>{description}</p>
+      <p className={cx(!!description ? "text-text-primary text-xs font-normal line-clamp-4": "hidden")}>{description}</p>
       <span
         className="relative text-[0.625rem] font-light text-text-disabled cursor-pointer -mt-1 w-fit"
         ref={refCompany}
