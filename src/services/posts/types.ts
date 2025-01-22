@@ -71,7 +71,7 @@ interface IQueries {
   archive?: 1 | 0
 }
 
-export type TPostPosts = (body: IBodyPost) => Promise<IResponse<IPosts>>
+export type TPostPosts = (body: IBodyPost & { userId?: number }) => Promise<IResponse<IPosts>>
 export type TPatchPost = (id: number, body: Partial<IBodyPost>) => Promise<IResponse<IPosts>>
 export type TGetPosts = ({}: IQueries, isInvalid?: boolean) => Promise<IResponse<IPosts[]>>
 export type TGetPostsFromUser = ({}: { query?: IQueries } & { userId: number }) => Promise<IResponse<IPosts[]>>

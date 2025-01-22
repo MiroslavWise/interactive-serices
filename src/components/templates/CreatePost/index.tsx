@@ -78,12 +78,16 @@ function CreatePost() {
     const slug = transliterateAndReplace(title)
     const help = values.help
 
-    const data: IBodyPost = {
+    const data: IBodyPost & { userId?: number } = {
       enabled: true,
       title,
       slug,
       addresses: [],
       isParticipants: values.isParticipants,
+    }
+
+    if (values.userId && typeof values.userId === "number") {
+      data.userId = userId
     }
 
     if (help) {
