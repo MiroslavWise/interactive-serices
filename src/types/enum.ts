@@ -72,7 +72,9 @@ export enum EAdvertsButton {
    * @public
    * */
   WEBSITE = "website",
-  /** Подробнее */
+  /** Подробнее
+   * @public
+   */
   READ_MORE = "read-more",
   /** Перейти в чат */
   GO_TO_CHAT = "go-to-chat",
@@ -130,6 +132,10 @@ const ACTIVE = [
   EAdvertsButton.CALL_ON_WHATSAPP,
   EAdvertsButton.SIGN_UP,
   EAdvertsButton.TELEGRAM_CHANNEL,
+  EAdvertsButton.READ_MORE,
+  EAdvertsButton.BUY,
+  EAdvertsButton.ORDER,
+  EAdvertsButton.ENROLLING,
 ]
 
 export const activeArrayAdvertsButtonLabels = arrayAdvertsButtonLabels.filter(([key, _]) => ACTIVE.includes(key))

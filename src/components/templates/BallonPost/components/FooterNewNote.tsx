@@ -76,7 +76,7 @@ function FooterNewNote() {
                 setLoading(true)
                 await patchPost(id!, {})
                 on({
-                  message: "Вы были добавлены в список участнитков данного мероприятия",
+                  message: "Вы были добавлены в список участников данного мероприятия",
                 })
                 await refetch()
                 setLoading(false)

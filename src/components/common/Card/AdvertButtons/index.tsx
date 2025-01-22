@@ -30,7 +30,7 @@ function AdvertButtons({ provider, offer, post }: IProps) {
     <footer className={cx("flex-row items-center justify-start gap-2", isEmpty ? "hidden" : "flex")}>
       {provider === EnumTypeProvider.offer ? <ButtonToChat offer={offer!} /> : null}
       {provider === EnumTypeProvider.POST ? <ButtonToParticipants post={post!} /> : null}
-      <ButtonAdvertAction actions={actions} />
+      <ButtonAdvertAction actions={actions} provider={provider} offer={offer} post={post} />
     </footer>
   )
 }
