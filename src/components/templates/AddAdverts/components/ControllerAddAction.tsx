@@ -118,7 +118,9 @@ function ControllerAddAction({ control, actionAdvertButton }: IProps) {
             <label htmlFor={field.name} title="Описание рекламы" className="text-sm text-text-primary">
               Ссылка или номер телефона
             </label>
-            {actionAdvertButton ? <span className="text-xs text-text-error">{ descriptionURL(actionAdvertButton!)}</span> : null}
+            {actionAdvertButton ? (
+              <span className="text-xs text-text-error whitespace-pre-wrap">{descriptionURL(actionAdvertButton!)}</span>
+            ) : null}
             <input type={textType ?? "text"} placeholder="Введите данные для перехода пользователю" {...field} />
           </fieldset>
         )}

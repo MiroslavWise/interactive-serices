@@ -71,8 +71,8 @@ function FormNewCompany() {
       if (!!actionAdvertButton) {
         let url = actionUrl ?? ""
 
-        if (actionAdvertButton === EAdvertsButton.BECOME_A_MEMBER) {
-          url = ""
+        if (actionAdvertButton === EAdvertsButton.CALL_ON_WHATSAPP) {
+          url = actionUrl.replace(/[\(\s\)-]/g, "")
         }
 
         bodyAction.actions = [
