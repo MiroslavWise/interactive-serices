@@ -7,6 +7,8 @@ import WrapperPseudoModalAboutProfile from "./components/WrapperPseudoModalAbout
 import ContentPseudoModalAboutProfile from "./components/ContentPseudoModalAboutProfile"
 
 import { cx } from "@/lib/cx"
+import ComponentsServices from "./components/ComponentsServices"
+import ComponentLinks from "./components/ComponentLinks"
 
 export interface IParamsCustomer {
   params: {
@@ -20,11 +22,9 @@ export interface IParamsCustomer {
 interface IProps extends IParamsCustomer {
   profile: ReactNode
   feedback: ReactNode
-  offers: ReactNode
-  links: ReactNode
 }
 
-export default ({ profile, children, feedback, params: { userId }, links, offers }: PropsWithChildren<IProps>) => (
+export default ({ profile, children, feedback, params: { userId } }: PropsWithChildren<IProps>) => (
   <>
     <main
       className={cx(
@@ -37,8 +37,8 @@ export default ({ profile, children, feedback, params: { userId }, links, offers
       <section className="w-full flex flex-col gap-6 md:overflow-y-auto md:py-6 md:-my-6">
         {children}
         <div className="w-full flex flex-col gap-2.5">
-          {links}
-          {offers}
+          <ComponentLinks />
+          <ComponentsServices userId={userId} />
         </div>
       </section>
       {feedback}

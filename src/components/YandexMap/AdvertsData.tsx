@@ -17,6 +17,7 @@ import { getTestimonials } from "@/services"
 import { useOutsideClickEvent } from "@/helpers"
 import { DeclensionAllQuantityFeedback } from "@/lib/declension"
 import { dispatchBallonAlert, dispatchBallonOffer, dispatchBallonPost } from "@/store"
+import AdvertsImageData from "./AdvertsImageData"
 
 interface IProps {
   isOpen: boolean
@@ -32,7 +33,7 @@ interface IProps {
   post?: IPosts
 }
 
-function AdvertsData({ provider, isOpen, setIsOpen, title, image, address, company, offer, post }: IProps) {
+function AdvertsData({ provider, isOpen, setIsOpen, title, address, company, offer, post }: IProps) {
   const ref = useRef<HTMLDivElement>(null)
 
   const [isOpenCompany, setIsOpenCompany, refCompany] = useOutsideClickEvent()
@@ -42,6 +43,7 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, image, address, compa
   const targetId = provider === EnumTypeProvider.POST ? post?.id : offer?.id
   const description =
     provider === EnumTypeProvider.POST ? post?.notes?.find((_) => _.main)?.description ?? null : offer?.description ?? null
+  const images = provider === EnumTypeProvider.POST ? post?.notes?.find((_) => _.main)?.images ?? [] : offer?.images ?? []
 
   const { data: testimonials } = useQuery({
     queryFn: () => getTestimonials({ target: targetId!, provider: provider, order: "DESC" }),
@@ -83,7 +85,12 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, image, address, compa
       )}
       ref={ref}
     >
-      <header className={cx("w-full grid gap-3 items-start", image ? "grid-cols-[minmax(0,1fr)_2.5rem]" : "grid-cols-[minmax(0,1fr)]")}>
+      <header
+        className={cx(
+          "w-full grid gap-3 items-start",
+          images.length > 0 ? "grid-cols-[minmax(0,1fr)_2.5rem]" : "grid-cols-[minmax(0,1fr)]",
+        )}
+      >
         <div className="w-full flex flex-col items-start justify-between gap-1">
           <h2 className="text-text-primary text-sm font-semibold line-clamp-2 text-ellipsis cursor-pointer" onClick={handle}>
             {title}
@@ -102,18 +109,7 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, image, address, compa
             <span className="text-text-secondary text-xs font-light whitespace-nowrap">Ещё нет отзывов</span>
           )}
         </div>
-        <div className={cx("rounded-md overflow-hidden w-10 h-10 cursor-pointer", image ? "relative" : "hidden")} onClick={handle}>
-          {image ? (
-            <NextImageMotion
-              src={image.attributes.url}
-              hash={image.attributes.blur}
-              alt={provider}
-              width={80}
-              height={80}
-              className="object-cover absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10"
-            />
-          ) : null}
-        </div>
+        <AdvertsImageData images={images} handle={handle} />
       </header>
       <p className="text-text-secondary text-xs font-normal line-clamp-3 text-ellipsis cursor-pointer" onClick={handle}>
         {addressName}

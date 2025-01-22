@@ -82,7 +82,7 @@ function AddUser({ onChange, value }: IProps) {
                 </div>
               </div>
               <a
-                className="cursor-pointer text-sm font-medium text-text-error w-fit grid grid-cols-[minmax(0,1fr)_1.25rem] gap-1 [&>svg]:w-5 [&>svg]:h-5"
+                className="cursor-pointer text-sm font-medium text-text-error w-fit grid grid-cols-[minmax(0,1fr)_1rem] gap-1 [&>svg]:w-4 [&>svg]:h-4"
                 onClick={(event) => {
                   event.stopPropagation()
                   onChange(null)

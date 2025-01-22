@@ -182,12 +182,15 @@ export default function CreateNewOptionModal() {
   function submit(values: TSchemaCreate) {
     const regexMoreSpace = /\s+/g
     const description = values.description.trim().replaceAll(regexMoreSpace, " ")
-    const data: IPostOffers = {
+    const data: IPostOffers & { userId?: number } = {
       provider: typeAdd!,
       description: description,
       slug: transliterateAndReplace(description).slice(0, 254),
       enabled: true,
       desired: true,
+    }
+    if (values.userId) {
+      data.userId = values.userId
     }
 
     if (values.help) {
