@@ -4,10 +4,10 @@
 "use client"
 
 import FormNewCompany from "./components/FormNewCompany"
+import FormSelectCompany from "./components/FormSelectCompany"
 
 import { cx } from "@/lib/cx"
 import { useAddAdvert } from "@/store"
-import FormSelectCompany from "./components/FormSelectCompany"
 
 function AddAdverts() {
   const id = useAddAdvert(({ id }) => id)
@@ -22,7 +22,7 @@ function AddAdverts() {
       )}
     >
       <section className="w-full bg-BG-second md:rounded-2 p-5 md:p-10 pt-9 md:pt-5 relative md:max-w-[33.75rem] flex flex-col gap-3 h-full overflow-hidden overflow-y-auto">
-        <FormSelectCompany />
+        <FormSelectCompany id={id!} type={type!} />
         <div className="w-full grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-3 items-center">
           <div className="w-full border-t border-dashed border-grey-stroke-light" />
           <span className="text-center whitespace-nowrap text-xs  text-text-secondary">или создать новую</span>

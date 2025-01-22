@@ -19,6 +19,7 @@ import { hideAddAdvert, useAddAdvert, useAuth } from "@/store"
 import { MAX_LENGTH_OGRN, MAX_LENGTH_INN, TSchemaAdvert, resolver, handleImageChange, TFiles } from "../schema"
 
 import styles from "../styles/style.module.scss"
+import { IBodyCompany, patchCompany, postCompany } from "@/services/companies"
 
 function FormNewCompany() {
   const [loading, setLoading] = useState(false)
@@ -47,18 +48,19 @@ function FormNewCompany() {
   const onSubmit = handleSubmit(async (values) => {
     if (!loading) {
       setLoading(true)
-      const body: IBodyAdvert = {}
+      const title = values.title?.trim() ?? ""
+      const inn = values.inn?.trim() ?? ""
+      const erid = values.erid?.trim() ?? ""
+      const body: IBodyCompany = {
+        title: title,
+        inn: inn,
+        erid: erid,
+      }
       const bodyAction: IBodyAdvertAction = {}
 
-      const title = values.title?.trim()
-      const inn = values.inn?.trim()
-      const erid = values.erid?.trim()
       const ad = values.ad?.trim()
       const ogrn = values.ogrn?.trim()
 
-      if (!!title) body.title = title
-      if (!!inn) body.inn = inn
-      if (!!erid) body.erid = erid
       if (!!ad) body.ad = ad
       if (!!ogrn) body.ogrn = ogrn
 
@@ -81,52 +83,44 @@ function FormNewCompany() {
         ]
       }
 
-      const files = values.file.file
-      const ids: number[] = []
-
-      if (files.length > 0) {
-        const responseImages = await Promise.all(
-          files.map((item) =>
-            fileUploadService(item!, {
-              type: type!,
-              userId: userId!,
-              idSupplements: id!,
-            }),
-          ),
-        )
-
-        responseImages.forEach((item) => {
-          if (!!item.data) {
-            ids.push(item.data.id)
-          }
-        })
-      }
-
       if (Object.keys(bodyAction).length > 0) {
         body.actions = bodyAction.actions
       }
 
-      if (ids.length > 0) body.imageId = ids[0]!
+      const responsePost = await postCompany(body)
 
-      if (Object.keys(body).length > 0) {
-        if (type && [EnumTypeProvider.offer, EnumTypeProvider.alert].includes(type)) {
-          const response = await patchAdvertOffer(id!, body)
+      if (responsePost.ok) {
+        const companyId = responsePost?.res?.id!
 
-          if (response.ok) {
-            on({
-              message: "Реклама добавлена",
-            })
-          }
+        const files = values.file.file
+        const ids: number[] = []
+
+        if (files.length > 0) {
+          const responseImages = await Promise.all(
+            files.map((item) =>
+              fileUploadService(item!, {
+                type: type!,
+                userId: userId!,
+                idSupplements: companyId!,
+              }),
+            ),
+          )
+
+          responseImages.forEach((item) => {
+            if (!!item.data) {
+              ids.push(item.data.id)
+            }
+          })
         }
-        if (type && EnumTypeProvider.POST === type) {
-          const response = await patchAdvertPosts(id!, body)
 
-          if (response.ok) {
-            on({
-              message: "Реклама добавлена",
-            })
-          }
-        }
+        await Promise.all([
+          ids.length > 0 ? patchCompany({ imageId: ids[0]! }, companyId) : Promise.resolve(),
+          type === EnumTypeProvider.POST ? patchAdvertPosts(id!, companyId) : patchAdvertOffer(id!, companyId),
+        ])
+
+        on({
+          message: "Реклама добавлена",
+        })
       }
 
       setLoading(false)

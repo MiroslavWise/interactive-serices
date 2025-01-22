@@ -13,6 +13,9 @@ import { resolverSchemaOld, TSchemaOld } from "../schema"
 import { getCompanies, ICompanyExtend } from "@/services/companies"
 
 import styles from "../styles/list-companies.module.scss"
+import { EnumTypeProvider } from "@/types/enum"
+import { patchAdvertPosts } from "@/services/posts"
+import { patchAdvertOffer } from "@/services"
 
 const onItemTrimCase = (value: string | undefined, trimString: string) => (value ?? "").trim().toLowerCase().includes(trimString)
 
@@ -34,7 +37,7 @@ const onFilter = (list: ICompanyExtend[], input: string) => {
   return array
 }
 
-function FormSelectCompany() {
+function FormSelectCompany({ id, type }: { id: number; type: EnumTypeProvider }) {
   const [loading, setLoading] = useState(false)
   const [input, setInput] = useState("")
   const [open, setOpen, ref] = useOutsideClickEvent()
@@ -67,10 +70,20 @@ function FormSelectCompany() {
     }
     if (!loading) {
       setLoading(true)
-      on({
-        message: "Временно данный функционал не работает. Добавьте новую компанию",
-      })
+      const response = await Promise.resolve(
+        type === EnumTypeProvider.POST ? patchAdvertPosts(id, values.index!) : patchAdvertOffer(id, values.index!),
+      )
+      if (response.ok) {
+        on({
+          message: "Реклама добавлена",
+        })
+      } else {
+        on({
+          message: "Временно данный функционал не работает. Добавьте новую компанию",
+        })
+      }
       setLoading(false)
+      hideAddAdvert()
     }
   })
 

@@ -30,4 +30,4 @@ export interface IBodyAdvertAction {
 }
 
 /** Запрос для модератора */
-export const patchAdvertOffer = (id: number, body: IBodyAdvert) => wrapperPatch({ url, body: { company: body }, id })
+export const patchAdvertOffer = (id: number, companyId: number) => wrapperPatch({ url, body: { companyId }, id })
