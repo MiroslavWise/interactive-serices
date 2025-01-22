@@ -30,6 +30,7 @@ import { fileUploadService, getGeocodeSearch, postAddress } from "@/services"
 import { resolverCreatePost, resolverCreatePostMap, type TSchemaCreatePost } from "./schema"
 import { onChangeFile, transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
 import { dispatchClearInitCreatePostMap, dispatchModal, EModalData, useAuth, useCreatePost, useModal } from "@/store"
+import AddUser from "@/components/common/AddUser"
 
 function CreatePost() {
   const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
@@ -406,6 +407,7 @@ function CreatePost() {
             )}
           />
           <ControlParticipant control={control} />
+          <Controller name="userId" control={control} render={({ field }) => <AddUser onChange={field.onChange} value={field.value} />} />
           <footer className="w-full pt-2.5 mt-auto bg-BG-second">
             <Button
               type="submit"

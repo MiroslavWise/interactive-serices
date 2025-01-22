@@ -7,6 +7,7 @@ export const LIMIT_TITLE_POST = 144
 
 const regexContent = /[^a-z0-9а-яёй\s]/i
 
+const userId = z.nullable(z.number()).default(null)
 const address = z.string().min(1, { message: "Поле не может оставаться незаполненным" }).default("")
 const addressFeature = schemaFeatureMember.refine((value) => !!value && typeof value === "object", {
   message: "Выберите существующий адрес",
@@ -68,6 +69,7 @@ const schema = z.object({
   file,
   help,
   isParticipants: z.boolean().default(false),
+  userId: userId,
 })
 
 const schemaInitAddress = z.object({

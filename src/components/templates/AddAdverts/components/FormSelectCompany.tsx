@@ -97,7 +97,7 @@ function FormSelectCompany({ id, type }: { id: number; type: EnumTypeProvider })
           const c = current(field.value)
 
           return (
-            <div className="w-full relative z-50" ref={ref}>
+            <div className="w-full flex flex-col gap-1 relative z-50" ref={ref}>
               <input
                 type="text"
                 value={input}

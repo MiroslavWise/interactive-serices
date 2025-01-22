@@ -12,6 +12,7 @@ export const LIMIT_DESCRIPTION = 512
 export const LIMIT_TITLE = 144
 
 const help = z.boolean().default(false)
+const userId = z.nullable(z.number()).default(null)
 
 export const titleOfferZod = z
   .string()
@@ -83,6 +84,7 @@ const base = z.object({
     inn: z.string().default("").optional(),
     erid: z.string().default("").optional(),
   }),
+  userId: userId,
 })
 
 const schemaAlertAndDiscussion = base.merge(z.object({ title: titleOfferZod, addressFeature: addressFeature }))

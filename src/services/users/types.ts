@@ -8,6 +8,7 @@ import type { IAddressesResponse } from "@/services/addresses/types/serviceAddre
 import type { IResponseDataRegistration } from "@/services/auth/types/registrationService"
 import type { IResponseOffersCategories } from "@/services/offers-categories/types"
 import { ICompany } from "../types/company"
+import { ICompanyExtend } from "../companies"
 
 interface IPostDataUser {
   email: string
@@ -37,7 +38,7 @@ export interface IUserResponse {
   profile: IGetProfileIdResponse
   // addresses: IAddressesResponse[]
   roles: TRole[]
-  company?: ICompany
+  company?: ICompanyExtend
 }
 
 export interface IServiceUser {
