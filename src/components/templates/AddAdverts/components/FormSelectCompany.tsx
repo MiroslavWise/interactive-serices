@@ -42,7 +42,7 @@ function FormSelectCompany({ id, type }: { id: number; type: EnumTypeProvider })
   const [input, setInput] = useState("")
   const [open, setOpen, ref] = useOutsideClickEvent()
   const { data } = useQuery({
-    queryFn: getCompanies,
+    queryFn: () => getCompanies(),
     queryKey: ["companies"],
   })
   const { on } = useToast()

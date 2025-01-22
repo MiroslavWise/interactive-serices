@@ -54,22 +54,6 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, image, address, compa
   const rating = (list.reduce((acc, item) => acc + item.rating, 0) / (length || 1)).toFixed(1)
   const countText = DeclensionAllQuantityFeedback(length)
 
-  useEffect(() => {
-    if (isOpen) {
-      if (ref.current) {
-        function handleClickOutside(event: MouseEvent) {
-          if (ref.current && !ref.current.contains(event.target as Node)) {
-            setIsOpen(false)
-          }
-        }
-
-        document.addEventListener("click", handleClickOutside)
-
-        return () => document.removeEventListener("click", handleClickOutside)
-      }
-    }
-  }, [isOpen])
-
   function handle(event: any) {
     event.stopPropagation()
     setIsOpen(false)
@@ -92,7 +76,7 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, image, address, compa
     <article
       className={cx(
         isOpen ? "flex" : "hidden",
-        "absolute z-30 top-0 left-0 -translate-y-full rounded-2xl flex-col gap-2 p-3 w-80 shadow-md",
+        "absolute z-30 top-0 left-0 -translate-y-full rounded-2xl flex-col gap-2 p-3 w-96 shadow-md",
         provider === EnumTypeProvider.offer && "bg-BG-second",
         provider === EnumTypeProvider.alert && "bg-card-red",
         provider === EnumTypeProvider.POST && "bg-card-yellow",

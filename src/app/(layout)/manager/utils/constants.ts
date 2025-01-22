@@ -6,6 +6,7 @@ export enum ELinkManager {
   COMPLAINTS = "complaints",
   POSTS = "posts",
   CATEGORIES = "categories",
+  COMPANIES = "companies",
 }
 
 export type TLinkManager = `/manager/${ELinkManager}`
@@ -35,6 +36,10 @@ export const LINKS: I[] = [
   {
     label: "Категории",
     path: "/manager/categories",
+  },
+  {
+    label: "Компании",
+    path: "/manager/companies",
   },
 ]
 
