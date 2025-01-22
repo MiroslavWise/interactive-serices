@@ -43,6 +43,7 @@ function NavigationSelectChat() {
       [EnumProviderThreads.PERSONAL]: 0,
       [EnumProviderThreads.GROUPS]: 0,
       [EnumProviderThreads.HELP]: 0,
+      [EnumProviderThreads.POST]: 0,
       all: 0,
     }
 

@@ -54,6 +54,7 @@ export enum EnumProviderThreads {
   GROUPS = "groups",
   OFFER_PAY = "offer-pay",
   HELP = "help",
+  POST = "post",
 }
 
 export enum EStatusAuth {
@@ -76,7 +77,9 @@ export enum EAdvertsButton {
    * @public
    */
   READ_MORE = "read-more",
-  /** Перейти в чат */
+  /** Перейти в чат
+   * @public
+   */
   GO_TO_CHAT = "go-to-chat",
   /** Позвонить
    * @public
@@ -88,21 +91,29 @@ export enum EAdvertsButton {
   CALL_ON_WHATSAPP = "call-on-whatsapp",
   /** Стать участником */
   BECOME_A_MEMBER = "become-a-member",
-  /** Записаться */
+  /** Записаться
+   * @public
+   */
   ENROLLING = "enrolling",
   /** Зарегистрироваться
    * @public
    */
   SIGN_UP = "sign-up",
-  /** Купить */
+  /** Купить
+   * @public
+   */
   BUY = "buy",
-  /** Заказать */
+  /** Заказать
+   * @public
+   */
   ORDER = "order",
   /** Канал в Telegram
    * @public
    */
   TELEGRAM_CHANNEL = "telegram-channel",
-  /** Задать вопрос */
+  /** Задать вопрос
+   * @public
+   */
   ASK_A_QUESTION = "ask-a-question",
   /** Перейти к обсуждению */
   GO_TO_DISCUSSION = "go-to-discussion",
@@ -131,11 +142,13 @@ const ACTIVE = [
   EAdvertsButton.CALL,
   EAdvertsButton.CALL_ON_WHATSAPP,
   EAdvertsButton.SIGN_UP,
+  EAdvertsButton.GO_TO_CHAT,
   EAdvertsButton.TELEGRAM_CHANNEL,
   EAdvertsButton.READ_MORE,
   EAdvertsButton.BUY,
   EAdvertsButton.ORDER,
   EAdvertsButton.ENROLLING,
+  EAdvertsButton.ASK_A_QUESTION,
 ]
 
 export const activeArrayAdvertsButtonLabels = arrayAdvertsButtonLabels.filter(([key, _]) => ACTIVE.includes(key))

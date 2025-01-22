@@ -12,8 +12,14 @@ import { TSchemaAdvert } from "../schema"
 import { useOutsideClickEvent } from "@/helpers"
 
 import styles from "../styles/list-action.module.scss"
+import descriptionURL from "./descriptionURL"
 
-function ControllerAddAction({ control }: { control: Control<TSchemaAdvert, any> }) {
+interface IProps {
+  actionAdvertButton?: EAdvertsButton
+  control: Control<TSchemaAdvert, any>
+}
+
+function ControllerAddAction({ control, actionAdvertButton }: IProps) {
   const [open, setOpen, ref] = useOutsideClickEvent()
   const [textType, setTextType] = useState<HTMLInputTypeAttribute>("text")
 
@@ -112,6 +118,7 @@ function ControllerAddAction({ control }: { control: Control<TSchemaAdvert, any>
             <label htmlFor={field.name} title="Описание рекламы" className="text-sm text-text-primary">
               Ссылка или номер телефона
             </label>
+            {actionAdvertButton ? <span className="text-xs text-text-error">{ descriptionURL(actionAdvertButton!)}</span> : null}
             <input type={textType ?? "text"} placeholder="Введите данные для перехода пользователю" {...field} />
           </fieldset>
         )}

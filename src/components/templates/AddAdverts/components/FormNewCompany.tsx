@@ -29,7 +29,7 @@ function FormNewCompany() {
   const type = useAddAdvert(({ type }) => type)
   const { on } = useToast()
 
-  const { control, handleSubmit } = useForm<TSchemaAdvert>({
+  const { control, handleSubmit, watch } = useForm<TSchemaAdvert>({
     defaultValues: {
       title: "",
       ad: "",
@@ -40,6 +40,7 @@ function FormNewCompany() {
         file: [],
         string: [],
       },
+      actionAdvertButton: undefined,
       actionUrl: "",
     },
     resolver: resolver,
@@ -127,6 +128,8 @@ function FormNewCompany() {
       hideAddAdvert()
     }
   })
+
+  const actionAdvertButton = watch("actionAdvertButton")
 
   return (
     <form onSubmit={onSubmit} className="w-full flex flex-col gap-[1.875rem]">
@@ -246,7 +249,7 @@ function FormNewCompany() {
             </fieldset>
           )}
         />
-        <ControllerAddAction control={control} />
+        <ControllerAddAction control={control} actionAdvertButton={actionAdvertButton} />
       </section>
       <footer className="flex flex-col-reverse md:flex-row gap-3 md:gap-4 items-center">
         <Button type="button" typeButton="regular-primary" label="Отмена" onClick={hideAddAdvert} loading={loading} disabled={loading} />
