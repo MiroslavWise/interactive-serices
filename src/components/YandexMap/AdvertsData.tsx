@@ -38,7 +38,7 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, address, company, off
 
   const [isOpenCompany, setIsOpenCompany, refCompany] = useOutsideClickEvent()
   const addressName = address?.additional ?? ""
-  const { title: companyTitle, erid: companyErid, inn: companyInn, ad } = company ?? {}
+  const { title: companyTitle, erid: companyErid, inn: companyInn, ad, ogrn } = company ?? {}
 
   const targetId = provider === EnumTypeProvider.POST ? post?.id : offer?.id
   const description =
@@ -114,7 +114,7 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, address, company, off
       <p className="text-text-secondary text-xs font-normal line-clamp-3 text-ellipsis cursor-pointer" onClick={handle}>
         {addressName}
       </p>
-      <p className={cx(!!description ? "text-text-primary text-xs font-normal line-clamp-4": "hidden")}>{description}</p>
+      <p className={cx(!!description ? "text-text-primary text-xs font-normal line-clamp-4" : "hidden")}>{description}</p>
       <span
         className="relative text-[0.625rem] font-light text-text-disabled cursor-pointer -mt-1 w-fit"
         ref={refCompany}
@@ -126,13 +126,16 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, address, company, off
         Реклама
         <div
           className={cx(
-            "py-3 px-2 flex flex-col gap-1 rounded-sm absolute z-20 top-full right-0 shadow-sm min-w-32 max-w-fit bg-BG-second transition-all duration-200",
+            "py-3 px-2 flex flex-col gap-1 rounded-sm absolute z-20 top-full right-0 shadow-sm min-w-32 w-fit max-w-48 bg-BG-second transition-all duration-200",
             isOpenCompany ? "opacity-100 visible" : "opacity-0 invisible",
           )}
         >
           <span className="text-text-primary text-xs font-medium">{companyTitle}</span>
           <span className="text-text-primary text-xs font-medium whitespace-nowrap">ИНН: {companyInn}</span>
           <span className="text-text-primary text-xs font-normal whitespace-nowrap">erid: {companyErid}</span>
+          <span className={cx("text-text-primary text-xs font-normal whitespace-nowrap", !ogrn && "hidden")}>ОРГН: {ogrn}</span>
+          <br className={cx(!ad && "hidden")} />
+          <span className={cx("text-text-secondary text-xs font-normal", !ad && "hidden")}>{ad}</span>
         </div>
       </span>
       <AdvertButtons provider={provider} offer={offer} post={post} />

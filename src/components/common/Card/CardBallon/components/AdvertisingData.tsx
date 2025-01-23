@@ -30,11 +30,10 @@ function AdvertisingData({ company }: IProps) {
         <span className="text-text-primary text-xs font-medium">{companyTitle}</span>
         <span className="text-text-primary text-xs font-medium whitespace-nowrap">ИНН: {companyInn}</span>
         <span className="text-text-primary text-xs font-normal whitespace-nowrap">erid: {companyErid}</span>
-        <span className="text-text-primary text-xs font-normal whitespace-nowrap">erid: {companyErid}</span>
         <span className={cx("text-text-primary text-xs font-normal whitespace-nowrap", !ogrn && "hidden")}>ОРГН: {ogrn}</span>
         <br className={cx(!ad && "hidden")} />
         <span className={cx("text-text-secondary text-xs font-normal", !ad && "hidden")}>{ad}</span>
-      </div>
+      </div> 
     </span>
   ) : null
 }
