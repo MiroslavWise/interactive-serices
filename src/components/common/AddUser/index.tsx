@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 import { IUserOffer } from "@/services/offers/types"
 
 import Avatar from "@avatar"
+import IconXClose from "@/components/icons/IconXClose"
 import IconVerifiedTick from "@/components/icons/IconVerifiedTick"
 
 import { cx } from "@/lib/cx"
@@ -12,7 +13,6 @@ import { useOutsideClickEvent } from "@/helpers"
 import { getCompanyId } from "@/services/companies"
 
 import styles from "./style.module.scss"
-import IconXClose from "@/components/icons/IconXClose"
 
 interface IProps {
   value: null | number
@@ -101,6 +101,7 @@ function AddUser({ onChange, value }: IProps) {
             <input
               type="text"
               className="w-full"
+              placeholder="Выберите пользователя"
               onClick={() => {
                 setOpen(true)
               }}
@@ -118,7 +119,12 @@ function AddUser({ onChange, value }: IProps) {
                 {map.map((user) => (
                   <li
                     key={`:u:s:e:r:-${user.id}`}
-                    className="w-full p-1.5 bg-BG-second hover:bg-grey-field rounded-md grid grid-cols-[2.5rem_minmax(0,1fr)] gap-3 items-center"
+                    className="w-full p-1.5 bg-BG-second hover:bg-grey-field rounded-md grid grid-cols-[2.5rem_minmax(0,1fr)] gap-3 items-center cursor-pointer"
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      onChange(user.id)
+                      setOpen(false)
+                    }}
                   >
                     <Avatar image={user?.image} className="rounded-md h-10 w-10 aspect-square p-5" />
                     <div className="w-full flex flex-col gap-1 justify-between items-start">
@@ -130,16 +136,7 @@ function AddUser({ onChange, value }: IProps) {
                           <IconVerifiedTick />
                         </div>
                       </div>
-                      <a
-                        className="cursor-pointer text-sm font-medium text-text-accent w-fit"
-                        onClick={(event) => {
-                          event.stopPropagation()
-                          onChange(user.id)
-                          setOpen(false)
-                        }}
-                      >
-                        Выбрать
-                      </a>
+                      <a className="text-sm font-medium text-text-accent w-fit">{user?.email ? user?.email : null}</a>
                     </div>
                   </li>
                 ))}

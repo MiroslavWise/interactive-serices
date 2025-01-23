@@ -38,6 +38,7 @@ export interface IUserOffer {
   about: string | null
   birthdate?: Date | string | null
   firstName: string
+  email?: string
   gender: TGenderForm | null
   id: number
   lastName: string
