@@ -31,3 +31,5 @@ export interface IBodyCompany extends IBodyAdvertAction {
 
 export const postCompany = (body: IBodyCompany): IPromiseReturn<{ id: number }> => wrapperPost({ url, body })
 export const patchCompany = (body: Partial<IBodyCompany>, id: number) => wrapperPatch({ url: `${url}/${id}`, body })
+
+export const patchCompanyUsers = (users: number[], id: number) => wrapperPatch({ url: `${url}/${id}`, body: { users } })

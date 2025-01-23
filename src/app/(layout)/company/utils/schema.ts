@@ -31,6 +31,13 @@ export type TSchemaCompany = z.infer<typeof schema>
 export const resolverSchemaCompany = zodResolver(schema)
 export type TFiles = z.infer<typeof file>
 
+const schemaUsers = z.object({
+  id: z.string().min(1, { message: "Введите id пользователя" }).default(""),
+})
+
+export type TSchemaUsers = z.infer<typeof schemaUsers>
+export const resolverSchemaUsers = zodResolver(schemaUsers)
+
 const sleep = () => new Promise((r) => setTimeout(r, 150))
 
 export async function handleImageChange(
