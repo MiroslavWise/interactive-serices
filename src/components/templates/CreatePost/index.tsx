@@ -86,8 +86,8 @@ function CreatePost() {
       isParticipants: values.isParticipants,
     }
 
-    if (values.userId && typeof values.userId === "number") {
-      data.userId = userId
+    if (values.userId) {
+      data.userId = Number(values.userId)
     }
 
     if (help) {
