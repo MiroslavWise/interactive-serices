@@ -352,7 +352,12 @@ function CreatePost() {
                 <label htmlFor={field.name} title="Адрес">
                   Адрес
                 </label>
-                <div data-input-selector>
+                <div
+                  data-input-selector
+                  style={{
+                    zIndex: isFocus ? 100 : 3,
+                  }}
+                >
                   <input
                     {...field}
                     onChange={(event) => {
