@@ -13,9 +13,19 @@ export function updateCompany({ values, defaults }: IData) {
 
   const newTitle = values.title.trim() ?? ""
   const oldTitle = defaults?.title ?? ""
-
-  if (newTitle !== oldTitle && !!newTitle) {
+  if (newTitle !== oldTitle) {
     body.title = newTitle
+  }
+  const newAd = values.ad ?? ""
+  const oldAd = defaults?.ad ?? ""
+  if (newAd !== oldAd) {
+    body.ad = oldAd
+  }
+
+  const newINN = values.inn ?? ""
+  const oldINN = defaults.inn ?? ""
+  if (newINN !== oldINN) {
+    body.inn = newINN
   }
 
   if (Object.entries(body).length > 0) {
