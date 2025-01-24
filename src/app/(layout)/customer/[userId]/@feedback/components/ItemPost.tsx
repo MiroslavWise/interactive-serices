@@ -28,7 +28,7 @@ function ItemPost({ idPost }: IProps) {
   }
 
   return (
-    <a className="w-full grid gap-1.5 grid-cols-[1.25rem_minmax(0,1fr)] items-center cursor-pointer" onClick={handle}>
+    <a className="w-full grid gap-1 grid-cols-[1.25rem_minmax(0,1fr)] items-center cursor-pointer" onClick={handle}>
       <div className="w-5 h-5 relative p-2 flex items-center justify-center *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
         <IconPost />
       </div>

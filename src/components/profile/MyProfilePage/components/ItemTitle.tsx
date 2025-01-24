@@ -8,8 +8,9 @@ import IconMap from "@/components/icons/IconMap"
 import { ImageCategory } from "@/components/common"
 import IconShare from "@/components/icons/IconShare"
 import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
-import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
+import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
+import IconCurrencyRubleCircle from "@/components/icons/IconCurrencyRubleCircle"
 
 import { cx } from "@/lib/cx"
 import useRole from "@/helpers/is-role"
@@ -122,7 +123,7 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
             className={cx((!isManager || isAdvertising) && "!hidden")}
           >
             <div>
-              <IconShare />
+              <IconCurrencyRubleCircle />
             </div>
             <span>{LABEL_ADD_ADVERT}</span>
           </a>
