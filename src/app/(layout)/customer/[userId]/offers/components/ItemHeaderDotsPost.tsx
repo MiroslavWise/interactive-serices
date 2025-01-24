@@ -1,8 +1,10 @@
 import Link from "next/link"
 
+import { EnumTypeProvider } from "@/types/enum"
 import { type IPosts } from "@/services/posts/types"
 
 import IconMap from "@/components/icons/IconMap"
+import IconStar01 from "@/components/icons/IconStar-01"
 import IconActivity from "@/components/icons/IconActivity"
 import IconComplaint from "@/components/icons/IconComplaint"
 import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
@@ -10,9 +12,7 @@ import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
-import { dispatchAddTestimonials, dispatchMapCoordinates, dispatchUpdatePost, useAuth } from "@/store"
-import IconStar01 from "@/components/icons/IconStar-01"
-import { EnumTypeProvider } from "@/types/enum"
+import { dispatchAddTestimonials, dispatchComplaintModalPost, dispatchMapCoordinates, dispatchUpdatePost, useAuth } from "@/store"
 
 interface IProps {
   post: IPosts
@@ -25,9 +25,9 @@ const TITLE_SHARE = "Поделиться"
 const LABEL_REVIEW = "Оставить отзыв"
 
 function ItemHeaderDotsPost({ post }: IProps) {
+  const [open, setOpen, ref] = useOutsideClickEvent()
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { id, addresses, title, userId: userIdPost, archive } = post ?? {}
-  const [open, setOpen, ref] = useOutsideClickEvent()
 
   const onShare = useNavigator({
     url: `/post/${id}`,
@@ -36,7 +36,8 @@ function ItemHeaderDotsPost({ post }: IProps) {
 
   const geoData = addresses[0] ?? {}
 
-  function onReview() {
+  function onReview(event: any) {
+    event.stopPropagation()
     dispatchAddTestimonials({ post, provider: EnumTypeProvider.POST })
   }
 
@@ -77,7 +78,6 @@ function ItemHeaderDotsPost({ post }: IProps) {
         >
           <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
             <svg
-              xmlns="http://www.w3.org/2000/svg"
               width="16"
               height="16"
               viewBox="0 0 16 16"
@@ -145,7 +145,7 @@ function ItemHeaderDotsPost({ post }: IProps) {
             console.log("onClick TITLE_COMPLAINT: ")
             event.stopPropagation()
             event.preventDefault()
-            // dispatchComplaintModalOffer({ offer })
+            dispatchComplaintModalPost({ post: post })
             setOpen(false)
           }}
         >
