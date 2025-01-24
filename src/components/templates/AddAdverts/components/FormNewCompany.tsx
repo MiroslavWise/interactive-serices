@@ -58,7 +58,6 @@ function FormNewCompany() {
         title: title,
         inn: inn,
         erid: erid,
-        userId: values.userId!,
       }
       const bodyAction: IBodyAdvertAction = {}
 
