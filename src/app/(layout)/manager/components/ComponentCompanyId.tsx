@@ -80,11 +80,27 @@ function ComponentCompanyId({ children }: PropsWithChildren) {
                 </div>
               </Link>
             </article>
-          ) : null}
+          ) : (
+            <article className="w-full flex flex-col gap-2 items-start max-w-96">
+              <h3 className="text-xl font-semibold text-text-primary">Компания активно продвигается с помощью рекламы</h3>
+              <p className="text-bs text-text-secondary font-medium">
+                Благодаря эффективным рекламным кампаниям, она укрепляет свои позиции на рынке, демонстрирует свои продукты и услуги целевой
+                аудитории и формирует положительный имидж. Реклама помогает компании выделяться среди конкурентов и подчеркивать свои
+                уникальные преимущества.
+              </p>
+            </article>
+          )}
         </article>
         <footer className="mt-auto p-5 flex flex-col gap-2 border-t border-grey-stroke-light">
           <div className="w-full flex flex-col md:flex-row items-center justify-start gap-2">
             <Button type="button" label="Редактировать" className="md:max-w-[15.625rem]" onClick={() => setIsEdit(true)} />
+            <Button
+              type="button"
+              typeButton="white"
+              label="Заблокировать компанию"
+              className="md:max-w-[15.625rem] [&>span]:text-text-error"
+              onClick={() => {}}
+            />
             <Button
               type="button"
               typeButton="regular-primary"
