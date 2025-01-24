@@ -113,7 +113,7 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
             onClick={(event) => {
               event.stopPropagation()
               event.preventDefault()
-              displayAddAdvert(offer?.provider!, offer?.id!)
+              displayAddAdvert(offer?.provider!, offer?.id!, offer?.userId!)
               setVisible(false)
             }}
             className={cx((!isManager || offer.provider !== EnumTypeProvider.offer || isAdvertising) && "!hidden")}

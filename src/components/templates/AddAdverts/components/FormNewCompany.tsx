@@ -7,9 +7,9 @@ import IconPlus from "@/components/icons/IconPlus"
 import ControllerAddAction from "./ControllerAddAction"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
+import { patchAdvertOffer } from "@/services/offers"
 import { IBodyAdvertAction } from "@/services/offers"
 import { EAdvertsButton, EnumTypeProvider } from "@/types/enum"
-import { IBodyAdvert, patchAdvertOffer } from "@/services/offers"
 
 import { cx } from "@/lib/cx"
 import { fileUploadService } from "@/services"
@@ -26,6 +26,7 @@ function FormNewCompany() {
 
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const id = useAddAdvert(({ id }) => id)
+  const userIdTarget = useAddAdvert(({ userId }) => userId)
   const type = useAddAdvert(({ type }) => type)
   const { on } = useToast()
 
@@ -40,6 +41,7 @@ function FormNewCompany() {
         file: [],
         string: [],
       },
+      userId: userIdTarget,
       actionAdvertButton: undefined,
       actionUrl: "",
     },
@@ -56,6 +58,7 @@ function FormNewCompany() {
         title: title,
         inn: inn,
         erid: erid,
+        userId: values.userId!,
       }
       const bodyAction: IBodyAdvertAction = {}
 

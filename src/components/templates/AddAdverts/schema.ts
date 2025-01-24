@@ -18,6 +18,7 @@ const schema = z.object({
   title: z.string().trim().min(1, { message: "Заголовок компании не может быть пустым" }).default(""),
   ad: z.string().trim().default(""),
   erid: z.string().trim().min(1, { message: "ID рекламы компании не может быть пустым" }).default(""),
+  userId: z.nullable(z.number()).default(null),
   inn: z
     .string()
     .trim()

@@ -156,7 +156,7 @@ function ComponentDots({ post }: IProps) {
             onClick={(event) => {
               event.stopPropagation()
               event.preventDefault()
-              displayAddAdvert(EnumTypeProvider.POST, post?.id!)
+              displayAddAdvert(EnumTypeProvider.POST, post?.id!, post?.userId!)
               setVisible(false)
             }}
           >

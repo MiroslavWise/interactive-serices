@@ -157,7 +157,7 @@ function HeaderItemDotsPost({ post }: IProps) {
           onClick={(event) => {
             event.stopPropagation()
             event.preventDefault()
-            displayAddAdvert(EnumTypeProvider.POST, post?.id!)
+            displayAddAdvert(EnumTypeProvider.POST, post?.id!, post?.userId!)
           }}
           className={cx(
             "w-full py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field cursor-pointer",

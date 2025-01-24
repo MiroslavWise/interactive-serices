@@ -199,7 +199,7 @@ function SharedDotsPost({ post }: IProps) {
           aria-label={LABEL_ADD_ADVERT}
           aria-labelledby={LABEL_ADD_ADVERT}
           onClick={(event) => {
-            displayAddAdvert(EnumTypeProvider.POST, id!)
+            displayAddAdvert(EnumTypeProvider.POST, id!, post?.userId!)
             event.stopPropagation()
             event.preventDefault()
             requestAnimationFrame(() => {

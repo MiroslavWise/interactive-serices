@@ -27,6 +27,7 @@ export interface IBodyCompany extends IBodyAdvertAction {
   inn: string
   ogrn?: string
   imageId?: number
+  userId?: number
 }
 
 export const postCompany = (body: IBodyCompany): IPromiseReturn<{ id: number }> => wrapperPost({ url, body })
