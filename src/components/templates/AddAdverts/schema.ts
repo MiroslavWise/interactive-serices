@@ -34,6 +34,13 @@ const schema = z.object({
   actionUrl,
 })
 
+const schemaOld = z.object({
+  index: z.nullable(z.number()).default(null),
+})
+
+export type TSchemaOld = z.infer<typeof schemaOld>
+export const resolverSchemaOld = zodResolver(schemaOld)
+
 export type TSchemaAdvert = z.infer<typeof schema>
 export const resolver = zodResolver(schema)
 export type TFiles = z.infer<typeof file>

@@ -38,6 +38,7 @@ export interface IUserOffer {
   about: string | null
   birthdate?: Date | string | null
   firstName: string
+  email?: string
   gender: TGenderForm | null
   id: number
   lastName: string
@@ -81,7 +82,7 @@ export interface IQueriesOffers {
 }
 
 export interface IServiceOffers {
-  post(value: IPostOffers): Promise<IResponse<IResponseCreate>>
+  post(value: IPostOffers & { userId?: number }): Promise<IResponse<IResponseCreate>>
   get(value?: IQueriesOffers): Promise<IResponse<IResponseOffers[]>>
   patch(value: IPatchOffers, id: number | string): IPromiseReturn<IResponseCreate>
   getId(id: number | string): Promise<IResponse<IResponseOffers>>

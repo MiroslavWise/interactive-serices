@@ -1,0 +1,16 @@
+.main {
+  grid-template-columns: 17.5rem minmax(0, 1fr);
+  height: 100vh;
+  padding-top: calc(var(--height-header-nav-bar) + 1.5rem);
+
+  & > aside,
+  & > section {
+    border-radius: 2rem;
+    height: 100%;
+    max-height: calc(100dvh - var(--height-header-nav-bar) - 3rem);
+  }
+
+  @media screen and (max-width: 768px) {
+    height: 100dvh;
+  }
+}

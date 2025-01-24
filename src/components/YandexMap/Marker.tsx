@@ -26,7 +26,6 @@ function Marker({ properties, geometry, reactifiedApi, is }: FeatureCluster) {
       : offer?.title
   const urgent = provider === EnumTypeProvider.POST ? !!post?.urgent : !!offer?.urgent
   const company = provider === EnumTypeProvider.POST ? post?.company : offer?.company
-  const images = provider === EnumTypeProvider.POST ? post?.notes?.find((note) => note.main)?.images ?? [] : offer?.images ?? []
   const description =
     provider === EnumTypeProvider.POST ? post?.notes?.find((note) => note.main)?.description ?? "" : offer?.description ?? ""
   const address = provider === EnumTypeProvider.POST ? post?.addresses?.[0]! : offer?.addresses?.[0]!

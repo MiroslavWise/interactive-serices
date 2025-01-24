@@ -42,7 +42,7 @@ function CardPost({ post, className }: IProps) {
     dispatchBallonPost(post)
   }
 
-  const description = notes.find((item) => item.main)?.description ?? title
+  const description = notes.find((item) => item.main)?.description ?? null
   const replaceImage = replaceImageFiles(notes)
 
   const isAdvertising = !!company
@@ -58,7 +58,14 @@ function CardPost({ post, className }: IProps) {
       >
         <ComponentDots post={post} />
         <AdvertisingTitleCompany company={company} post={post} provider={EnumTypeProvider.POST} />
-        <p className="whitespace-pre-wrap text-text-primary text-sm font-normal line-clamp-4 text-ellipsis">{description}</p>
+        <p
+          className={cx(
+            "whitespace-pre-wrap text-text-primary text-sm font-normal line-clamp-4 text-ellipsis",
+            description ? "" : "hidden",
+          )}
+        >
+          {description}
+        </p>
         {replaceImage.length > 0 ? <ItemImages images={replaceImage} /> : null}
         <AdvertisingData company={company} />
         <AdvertButtons provider={EnumTypeProvider.POST} post={post} />
@@ -73,17 +80,6 @@ function CardPost({ post, className }: IProps) {
       )}
       onClick={handle}
     >
-      {/* <header
-        className={cx(
-          "[background:var(--more-red-gradient)] w-full py-1.5 px-2.5 flex-row gap-2 items-center justify-center rounded-t-2xl",
-          !!urgent ? "flex" : "hidden",
-        )}
-      >
-        <div className="w-4 h-4 relative">
-          <IconHelp />
-        </div>
-        <span className="text-text-button text-xs font-medium">Щедрое сердце</span>
-      </header> */}
       <ComponentDots post={post} />
       <header className="w-full grid grid-cols-[1.625rem_minmax(0,1fr)] gap-3 items-start">
         <div className="relative w-[1.625rem] h-[1.625rem] p-[0.8125rem] *:absolute *:-translate-x-1/2 *:-translate-y-1/2 *:left-1/2 *:top-1/2 *:w-[1.625rem] *:h-[1.625rem]">

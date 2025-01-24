@@ -45,7 +45,7 @@ function ProfileItem({ user }: IProps) {
       </div>
       {rating ? (
         <div className="flex flex-row items-center">
-          <div className="w-4 h-4 p-[0.1875rem] flex items-center justify-center *:w-2.5 *:h-2.5">
+          <div className="w-4 h-4 p-[0.1875rem] flex items-center justify-center *:w-2.5 *:h-2.5 relative">
             <IconRating />
           </div>
           <span className="text-text-accent text-xs font-medium">{rating?.toFixed(1)}</span>

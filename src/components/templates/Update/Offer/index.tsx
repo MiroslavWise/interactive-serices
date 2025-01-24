@@ -4,22 +4,22 @@ import { useMemo, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 
-import { type IValues } from "./types"
-import { EnumHelper, EnumTypeProvider } from "@/types/enum"
-import { type IPatchOffers } from "@/services/offers/types"
-import { type IFeatureMember, type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
+import { EnumTypeProvider } from "@/types/enum"
+import { type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
-import ControlHelp from "./ControlHelp"
 import Button from "@/components/common/Button"
+import ControlHelp from "./components/ControlHelp"
 import { UploadPhoto } from "@/components/common/custom"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
-import { ImageCategory, NextImageMotion, WalletPay } from "@/components/common"
+import { ImageCategory, NextImageMotion } from "@/components/common"
 
 import { queryClient } from "@/context"
-import { createAddress } from "@/helpers/address/create"
+import { updateOffer } from "./utils/update"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
+import { getGeocodeSearch, getUserIdOffers } from "@/services"
 import { dispatchUpdateOffer, useAuth, useUpdateOffer } from "@/store"
-import { fileUploadService, getGeocodeSearch, getUserIdOffers, patchOffer } from "@/services"
+import { resolverUpdateOffer, TSchemaUpdateOffer } from "./utils/types"
+import { LIMIT_DESCRIPTION } from "../DiscussionAndAlert/shema"
 
 export default function UpdateOffer() {
   const { id: userId } = useAuth(({ user }) => user) ?? {}
@@ -59,12 +59,14 @@ export default function UpdateOffer() {
     handleSubmit,
     setValue,
     control,
-  } = useForm<IValues>({
+  } = useForm<TSchemaUpdateOffer>({
     defaultValues: {
-      description: offer?.description! || "",
+      title: offer?.title ?? "",
+      description: offer?.description! ?? "",
       address: geo?.id,
       help: !!offer?.urgent,
     },
+    resolver: resolverUpdateOffer,
   })
 
   async function onChangeAddress() {
@@ -88,67 +90,8 @@ export default function UpdateOffer() {
   const onSubmit = handleSubmit(async (values) => {
     if (!loading) {
       setLoading(true)
-      const body: IPatchOffers = {}
-
-      if (offer?.description !== values.description && !!values.description) {
-        body.description = values.description
-      }
-
-      const oldHelp = !!offer?.urgent
-      const newHelp = !!values?.help
-
-      if (oldHelp !== newHelp) {
-        if (newHelp) {
-          body.urgent = EnumHelper.HELP_KURSK
-        } else {
-          body.urgent = ""
-        }
-      }
-
-      if (values.address !== offer?.addresses[0]?.id && values.address) {
-        const { data } = await createAddress(values.address! as IFeatureMember, userId!)
-        console.log("body responses: ", data)
-        if (data?.id) {
-          body.addresses = [data?.id!]
-        }
-      }
-
-      const photos = [...offer?.images.map((item) => item.id)!?.filter((item) => !deleteIdPhotos?.includes(item))]
-
-      if (files.length) {
-        const responses = await Promise.all([
-          ...files.map((item) =>
-            fileUploadService(item!, {
-              type: EnumTypeProvider.offer,
-              userId: userId!,
-              idSupplements: offer?.id!,
-            }),
-          ),
-        ])
-
-        if (responses?.some((item) => !!item.data)) {
-          responses
-            ?.map((item) => item?.data)
-            ?.forEach((item) => {
-              if (!!item?.id) {
-                photos.push(item?.id!)
-              }
-            })
-        }
-      }
-
-      if (JSON.stringify(photos.sort()) !== JSON.stringify(offer?.images.map((item) => item.id)?.sort())) {
-        body.images = [...photos]
-      }
-
-      if (Object.entries(body).length === 0) {
-        close()
-        setLoading(false)
-        return
-      }
-
-      patchOffer(body, offer?.id!).then((response) => {
-        if (response.ok) {
+      updateOffer({ values, defaults: offer!, files, images: photos, deleteIdPhotos, userId: userId! }).then((res) => {
+        if (typeof res.ok !== "string" && res.ok) {
           refetch()
         }
         close()
@@ -166,48 +109,19 @@ export default function UpdateOffer() {
         onSubmit={onSubmit}
         className="w-full overflow-x-hidden overflow-y-auto h-full-minus-standard-header-modal flex flex-col gap-5 p-5 px-[4.375rem] md:pb-[1.625rem]"
       >
-        <fieldset className="w-full flex flex-col gap-2">
-          <label {...register("address", { required: true })} className="text-text-primary text-sm font-normal text-left">
-            Ваш адрес
-          </label>
-          <div data-input ref={refGeo}>
-            <input
-              type="text"
-              data-error={!!errors.address}
-              value={inputGeo}
-              onChange={(event) => {
-                setInputGeo(event.target.value || "")
-                debouncedValue()
-              }}
-              onFocus={(event) => {
-                event.stopPropagation()
-                setFocusGeo(true)
-              }}
-            />
-            {focusGeo && exactAddresses ? (
-              <div
-                data-list
-                className="absolute top-[calc(100%_+_0.25rem)] w-full z-50 overflow-hidden rounded-xl bg-BG-second overflow-y-auto"
-              >
-                <ul className="h-full flex flex-col p-3">
-                  {exactAddresses.map((item) => (
-                    <li
-                      key={`::key::${item.GeoObject.uri}::category::`}
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        setValue("address", item!)
-                        setInputGeo(item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!)
-                        setFocusGeo(false)
-                      }}
-                    >
-                      <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-          </div>
-        </fieldset>
+        <Controller
+          name="title"
+          control={control}
+          render={({ field, fieldState: { error } }) => (
+            <fieldset className="relative w-full flex flex-col gap-2">
+              <label className="text-text-primary text-sm font-normal text-left" htmlFor={field.name}>
+                Название
+              </label>
+              <input type="text" {...field} />
+              {!!error ? <i>{error.message}</i> : null}
+            </fieldset>
+          )}
+        />
         <fieldset className="w-full flex flex-col gap-2">
           <label className="text-text-primary text-sm font-normal text-left">Предложить категорию</label>
           <div data-input className="relative w-full h-12">
@@ -228,33 +142,22 @@ export default function UpdateOffer() {
         <Controller
           name="description"
           control={control}
-          rules={{
-            required: true,
-            minLength: 3,
-            maxLength: 512,
-          }}
           render={({ field, fieldState: { error } }) => (
             <fieldset className="w-full flex flex-col gap-2">
-              <label className="text-text-primary text-sm font-normal text-left">Описание предложения</label>
+              <label className="text-text-primary text-sm font-normal text-left">Описание услуги или умения</label>
               <div data-text-area className="rounded-2xl">
                 <textarea
                   {...field}
                   data-error={!!error}
-                  maxLength={512}
+                  maxLength={LIMIT_DESCRIPTION}
                   className="p-3.5 pb-6"
                   onChange={(event) => field.onChange(event.target.value)}
                 />
-                <span>{field.value.length || 0}/512</span>
+                <span>
+                  {field.value.length || 0}/{LIMIT_DESCRIPTION}
+                </span>
               </div>
-              {!!error ? (
-                error.type === "required" ? (
-                  <i>Обязательное поле</i>
-                ) : error.type === "minLength" ? (
-                  <i>Не менее 3-х символов в описании</i>
-                ) : error.type === "maxLength" ? (
-                  <i>Не более 512 символов</i>
-                ) : null
-              ) : null}
+              {!!error ? <i>{error.message}</i> : null}
             </fieldset>
           )}
         />
@@ -317,7 +220,53 @@ export default function UpdateOffer() {
             ) : null}
           </div>
         </fieldset>
-        {!watch("help") && <WalletPay />}
+        <fieldset
+          className="relative w-full flex flex-col gap-2"
+          style={{
+            zIndex: focusGeo ? 100 : 3,
+          }}
+        >
+          <label {...register("address", { required: true })} className="text-text-primary text-sm font-normal text-left">
+          Адрес
+          </label>
+          <div data-input ref={refGeo}>
+            <input
+              type="text"
+              data-error={!!errors.address}
+              value={inputGeo}
+              onChange={(event) => {
+                setInputGeo(event.target.value || "")
+                debouncedValue()
+              }}
+              onFocus={(event) => {
+                event.stopPropagation()
+                setFocusGeo(true)
+              }}
+            />
+            {focusGeo && exactAddresses ? (
+              <div
+                data-list
+                className="absolute bottom-[calc(100%_+_0.25rem)] w-full z-50 overflow-hidden rounded-xl bg-BG-second overflow-y-auto"
+              >
+                <ul className="h-full flex flex-col p-3">
+                  {exactAddresses.map((item) => (
+                    <li
+                      key={`::key::${item.GeoObject.uri}::category::`}
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        setValue("address", item!)
+                        setInputGeo(item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text!)
+                        setFocusGeo(false)
+                      }}
+                    >
+                      <span>{item?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </div>
+        </fieldset>
         <Button
           type="submit"
           typeButton="fill-primary"

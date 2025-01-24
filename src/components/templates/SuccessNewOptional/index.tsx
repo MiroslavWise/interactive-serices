@@ -14,7 +14,7 @@ import { dispatchModalClose, useAddCreateModal } from "@/store"
 const title: Map<EnumTypeProvider, string> = new Map([
   [EnumTypeProvider.alert, "Мы скоро разместим SOS-сообщение на карте"],
   [EnumTypeProvider.discussion, "Мы скоро разместим Обсуждение на карте"],
-  [EnumTypeProvider.offer, "Отлично! Мы скоро разместим Предложение на карте"],
+  [EnumTypeProvider.offer, "Отлично! Мы скоро разместим Умение или услугу на карте"],
 ])
 
 const description: Map<EnumTypeProvider, string> = new Map([
@@ -28,7 +28,7 @@ const description: Map<EnumTypeProvider, string> = new Map([
   ],
   [
     EnumTypeProvider.offer,
-    "Ваше предложение сейчас отправлено на модерацию, после проверки вы получите уведомление об этом в личном кабинете",
+    "Ваше умение или услуга отправлено на модерацию, после проверки вы получите уведомление об этом в личном кабинете",
   ],
 ])
 

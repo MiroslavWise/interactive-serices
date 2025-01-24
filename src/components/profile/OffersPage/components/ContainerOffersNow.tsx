@@ -37,8 +37,7 @@ export const ContainerOffersNow: TContainerOffersNow = ({ dispatch }) => {
       <ul className="w-full grid gap-4 grid-cols-2 pb-5 overflow-y-auto z-[3] max-md:h-full max-md:flex max-md:flex-col max-md:gap-3 max-md:overflow-y-visible">
         {isLoading
           ? [1, 2, 3].map((_) => <LoadingBarters key={`::item::load${_}::`} />)
-          : Array.isArray(data?.data) &&
-            data?.data.map((item) => <CardOffer key={`${item.id}-offer-page-${item.provider}`} {...item} refetch={refetch} />)}
+          : Array.isArray(data?.data) && data?.data.map((item) => null)}
       </ul>
     </section>
   )

@@ -16,7 +16,7 @@ import { cx } from "@/lib/cx"
 import { nameTitle } from "@/lib/names"
 import { dispatchBallonPost, dispatchMapCoordinates } from "@/store"
 
-function ItemPost({ post }: { post: IPosts }) {
+function ItemPost({ post, on }: { post: IPosts; on?: () => void }) {
   const { title, notes, addresses, user, id, urgent } = post ?? {}
 
   const firstAddress = addresses.length ? addresses[0] : null
@@ -28,7 +28,10 @@ function ItemPost({ post }: { post: IPosts }) {
   }
 
   return (
-    <li className="w-full bg-BG-second flex flex-col rounded-2xl cursor-pointer overflow-hidden" onClick={handle}>
+    <li className="w-full bg-BG-second flex flex-col rounded-2xl cursor-pointer overflow-hidden" onClick={() => {
+      handle()
+      if(on){on()}
+    }}>
       <article
         className={cx(
           "w-full [background:var(--more-red-gradient)] flex-row items-center justify-center gap-2 py-1.5 px-2.5",

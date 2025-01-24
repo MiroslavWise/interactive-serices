@@ -48,7 +48,7 @@ function ItemFriend({ item, myFriendsIds, refetchResponse, disabledOnFriendsRequ
 
   const isAdd = useMemo(() => myFriendsIds.includes(item.id), [myFriendsIds])
 
-  return (
+  return ( 
     <li className="w-full h-[3.125rem] grid grid-cols-[3.125rem_minmax(0,1fr)_2.25rem] md:grid-cols-[3.125rem_minmax(0,1fr)_13.0625rem] gap-3 items-center">
       <Avatar className="w-[3.125rem] h-[3.125rem] aspect-square rounded-.625" image={item.image} userId={item.id} />
       <div className="w-full flex flex-col items-start justify-center gap-1">

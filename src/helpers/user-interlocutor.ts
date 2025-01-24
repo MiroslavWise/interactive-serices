@@ -14,6 +14,7 @@ const objProvider: Record<EnumProviderThreads, string> = {
   [EnumProviderThreads.BARTER]: "",
   [EnumProviderThreads.GROUPS]: "",
   [EnumProviderThreads.HELP]: "",
+  [EnumProviderThreads.POST]: "",
 }
 
 function typeMessage({

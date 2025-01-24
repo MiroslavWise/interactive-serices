@@ -5,15 +5,15 @@ import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import { ServiceLoading } from "@/components/common"
-import ItemPost from "@/app/(layout)/customer/[userId]/@offers/components/ItemPost"
-import ItemServiceData from "@/app/(layout)/customer/[userId]/@offers/components/ItemService-data"
+import ItemPost from "@/app/(layout)/customer/[userId]/offers/components/ItemPost"
+import ItemServiceData from "@/app/(layout)/customer/[userId]/offers/components/ItemService-data"
 
 import { cx } from "@/lib/cx"
 import { nameTitle } from "@/lib/names"
 import { getPosts } from "@/services/posts"
 import { getUserIdOffers } from "@/services"
-import { LINKS_PROVIDER_OFFERS } from "@/app/(layout)/customer/[userId]/@links/page"
 import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchPublicProfile, usePublicProfile } from "@/store"
+import { LINKS_PROVIDER_OFFERS } from "@/app/(layout)/customer/[userId]/components/ComponentLinks"
 
 function PublicProfileServices() {
   const id = usePublicProfile(({ id }) => id)
@@ -89,12 +89,13 @@ function PublicProfileServices() {
             {state === EnumTypeProvider.POST ? lengthPosts : length} {name}
           </p>
           {state === EnumTypeProvider.POST
-            ? itemsPosts.map((item) => <ItemPost post={item} key={`:d:s:Dg:a:s:${item.id}:`} />)
+            ? itemsPosts.map((item) => <ItemPost post={item} key={`:d:s:Dg:a:s:${item.id}:`} on={() => dispatchPublicProfile(null)} />)
             : itemsOffers.map((item) => (
                 <li
                   key={`:key:${item.id}:${item.provider}:`}
                   onClick={() => {
                     handle(item)
+                    dispatchPublicProfile(null)
                   }}
                   className="relative w-full px-4 pt-3 pb-4 bg-BG-second rounded-2xl flex flex-col gap-4 cursor-pointer"
                 >

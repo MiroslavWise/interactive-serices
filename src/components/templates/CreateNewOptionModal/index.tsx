@@ -45,6 +45,7 @@ import {
 import { headerTitle, placeholderDescription, titleContent, description, titlePlaceholderContent } from "./constants/titles"
 import { getUserIdOffers, patchOffer, postOffer, fileUploadService, getGeocodeSearch, getOffersCategories, postAddress } from "@/services"
 import ControlTitle from "./components/ControlTitle"
+import AddUser from "@/components/common/AddUser"
 
 export default function CreateNewOptionModal() {
   const [loading, setLoading] = useState(false)
@@ -105,6 +106,7 @@ export default function CreateNewOptionModal() {
         erid: "",
         inn: "",
       },
+      userId: null,
     },
     resolver: [EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!)
       ? stateModal === EModalData.CreateNewOptionModal
@@ -180,12 +182,15 @@ export default function CreateNewOptionModal() {
   function submit(values: TSchemaCreate) {
     const regexMoreSpace = /\s+/g
     const description = values.description.trim().replaceAll(regexMoreSpace, " ")
-    const data: IPostOffers = {
+    const data: IPostOffers & { userId?: number } = {
       provider: typeAdd!,
       description: description,
       slug: transliterateAndReplace(description).slice(0, 254),
       enabled: true,
       desired: true,
+    }
+    if (values.userId) {
+      data.userId = values.userId
     }
 
     if (values.help) {
@@ -292,6 +297,7 @@ export default function CreateNewOptionModal() {
           <ControlFileAppend control={control} visible={visible} step={step} loading={loading} typeAdd={typeAdd!} progress={progress} />
           {/* {visible && [4, 5].includes(step) && <ArticleOnboarding />} */}
           <ControlAddress control={control} watch={watch("address")} trigger={trigger} setValue={setValue} errors={errors} />
+          <Controller name="userId" control={control} render={({ field }) => <AddUser onChange={field.onChange} value={field.value} />} />
           {/* {env!?.server!?.host!?.includes("dev") && (
             <section className="w-full flex flex-col gap-2.5">
               <h2>

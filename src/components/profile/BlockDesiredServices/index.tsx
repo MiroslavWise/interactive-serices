@@ -21,11 +21,11 @@ export const BlockDesiredServices = () => {
     enabled: !!userId,
   })
 
-  const desiredServices = useMemo(() => {
-    if (!data?.data) return []
+  // const desiredServices = useMemo(() => {
+  //   if (!data?.data) return []
 
-    return data?.data?.categories
-  }, [data?.data])
+  //   return data?.data?.categories
+  // }, [data?.data])
 
   function addDesiredService() {
     dispatchActiveServicesFrom(true)
@@ -36,10 +36,10 @@ export const BlockDesiredServices = () => {
       <p className="text-text-primary text-sm font-medium">Желаемые услуги</p>
       {isLoading ? (
         <div />
-      ) : desiredServices?.length > 0 ? (
+      ) : []?.length > 0 ? (
         <>
           <section className="w-full flex gap-1.5 flex-wrap">
-            {desiredServices.map((item) => (
+            {/* {[].map((item) => (
               <div
                 key={`::key::service::desired::${item.id}::`}
                 data-item
@@ -56,7 +56,7 @@ export const BlockDesiredServices = () => {
                 </div>
                 <p className="text-text-primary text-sm text-left font-normal line-clamp-1 text-ellipsis whitespace-nowrap">{item.title}</p>
               </div>
-            ))}
+            ))} */}
           </section>
           <Button
             type="button"

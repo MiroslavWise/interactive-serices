@@ -7,6 +7,7 @@ export type TTypeActionCompany = {
 }
 
 export interface ICompany {
+  id: number
   title?: string
   ad?: string
   erid?: string

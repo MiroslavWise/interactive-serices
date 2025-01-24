@@ -14,7 +14,7 @@ import styles from "../styles/form.module.scss"
 export const ContentCurrentUser = () => {
   const user = useModalAuth(({ user }) => user)
 
-  const geo = user?.addresses?.find((item) => item?.addressType === "main")
+  // const geo = user?.addresses?.find((item) => item?.addressType === "main")
 
   return (
     <div className={styles.content}>

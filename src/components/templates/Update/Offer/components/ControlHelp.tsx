@@ -1,12 +1,13 @@
 import { Control, Controller } from "react-hook-form"
 
+import { type TSchemaUpdateOffer } from "../utils/types"
+
 import { cx } from "@/lib/cx"
-import { type IValues } from "./types"
 import { useOutsideClickEvent } from "@/helpers"
 import { HELP_TEXT } from "@/helpers/constants/help-text"
 
 interface IProps {
-  control: Control<IValues, any>
+  control: Control<TSchemaUpdateOffer, any>
 }
 
 function ControlHelp({ control }: IProps) {

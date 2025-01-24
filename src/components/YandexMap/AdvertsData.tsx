@@ -17,6 +17,7 @@ import { getTestimonials } from "@/services"
 import { useOutsideClickEvent } from "@/helpers"
 import { DeclensionAllQuantityFeedback } from "@/lib/declension"
 import { dispatchBallonAlert, dispatchBallonOffer, dispatchBallonPost } from "@/store"
+import AdvertsImageData from "./AdvertsImageData"
 
 interface IProps {
   isOpen: boolean
@@ -32,14 +33,17 @@ interface IProps {
   post?: IPosts
 }
 
-function AdvertsData({ provider, isOpen, setIsOpen, title, image, address, company, offer, post }: IProps) {
+function AdvertsData({ provider, isOpen, setIsOpen, title, address, company, offer, post }: IProps) {
   const ref = useRef<HTMLDivElement>(null)
 
   const [isOpenCompany, setIsOpenCompany, refCompany] = useOutsideClickEvent()
   const addressName = address?.additional ?? ""
-  const { title: companyTitle, erid: companyErid, inn: companyInn, ad } = company ?? {}
+  const { title: companyTitle, erid: companyErid, inn: companyInn, ad, ogrn } = company ?? {}
 
   const targetId = provider === EnumTypeProvider.POST ? post?.id : offer?.id
+  const description =
+    provider === EnumTypeProvider.POST ? post?.notes?.find((_) => _.main)?.description ?? null : offer?.description ?? null
+  const images = provider === EnumTypeProvider.POST ? post?.notes?.find((_) => _.main)?.images ?? [] : offer?.images ?? []
 
   const { data: testimonials } = useQuery({
     queryFn: () => getTestimonials({ target: targetId!, provider: provider, order: "DESC" }),
@@ -51,22 +55,6 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, image, address, compa
   const length = list.length
   const rating = (list.reduce((acc, item) => acc + item.rating, 0) / (length || 1)).toFixed(1)
   const countText = DeclensionAllQuantityFeedback(length)
-
-  useEffect(() => {
-    if (isOpen) {
-      if (ref.current) {
-        function handleClickOutside(event: MouseEvent) {
-          if (ref.current && !ref.current.contains(event.target as Node)) {
-            setIsOpen(false)
-          }
-        }
-
-        document.addEventListener("click", handleClickOutside)
-
-        return () => document.removeEventListener("click", handleClickOutside)
-      }
-    }
-  }, [isOpen])
 
   function handle(event: any) {
     event.stopPropagation()
@@ -90,14 +78,19 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, image, address, compa
     <article
       className={cx(
         isOpen ? "flex" : "hidden",
-        "absolute z-30 top-0 left-0 -translate-y-full rounded-2xl flex-col gap-2 p-3 w-80 shadow-md",
+        "absolute z-30 top-0 left-0 -translate-y-full rounded-2xl flex-col gap-2 p-3 w-96 shadow-md",
         provider === EnumTypeProvider.offer && "bg-BG-second",
         provider === EnumTypeProvider.alert && "bg-card-red",
         provider === EnumTypeProvider.POST && "bg-card-yellow",
       )}
       ref={ref}
     >
-      <header className={cx("w-full grid gap-3 items-start", image ? "grid-cols-[minmax(0,1fr)_2.5rem]" : "grid-cols-[minmax(0,1fr)]")}>
+      <header
+        className={cx(
+          "w-full grid gap-3 items-start",
+          images.length > 0 ? "grid-cols-[minmax(0,1fr)_2.5rem]" : "grid-cols-[minmax(0,1fr)]",
+        )}
+      >
         <div className="w-full flex flex-col items-start justify-between gap-1">
           <h2 className="text-text-primary text-sm font-semibold line-clamp-2 text-ellipsis cursor-pointer" onClick={handle}>
             {title}
@@ -116,23 +109,12 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, image, address, compa
             <span className="text-text-secondary text-xs font-light whitespace-nowrap">Ещё нет отзывов</span>
           )}
         </div>
-        <div className={cx("rounded-md overflow-hidden w-10 h-10 cursor-pointer", image ? "relative" : "hidden")} onClick={handle}>
-          {image ? (
-            <NextImageMotion
-              src={image.attributes.url}
-              hash={image.attributes.blur}
-              alt={provider}
-              width={80}
-              height={80}
-              className="object-cover absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10"
-            />
-          ) : null}
-        </div>
+        <AdvertsImageData images={images} handle={handle} />
       </header>
       <p className="text-text-secondary text-xs font-normal line-clamp-3 text-ellipsis cursor-pointer" onClick={handle}>
         {addressName}
       </p>
-      <p className={cx(!!ad && "text-text-primary text-xs font-normal line-clamp-4")}>{ad}</p>
+      <p className={cx(!!description ? "text-text-primary text-xs font-normal line-clamp-4" : "hidden")}>{description}</p>
       <span
         className="relative text-[0.625rem] font-light text-text-disabled cursor-pointer -mt-1 w-fit"
         ref={refCompany}
@@ -144,13 +126,16 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, image, address, compa
         Реклама
         <div
           className={cx(
-            "py-3 px-2 flex flex-col gap-1 rounded-sm absolute z-20 top-full right-0 shadow-sm min-w-32 max-w-fit bg-BG-second transition-all duration-200",
+            "py-3 px-2 flex flex-col gap-1 rounded-sm absolute z-20 top-full right-0 shadow-sm min-w-32 w-fit max-w-48 bg-BG-second transition-all duration-200",
             isOpenCompany ? "opacity-100 visible" : "opacity-0 invisible",
           )}
         >
           <span className="text-text-primary text-xs font-medium">{companyTitle}</span>
           <span className="text-text-primary text-xs font-medium whitespace-nowrap">ИНН: {companyInn}</span>
           <span className="text-text-primary text-xs font-normal whitespace-nowrap">erid: {companyErid}</span>
+          <span className={cx("text-text-primary text-xs font-normal whitespace-nowrap", !ogrn && "hidden")}>ОРГН: {ogrn}</span>
+          <br className={cx(!ad && "hidden")} />
+          <span className={cx("text-text-secondary text-xs font-normal", !ad && "hidden")}>{ad}</span>
         </div>
       </span>
       <AdvertButtons provider={provider} offer={offer} post={post} />

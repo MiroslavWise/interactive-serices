@@ -1,5 +1,3 @@
-import Link from "next/link"
-
 export enum EProviderLinkCustomer {
   "offer" = "offer",
   "discussion" = "discussion",
@@ -12,17 +10,15 @@ export interface ILink {
   provider: EProviderLinkCustomer
 }
 
-const LinkService = ({ label, provider, active }: ILink & { active: boolean }) => (
-  <Link
-    href={{ query: { provider: provider } }}
+const LinkService = ({ label, provider, active, on }: ILink & { active: boolean; on(value: EProviderLinkCustomer): void }) => (
+  <a
     className={`w-full h-full rounded-[1.125rem] flex flex-row items-center justify-center px-4 ${
       active && "!bg-element-accent-2"
     } hover:bg-grey-field`}
-    replace
-    prefetch
+    onClick={() => on(provider)}
   >
     <span className={`text-text-secondary text-center text-sm font-medium ${active && "!text-text-tab"}`}>{label}</span>
-  </Link>
+  </a>
 )
 
 LinkService.displayName = "LinkService"

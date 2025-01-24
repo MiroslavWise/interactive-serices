@@ -7,6 +7,8 @@ import type { IGetProfileIdResponse } from "@/services/profile/types"
 import type { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 import type { IResponseDataRegistration } from "@/services/auth/types/registrationService"
 import type { IResponseOffersCategories } from "@/services/offers-categories/types"
+import { ICompany } from "../types/company"
+import { ICompanyExtend } from "../companies"
 
 interface IPostDataUser {
   email: string
@@ -31,16 +33,12 @@ export interface IUserResponse {
   created: Date | string
   updated: Date | string
   deleted: any | null
-  categories: IResponseOffersCategories[]
+  // categories: IResponseOffersCategories[]
   phones: IResponsePhones[]
   profile: IGetProfileIdResponse
-  addresses: IAddressesResponse[]
+  // addresses: IAddressesResponse[]
   roles: TRole[]
-  barters: {
-    id: number
-    created: string
-    status: EnumStatusBarter
-  }[]
+  company?: ICompanyExtend
 }
 
 export interface IServiceUser {

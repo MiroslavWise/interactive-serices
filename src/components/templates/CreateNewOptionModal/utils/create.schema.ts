@@ -12,8 +12,9 @@ export const LIMIT_DESCRIPTION = 512
 export const LIMIT_TITLE = 144
 
 const help = z.boolean().default(false)
+const userId = z.nullable(z.number()).default(null)
 
-const title = z
+export const titleOfferZod = z
   .string()
   .trim()
   .min(1, { message: "Поле не может оставаться незаполненным" })
@@ -52,7 +53,7 @@ const categoryId = z
   .refine((value) => ["string", "number"].includes(typeof value), {
     message: "Поле не может оставаться незаполненным",
   })
-const description = z
+export const descriptionOfferZod = z
   .string()
   .trim()
   .min(1, { message: "Обязательное поле" })
@@ -72,7 +73,7 @@ const initAddress = schemaPostAddress.refine((value) => !!value && typeof value 
 })
 
 const base = z.object({
-  description: description,
+  description: descriptionOfferZod,
   address: address,
   type: z.nativeEnum(EnumTypeProvider),
   typeModal: z.nativeEnum(EModalData),
@@ -83,15 +84,16 @@ const base = z.object({
     inn: z.string().default("").optional(),
     erid: z.string().default("").optional(),
   }),
+  userId: userId,
 })
 
-const schemaAlertAndDiscussion = base.merge(z.object({ title: title, addressFeature: addressFeature }))
-const schemaAlertAndDiscussionMap = base.merge(z.object({ title: title, initAddress: initAddress }))
-const schemaOffer = base.merge(z.object({ title: title, categoryId: categoryId, addressFeature: addressFeature }))
-const schemaOfferMap = base.merge(z.object({ title: title, categoryId: categoryId, initAddress: initAddress }))
+const schemaAlertAndDiscussion = base.merge(z.object({ title: titleOfferZod, addressFeature: addressFeature }))
+const schemaAlertAndDiscussionMap = base.merge(z.object({ title: titleOfferZod, initAddress: initAddress }))
+const schemaOffer = base.merge(z.object({ title: titleOfferZod, categoryId: categoryId, addressFeature: addressFeature }))
+const schemaOfferMap = base.merge(z.object({ title: titleOfferZod, categoryId: categoryId, initAddress: initAddress }))
 
 const schemaCreate = base.extend({
-  title: title,
+  title: titleOfferZod,
   categoryId: categoryId,
   addressFeature: addressFeature,
   initAddress: initAddress,

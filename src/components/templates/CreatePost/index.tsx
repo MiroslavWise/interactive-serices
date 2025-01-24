@@ -30,6 +30,7 @@ import { fileUploadService, getGeocodeSearch, postAddress } from "@/services"
 import { resolverCreatePost, resolverCreatePostMap, type TSchemaCreatePost } from "./schema"
 import { onChangeFile, transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
 import { dispatchClearInitCreatePostMap, dispatchModal, EModalData, useAuth, useCreatePost, useModal } from "@/store"
+import AddUser from "@/components/common/AddUser"
 
 function CreatePost() {
   const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
@@ -77,12 +78,16 @@ function CreatePost() {
     const slug = transliterateAndReplace(title)
     const help = values.help
 
-    const data: IBodyPost = {
+    const data: IBodyPost & { userId?: number } = {
       enabled: true,
       title,
       slug,
       addresses: [],
       isParticipants: values.isParticipants,
+    }
+
+    if (values.userId) {
+      data.userId = Number(values.userId)
     }
 
     if (help) {
@@ -347,7 +352,12 @@ function CreatePost() {
                 <label htmlFor={field.name} title="Адрес">
                   Адрес
                 </label>
-                <div data-input-selector>
+                <div
+                  data-input-selector
+                  style={{
+                    zIndex: isFocus ? 100 : 3,
+                  }}
+                >
                   <input
                     {...field}
                     onChange={(event) => {
@@ -406,11 +416,12 @@ function CreatePost() {
             )}
           />
           <ControlParticipant control={control} />
+          <Controller name="userId" control={control} render={({ field }) => <AddUser onChange={field.onChange} value={field.value} />} />
           <footer className="w-full pt-2.5 mt-auto bg-BG-second">
             <Button
               type="submit"
               typeButton="fill-primary"
-              label="Создать пост"
+              label="Создать событие"
               className="w-full h-11 py-2.5"
               loading={loading}
               disabled={loading || disabled}
