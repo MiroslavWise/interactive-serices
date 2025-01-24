@@ -124,7 +124,7 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
             <div>
               <IconShare />
             </div>
-            <span>{TITLE_SHARE}</span>
+            <span>{LABEL_ADD_ADVERT}</span>
           </a>
         </section>
       </article>
