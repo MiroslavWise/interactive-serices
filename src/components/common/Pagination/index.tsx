@@ -30,15 +30,7 @@ function Pagination({ page = 1, pageCount = 10, total = 0, onChange }: IProps) {
     }
   }, [total])
 
-  return (
-    <ResponsivePagination
-      aria-label="Pagination"
-      current={page}
-      total={pagesTotal}
-      onPageChange={(event) => onChange(event)}
-      pageLinkClassName="bg-element-accent-1"
-    />
-  )
+  return <ResponsivePagination aria-label="Pagination" current={page} total={pagesTotal} onPageChange={(event) => onChange(event)} />
 }
 
 export default Pagination

@@ -17,8 +17,11 @@ interface IGetSearchData {
   users: IUserResponse[]
 }
 
+type TSearch = string
+
 interface IQuerySearch {
   query: string
+  search?: TSearch
 }
 
 export type TGetSearch = (values: { query: IQuerySearch }) => Promise<IResponse<IGetSearchData>>

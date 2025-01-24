@@ -17,7 +17,7 @@ export const MAX_LENGTH_OGRN = 13
 const schema = z.object({
   title: z.string().trim().min(1, { message: "Заголовок компании не может быть пустым" }).default(""),
   ad: z.string().trim().default(""),
-  erid: z.string().trim().min(1, { message: "ID рекламы компании не может быть пустым" }).default(""),
+  erid: z.string().trim().default(""),
   userId: z.nullable(z.number()).default(null),
   inn: z
     .string()

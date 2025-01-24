@@ -9,6 +9,7 @@ export enum EnumTypeProvider {
   POST_COMMENT = "post-commentaries",
   NOTE = "note",
   TESTIMONIAL = "testimonial",
+  COMPANY = "company",
 }
 
 export enum EnumHelper {

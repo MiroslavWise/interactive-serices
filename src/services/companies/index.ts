@@ -23,7 +23,7 @@ export const getCompanyId = (id: number) => fetchGet<ICompanyExtend>({ url: `${u
 export interface IBodyCompany extends IBodyAdvertAction {
   title: string
   ad?: string
-  erid: string
+  erid?: string
   inn: string
   ogrn?: string
   imageId?: number
