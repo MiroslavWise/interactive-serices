@@ -35,6 +35,7 @@
     "react-dropzone": "14.2.3",
     "react-hook-form": "7.53.0",
     "react-qr-code": "^2.0.15",
+    "react-responsive-pagination": "^2.10.0",
     "react-swipeable": "7.0.1",
     "react-toastify": "10.0.5",
     "react-virtuoso": "^4.12.2",

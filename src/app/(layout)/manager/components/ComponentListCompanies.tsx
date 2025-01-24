@@ -5,6 +5,7 @@ import { parseAsInteger, useQueryState } from "nuqs"
 
 import { getCompanies } from "@/services/companies"
 import { clg } from "@console"
+import Pagination from "@/components/common/Pagination"
 
 const LIMIT = 10
 
@@ -22,7 +23,7 @@ function filter(page: number) {
 }
 
 function ComponentListCompanies() {
-  const [page] = useQueryState("page", parseAsInteger)
+  const [page, setPage] = useQueryState("page", parseAsInteger)
 
   const f = filter(page ?? 1)
 
@@ -31,9 +32,15 @@ function ComponentListCompanies() {
     queryKey: ["companies", f],
   })
 
+  const total = data?.meta?.total
+
   clg("data: ", data)
 
-  return <ul className="w-full flex flex-col gap-2 h-full overflow-y-auto"></ul>
+  return (
+    <ul className="w-full flex flex-col gap-2 h-full overflow-y-auto">
+      <Pagination total={total} page={page ?? 1} onChange={setPage} />
+    </ul>
+  )
 }
 
 export default ComponentListCompanies

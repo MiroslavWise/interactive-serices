@@ -1,5 +1,11 @@
-declare namespace JSX {
-  interface IntrinsicElements {
-    "x-p": React.DetailedHTMLProps<React.HTMLAttributes<HTMLTimeElement> & { time: string }, HTMLTimeElement>
-  }
+interface AppTheme extends WuiTheme {
+  // customize your theme
+}
+
+declare module "@xstyled/styled-components" {
+  export interface Theme extends AppTheme {}
+}
+
+declare module "styled-components" {
+  export interface DefaultTheme extends AppTheme {}
 }
