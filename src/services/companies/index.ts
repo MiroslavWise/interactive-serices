@@ -1,9 +1,9 @@
 import { ICompany } from "../types/company"
 import { IUserOffer } from "../offers/types"
-
-import { IPromiseReturn } from "../types/general"
-import { fetchGet, wrapperPatch, wrapperPost } from "../request"
 import { IBodyAdvertAction } from "../offers"
+import { IPromiseReturn } from "../types/general"
+
+import { fetchGet, wrapperPatch, wrapperPost } from "../request"
 
 const url = "/companies"
 
