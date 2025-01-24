@@ -1,6 +1,6 @@
-import { TSchemaCompany } from "./schema"
-import { ICompany } from "@/services/types/company"
-import { IBodyCompany, patchCompany } from "@/services/companies"
+import { type TSchemaCompany } from "./schema"
+import { type ICompany } from "@/services/types/company"
+import { type IBodyCompany, patchCompany } from "@/services/companies"
 
 interface IData {
   values: TSchemaCompany
@@ -26,6 +26,18 @@ export function updateCompany({ values, defaults }: IData) {
   const oldINN = defaults.inn ?? ""
   if (newINN !== oldINN) {
     body.inn = newINN
+  }
+
+  const newERID = values.erid ?? ""
+  const oldERID = defaults.erid ?? ""
+  if (newERID !== oldERID) {
+    body.erid = newERID
+  }
+
+  const newOGRN = values.ogrn ?? ""
+  const oldOGRN = defaults.ogrn ?? ""
+  if (newOGRN !== oldOGRN) {
+    body.ogrn = newOGRN
   }
 
   if (Object.entries(body).length > 0) {

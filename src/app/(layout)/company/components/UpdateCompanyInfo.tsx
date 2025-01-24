@@ -8,12 +8,12 @@ import { ICompanyExtend } from "@/services/companies"
 import Button from "@/components/common/Button"
 
 import { cx } from "@/lib/cx"
+import { useAuth } from "@/store"
 import { updateCompany } from "../utils/update"
 import { resolverSchemaCompany, TSchemaCompany } from "../utils/schema"
 import { MAX_LENGTH_INN, MAX_LENGTH_OGRN } from "@/components/templates/AddAdverts/schema"
 
 import styles from "../styles/form.module.scss"
-import { useAuth } from "@/store"
 
 interface IProps {
   company: ICompanyExtend
