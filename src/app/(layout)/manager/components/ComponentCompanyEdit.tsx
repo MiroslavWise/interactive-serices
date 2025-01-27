@@ -21,7 +21,7 @@ function ComponentCompanyEdit({ company, setIsEdit, refetch }: IProps) {
 
   const { title = "", ad = "", erid = "", inn = "", ogrn = "" } = company ?? {}
 
-  const { control, handleSubmit } = useForm<TSchemaAdvert>({
+  const { control, handleSubmit, getValues } = useForm<TSchemaAdvert>({
     defaultValues: {
       title: title,
       ad: ad,
@@ -32,18 +32,7 @@ function ComponentCompanyEdit({ company, setIsEdit, refetch }: IProps) {
     resolver: resolver,
   })
 
-  const onSubmit = handleSubmit(async (values) => {
-    clg("handleSubmit: ", values, "warning")
-    if (!loading) {
-      setLoading(true)
-      const response = await updateCompany({ defaults: company, values: values })
-      if (response.ok !== "not update") {
-        refetch()
-      }
-      setIsEdit(false)
-      setLoading(false)
-    }
-  })
+  // const onSubmit =
 
   return (
     <div className="w-full h-full py-5">
@@ -118,7 +107,19 @@ function ComponentCompanyEdit({ company, setIsEdit, refetch }: IProps) {
               label="Обновить"
               typeButton="fill-primary"
               className="md:max-w-[15.625rem]"
-              onClick={onSubmit}
+              onClick={async () => {
+                clg("handleSubmit: start", "", "warning")
+                const values = getValues()
+                if (!loading) {
+                  setLoading(true)
+                  const response = await updateCompany({ defaults: company, values: values })
+                  if (response.ok !== "not update") {
+                    refetch()
+                  }
+                  setIsEdit(false)
+                  setLoading(false)
+                }
+              }}
               loading={loading}
               disabled={loading}
             />
