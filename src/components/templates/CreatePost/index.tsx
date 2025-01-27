@@ -65,6 +65,7 @@ function CreatePost() {
         file: [],
         string: [],
       },
+      userId:null,
       isParticipants: false,
       address: stateModal === EModalData.CREATE_POST_MAP ? initMapAddress?.additional : "",
       initAddress: stateModal === EModalData.CREATE_POST_MAP ? initMapAddress : undefined,
