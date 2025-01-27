@@ -17,6 +17,7 @@ import IconFile_06 from "@/components/icons/IconFile_06"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 import ControlParticipant from "./components/ControlParticipant"
 import CurrentImage from "../CreateNewOptionModal/components/CurrentImage"
+import AddUser from "@/components/common/AddUser"
 
 import { cx } from "@/lib/cx"
 import { clg } from "@console"
@@ -30,7 +31,6 @@ import { fileUploadService, getGeocodeSearch, postAddress } from "@/services"
 import { resolverCreatePost, resolverCreatePostMap, type TSchemaCreatePost } from "./schema"
 import { onChangeFile, transliterateAndReplace, useDebounce, useOutsideClickEvent } from "@/helpers"
 import { dispatchClearInitCreatePostMap, dispatchModal, EModalData, useAuth, useCreatePost, useModal } from "@/store"
-import AddUser from "@/components/common/AddUser"
 
 function CreatePost() {
   const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
