@@ -5,12 +5,28 @@ import { IUserOffer } from "@/services/offers/types"
 import Avatar from "@avatar"
 import IconVerifiedTick from "@/components/icons/IconVerifiedTick"
 import RatingAndFeedbackComponent from "@/components/templates/Friends/components/RatingAndFeedbackComponent"
+import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import { Dispatch } from "react"
 
-function ComponentItemUser({ user }: { user: IUserOffer }) {
+interface IProps {
+  user: IUserOffer
+  isCustomer?: boolean
+  onDelete?: Dispatch<number>
+}
+
+function ComponentItemUser({ user, isCustomer, onDelete }: IProps) {
   const { firstName = "Имя", lastName = "", image, id } = user ?? {}
 
+  function handleDelete() {
+    if (isCustomer) {
+      if (onDelete) {
+        onDelete(id)
+      }
+    }
+  }
+
   return (
-    <li className="w-full grid grid-cols-[3.125rem_minmax(0,1fr)_13.0625rem] gap-3 items-center">
+    <li className="w-full grid grid-cols-[3.125rem_minmax(0,1fr)_13.0625rem] gap-3 items-center relative">
       <Avatar className="w-[3.125rem] h-[3.125rem] aspect-square rounded-.625" image={image} />
       <div className="w-full flex flex-col items-start justify-center gap-1">
         <Link
@@ -25,6 +41,17 @@ function ComponentItemUser({ user }: { user: IUserOffer }) {
           </span>
         </Link>
         <RatingAndFeedbackComponent id={id} />
+        {isCustomer ? (
+          <>
+            <button
+              type="button"
+              className="absolute top-0 right-0 w-5 h-5 flex items-center justify-center *:w-4 *:h-4"
+              onClick={handleDelete}
+            >
+              <IconTrashBlack />
+            </button>
+          </>
+        ) : null}
       </div>
     </li>
   )
