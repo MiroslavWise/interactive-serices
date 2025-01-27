@@ -118,7 +118,7 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
             onClick={(event) => {
               event.stopPropagation()
               event.preventDefault()
-              displayAddAdvert(provider!, id!)
+              displayAddAdvert(provider!, id!, offer?.userId!)
             }}
             className={cx((!isManager || isAdvertising) && "!hidden")}
           >

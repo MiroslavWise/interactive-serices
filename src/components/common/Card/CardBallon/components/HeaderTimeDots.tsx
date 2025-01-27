@@ -1,5 +1,6 @@
 "use client"
 
+import { EnumTypeProvider } from "@/types/enum"
 import { ETitleRole } from "@/services/roles/types"
 import { type IResponseOffers } from "@/services/offers/types"
 
@@ -14,8 +15,6 @@ import useRole from "@/helpers/is-role"
 import { daysAgo, useOutsideClickEvent } from "@/helpers"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
 import { dispatchAddTestimonials, dispatchComplaintModalOffer, displayAddAdvert, useAuth } from "@/store"
-import { EnumTypeProvider } from "@/types/enum"
-import XPElement from "@/components/common/Shadow/ShadowAddress"
 
 const TITLE_SHARE = "Поделиться"
 const TITLE_COMPLAINT = "Пожаловаться"
@@ -113,7 +112,7 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
             onClick={(event) => {
               event.stopPropagation()
               event.preventDefault()
-              displayAddAdvert(offer?.provider!, offer?.id!)
+              displayAddAdvert(offer?.provider!, offer?.id!, offer?.userId!)
               setVisible(false)
             }}
             className={cx((!isManager || offer.provider !== EnumTypeProvider.offer || isAdvertising) && "!hidden")}

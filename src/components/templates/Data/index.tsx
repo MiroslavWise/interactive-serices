@@ -46,6 +46,8 @@ import stylesCreatePost from "@/components/templates/CreatePost/style.module.scs
 import stylesSuccessCreatePost from "@/components/templates/SuccessCreatePost/style.module.scss"
 import stylesBallonPost from "@/components/templates/BallonPost/style.module.scss"
 import UpdateDiscussionAndAlert, { CN_UPDATE_DISCUSSION_AND_ALERT } from "../Update/DiscussionAndAlert"
+import UpdateCompanyDelete from "../Update/Company/UpdateCompanyDelete"
+import UpdateCompanyEnabled from "../Update/Company/UpdateCompanyEnabled"
 
 const stringBalloonAlert = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
 const stringBalloonDiscussion = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
@@ -82,6 +84,9 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.BALLOON_POST, <BallonPost key="::key::BallonPost" />], //Балун поста
   [EModalData.DELETE_FRIEND, <DeleteFriend key="::key::DeleteFriend" />], //Удаление друга
   [EModalData.DELETE_POST, <DeletePost key="::key::DeleteFriend" />], //Удаление друга
+  [EModalData.UPDATE_DELETE_COMPANY, <UpdateCompanyDelete key="::key::UpdateCompanyDelete::" />], //Удаление компании
+  [EModalData.UPDATE_ENABLED_COMPANY, <UpdateCompanyEnabled key="::key::UpdateCompanyEnabled::" />], //Деактивация компании
+  [EModalData.UPDATE_ENABLED_ACTIVE_COMPANY, <UpdateCompanyEnabled key="::key::UpdateCompanyEnabled::" />], //Активация компании
 ])
 export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.NewServicesBanner, CN_SECTION], //
@@ -101,6 +106,9 @@ export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.DeleteChat, stylesOutAccount.container], //
   [EModalData.DELETE_FRIEND, stylesOutAccount.container], //
   [EModalData.DELETE_POST, stylesOutAccount.container], //
+  [EModalData.UPDATE_DELETE_COMPANY, stylesOutAccount.container], //
+  [EModalData.UPDATE_ENABLED_COMPANY, stylesOutAccount.container], //
+  [EModalData.UPDATE_ENABLED_ACTIVE_COMPANY, stylesOutAccount.container], //
   [EModalData.UpdateOffer, stylesUpdateOffer.container], //
   [EModalData.ChangePassword, stylesChangePassword.container], //
   // [EModalData.ActiveServicesFrom, stylesActiveServicesFrom.container], //

@@ -4,10 +4,10 @@ import { type ReactNode, useEffect } from "react"
 import { NuqsAdapter } from "nuqs/adapters/next/app"
 
 import Containers from "@/context/Containers"
-import { WebSocketProvider, NextThemesProvider, QueryClientProviderContext } from "@/context"
 
 import { clg } from "@console"
 import { dispatchCookiesVisible, dispatchRefresh, useCookies } from "@/store"
+import { WebSocketProvider, NextThemesProvider, QueryClientProviderContext } from "@/context"
 
 export default ({ children }: { children: ReactNode }) => {
   useEffect(() => {
@@ -21,9 +21,6 @@ export default ({ children }: { children: ReactNode }) => {
       if (typeof is !== "undefined" && !is) {
         dispatchCookiesVisible()
       }
-    })
-    import("@/components/common/Shadow/class").then(() => {
-      clg("Shadow => ", "ok")
     })
   }, [])
 

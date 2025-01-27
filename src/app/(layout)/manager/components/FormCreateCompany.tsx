@@ -1,36 +1,40 @@
+"use client"
+
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Controller, useForm } from "react-hook-form"
 
-import Button from "@/components/common/Button"
-import { ImageStatic } from "@/components/common"
-import IconPlus from "@/components/icons/IconPlus"
-import ControllerAddAction from "./ControllerAddAction"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import { EnumTypeProvider } from "@/types/enum"
 
-import { patchAdvertOffer } from "@/services/offers"
-import { IBodyAdvertAction } from "@/services/offers"
-import { EAdvertsButton, EnumTypeProvider } from "@/types/enum"
+import UserAddSearch from "./UserAddSearch"
+import IconPlus from "@/components/icons/IconPlus"
+import { ImageStatic } from "@/components/common/Image"
+import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import Button, { ButtonLink } from "@/components/common/Button"
 
 import { cx } from "@/lib/cx"
-import { fileUploadService } from "@/services"
-import { useToast } from "@/helpers/hooks/useToast"
-import { patchAdvertPosts } from "@/services/posts"
-import { hideAddAdvert, useAddAdvert, useAuth } from "@/store"
-import { MAX_LENGTH_OGRN, MAX_LENGTH_INN, TSchemaAdvert, resolver, handleImageChange, TFiles } from "../schema"
+import { useAuth } from "@/store"
+import {
+  TFiles,
+  resolver,
+  TSchemaAdvert,
+  MAX_LENGTH_INN,
+  MAX_LENGTH_OGRN,
+  handleImageChange,
+} from "@/components/templates/AddAdverts/schema"
+import { createCompany } from "../utils/update"
+import { patchCompany } from "@/services/companies"
+import { fileUploadService } from "@/services/file-upload"
 
-import styles from "../styles/style.module.scss"
-import { IBodyCompany, patchCompany, postCompany } from "@/services/companies"
+import styles from "../styles/style-img.module.scss"
 
-function FormNewCompany() {
-  const [loading, setLoading] = useState(false)
-
+function FormCreateCompany() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const id = useAddAdvert(({ id }) => id)
-  const userIdTarget = useAddAdvert(({ userId }) => userId)
-  const type = useAddAdvert(({ type }) => type)
-  const { on } = useToast()
+  const [loading, setLoading] = useState(false)
+  const { push, prefetch } = useRouter()
 
-  const { control, handleSubmit, watch } = useForm<TSchemaAdvert>({
+  const { handleSubmit, control } = useForm<TSchemaAdvert>({
+    resolver: resolver,
     defaultValues: {
       title: "",
       ad: "",
@@ -41,60 +45,17 @@ function FormNewCompany() {
         file: [],
         string: [],
       },
-      userId: userIdTarget,
-      actionAdvertButton: undefined,
-      actionUrl: "",
     },
-    resolver: resolver,
   })
 
   const onSubmit = handleSubmit(async (values) => {
     if (!loading) {
       setLoading(true)
-      const title = values.title?.trim() ?? ""
-      const inn = values.inn?.trim() ?? ""
-      const erid = values.erid?.trim() ?? ""
-      const body: IBodyCompany = {
-        title: title,
-        inn: inn,
-        erid: erid,
-      }
-      const bodyAction: IBodyAdvertAction = {}
-
-      const ad = values.ad?.trim()
-      const ogrn = values.ogrn?.trim()
-
-      if (!!ad) body.ad = ad
-      if (!!ogrn) body.ogrn = ogrn
-
-      const actionAdvertButton = values.actionAdvertButton
-      const actionUrl = values.actionUrl.trim()
-
-      if (!!actionAdvertButton) {
-        let url = actionUrl ?? ""
-
-        if (actionAdvertButton === EAdvertsButton.CALL_ON_WHATSAPP) {
-          url = actionUrl.replace(/[\(\s\)-]/g, "")
-        }
-
-        bodyAction.actions = [
-          {
-            action: actionAdvertButton,
-            url: url,
-            enabled: true,
-          },
-        ]
-      }
-
-      if (Object.keys(bodyAction).length > 0) {
-        body.actions = bodyAction.actions
-      }
-
-      const responsePost = await postCompany(body)
-
-      if (responsePost.ok) {
-        const companyId = responsePost?.res?.id!
-
+      const response = await createCompany({ values })
+      if (response.ok) {
+        const companyId = response?.res?.id!
+        const urlCompany = `/manager/companies?companyId=${companyId}`
+        prefetch(urlCompany)
         const files = values.file.file
         const ids: number[] = []
 
@@ -102,7 +63,7 @@ function FormNewCompany() {
           const responseImages = await Promise.all(
             files.map((item) =>
               fileUploadService(item!, {
-                type: type!,
+                type: EnumTypeProvider.COMPANY,
                 userId: userId!,
                 idSupplements: companyId!,
               }),
@@ -116,26 +77,16 @@ function FormNewCompany() {
           })
         }
 
-        await Promise.all([
-          ids.length > 0 ? patchCompany({ imageId: ids[0]! }, companyId) : Promise.resolve(),
-          type === EnumTypeProvider.POST ? patchAdvertPosts(id!, companyId) : patchAdvertOffer(id!, companyId),
-        ])
-
-        on({
-          message: "Реклама добавлена",
-        })
+        await Promise.resolve(ids.length > 0 ? patchCompany({ imageId: ids[0]! }, companyId!) : null)
+        push(urlCompany)
       }
-
       setLoading(false)
-      hideAddAdvert()
     }
   })
 
-  const actionAdvertButton = watch("actionAdvertButton")
-
   return (
-    <form onSubmit={onSubmit} className="w-full flex flex-col gap-[1.875rem]">
-      <h3 className="text-text-primary text-2xl font-medium">Добавление новой рекламной компании</h3>
+    <form className="w-full flex flex-col gap-[1.875rem] h-full overflow-y-auto py-5" onSubmit={onSubmit}>
+      <h3 className="text-text-primary text-2xl font-medium">Добавление новой компании</h3>
       <section className="flex flex-col gap-3 md:gap-4">
         <Controller
           control={control}
@@ -179,7 +130,7 @@ function FormNewCompany() {
           render={({ field }) => (
             <fieldset className="flex flex-col gap-2 items-start">
               <label htmlFor={field.name} title="ERID рекламной компании">
-                ERID рекламной компании
+                ERID рекламной компании (если компания участвует в ней)
               </label>
               <input type="text" placeholder="Введите ERID" {...field} />
             </fieldset>
@@ -190,8 +141,8 @@ function FormNewCompany() {
           name="ad"
           render={({ field }) => (
             <fieldset className="flex flex-col gap-2 items-start">
-              <label htmlFor={field.name} title="Описание рекламы">
-                Описание рекламы (не обязательно)
+              <label htmlFor={field.name} title="Описание компании">
+                Описание компании (не обязательно)
               </label>
               <input type="text" placeholder="Введите описание" {...field} />
             </fieldset>
@@ -251,15 +202,21 @@ function FormNewCompany() {
             </fieldset>
           )}
         />
-        <ControllerAddAction control={control} actionAdvertButton={actionAdvertButton} />
+        <Controller
+          name="userId"
+          control={control}
+          render={({ field, fieldState: { error } }) => (
+            <UserAddSearch value={field.value} onChange={field.onChange} error={error?.message} />
+          )}
+        />
       </section>
       <footer className="flex flex-col-reverse md:flex-row gap-3 md:gap-4 items-center">
-        <Button type="button" typeButton="regular-primary" label="Отмена" onClick={hideAddAdvert} loading={loading} disabled={loading} />
+        <ButtonLink type="button" typeButton="regular-primary" label="Отмена" href={{ pathname: "/companies" }} />
         <Button type="submit" typeButton="fill-primary" label="Создать и добавить" disabled={loading} loading={loading} />
       </footer>
     </form>
   )
 }
 
-FormNewCompany.displayName = "FormNewCompany"
-export default FormNewCompany
+FormCreateCompany.displayName = "FormCreateCompany"
+export default FormCreateCompany

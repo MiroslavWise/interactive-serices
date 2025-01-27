@@ -2,6 +2,10 @@ import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 
+import { EnumTypeProvider } from "@/types/enum"
+import { patchAdvertPosts } from "@/services/posts"
+import { patchAdvertOffer } from "@/services"
+
 import Button from "@/components/common/Button"
 import IconXClose from "@/components/icons/IconXClose"
 
@@ -13,9 +17,6 @@ import { resolverSchemaOld, TSchemaOld } from "../schema"
 import { getCompanies, ICompanyExtend } from "@/services/companies"
 
 import styles from "../styles/list-companies.module.scss"
-import { EnumTypeProvider } from "@/types/enum"
-import { patchAdvertPosts } from "@/services/posts"
-import { patchAdvertOffer } from "@/services"
 
 const onItemTrimCase = (value: string | undefined, trimString: string) => (value ?? "").trim().toLowerCase().includes(trimString)
 

@@ -14,7 +14,6 @@ import { cx } from "@/lib/cx"
 import { dispatchBallonAlert, dispatchBallonOffer, dispatchMapCoordinates, dispatchMobileSearchCategoryVisible } from "@/store"
 
 import styles from "./styles/style.module.scss"
-import XPElement from "../../Shadow/ShadowAddress"
 interface IProps {
   offer: IResponseOffers
   className?: string

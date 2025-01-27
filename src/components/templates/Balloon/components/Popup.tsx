@@ -124,7 +124,7 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
         <span className="text-text-error text-sm font-normal text-left">{LABEL_COMPLAIN}</span>
       </a>
       <a
-        onClick={() => displayAddAdvert(offer?.provider!, offer?.id!)}
+        onClick={() => displayAddAdvert(offer?.provider!, offer?.id!, offer?.userId!)}
         title={LABEL_ADD_ADVERT}
         aria-label={LABEL_ADD_ADVERT}
         aria-labelledby={LABEL_ADD_ADVERT}
