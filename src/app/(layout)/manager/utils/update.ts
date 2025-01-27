@@ -1,4 +1,4 @@
-import { IBodyCompany, postCompany } from "@/services/companies"
+import { IBodyCompany, ICompanyExtend, patchCompany, postCompany } from "@/services/companies"
 import { TSchemaAdvert } from "@/components/templates/AddAdverts/schema"
 
 async function createCompany({ values }: { values: TSchemaAdvert }) {
@@ -20,6 +20,11 @@ async function createCompany({ values }: { values: TSchemaAdvert }) {
   if (ogrn) body.ogrn = ogrn
 
   return postCompany(body)
+}
+
+interface IData {
+  defaults: ICompanyExtend
+  values: TSchemaAdvert
 }
 
 export { createCompany }

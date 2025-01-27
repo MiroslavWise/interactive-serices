@@ -1,23 +1,24 @@
 "use client"
 
+import Link from "next/link"
 import { type PropsWithChildren } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { parseAsBoolean, parseAsInteger, useQueryState } from "nuqs"
 
 import Avatar from "@avatar"
 import Button from "@/components/common/Button"
+import ComponentCompanyEdit from "./ComponentCompanyEdit"
 import { NextImageMotion } from "@/components/common/Image"
+import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { cx } from "@/lib/cx"
 import { getCompanyId } from "@/services/companies"
-import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
-import Link from "next/link"
 
 function ComponentCompanyId({ children }: PropsWithChildren) {
   const [companyId] = useQueryState("companyId", parseAsInteger)
   const [isEdit, setIsEdit] = useQueryState("is-edit", parseAsBoolean.withDefault(false))
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryFn: () => getCompanyId(companyId!),
     queryKey: ["company", companyId],
     enabled: !!companyId,
@@ -25,11 +26,14 @@ function ComponentCompanyId({ children }: PropsWithChildren) {
 
   const { image, title = "", inn = "", ogrn = "", erid = "", ad, owner } = data?.data ?? {}
 
-  const loadComponent = (
-    <div className="w-full h-full py-5">
-      <section className="w-full h-full rounded-2 bg-BG-first border border-grey-field overflow-hidden overflow-y-hidden flex flex-col gap-3"></section>
-    </div>
-  )
+  if (isLoading)
+    return (
+      <div className="w-full h-full py-5">
+        <section className="w-full h-full rounded-2 bg-BG-first border border-grey-field overflow-hidden overflow-y-hidden flex flex-col gap-3"></section>
+      </div>
+    )
+
+  if (isEdit && data?.data) return <ComponentCompanyEdit company={data?.data} setIsEdit={setIsEdit} refetch={refetch} />
 
   const dataComponent = (
     <div className="w-full h-full py-5">
@@ -114,7 +118,7 @@ function ComponentCompanyId({ children }: PropsWithChildren) {
     </div>
   )
 
-  return companyId ? (isLoading ? loadComponent : data?.data ? dataComponent : children) : children
+  return companyId ? (data?.data ? dataComponent : children) : children
 }
 
 ComponentCompanyId.displayName = "ComponentCompanyId"

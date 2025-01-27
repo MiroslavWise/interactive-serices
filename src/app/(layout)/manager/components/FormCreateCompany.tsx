@@ -6,6 +6,7 @@ import { Controller, useForm } from "react-hook-form"
 
 import { EnumTypeProvider } from "@/types/enum"
 
+import UserAddSearch from "./UserAddSearch"
 import IconPlus from "@/components/icons/IconPlus"
 import { ImageStatic } from "@/components/common/Image"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
@@ -26,7 +27,6 @@ import { patchCompany } from "@/services/companies"
 import { fileUploadService } from "@/services/file-upload"
 
 import styles from "../styles/style-img.module.scss"
-import UserAddSearch from "./UserAddSearch"
 
 function FormCreateCompany() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}

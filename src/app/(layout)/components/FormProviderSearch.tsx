@@ -12,7 +12,6 @@ import { useState, type PropsWithChildren, createContext, useContext } from "rea
 
 import { type IPosts } from "@/services/posts/types"
 import { type IResponseOffers } from "@/services/offers/types"
-import { type IResponseOffersCategories } from "@/services/offers-categories/types"
 
 import { getSearch } from "@/services/search"
 import { queryClient } from "@/context/QueryClientProviderContext"
