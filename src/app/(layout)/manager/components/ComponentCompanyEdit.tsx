@@ -21,7 +21,7 @@ function ComponentCompanyEdit({ company, setIsEdit, refetch }: IProps) {
 
   const { title = "", ad = "", erid = "", inn = "", ogrn = "" } = company ?? {}
 
-  const { control, handleSubmit, getValues } = useForm<TSchemaAdvert>({
+  const { control, getValues } = useForm<TSchemaAdvert>({
     defaultValues: {
       title: title,
       ad: ad,
@@ -108,7 +108,6 @@ function ComponentCompanyEdit({ company, setIsEdit, refetch }: IProps) {
               typeButton="fill-primary"
               className="md:max-w-[15.625rem]"
               onClick={async () => {
-                clg("handleSubmit: start", "", "warning")
                 const values = getValues()
                 if (!loading) {
                   setLoading(true)

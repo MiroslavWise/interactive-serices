@@ -57,6 +57,9 @@ export enum EModalData {
   DELETE_FRIEND = "delete-friend",
   DELETE_POST = "delete-post",
   SUCCESS_PROVIDE_FEEDBACK = "success-provide-feedback",
+  UPDATE_ENABLED_COMPANY = "update-enabled-company",
+  UPDATE_ENABLED_ACTIVE_COMPANY = "update-enabled-active-company",
+  UPDATE_DELETE_COMPANY = "update-delete-company",
 }
 
 interface IStateUseModal {

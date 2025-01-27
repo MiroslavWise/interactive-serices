@@ -22,9 +22,4 @@ async function createCompany({ values }: { values: TSchemaAdvert }) {
   return postCompany(body)
 }
 
-interface IData {
-  defaults: ICompanyExtend
-  values: TSchemaAdvert
-}
-
 export { createCompany }

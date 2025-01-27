@@ -65,3 +65,4 @@ export { dispatchPrevWelcomeModal, dispatchNextWelcomeModal } from "./state/useV
 export * from "./state/useVideoModal"
 export * from "./state/useDeletePost"
 export * from "./state/useAddAdvert"
+export * from "./state/useUpdateCompany"

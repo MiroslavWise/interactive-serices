@@ -9,9 +9,10 @@ import Avatar from "@avatar"
 import Button from "@/components/common/Button"
 import ComponentCompanyEdit from "./ComponentCompanyEdit"
 import { NextImageMotion } from "@/components/common/Image"
-import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
+import IconVerifiedTick from "@/components/icons/IconVerifiedTick"
 
 import { cx } from "@/lib/cx"
+import { dispatchUpdateCompany } from "@/store"
 import { getCompanyId } from "@/services/companies"
 
 function ComponentCompanyId({ children }: PropsWithChildren) {
@@ -24,7 +25,7 @@ function ComponentCompanyId({ children }: PropsWithChildren) {
     enabled: !!companyId,
   })
 
-  const { image, title = "", inn = "", ogrn = "", erid = "", ad, owner } = data?.data ?? {}
+  const { image, title = "", inn = "", ogrn = "", erid = "", ad, owner, enabled } = data?.data ?? {}
 
   if (isLoading)
     return (
@@ -101,16 +102,16 @@ function ComponentCompanyId({ children }: PropsWithChildren) {
             <Button
               type="button"
               typeButton="white"
-              label="Заблокировать компанию"
+              label={enabled ? "Заблокировать компанию" : "Активировать компанию"}
               className="md:max-w-[15.625rem] [&>span]:text-text-error"
-              onClick={() => {}}
+              onClick={() => dispatchUpdateCompany(enabled ? "enabled" : "active", companyId!)}
             />
             <Button
               type="button"
               typeButton="regular-primary"
               label="Удалить компанию"
               className="md:max-w-[15.625rem]"
-              onClick={() => {}}
+              onClick={() => dispatchUpdateCompany("delete", companyId!)}
             />
           </div>
         </footer>
