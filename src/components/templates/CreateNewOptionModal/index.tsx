@@ -7,7 +7,6 @@ import { Controller, useForm } from "react-hook-form"
 
 import { EnumHelper, EnumTypeProvider } from "@/types/enum"
 import { type IPostOffers } from "@/services/offers/types"
-import { type IPostAddress } from "@/services/addresses/types/serviceAddresses"
 
 import Button from "@/components/common/Button"
 import AddUser from "@/components/common/AddUser"
@@ -39,6 +38,7 @@ import {
   resolverAlertAndDiscussion,
   resolverAlertAndDiscussionMap,
   resolverOffer,
+  resolverOfferCopy,
   resolverOfferMap,
 } from "./utils/create.schema"
 import { headerTitle } from "./constants/titles"
@@ -88,13 +88,13 @@ export default function CreateNewOptionModal() {
         ? resolverAlertAndDiscussion
         : resolverAlertAndDiscussionMap
       : typeAdd === EnumTypeProvider.offer
-      ? [EModalData.CreateNewOptionModal, EModalData.CreateNewOptionModalCopy].includes(stateModal!)
+      ? EModalData.CreateNewOptionModal === stateModal
         ? resolverOffer
+        : stateModal! === EModalData.CreateNewOptionModalCopy
+        ? resolverOfferCopy
         : resolverOfferMap
       : undefined,
   })
-
-  clg("errors: ", errors, "warning")
 
   useEffect(() => {
     function onUnLoad(event: any) {
@@ -198,7 +198,9 @@ export default function CreateNewOptionModal() {
       Promise.resolve(
         initMapAddress && stateModal === EModalData.CreateNewOptionModalMap
           ? postAddress(initMapAddress)
-          : createAddress(values?.addressFeature!, userId!),
+          : values?.addressFeature
+          ? createAddress(values?.addressFeature!, userId!)
+          : Promise.resolve({ data: { id: offer?.addresses?.[0]?.id! }, error: null }),
       ).then((response) => {
         if (!!response.data) {
           create(
@@ -241,7 +243,14 @@ export default function CreateNewOptionModal() {
           {typeAdd && [EnumTypeProvider.offer].includes(typeAdd) && <ControlHelp control={control} />}
           {[EnumTypeProvider.offer].includes(typeAdd!) ? <ControllerCategory control={control} setValue={setValue} /> : null}
           <ControlFileAppend control={control} loading={loading} progress={progress} images={offer?.images ?? []} />
-          <ControlAddress control={control} watch={watch("address")} trigger={trigger} setValue={setValue} errors={errors} />
+          <ControlAddress
+            control={control}
+            watch={watch("address")}
+            trigger={trigger}
+            setValue={setValue}
+            errors={errors}
+            offerCopyAddress={offer?.addresses?.[0]!}
+          />
           <Controller name="userId" control={control} render={({ field }) => <AddUser onChange={field.onChange} value={field.value} />} />
           <div data-footer>
             <Button

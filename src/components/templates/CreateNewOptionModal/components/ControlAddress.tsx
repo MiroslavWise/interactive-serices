@@ -1,13 +1,16 @@
 import { useMemo, useState } from "react"
 import { Control, Controller, UseFormTrigger, UseFormSetValue, FieldErrors } from "react-hook-form"
 
+import { TSchemaCreate } from "../utils/create.schema"
+import { IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
+import { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
+
+import IconXClose from "@/components/icons/IconXClose"
+
 import { queryClient } from "@/context"
 import { getGeocodeSearch } from "@/services"
-import { TSchemaCreate } from "../utils/create.schema"
-import IconXClose from "@/components/icons/IconXClose"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
-import { IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
-import { dispatchValidating, EModalData, useModal, useNewServicesBannerMap, useOnboarding } from "@/store"
+import { dispatchValidating, EModalData, useModal, useNewServicesBannerMap } from "@/store"
 
 interface IProps {
   control: Control<TSchemaCreate, any>
@@ -15,11 +18,10 @@ interface IProps {
   trigger: UseFormTrigger<TSchemaCreate>
   setValue: UseFormSetValue<TSchemaCreate>
   errors: FieldErrors<TSchemaCreate>
+  offerCopyAddress: IAddressesResponse
 }
 
-function ControlAddress({ control, watch, trigger, setValue, errors }: IProps) {
-  const step = useOnboarding(({ step }) => step)
-  const visible = useOnboarding(({ visible }) => visible)
+function ControlAddress({ control, watch, trigger, setValue, errors, offerCopyAddress }: IProps) {
   const stateModal = useModal(({ data }) => data)
   const initMapAddress = useNewServicesBannerMap(({ addressInit }) => addressInit)
   const [isFocus, setIsFocus, ref] = useOutsideClickEvent()
@@ -75,7 +77,6 @@ function ControlAddress({ control, watch, trigger, setValue, errors }: IProps) {
           </label>
           <div data-input-selector className="z-50">
             <input
-              {...field}
               onChange={(event) => {
                 field.onChange(event.target.value)
                 debouncedValue()
@@ -83,11 +84,10 @@ function ControlAddress({ control, watch, trigger, setValue, errors }: IProps) {
               }}
               value={stateModal === EModalData.CreateNewOptionModalMap ? initMapAddress?.additional : field.value}
               type="text"
-              data-error={!!errors.addressFeature}
+              data-error={!!errors.addressFeature || !!error}
               onFocus={focusAddress}
               placeholder="Введите адрес"
-              disabled={(visible && step !== 2) || (stateModal === EModalData.CreateNewOptionModalMap && !!initMapAddress)}
-              data-focus={visible && step === 2}
+              disabled={stateModal === EModalData.CreateNewOptionModalMap && !!initMapAddress}
               autoComplete="off"
             />
             <button

@@ -1,6 +1,5 @@
 import { EModalData } from "@/store"
 import { EnumTypeProvider } from "@/types/enum"
-import { TSchemaCreate } from "./create.schema"
 import { IResponseOffers } from "@/services/offers/types"
 import { IPostAddress } from "@/services/addresses/types/serviceAddresses"
 
@@ -20,7 +19,7 @@ export const onDefault = ({
         description: offer?.description ?? "",
         title: offer?.title ?? "",
         categoryId: offer?.categoryId ?? null,
-        address: "",
+        address: offer?.addresses?.[0]?.additional ?? "",
         file: {
           file: [],
           string: [],
