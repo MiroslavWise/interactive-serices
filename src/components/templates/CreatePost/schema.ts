@@ -80,6 +80,7 @@ const schemaInitAddress = z.object({
   file,
   help,
   isParticipants: z.boolean().default(false),
+  userId: userId,
 })
 
 const extendSchema = schema.merge(schemaInitAddress)
