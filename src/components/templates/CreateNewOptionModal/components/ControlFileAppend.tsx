@@ -1,15 +1,17 @@
 import { type AxiosProgressEvent } from "axios"
 import { type Control, Controller } from "react-hook-form"
 
-import { EnumTypeProvider } from "@/types/enum"
+import { IImageData } from "@/types/type"
 import { type TSchemaCreate } from "../utils/create.schema"
 
 import CurrentImage from "./CurrentImage"
+import { NextImageMotion } from "@/components/common"
 import IconFile_06 from "@/components/icons/IconFile_06"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
+import { cx } from "@/lib/cx"
 import { onChangeFile } from "@/helpers"
-import { descriptionImages } from "../constants/titles"
+import IconRepeat from "@/components/icons/IconRepeat"
 
 const onProgress = (files: File[], index: number, progress: Record<string, AxiosProgressEvent>): number => {
   const file = files[index]
@@ -23,15 +25,15 @@ const onProgress = (files: File[], index: number, progress: Record<string, Axios
 }
 
 interface IProps {
-  visible: boolean
-  step?: number
   control: Control<TSchemaCreate, any>
   loading: boolean
-  typeAdd: EnumTypeProvider
   progress: Record<string, AxiosProgressEvent>
+  images: IImageData[]
 }
 
-function ControlFileAppend({ control, visible, step, loading, typeAdd, progress }: IProps) {
+function ControlFileAppend({ control, loading, progress, images }: IProps) {
+  const onlyImages = images.filter((_) => _.attributes.mime.includes("image"))
+
   return (
     <Controller
       name="file"
@@ -65,14 +67,8 @@ function ControlFileAppend({ control, visible, step, loading, typeAdd, progress 
         }
 
         return (
-          <fieldset
-            data-photos
-            id="fieldset-create-option-modal-photos"
-            data-disabled={visible && step !== 3}
-            data-test="fieldset-create-new-option-images"
-          >
+          <fieldset data-photos id="fieldset-create-option-modal-photos" data-test="fieldset-create-new-option-images">
             <label htmlFor={field.name}>Фото или видео</label>
-            {/* <p>{descriptionImages(typeAdd!)}</p> */}
             <div className={_strings.other.length > 0 ? "w-full flex flex-col gap-2" : "hidden"}>
               {_strings.other.map((item) => (
                 <article
@@ -100,7 +96,50 @@ function ControlFileAppend({ control, visible, step, loading, typeAdd, progress 
                 </article>
               ))}
             </div>
-            <div data-images data-focus={visible && step === 4}>
+            <Controller
+              name="deletes"
+              control={control}
+              render={({ field: { value: values, onChange } }) => (
+                <div className={cx(onlyImages.length > 0 ? "w-full flex flex-col gap-1" : "hidden")}>
+                  <p className="text-text-primary text-sm">Оригинальные картинки</p>
+                  <div data-images>
+                    {onlyImages.map((image) => (
+                      <div
+                        data-image
+                        data-current
+                        key={`:D:Vc:d:-${image.id}:`}
+                        className="w-full h-auto rounded-2xl bg-BG-first flex items-center justify-center relative overflow-hidden"
+                      >
+                        <NextImageMotion
+                          src={image.attributes.url}
+                          hash={image.attributes.blur}
+                          width={304}
+                          data-img
+                          height={392}
+                          alt={image.attributes.alt}
+                          className={cx(values.includes(image.id) && "sepia-[50%]")}
+                          objectFit="cover"
+                        />
+                        <button
+                          type="button"
+                          data-trash
+                          onClick={() => {
+                            if (values.includes(image.id)) {
+                              onChange(values.filter((_) => _ !== image.id))
+                            } else {
+                              onChange([...values, image.id])
+                            }
+                          }}
+                        >
+                          {values.includes(image.id) ? <IconRepeat /> : <IconTrashBlack />}
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            />
+            <div data-images>
               {_strings.images.map((item, index) => (
                 <CurrentImage
                   key={`${item.index}-image`}
@@ -120,14 +159,12 @@ function ControlFileAppend({ control, visible, step, loading, typeAdd, progress 
                       field.onChange(dataValues)
                       event.target.value = ""
                     }}
-                    disabled={visible && step !== 4}
                     multiple
                   />
                 </div>
               ) : null}
             </div>
             <i>Максимальный размер фото - 10 Мб, видео - 50 Мб</i>
-            {/* <i>Не более 9 файлов</i> */}
           </fieldset>
         )
       }}

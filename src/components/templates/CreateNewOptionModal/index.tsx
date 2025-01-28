@@ -7,14 +7,15 @@ import { Controller, useForm } from "react-hook-form"
 
 import { EnumHelper, EnumTypeProvider } from "@/types/enum"
 import { type IPostOffers } from "@/services/offers/types"
-import { type IPostAddress } from "@/services/addresses/types/serviceAddresses"
 
 import Button from "@/components/common/Button"
+import AddUser from "@/components/common/AddUser"
 import ControlHelp from "./components/ControlHelp"
-import { ArticleOnboarding } from "@/components/templates"
+import ControlTitle from "./components/ControlTitle"
 import ControlAddress from "./components/ControlAddress"
 import ControlFileAppend from "./components/ControlFileAppend"
 import ControllerCategory from "./components/ControllerCategory"
+import ComponentDescription from "./components/ComponentDescription"
 
 import { transliterateAndReplace } from "@/helpers"
 import { createAddress } from "@/helpers/address/create"
@@ -22,46 +23,37 @@ import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import {
   useAddCreateModal,
   closeCreateOffers,
-  dispatchValidating,
   dispatchModalClose,
   dispatchOnboarding,
   useAuth,
-  useOnboarding,
   dispatchModal,
   EModalData,
   useModal,
   useNewServicesBannerMap,
   dispatchOpenPreCloseCreateService,
+  createCopyOffer,
 } from "@/store"
 import {
-  LIMIT_DESCRIPTION,
-  LIMIT_TITLE,
   type TSchemaCreate,
   resolverAlertAndDiscussion,
   resolverAlertAndDiscussionMap,
   resolverOffer,
+  resolverOfferCopy,
   resolverOfferMap,
 } from "./utils/create.schema"
-import { headerTitle, placeholderDescription, titleContent, description, titlePlaceholderContent } from "./constants/titles"
-import { getUserIdOffers, patchOffer, postOffer, fileUploadService, getGeocodeSearch, getOffersCategories, postAddress } from "@/services"
-import ControlTitle from "./components/ControlTitle"
-import AddUser from "@/components/common/AddUser"
+import { headerTitle } from "./constants/titles"
+import { onDefault } from "./utils/default-values"
+import { getUserIdOffers, patchOffer, postOffer, fileUploadService, postAddress } from "@/services"
+import { clg } from "@console"
 
 export default function CreateNewOptionModal() {
   const [loading, setLoading] = useState(false)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const step = useOnboarding(({ step }) => step)
-  const visible = useOnboarding(({ visible }) => visible)
   const typeAdd = useAddCreateModal(({ typeAdd }) => typeAdd)
   const { refetch: refetchDataMap } = useMapOffers()
-  const { data: c } = useQuery({
-    queryFn: () => getOffersCategories(),
-    queryKey: ["categories"],
-    select: (data) => data?.data || [],
-  })
-  const categories = c ?? []
   const stateModal = useModal(({ data }) => data)
   const initMapAddress = useNewServicesBannerMap(({ addressInit }) => addressInit)
+  const offer = createCopyOffer(({ offer }) => offer)
 
   const [progress, setProgress] = useState<Record<string, AxiosProgressEvent>>({})
 
@@ -78,6 +70,8 @@ export default function CreateNewOptionModal() {
     enabled: false,
   })
 
+  const defaultValues = onDefault({ offer: offer!, initMapAddress: initMapAddress!, typeAdd: typeAdd!, stateModal: stateModal! })
+
   const {
     reset,
     watch,
@@ -88,33 +82,16 @@ export default function CreateNewOptionModal() {
     trigger,
     formState: { errors },
   } = useForm<TSchemaCreate>({
-    defaultValues: {
-      description: "",
-      categoryId: null,
-      address: stateModal === EModalData.CreateNewOptionModalMap ? initMapAddress?.additional! : "",
-      title: "",
-      typeModal: stateModal!,
-      initAddress: initMapAddress!,
-      file: {
-        file: [],
-        string: [],
-      },
-      help: false,
-      type: typeAdd!,
-      company: {
-        title: "",
-        erid: "",
-        inn: "",
-      },
-      userId: null,
-    },
+    defaultValues: defaultValues,
     resolver: [EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(typeAdd!)
       ? stateModal === EModalData.CreateNewOptionModal
         ? resolverAlertAndDiscussion
         : resolverAlertAndDiscussionMap
       : typeAdd === EnumTypeProvider.offer
-      ? stateModal === EModalData.CreateNewOptionModal
+      ? EModalData.CreateNewOptionModal === stateModal
         ? resolverOffer
+        : stateModal! === EModalData.CreateNewOptionModalCopy
+        ? resolverOfferCopy
         : resolverOfferMap
       : undefined,
   })
@@ -132,12 +109,14 @@ export default function CreateNewOptionModal() {
     return () => window.removeEventListener("beforeunload", onUnLoad)
   }, [typeAdd])
 
-  function create(data: IPostOffers, files: File[]) {
-    postOffer(data).then((response) => {
+  function create(data: IPostOffers, files: File[], deletes: number[]) {
+    postOffer(data).then(async (response) => {
       if (!!response.data) {
         if (!!response.data) {
           const id = response.data?.id
-          Promise.all(
+          const ids = []
+
+          const responses = await Promise.all(
             files.map((item) =>
               fileUploadService(item!, {
                 type: typeAdd!, //offers | discussion | alert
@@ -146,31 +125,40 @@ export default function CreateNewOptionModal() {
                 onUploadProgress: onUploadProgress, // прогресс загрузки
               }),
             ),
-          ).then((responses) => {
-            if (responses?.length) {
-              const ids = [...responses?.filter((item) => !!item.data)?.map((item) => item.data?.id!)]
-              patchOffer(
-                {
-                  images: ids,
-                },
-                id,
-              ).then(() => {
-                refetch()
-                refetchDataMap()
-                setLoading(false)
-                dispatchModal(EModalData.SuccessNewOptional)
-                dispatchOnboarding("close")
-                reset()
-              })
-            } else {
-              refetch()
-              refetchDataMap()
-              setLoading(false)
-              dispatchModal(EModalData.SuccessNewOptional)
-              dispatchOnboarding("close")
-              reset()
+          )
+
+          responses.forEach((item) => {
+            if (item.data) {
+              ids.push(item.data.id)
             }
           })
+
+          if (EModalData.CreateNewOptionModalCopy === stateModal) {
+            if (!!offer) {
+              const images = offer.images.filter((_) => !deletes.includes(_.id))
+              if (images.length > 0) {
+                for (const img of images) {
+                  ids.push(img.id)
+                }
+              }
+            }
+          }
+
+          if (ids.length > 0) {
+            await patchOffer(
+              {
+                images: ids,
+              },
+              id,
+            )
+          }
+
+          refetch()
+          refetchDataMap()
+          setLoading(false)
+          dispatchModal(EModalData.SuccessNewOptional)
+          dispatchOnboarding("close")
+          reset()
         }
       } else {
         setLoading(false)
@@ -197,9 +185,9 @@ export default function CreateNewOptionModal() {
       data.urgent = EnumHelper.HELP_KURSK
     }
 
-    const title = values.title.trim().replaceAll(regexMoreSpace, " ")
+    const title = values.title.trim().replace(regexMoreSpace, " ").slice(0, 254)
     data.title = title
-    data.slug = transliterateAndReplace(title).slice(0, 254)
+    data.slug = transliterateAndReplace(title)
 
     if (values?.categoryId) {
       data.categoryId = Number(values.categoryId!)
@@ -209,8 +197,10 @@ export default function CreateNewOptionModal() {
 
       Promise.resolve(
         initMapAddress && stateModal === EModalData.CreateNewOptionModalMap
-          ? createAddressPost(initMapAddress)
-          : createAddress(values?.addressFeature!, userId!),
+          ? postAddress(initMapAddress)
+          : values?.addressFeature
+          ? createAddress(values?.addressFeature!, userId!)
+          : Promise.resolve({ data: { id: offer?.addresses?.[0]?.id! }, error: null }),
       ).then((response) => {
         if (!!response.data) {
           create(
@@ -219,6 +209,7 @@ export default function CreateNewOptionModal() {
               addresses: [response.data?.id!],
             },
             values.file.file,
+            values.deletes,
           )
         } else {
           setError("root", { message: response?.error?.message })
@@ -228,33 +219,17 @@ export default function CreateNewOptionModal() {
     }
   }
 
-  async function createAddressPost(values: IPostAddress) {
-    return postAddress(values)
-  }
-
   const onSubmit = handleSubmit(submit)
 
   function handleClose() {
-    if (!visible) {
-      closeCreateOffers()
-      dispatchModalClose()
-    }
+    closeCreateOffers()
+    dispatchModalClose()
   }
-
-  useEffect(() => {
-    if (visible) {
-      dispatchValidating({
-        isCategoryId: !!watch("categoryId") || !!watch("title")?.trim(),
-        isTitle: !!watch("description"),
-        isFiles: !!watch("file.file").length,
-      })
-    }
-  }, [watch("description"), watch("categoryId"), watch("title"), watch("file.file"), visible])
 
   return (
     <>
       <header className="w-full px-3 pt-5 md:pt-6 pb-4 md:pb-5 overflow-hidden flex flex-row items-center justify-start md:justify-center border-b border-solid border-grey-separator h-standard-header-modal">
-        <h3 className="text-text-primary text-2xl font-semibold">{headerTitle(typeAdd!)}</h3>
+        <h3 className="text-text-primary text-2xl font-semibold">{headerTitle(typeAdd!, stateModal!)}</h3>
       </header>
       <ul id="ul-create-option-modal" data-test="ul-create-new-option" className="w-full flex flex-col items-center gap-4 px-5">
         <form
@@ -264,91 +239,24 @@ export default function CreateNewOptionModal() {
           className="w-full h-full overflow-y-auto flex flex-col items-center gap-4 md:gap-5 overflow-x-hidden"
         >
           <ControlTitle control={control} typeAdd={typeAdd!} />
-          {/* {visible && step === 2 && <ArticleOnboarding />} */}
-          {/* {visible && step === 2.5 && <ArticleOnboarding />} */}
-          <Controller
-            name="description"
-            control={control}
-            render={({ field, fieldState: { error } }) => (
-              <fieldset id="fieldset-create-option-modal-title" data-test="fieldset-create-new-option-description">
-                <label htmlFor={field.name}>{description(typeAdd!)}</label>
-                <div data-text-area data-focus={visible && step === 3}>
-                  <textarea
-                    disabled={visible && step !== 3}
-                    {...field}
-                    placeholder={placeholderDescription(typeAdd!)}
-                    data-error={!!error}
-                    maxLength={LIMIT_DESCRIPTION + 2}
-                    className="whitespace-pre-wrap"
-                  />
-                  <span data-error={field.value?.length + 20 >= LIMIT_DESCRIPTION}>
-                    {field.value?.length || 0}/{LIMIT_DESCRIPTION}
-                  </span>
-                </div>
-                {!!error ? <i>{error.message}</i> : null}
-              </fieldset>
-            )}
-          />
+          <ComponentDescription control={control} typeAdd={typeAdd!} />
           {typeAdd && [EnumTypeProvider.offer].includes(typeAdd) && <ControlHelp control={control} />}
-          {[EnumTypeProvider.offer].includes(typeAdd!) ? (
-            <ControllerCategory control={control} visible={visible} disabled={visible && step !== 2.5} setValue={setValue} />
-          ) : null}
-          {/* {visible && step === 3 && <ArticleOnboarding />} */}
-          <ControlFileAppend control={control} visible={visible} step={step} loading={loading} typeAdd={typeAdd!} progress={progress} />
-          {/* {visible && [4, 5].includes(step) && <ArticleOnboarding />} */}
-          <ControlAddress control={control} watch={watch("address")} trigger={trigger} setValue={setValue} errors={errors} />
+          {[EnumTypeProvider.offer].includes(typeAdd!) ? <ControllerCategory control={control} setValue={setValue} /> : null}
+          <ControlFileAppend control={control} loading={loading} progress={progress} images={offer?.images ?? []} />
+          <ControlAddress
+            control={control}
+            watch={watch("address")}
+            trigger={trigger}
+            setValue={setValue}
+            errors={errors}
+            offerCopyAddress={offer?.addresses?.[0]!}
+          />
           <Controller name="userId" control={control} render={({ field }) => <AddUser onChange={field.onChange} value={field.value} />} />
-          {/* {env!?.server!?.host!?.includes("dev") && (
-            <section className="w-full flex flex-col gap-2.5">
-              <h2>
-                Данные компании <span>(если таковые имеются)</span>
-              </h2>
-              <Controller
-                name="company.title"
-                control={control}
-                render={({ field }) => (
-                  <fieldset>
-                    <label className="text-text-primary text-sm font-medium">TITLE</label>
-                    <input
-                      {...field}
-                      className="w-full border border-solid border-grey-stroke focus:border-text-accent bg-BG-second text-sm font-normal"
-                    />
-                  </fieldset>
-                )}
-              />
-              <Controller
-                name="company.erid"
-                control={control}
-                render={({ field }) => (
-                  <fieldset>
-                    <label className="text-text-primary text-sm font-medium">ERID</label>
-                    <input
-                      {...field}
-                      className="w-full border border-solid border-grey-stroke focus:border-text-accent bg-BG-second text-sm font-normal"
-                    />
-                  </fieldset>
-                )}
-              />
-              <Controller
-                name="company.inn"
-                control={control}
-                render={({ field }) => (
-                  <fieldset>
-                    <label className="text-text-primary text-sm font-medium">INN</label>
-                    <input
-                      {...field}
-                      className="w-full border border-solid border-grey-stroke focus:border-text-accent bg-BG-second text-sm font-normal"
-                    />
-                  </fieldset>
-                )}
-              />
-            </section>
-          )} */}
           <div data-footer>
             <Button
               type="submit"
               typeButton="fill-primary"
-              label="Создать"
+              label={stateModal === EModalData.CreateNewOptionModalCopy ? "Сохранить" : "Создать"}
               disabled={loading}
               loading={loading}
               id="button-create-option-modal-submit"

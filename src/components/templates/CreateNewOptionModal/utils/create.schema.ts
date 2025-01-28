@@ -76,21 +76,17 @@ const base = z.object({
   description: descriptionOfferZod,
   address: address,
   type: z.nativeEnum(EnumTypeProvider),
-  typeModal: z.nativeEnum(EModalData),
   file: file,
   help: help,
-  company: z.object({
-    title: z.string().default("").optional(),
-    inn: z.string().default("").optional(),
-    erid: z.string().default("").optional(),
-  }),
   userId: userId,
+  deletes: z.array(z.number()).default([]),
 })
 
 const schemaAlertAndDiscussion = base.merge(z.object({ title: titleOfferZod, addressFeature: addressFeature }))
 const schemaAlertAndDiscussionMap = base.merge(z.object({ title: titleOfferZod, initAddress: initAddress }))
 const schemaOffer = base.merge(z.object({ title: titleOfferZod, categoryId: categoryId, addressFeature: addressFeature }))
 const schemaOfferMap = base.merge(z.object({ title: titleOfferZod, categoryId: categoryId, initAddress: initAddress }))
+const schemaOfferCopy = base.merge(z.object({ title: titleOfferZod, categoryId: categoryId, addressFeature: addressFeature.optional() }))
 
 const schemaCreate = base.extend({
   title: titleOfferZod,
@@ -102,6 +98,7 @@ const schemaCreate = base.extend({
 export const resolverAlertAndDiscussion = zodResolver(schemaAlertAndDiscussion)
 export const resolverAlertAndDiscussionMap = zodResolver(schemaAlertAndDiscussionMap)
 export const resolverOffer = zodResolver(schemaOffer)
+export const resolverOfferCopy = zodResolver(schemaOfferCopy)
 export const resolverOfferMap = zodResolver(schemaOfferMap)
 
 export type TSchemaCreate = z.infer<typeof schemaCreate>

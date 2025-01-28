@@ -30,6 +30,7 @@ export enum EModalData {
   NewServicesBannerMap = "new-services-banner-map",
   CreateNewOptionModal = "create-new-option-modal",
   CreateNewOptionModalMap = "create-new-option-modal-map",
+  CreateNewOptionModalCopy = "create-new-option-modal-copy",
   CompletionTransaction = "completion-transaction",
   ComplaintModal = "complaint-modal",
   UpdateProfile = "update-profile",
