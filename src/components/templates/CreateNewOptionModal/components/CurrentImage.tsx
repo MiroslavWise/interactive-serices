@@ -14,7 +14,7 @@ interface IProps {
   progress: number | null
 }
 
-function deletePhoto(values: { file: File[]; string: string[] }, index: number) {
+export function deletePhoto(values: { file: File[]; string: string[] }, index: number) {
   return {
     file: values.file.filter((_, i) => index !== i),
     string: values.string.filter((_, i) => index !== i),

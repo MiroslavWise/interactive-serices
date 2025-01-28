@@ -109,12 +109,14 @@ export default function CreateNewOptionModal() {
     return () => window.removeEventListener("beforeunload", onUnLoad)
   }, [typeAdd])
 
-  function create(data: IPostOffers, files: File[]) {
-    postOffer(data).then((response) => {
+  function create(data: IPostOffers, files: File[], deletes: number[]) {
+    postOffer(data).then(async (response) => {
       if (!!response.data) {
         if (!!response.data) {
           const id = response.data?.id
-          Promise.all(
+          const ids = []
+
+          const responses = await Promise.all(
             files.map((item) =>
               fileUploadService(item!, {
                 type: typeAdd!, //offers | discussion | alert
@@ -123,31 +125,40 @@ export default function CreateNewOptionModal() {
                 onUploadProgress: onUploadProgress, // прогресс загрузки
               }),
             ),
-          ).then((responses) => {
-            if (responses?.length) {
-              const ids = [...responses?.filter((item) => !!item.data)?.map((item) => item.data?.id!)]
-              patchOffer(
-                {
-                  images: ids,
-                },
-                id,
-              ).then(() => {
-                refetch()
-                refetchDataMap()
-                setLoading(false)
-                dispatchModal(EModalData.SuccessNewOptional)
-                dispatchOnboarding("close")
-                reset()
-              })
-            } else {
-              refetch()
-              refetchDataMap()
-              setLoading(false)
-              dispatchModal(EModalData.SuccessNewOptional)
-              dispatchOnboarding("close")
-              reset()
+          )
+
+          responses.forEach((item) => {
+            if (item.data) {
+              ids.push(item.data.id)
             }
           })
+
+          if (EModalData.CreateNewOptionModalCopy === stateModal) {
+            if (!!offer) {
+              const images = offer.images.filter((_) => !deletes.includes(_.id))
+              if (images.length > 0) {
+                for (const img of images) {
+                  ids.push(img.id)
+                }
+              }
+            }
+          }
+
+          if (ids.length > 0) {
+            await patchOffer(
+              {
+                images: ids,
+              },
+              id,
+            )
+          }
+
+          refetch()
+          refetchDataMap()
+          setLoading(false)
+          dispatchModal(EModalData.SuccessNewOptional)
+          dispatchOnboarding("close")
+          reset()
         }
       } else {
         setLoading(false)
@@ -196,6 +207,7 @@ export default function CreateNewOptionModal() {
               addresses: [response.data?.id!],
             },
             values.file.file,
+            values.deletes,
           )
         } else {
           setError("root", { message: response?.error?.message })
