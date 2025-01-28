@@ -6,7 +6,6 @@ import { type DispatchWithoutAction, useEffect } from "react"
 
 import { EnumSign } from "@/types/enum"
 
-import { clg } from "@console"
 import { dispatchAuthModal, dispatchUTMData, type IStateUTM } from "@/store"
 
 type TTypeAction = "login" | "registration"
@@ -27,9 +26,6 @@ const useUtm = (stringReplace?: string, action?: TTypeAction) => {
   const [utm_content] = useQueryState("utm_content")
 
   const { push } = useRouter()
-
-  clg("useUtm: stringReplace", stringReplace)
-  clg("useUtm: action", action)
 
   useEffect(() => {
     if (utm_source || utm_medium || utm_campaign || utm_content) {
@@ -52,14 +48,12 @@ const useUtm = (stringReplace?: string, action?: TTypeAction) => {
         dispatchUTMData(data)
       }
     }
-    if (action) {
-      dispatch[action]()
-    }
     requestAnimationFrame(() => {
+      if (action) {
+        dispatch[action]()
+      }
       if (stringReplace) {
         push(stringReplace)
-      } else {
-        push("/")
       }
     })
   }, [])
