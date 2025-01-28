@@ -6,6 +6,7 @@ import { type DispatchWithoutAction, useEffect } from "react"
 
 import { EnumSign } from "@/types/enum"
 
+import { clg } from "@console"
 import { dispatchAuthModal, dispatchUTMData, type IStateUTM } from "@/store"
 
 type TTypeAction = "login" | "registration"
@@ -25,40 +26,42 @@ const useUtm = (stringReplace?: string, action?: TTypeAction) => {
   const [utm_campaign] = useQueryState("utm_campaign")
   const [utm_content] = useQueryState("utm_content")
 
-  const { replace, push } = useRouter()
+  const { push } = useRouter()
+
+  clg("useUtm: stringReplace", stringReplace)
+  clg("useUtm: action", action)
 
   useEffect(() => {
     if (utm_source || utm_medium || utm_campaign || utm_content) {
-      setTimeout(() => {
-        const data: IStateUTM = {}
+      const data: IStateUTM = {}
 
-        if (utm_source) {
-          data.utm_source = utm_source
-        }
-        if (utm_medium) {
-          data.utm_medium = utm_medium
-        }
-        if (utm_campaign) {
-          data.utm_campaign = utm_campaign
-        }
-        if (utm_content) {
-          data.utm_content = utm_content
-        }
+      if (utm_source) {
+        data.utm_source = utm_source
+      }
+      if (utm_medium) {
+        data.utm_medium = utm_medium
+      }
+      if (utm_campaign) {
+        data.utm_campaign = utm_campaign
+      }
+      if (utm_content) {
+        data.utm_content = utm_content
+      }
 
-        if (Object.values(data).length > 0) {
-          dispatchUTMData(data)
-          if (action) {
-            dispatch[action]()
-            replace("/")
-          }
-          if (stringReplace) {
-            push(stringReplace)
-          } else {
-            replace("/")
-          }
-        }
-      })
+      if (Object.values(data).length > 0) {
+        dispatchUTMData(data)
+      }
     }
+    if (action) {
+      dispatch[action]()
+    }
+    requestAnimationFrame(() => {
+      if (stringReplace) {
+        push(stringReplace)
+      } else {
+        push("/")
+      }
+    })
   }, [])
 }
 
