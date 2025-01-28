@@ -88,7 +88,7 @@ function AdvertsData({ provider, isOpen, setIsOpen, title, address, company, off
       <header
         className={cx(
           "w-full grid gap-3 items-start",
-          images.length > 0 ? "grid-cols-[minmax(0,1fr)_2.5rem]" : "grid-cols-[minmax(0,1fr)]",
+          images.length > 0 ? "grid-cols-[minmax(0,1fr)_5rem]" : "grid-cols-[minmax(0,1fr)]",
         )}
       >
         <div className="w-full flex flex-col items-start justify-between gap-1">

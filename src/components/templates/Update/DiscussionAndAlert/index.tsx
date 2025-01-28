@@ -2,11 +2,10 @@ import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 
-import { EnumHelper, EnumTypeProvider } from "@/types/enum"
+import { EnumTypeProvider } from "@/types/enum"
 import { type IPatchOffers } from "@/services/offers/types"
 
 import Button from "@/components/common/Button"
-import ControlHelp from "./components/ControlHelp"
 
 import { cx } from "@/lib/cx"
 import { getOffers, patchOffer } from "@/services"
@@ -54,17 +53,6 @@ function UpdateDiscussionAndAlert() {
       data.title = newTitle
     }
 
-    const oldUrgent = !!urgent
-    const newUrgent = !!values.help
-
-    if (oldUrgent !== newUrgent) {
-      if (newUrgent) {
-        data.urgent = EnumHelper.HELP_KURSK
-      } else {
-        data.urgent = ""
-      }
-    }
-
     const newDescription = values.description.trim()
     if (newDescription !== description && !!newDescription) {
       data.description = newDescription
@@ -109,25 +97,6 @@ function UpdateDiscussionAndAlert() {
         onSubmit={onSubmit}
       >
         <Controller
-          name="address"
-          control={control}
-          render={({ field, fieldState: { error } }) => (
-            <fieldset>
-              <label htmlFor={field.name}>Ваш адрес</label>
-              <input
-                type="text"
-                className={cx(
-                  "w-full border border-solid border-grey-stroke resize-none text-sm font-normal !h-12 !rounded-3xl text-text-primary placeholder:text-text-secondary",
-                  !!error && "!border-element-error",
-                  "disabled:cursor-no-drop",
-                )}
-                disabled
-                {...field}
-              />
-            </fieldset>
-          )}
-        />
-        <Controller
           name="title"
           control={control}
           render={({ field, fieldState: { error } }) => (
@@ -167,7 +136,25 @@ function UpdateDiscussionAndAlert() {
             </fieldset>
           )}
         />
-        <ControlHelp control={control} />
+        <Controller
+          name="address"
+          control={control}
+          render={({ field, fieldState: { error } }) => (
+            <fieldset>
+              <label htmlFor={field.name}>Адрес</label>
+              <input
+                type="text"
+                className={cx(
+                  "w-full border border-solid border-grey-stroke resize-none text-sm font-normal !h-12 !rounded-3xl text-text-primary placeholder:text-text-secondary",
+                  !!error && "!border-element-error",
+                  "disabled:cursor-no-drop",
+                )}
+                disabled
+                {...field}
+              />
+            </fieldset>
+          )}
+        />
         <footer className="w-full mt-auto">
           <Button loading={loading} label="Сохранить" type="submit" typeButton="fill-primary" className="h-11 rounded-[1.375rem]" />
         </footer>

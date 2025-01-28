@@ -32,6 +32,7 @@ import {
   useNewServicesBannerMap,
   dispatchOpenPreCloseCreateService,
   createCopyOffer,
+  dispatchClearCopyOffer,
 } from "@/store"
 import {
   type TSchemaCreate,
@@ -224,6 +225,10 @@ export default function CreateNewOptionModal() {
     closeCreateOffers()
     dispatchModalClose()
   }
+
+  useEffect(() => {
+    return dispatchClearCopyOffer
+  }, [])
 
   return (
     <>

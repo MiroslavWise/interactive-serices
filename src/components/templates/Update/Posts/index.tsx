@@ -99,16 +99,12 @@ function UpdatePost() {
           <IconXClose />
         </button>
         <header className="w-full border-b border-solid border-grey-separator h-standard-header-modal p-5 md:pt-6 max-md:pb-4 flex flex-row items-center justify-start md:justify-center">
-          <h3 className="text-text-primary text-2xl font-semibold">Редактирование поста</h3>
+          <h3 className="text-text-primary text-2xl font-semibold">Редактирование</h3>
         </header>
         <form
           onSubmit={onSubmit}
           className="w-full h-full-minus-standard-header-modal flex flex-col items-center gap-5 p-5 pb-24 md:*:max-w-[26.25rem] overflow-x-hidden overflow-y-auto"
         >
-          <p className="text-text-primary text-sm font-normal mb-2.5">
-            Пост — это ваша персональная новостная лента. Формат подходит для мероприятий, регулярных активностей, турниров. В пост можно
-            добавлять новые записи: тексты и фото. Другие пользователи смогут комментировать ваш пост.
-          </p>
           <AddressController control={control} setValue={setValue} />
           <Controller
             name="title"
@@ -116,7 +112,7 @@ function UpdatePost() {
             render={({ field, fieldState: { error } }) => (
               <fieldset className="w-full flex flex-col gap-2">
                 <label htmlFor={field.name} className="text-text-primary text-sm font-medium">
-                  Тема поста
+                Тема События
                 </label>
                 <input
                   type="text"
