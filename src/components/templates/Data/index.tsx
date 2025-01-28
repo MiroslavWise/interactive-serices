@@ -17,12 +17,9 @@ import ChangePassword from "../ChangePassword"
 import NewServicesBanner from "../NewServicesBanner"
 import SuccessCreatePost from "../SuccessCreatePost"
 import BalloonDiscussion from "../Balloon/Discussion"
-// import ReciprocalExchange from "../ReciprocalExchange"
 import SuccessNewOptional from "../SuccessNewOptional"
-// import ActiveServicesFrom from "../ActiveServicesFrom"
 import CreateNewOptionModal from "../CreateNewOptionModal"
 import SuccessProvideFeedback from "../SuccessProvideFeedback"
-// import { CN_CANCEL_EXCHANGE } from "../CancelExchange"
 import DeletePost from "../Delete/Post"
 import ProvideFeedback from "../ProvideFeedback"
 
@@ -37,11 +34,9 @@ import stylesUpdateProfile from "@/components/templates/UpdateProfile/styles/sty
 import stylesGeneralOffer from "@/components/templates/Balloon/styles/general.module.scss"
 import stylesOffer from "@/components/templates/Balloon/Offer/styles/style.module.scss"
 import stylesAlertAndDiscussion from "@/components/templates/Balloon/Discussion/styles/style.module.scss"
-// import stylesReciprocalExchange from "@/components/templates/ReciprocalExchange/styles/style.module.scss"
 import stylesOutAccount from "@/components/templates/OutAccount/style.module.scss"
 import stylesUpdateOffer from "@/components/templates/Update/Offer/style.module.scss"
 import stylesChangePassword from "@/components/templates/ChangePassword/style.module.scss"
-// import stylesActiveServicesFrom from "@/components/templates/ActiveServicesFrom/styles/style.module.scss"
 import stylesCreatePost from "@/components/templates/CreatePost/style.module.scss"
 import stylesSuccessCreatePost from "@/components/templates/SuccessCreatePost/style.module.scss"
 import stylesBallonPost from "@/components/templates/BallonPost/style.module.scss"
@@ -56,8 +51,9 @@ const stringBalloonOffer = cx(stylesGeneralOffer.containerGeneral, stylesOffer.c
 export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.NewServicesBanner, <NewServicesBanner key="::key::modal::new-services-banner" />], //Выбор трёх созданий: предложения, дискуссии и алерта
   [EModalData.NewServicesBannerMap, <NewServicesBanner key="::key::modal::new-services-banner" />], //Выбор трёх созданий: предложения, дискуссии и алерта
-  [EModalData.CreateNewOptionModal, <CreateNewOptionModal key="::key::modal::create-new-option-modal" />], //Создание предложения, дискуссии и алерта
-  [EModalData.CreateNewOptionModalMap, <CreateNewOptionModal key="::key::modal::create-new-option-modal" />], //Создание предложения, дискуссии и алерта
+  [EModalData.CreateNewOptionModal, <CreateNewOptionModal key="::key::modal::create-new-option-modal" />], //Создание предложения и алерта
+  [EModalData.CreateNewOptionModalMap, <CreateNewOptionModal key="::key::modal::create-new-option-modal" />], //Создание предложения и алерта
+  [EModalData.CreateNewOptionModalCopy, <CreateNewOptionModal key="::key::CreateNewOptionModalCopy" />], //Копирование предложения и алерта
   // [EModalData.CompletionTransaction, <CompletionTransaction key="::key::modal::completion-transaction" />], //Отзыв о завершении обмена
   [EModalData.CompletionTransaction, <ProvideFeedback key="::key::modal::ProvideFeedback" />], //Отзыв о завершении обмена
   [EModalData.ComplaintModal, <ComplaintModal key="::key::modal::complaint-modal" />], //Жалоба на пользователя
@@ -93,6 +89,7 @@ export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.NewServicesBannerMap, CN_SECTION], //
   [EModalData.CreateNewOptionModal, styleCreateNewOptionModal.container], //
   [EModalData.CreateNewOptionModalMap, styleCreateNewOptionModal.container], //
+  [EModalData.CreateNewOptionModalCopy, styleCreateNewOptionModal.container], //
   // [EModalData.CompletionTransaction, CN_ProvideFeedback!], //
   [EModalData.ComplaintModal, stylesComplaintModal.container], //
   [EModalData.UpdateProfile, stylesUpdateProfile.container], //

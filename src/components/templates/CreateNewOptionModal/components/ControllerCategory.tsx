@@ -18,12 +18,10 @@ import styles from "../styles/list-category.module.scss"
 
 interface IProps {
   control: Control<TSchemaCreate, any>
-  visible: boolean
-  disabled: boolean
   setValue: UseFormSetValue<TSchemaCreate>
 }
 
-function ControllerCategory({ control, visible, disabled, setValue: setValueForm }: IProps) {
+function ControllerCategory({ control, setValue: setValueForm }: IProps) {
   const [open, setOpen, ref] = useOutsideClickEvent()
   const [value, setValue] = useState("")
   const { data: c } = useQuery({
@@ -116,7 +114,7 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
             placeholder={!!field.value ? "" : "Начните вводить название категории"}
             value={value}
             onChange={(event) => setValue(event.target.value)}
-            disabled={disabled || !!field.value}
+            disabled={!!field.value}
           />
           <button
             data-collapse={open}
@@ -329,20 +327,6 @@ function ControllerCategory({ control, visible, disabled, setValue: setValueForm
               </button>
             </ul>
           </div>
-          {/* {!visible ? (
-            <button
-              type="button"
-              title="Предложить категорию"
-              aria-label="Предложить категорию"
-              data-span-new-category
-              onClick={(event) => {
-                event.stopPropagation()
-                dispatchVisibleCreateNewCategory(true)
-              }}
-            >
-              <span>Предложить категорию</span>
-            </button>
-          ) : null} */}
         </fieldset>
       )}
     />

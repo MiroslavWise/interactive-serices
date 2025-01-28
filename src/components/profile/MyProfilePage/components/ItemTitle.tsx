@@ -17,11 +17,20 @@ import useRole from "@/helpers/is-role"
 import { useOutsideClickEvent } from "@/helpers"
 import { titleOffer } from "@/utils/title-offer"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
-import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchMapCoordinates, displayAddAdvert } from "@/store"
+import {
+  dispatchBallonAlert,
+  dispatchBallonDiscussion,
+  dispatchBallonOffer,
+  dispatchCopyOffer,
+  dispatchMapCoordinates,
+  displayAddAdvert,
+} from "@/store"
+import IconCopy from "@/components/icons/IconCopy"
 
 const TITLE_SHARE = "Поделиться"
 const TITLE_TO_MAP = "Показать на карте"
 const LABEL_ADD_ADVERT = "Добавить рекламу"
+const CREATE_COPY = "Создать копию"
 
 function ItemTitle({ offer }: { offer: IResponseOffers }) {
   const { title, category, provider, categoryId, urgent, company, id } = offer ?? {}
@@ -126,6 +135,21 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
               <IconCurrencyRubleCircle />
             </div>
             <span>{LABEL_ADD_ADVERT}</span>
+          </a>
+          <a
+            title={CREATE_COPY}
+            aria-label={CREATE_COPY}
+            aria-labelledby={CREATE_COPY}
+            onClick={(event) => {
+              event.stopPropagation()
+              event.preventDefault()
+              dispatchCopyOffer(offer)
+            }}
+          >
+            <div>
+              <IconCopy />
+            </div>
+            <span>{CREATE_COPY}</span>
           </a>
         </section>
       </article>

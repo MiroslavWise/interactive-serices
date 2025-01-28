@@ -76,14 +76,8 @@ const base = z.object({
   description: descriptionOfferZod,
   address: address,
   type: z.nativeEnum(EnumTypeProvider),
-  typeModal: z.nativeEnum(EModalData),
   file: file,
   help: help,
-  company: z.object({
-    title: z.string().default("").optional(),
-    inn: z.string().default("").optional(),
-    erid: z.string().default("").optional(),
-  }),
   userId: userId,
 })
 

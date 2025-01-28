@@ -1,3 +1,4 @@
+import { EModalData } from "@/store"
 import { EnumTypeProvider } from "@/types/enum"
 
 export const titleContent = (value: EnumTypeProvider) =>
@@ -30,13 +31,15 @@ export const description = (value: EnumTypeProvider) =>
     ? "Описание услуги или умения"
     : null
 
-export const headerTitle = (value: EnumTypeProvider) =>
+export const headerTitle = (value: EnumTypeProvider, stateModal: EModalData) =>
   value === EnumTypeProvider.alert
     ? "Новое SOS-сообщение"
     : value === EnumTypeProvider.discussion
     ? "Новое обсуждение"
     : value === EnumTypeProvider.offer
-    ? "Новое умение или услуга"
+    ? EModalData.CreateNewOptionModalCopy === stateModal
+      ? "Создать копию"
+      : "Новое умение или услуга"
     : null
 
 export const titlePlaceholderContent = (value: EnumTypeProvider) =>

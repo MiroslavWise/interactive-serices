@@ -1,7 +1,6 @@
 import { type AxiosProgressEvent } from "axios"
 import { type Control, Controller } from "react-hook-form"
 
-import { EnumTypeProvider } from "@/types/enum"
 import { type TSchemaCreate } from "../utils/create.schema"
 
 import CurrentImage from "./CurrentImage"
@@ -9,7 +8,6 @@ import IconFile_06 from "@/components/icons/IconFile_06"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
 import { onChangeFile } from "@/helpers"
-import { descriptionImages } from "../constants/titles"
 
 const onProgress = (files: File[], index: number, progress: Record<string, AxiosProgressEvent>): number => {
   const file = files[index]
@@ -23,15 +21,12 @@ const onProgress = (files: File[], index: number, progress: Record<string, Axios
 }
 
 interface IProps {
-  visible: boolean
-  step?: number
   control: Control<TSchemaCreate, any>
   loading: boolean
-  typeAdd: EnumTypeProvider
   progress: Record<string, AxiosProgressEvent>
 }
 
-function ControlFileAppend({ control, visible, step, loading, typeAdd, progress }: IProps) {
+function ControlFileAppend({ control, loading, progress }: IProps) {
   return (
     <Controller
       name="file"
@@ -65,12 +60,7 @@ function ControlFileAppend({ control, visible, step, loading, typeAdd, progress 
         }
 
         return (
-          <fieldset
-            data-photos
-            id="fieldset-create-option-modal-photos"
-            data-disabled={visible && step !== 3}
-            data-test="fieldset-create-new-option-images"
-          >
+          <fieldset data-photos id="fieldset-create-option-modal-photos" data-test="fieldset-create-new-option-images">
             <label htmlFor={field.name}>Фото или видео</label>
             {/* <p>{descriptionImages(typeAdd!)}</p> */}
             <div className={_strings.other.length > 0 ? "w-full flex flex-col gap-2" : "hidden"}>
@@ -100,7 +90,7 @@ function ControlFileAppend({ control, visible, step, loading, typeAdd, progress 
                 </article>
               ))}
             </div>
-            <div data-images data-focus={visible && step === 4}>
+            <div data-images>
               {_strings.images.map((item, index) => (
                 <CurrentImage
                   key={`${item.index}-image`}
@@ -120,7 +110,6 @@ function ControlFileAppend({ control, visible, step, loading, typeAdd, progress 
                       field.onChange(dataValues)
                       event.target.value = ""
                     }}
-                    disabled={visible && step !== 4}
                     multiple
                   />
                 </div>
