@@ -1,6 +1,7 @@
 import { type AxiosProgressEvent } from "axios"
 import { type Control, Controller } from "react-hook-form"
 
+import { IImageData } from "@/types/type"
 import { type TSchemaCreate } from "../utils/create.schema"
 
 import CurrentImage from "./CurrentImage"
@@ -24,6 +25,7 @@ interface IProps {
   control: Control<TSchemaCreate, any>
   loading: boolean
   progress: Record<string, AxiosProgressEvent>
+  images: IImageData[]
 }
 
 function ControlFileAppend({ control, loading, progress }: IProps) {

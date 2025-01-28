@@ -28,6 +28,7 @@ export const onDefault = ({
         help: !!offer?.urgent,
         type: EnumTypeProvider.offer,
         userId: null,
+        deletes: [],
       }
     : {
         description: "",
@@ -44,4 +45,5 @@ export const onDefault = ({
         help: false,
         type: typeAdd!,
         userId: null,
+        deletes: [],
       }

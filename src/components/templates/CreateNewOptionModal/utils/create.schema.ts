@@ -79,6 +79,7 @@ const base = z.object({
   file: file,
   help: help,
   userId: userId,
+  deletes: z.array(z.number()).default([]),
 })
 
 const schemaAlertAndDiscussion = base.merge(z.object({ title: titleOfferZod, addressFeature: addressFeature }))

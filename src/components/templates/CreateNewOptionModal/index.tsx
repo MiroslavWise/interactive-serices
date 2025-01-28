@@ -42,8 +42,9 @@ import {
   resolverOfferMap,
 } from "./utils/create.schema"
 import { headerTitle } from "./constants/titles"
-import { getUserIdOffers, patchOffer, postOffer, fileUploadService, postAddress } from "@/services"
 import { onDefault } from "./utils/default-values"
+import { getUserIdOffers, patchOffer, postOffer, fileUploadService, postAddress } from "@/services"
+import { clg } from "@console"
 
 export default function CreateNewOptionModal() {
   const [loading, setLoading] = useState(false)
@@ -87,11 +88,13 @@ export default function CreateNewOptionModal() {
         ? resolverAlertAndDiscussion
         : resolverAlertAndDiscussionMap
       : typeAdd === EnumTypeProvider.offer
-      ? stateModal === EModalData.CreateNewOptionModal
+      ? [EModalData.CreateNewOptionModal, EModalData.CreateNewOptionModalCopy].includes(stateModal!)
         ? resolverOffer
         : resolverOfferMap
       : undefined,
   })
+
+  clg("errors: ", errors, "warning")
 
   useEffect(() => {
     function onUnLoad(event: any) {
@@ -183,7 +186,7 @@ export default function CreateNewOptionModal() {
 
       Promise.resolve(
         initMapAddress && stateModal === EModalData.CreateNewOptionModalMap
-          ? createAddressPost(initMapAddress)
+          ? postAddress(initMapAddress)
           : createAddress(values?.addressFeature!, userId!),
       ).then((response) => {
         if (!!response.data) {
@@ -200,10 +203,6 @@ export default function CreateNewOptionModal() {
         }
       })
     }
-  }
-
-  async function createAddressPost(values: IPostAddress) {
-    return postAddress(values)
   }
 
   const onSubmit = handleSubmit(submit)
@@ -229,7 +228,7 @@ export default function CreateNewOptionModal() {
           <ComponentDescription control={control} typeAdd={typeAdd!} />
           {typeAdd && [EnumTypeProvider.offer].includes(typeAdd) && <ControlHelp control={control} />}
           {[EnumTypeProvider.offer].includes(typeAdd!) ? <ControllerCategory control={control} setValue={setValue} /> : null}
-          <ControlFileAppend control={control} loading={loading} progress={progress} />
+          <ControlFileAppend control={control} loading={loading} progress={progress} images={offer?.images ?? []} />
           <ControlAddress control={control} watch={watch("address")} trigger={trigger} setValue={setValue} errors={errors} />
           <Controller name="userId" control={control} render={({ field }) => <AddUser onChange={field.onChange} value={field.value} />} />
           <div data-footer>
