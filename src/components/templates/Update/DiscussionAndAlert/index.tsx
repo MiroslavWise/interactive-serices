@@ -9,7 +9,7 @@ import Button from "@/components/common/Button"
 import ControlHelp from "./components/ControlHelp"
 
 import { cx } from "@/lib/cx"
-import { getUserIdOffers, patchOffer } from "@/services"
+import { getOffers, patchOffer } from "@/services"
 import { resolverSchema, TSchema, LIMIT_DESCRIPTION } from "./shema"
 import { dispatchUpdateDiscussionAndAlert, useAuth, useUpdateDiscussionAndAlert } from "@/store"
 
@@ -31,7 +31,7 @@ function UpdateDiscussionAndAlert() {
   const additional = firstAddress?.additional?.replace(`${firstAddress?.country}, `, "").replace(`${firstAddress?.region}, `, "") ?? ""
 
   const { refetch } = useQuery({
-    queryFn: () => getUserIdOffers(userId!, { provider: provider!, order: "DESC" }),
+    queryFn: () => getOffers({ provider: provider!, order: "DESC", user: userId! }),
     queryKey: ["offers", { userId: userId, provider: provider! }],
     enabled: false,
   })

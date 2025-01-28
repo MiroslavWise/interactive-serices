@@ -11,7 +11,7 @@ import { ImageCategory } from "@/components/common"
 import ItemImages from "@/components/templates/Balloon/Offer/components/ItemImages"
 
 import { useAuth } from "@/store"
-import { getOffersCategories, getUserIdOffers } from "@/services"
+import { getOffers, getOffersCategories } from "@/services"
 
 import styles from "../styles/offers-my.module.scss"
 
@@ -25,7 +25,7 @@ export const OffersMy = memo(({ loading }: IProps) => {
   const { register, setValue, watch } = useFormContext<IFormValues>()
 
   const { data } = useQuery({
-    queryFn: () => getUserIdOffers(userId!, { provider: EnumTypeProvider.offer, order: "DESC" }),
+    queryFn: () => getOffers({ provider: EnumTypeProvider.offer, order: "DESC", user: userId! }),
     queryKey: ["offers", { userId: userId, provider: EnumTypeProvider.offer }],
     refetchOnMount: false,
     refetchOnWindowFocus: false,

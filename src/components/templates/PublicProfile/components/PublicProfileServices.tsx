@@ -9,18 +9,18 @@ import ItemPost from "@/app/(layout)/customer/[userId]/offers/components/ItemPos
 import ItemServiceData from "@/app/(layout)/customer/[userId]/offers/components/ItemService-data"
 
 import { cx } from "@/lib/cx"
+import { getOffers } from "@/services"
 import { nameTitle } from "@/lib/names"
 import { getPosts } from "@/services/posts"
-import { getUserIdOffers } from "@/services"
-import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchPublicProfile, usePublicProfile } from "@/store"
 import { LINKS_PROVIDER_OFFERS } from "@/app/(layout)/customer/[userId]/components/ComponentLinks"
+import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchPublicProfile, usePublicProfile } from "@/store"
 
 function PublicProfileServices() {
   const id = usePublicProfile(({ id }) => id)
   const [state, setState] = useState<EnumTypeProvider>(EnumTypeProvider.offer)
 
   const { data: dataOffers, isLoading } = useQuery({
-    queryFn: () => getUserIdOffers(id!, { provider: state, order: "DESC" }),
+    queryFn: () => getOffers({ provider: state, order: "DESC", user: id! }),
     queryKey: ["offers", { userId: id, provider: state }],
     enabled: !!id! && [EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(state),
   })

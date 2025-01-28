@@ -13,7 +13,7 @@ import WrapperItemService from "../offers/components/WrapperItemService"
 
 import { nameTitle } from "@/lib/names"
 import { getPosts } from "@/services/posts"
-import { getUserIdOffers } from "@/services"
+import { getOffers, getUserIdOffers } from "@/services"
 import ItemPost from "../offers/components/ItemPost"
 import { cx } from "@/lib/cx"
 
@@ -36,7 +36,7 @@ function ComponentsServices({ userId }: { userId: number | string }) {
   )
 
   const { data, isLoading } = useQuery({
-    queryFn: () => getUserIdOffers(userId, { provider: provider as unknown as EnumTypeProvider, order: "DESC" }),
+    queryFn: () => getOffers({ provider: provider as unknown as EnumTypeProvider, order: "DESC", user: userId! as number }),
     queryKey: ["offers", { userId: userId, provider: provider }],
     enabled: [EnumTypeProvider.offer, EnumTypeProvider.alert].includes(provider! as unknown as EnumTypeProvider),
   })

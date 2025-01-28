@@ -15,11 +15,11 @@ import { ImageCategory, NextImageMotion } from "@/components/common"
 
 import { queryClient } from "@/context"
 import { updateOffer } from "./utils/update"
+import { getGeocodeSearch, getOffers } from "@/services"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
-import { getGeocodeSearch, getUserIdOffers } from "@/services"
+import { LIMIT_DESCRIPTION } from "../DiscussionAndAlert/shema"
 import { dispatchUpdateOffer, useAuth, useUpdateOffer } from "@/store"
 import { resolverUpdateOffer, TSchemaUpdateOffer } from "./utils/types"
-import { LIMIT_DESCRIPTION } from "../DiscussionAndAlert/shema"
 
 export default function UpdateOffer() {
   const { id: userId } = useAuth(({ user }) => user) ?? {}
@@ -33,7 +33,7 @@ export default function UpdateOffer() {
   const [focusGeo, setFocusGeo, refGeo] = useOutsideClickEvent()
 
   const { refetch } = useQuery({
-    queryFn: () => getUserIdOffers(userId!, { provider: EnumTypeProvider.offer, order: "DESC" }),
+    queryFn: () => getOffers({ provider: EnumTypeProvider.offer, order: "DESC", user: userId! }),
     queryKey: ["offers", { userId: userId, provider: EnumTypeProvider.offer }],
     enabled: false,
   })
@@ -227,7 +227,7 @@ export default function UpdateOffer() {
           }}
         >
           <label {...register("address", { required: true })} className="text-text-primary text-sm font-normal text-left">
-          Адрес
+            Адрес
           </label>
           <div data-input ref={refGeo}>
             <input
