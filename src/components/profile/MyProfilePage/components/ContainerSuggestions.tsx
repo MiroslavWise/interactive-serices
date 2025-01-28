@@ -16,7 +16,7 @@ import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 
 import { cx } from "@/lib/cx"
 import { getPosts } from "@/services/posts"
-import { getUserIdOffers } from "@/services"
+import { getOffers, getUserIdOffers } from "@/services"
 import { dispatchModal, dispatchCreatePost, EModalData, openCreateOffers, useAuth } from "@/store"
 
 const CN_UL = "w-full h-fit grid grid-cols-3 max-2xl:grid-cols-2 max-xl:grid-cols-1 overflow-y-visible z-10 pb-5 gap-2.5 md:gap-4"
@@ -46,7 +46,7 @@ export const ContainerSuggestions = () => {
   )
 
   const { data, isLoading } = useQuery({
-    queryFn: () => getUserIdOffers(userId!, { provider: state, order: "DESC" }, true),
+    queryFn: () => getOffers({ provider: state, order: "DESC", user: userId! }),
     queryKey: ["offers", { userId: userId, provider: state ?? EnumTypeProvider.offer }],
     enabled: !!userId! && [EnumTypeProvider.alert, EnumTypeProvider.offer].includes(state),
   })

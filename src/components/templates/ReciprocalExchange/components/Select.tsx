@@ -13,17 +13,17 @@ import { NewCreateOffer } from "./NewCreateOffer"
 import { CategoriesWants } from "./CategoriesWants"
 
 import { useAuth } from "@/store"
-import { getUserIdOffers } from "@/services"
+import { getOffers } from "@/services"
 import { SELECT_NEW_PROPOSAL } from "../constants/select"
 
 import styles from "../styles/choose-an-offer.module.scss"
 
 export const ChooseAnOffer = memo(({ loading, firstName, categoriesWants = [] }: IProps) => {
   const { id: userId } = useAuth(({ user }) => user) ?? {}
-  const { register, setValue, watch } = useFormContext<IFormValues>()
+  const { setValue, watch } = useFormContext<IFormValues>()
 
   const { data: dataOffersMy, isLoading } = useQuery({
-    queryFn: () => getUserIdOffers(userId!, { provider: EnumTypeProvider.offer, order: "DESC" }),
+    queryFn: () => getOffers({ provider: EnumTypeProvider.offer, order: "DESC", user: userId! }),
     queryKey: ["offers", { userId: userId, provider: EnumTypeProvider.offer }],
     refetchOnMount: false,
     refetchOnWindowFocus: false,

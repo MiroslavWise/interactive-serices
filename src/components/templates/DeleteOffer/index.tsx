@@ -7,7 +7,7 @@ import { EnumTypeProvider } from "@/types/enum"
 
 import Button from "@/components/common/Button"
 
-import { getUserIdOffers, patchOffer } from "@/services"
+import { getOffers, patchOffer } from "@/services"
 import { useDeleteOffer, dispatchDeleteOffer, useAuth } from "@/store"
 
 const title: Map<EnumTypeProvider, string> = new Map([
@@ -24,7 +24,7 @@ function DeleteOffer() {
   const [loading, setLoading] = useState(false)
 
   const { refetch } = useQuery({
-    queryFn: () => getUserIdOffers(userId!, { provider: provider!, order: "DESC" }),
+    queryFn: () => getOffers({ provider: provider!, order: "DESC", user: userId! }),
     queryKey: ["offers", { userId: userId, provider: provider! }],
     enabled: false,
   })

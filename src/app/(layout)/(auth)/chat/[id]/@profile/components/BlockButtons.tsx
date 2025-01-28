@@ -7,7 +7,7 @@ import { ImageCategory } from "@/components/common"
 
 import { cx } from "@/lib/cx"
 import { nameTitle } from "@/lib/names"
-import { getFiendId, getUserIdOffers } from "@/services"
+import { getFiendId, getOffers } from "@/services"
 
 function BlockButtons({ user }: { user: IUserResponse }) {
   const { data: dataFriends } = useQuery({
@@ -17,7 +17,7 @@ function BlockButtons({ user }: { user: IUserResponse }) {
   })
 
   const { data: dataOffers } = useQuery({
-    queryFn: () => getUserIdOffers(user?.id!, { provider: EnumTypeProvider.offer, order: "DESC" }),
+    queryFn: () => getOffers({ provider: EnumTypeProvider.offer, order: "DESC", user: user?.id! }),
     queryKey: ["offers", { userId: user?.id, provider: EnumTypeProvider.offer }],
     enabled: !!user?.id!,
   })
