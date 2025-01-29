@@ -128,7 +128,7 @@ function ButtonAdvertAction({ actions, provider, offer, post }: IProps) {
         <span className={textCN}>{advertsButtonLabels[EAdvertsButton.ENROLLING]}</span>
       </button>
     )
-  if (EAdvertsButton.GO_TO_CHAT === enumType)
+  if (EAdvertsButton.GO_TO_CHAT === enumType && provider !== EnumTypeProvider.offer)
     return (
       <button
         type="button"
