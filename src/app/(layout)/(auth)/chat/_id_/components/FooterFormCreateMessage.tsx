@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
 import { type ChangeEvent, type Dispatch, memo, type RefObject, type SetStateAction, useCallback, useEffect, useRef, useState } from "react"
 
-import { type IMessages } from "../page"
+import { type IMessages } from "../ComponentCurrentChat"
 import { type IResponseThread } from "@/services/threads/types"
 import { type IRequestPostMessages } from "@/services/messages/types"
 import { EnumProviderThreads, EnumStatusBarter, EnumTypeProvider } from "@/types/enum"

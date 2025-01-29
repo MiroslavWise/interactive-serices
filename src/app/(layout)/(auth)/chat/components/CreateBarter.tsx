@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import { useInsertionEffect, useMemo } from "react"
+import { parseAsInteger, useQueryState } from "nuqs"
 
 import { EnumProviderThreads } from "@/types/enum"
 import { type IPostThreads } from "@/services/threads/types"
@@ -17,6 +18,7 @@ import { providerIsAscending } from "@/lib/sortIdAscending"
 
 function CreateBarter({ idBarter }: { idBarter: string }) {
   const { on } = useToast()
+  const [_, setId] = useQueryState("chat-id-messages", parseAsInteger)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { prefetch, push } = useRouter()
   const { refetchCountMessages } = useCountMessagesNotReading()
@@ -74,8 +76,7 @@ function CreateBarter({ idBarter }: { idBarter: string }) {
       return
     }
     refetchCountMessages().finally(() => {
-      prefetch(`/chat/${idCreate}`)
-      push(`/chat/${idCreate}`)
+      setId(idCreate!)
     })
   }
 

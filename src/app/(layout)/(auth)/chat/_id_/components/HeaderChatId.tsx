@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 
 import { EnumProviderThreads } from "@/types/enum"
 import { type IResponseThread } from "@/services/threads/types"
+import { type ISmallDataOfferBarter } from "@/services/barters/types"
 
 import Avatar from "@avatar"
 import AbsoluteMenu from "./AbsoluteMenu"
@@ -14,8 +15,8 @@ import IconArrowLeft from "@/components/icons/IconArrowLeft"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { cx } from "@/lib/cx"
+import { getIdOffer } from "@/services"
 import { useAuth, useOnline } from "@/store"
-import { getBarterId, getIdOffer } from "@/services"
 import { typeMessage, userInterlocutor } from "@/helpers/user-interlocutor"
 
 function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; isLoadingThread: boolean }) {
@@ -25,13 +26,6 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
   const message = thread?.messages?.length ? thread?.messages?.[0]?.message : null
   const { firstName, lastName = "" } = user ?? {}
 
-  const barterId = thread?.provider === EnumProviderThreads.BARTER ? thread?.barterId : null
-  const { data: dataBarter } = useQuery({
-    queryFn: () => getBarterId(barterId!),
-    queryKey: ["barters", { id: barterId! }],
-    enabled: !!barterId,
-  })
-
   const offerId = thread?.provider === EnumProviderThreads.OFFER_PAY ? thread?.offerId : null
   const { data: dataOffer } = useQuery({
     queryFn: () => getIdOffer(thread?.offerId!),
@@ -39,10 +33,9 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
     enabled: !!offerId,
   })
 
-  const { data: dataB } = dataBarter ?? {}
   const { data: dataO } = dataOffer ?? {}
-  const offer = user?.id === dataB?.consigner?.userId ? dataB?.consigner : user?.id === dataB?.initiator?.userId ? dataB?.initiator : null
-  const messageType = typeMessage({ provider: thread?.provider, last: message, offer: offer! || dataO })
+  const offer = dataO as unknown as ISmallDataOfferBarter
+  const messageType = typeMessage({ provider: thread?.provider, last: message, offer: offer! })
 
   const isOnline = users.some((_) => _.id === user?.id!)
 

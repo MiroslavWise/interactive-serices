@@ -1,15 +1,12 @@
 import { useQuery } from "@tanstack/react-query"
 import { type RefObject, useEffect, Fragment, type Dispatch, type SetStateAction, useMemo } from "react"
 
-import { type IMessages } from "../page"
 import { EnumProviderThreads } from "@/types/enum"
+import { type IMessages } from "../ComponentCurrentChat"
 import { type IResponseThread } from "@/services/threads/types"
 
-import ItemBarter from "./ItemBarter"
 import ItemMessage from "./ItemMessage"
 import LoadingList from "./LoadingList"
-import ExchangeStatus from "./ExchangeStatus"
-import ItemCompletedBarter from "./ItemCompletedBarter"
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
@@ -100,8 +97,7 @@ function ListMessages({ thread, ferUl, setMessages, messages }: IProps) {
   if (isLoading || !thread) return <LoadingList />
 
   return (
-    <section className="w-full h-full max-md:h-[calc(var(--vh)_*_100)] flex flex-col items-center max-h-screen md:max-h-[calc(100vh_-_var(--height-header-nav-bar)_-_3rem)] pt-[3.25rem] md:pt-[4.25rem] max-md:overflow-hidden">
-      <ExchangeStatus thread={thread} isLoading={isLoading} />
+    <section className="w-full h-full max-md:h-dvh flex flex-col items-center max-h-screen md:max-h-[calc(100dvh_-_var(--height-header-nav-bar)_-_3rem)] pt-[3.25rem] md:pt-[4.25rem] max-md:overflow-hidden">
       <ul
         className={cx(
           "w-full md:h-full md:max-w-[50rem] overflow-y-scroll flex flex-col gap-1 pb-[4rem] md:pb-[4.5rem] scroll-no px-3 md:px-5 pt-3 md:pt-5",
@@ -109,7 +105,6 @@ function ListMessages({ thread, ferUl, setMessages, messages }: IProps) {
         )}
         ref={ferUl}
       >
-        <ItemBarter thread={thread} />
         {!!messages.length ? (
           messages.map((message, index) => (
             <Fragment key={`::key::message::${message?.id!}::`}>
@@ -132,7 +127,7 @@ function ListMessages({ thread, ferUl, setMessages, messages }: IProps) {
             </Fragment>
           ))
         ) : !messages.length && thread?.provider === EnumProviderThreads.PERSONAL ? (
-          <article className="w-full !my-auto flex items-center justify-center">
+          <article className="w-full my-auto flex items-center justify-center">
             <div
               className="h-11 py-3 px-5 rounded-[1.375rem] flex items-center justify-center"
               style={{ background: "linear-gradient(95deg, #B3D2FF -26.18%, #D8BAFF 130.54%)" }}
@@ -141,7 +136,6 @@ function ListMessages({ thread, ferUl, setMessages, messages }: IProps) {
             </div>
           </article>
         ) : null}
-        <ItemCompletedBarter thread={thread} />
       </ul>
     </section>
   )

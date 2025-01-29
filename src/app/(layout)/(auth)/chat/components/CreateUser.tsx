@@ -2,6 +2,7 @@
 
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { parseAsInteger, useQueryState } from "nuqs"
 
 import { EnumProviderThreads } from "@/types/enum"
 import { type IPostThreads } from "@/services/threads/types"
@@ -17,7 +18,8 @@ import { providerIsAscending } from "@/lib/sortIdAscending"
 function CreateUser({ idUser }: { idUser: string }) {
   const { on } = useToast()
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { prefetch, push } = useRouter()
+  const { push, prefetch } = useRouter()
+  const [_, setId] = useQueryState("chat-id-messages", parseAsInteger)
   const { refetchCountMessages } = useCountMessagesNotReading()
 
   async function createChat() {
@@ -58,8 +60,7 @@ function CreateUser({ idUser }: { idUser: string }) {
       return
     }
     refetchCountMessages().finally(() => {
-      prefetch(`/chat/${idCreate}`)
-      push(`/chat/${idCreate}`)
+      setId(idCreate!)
     })
   }
 

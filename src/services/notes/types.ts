@@ -1,6 +1,6 @@
 import { type IImageData } from "@/types/type"
 import { type IUserOffer as IUserSmall } from "../offers/types"
-import { type TOrder } from "../types/general"
+import { IPromiseReturn, type TOrder } from "../types/general"
 import { IResponse } from "../request/types"
 
 export interface INotes {
@@ -33,6 +33,6 @@ interface IQueries {
 }
 
 export type TPostNote = (body: IBodyNote) => Promise<IResponse<INotes>>
-export type TPatchNote = (id: number, body: Partial<IBodyNote>) => Promise<IResponse<INotes>>
+export type TPatchNote = (id: number, body: Partial<IBodyNote>) => IPromiseReturn<INotes>
 export type TGetNotes = (query: IQueries) => Promise<IResponse<INotes[]>>
 export type TDeleteNote = (id: number) => Promise<any>

@@ -1,7 +1,8 @@
 "use client"
 
-import { useRouter } from "next/navigation"
 import { useEffect, useMemo } from "react"
+import { useRouter } from "next/navigation"
+import { parseAsInteger, useQueryState } from "nuqs"
 
 import LoadingChat from "./LoadingChat"
 
@@ -17,6 +18,7 @@ import { providerIsAscending } from "@/lib/sortIdAscending"
 function CreateOfferPay({ offerPay }: { offerPay: string }) {
   const { on } = useToast()
   const { push, prefetch } = useRouter()
+  const [_, setId] = useQueryState("chat-id-messages", parseAsInteger)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { refetchCountMessages } = useCountMessagesNotReading()
 
@@ -67,8 +69,7 @@ function CreateOfferPay({ offerPay }: { offerPay: string }) {
     }
     if (idCreate) {
       refetchCountMessages()
-      prefetch(`/chat/${idCreate}`)
-      push(`/chat/${idCreate}`)
+      setId(idCreate!)
       return
     }
   }
