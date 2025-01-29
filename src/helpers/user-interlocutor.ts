@@ -21,11 +21,14 @@ function typeMessage({
   provider,
   last,
   offer,
+  isGroup,
 }: {
   provider: EnumProviderThreads
   last: string | null
   offer?: ISmallDataOfferBarter
+  isGroup?: boolean
 }): string {
+  if (isGroup) return "Групповой"
   if (provider === EnumProviderThreads.PERSONAL) return "Личные"
   if (provider === EnumProviderThreads.BARTER && !!offer)
     return `${objProvider[EnumProviderThreads.BARTER]} ${offer?.category?.title || "Предложение"}`

@@ -1,14 +1,13 @@
 "use client"
 
-import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
 import { Controller, useForm } from "react-hook-form"
-import { type ChangeEvent, type Dispatch, memo, type RefObject, type SetStateAction, useCallback, useEffect, useRef, useState } from "react"
+import { type Dispatch, memo, type RefObject, type SetStateAction, useCallback, useEffect, useRef, useState } from "react"
 
+import { EnumTypeProvider } from "@/types/enum"
 import { type IMessages } from "../ComponentCurrentChat"
 import { type IResponseThread } from "@/services/threads/types"
 import { type IRequestPostMessages } from "@/services/messages/types"
-import { EnumProviderThreads, EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
 
 import SendingPhotos from "./SendingPhotos"
 import LoadingFooter from "../../components/LoadingFooter"
@@ -17,11 +16,11 @@ import IconPaperClip from "@/components/icons/IconPaperClip"
 import { cx } from "@/lib/cx"
 import { useDebounce } from "@/helpers"
 import { resolver, type TTypeSchema } from "../utils/schema"
+import { handleImageChange } from "../utils/handle-image-change"
 import { deCrypted, dispatchMessageDraft, useAuth, useDraftChat } from "@/store"
 import { fileUploadService, getBarterId, getMessages, postMessage } from "@/services"
-
-const MAX_FILE_SIZE = 9.9 * 1024 * 1024
-const sleep = () => new Promise((r) => setTimeout(r, 50))
+import { getCompanyId } from "@/services/companies"
+import { clg } from "@console"
 
 function FooterFormCreateMessage({
   id,
@@ -40,16 +39,15 @@ function FooterFormCreateMessage({
   const textRef = useRef<HTMLTextAreaElement>(null)
   const refForm = useRef<HTMLFormElement>(null)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
+  const user = useAuth(({ user }) => user)
+  const { company } = user ?? {}
+  const { id: companyId } = company ?? {}
 
-  const barterId = thread?.provider === EnumProviderThreads.BARTER ? thread?.barterId : null
-
-  const { data, isLoading: isLoadingBarter } = useQuery({
-    queryFn: () => getBarterId(barterId!),
-    queryKey: ["barters", { id: barterId! }],
-    enabled: !!barterId,
+  const { data: dataCompany, isLoading } = useQuery({
+    queryFn: () => getCompanyId(companyId!),
+    queryKey: ["company", companyId],
+    enabled: !!companyId,
   })
-
-  const disabledBarterCompleted = data?.data?.status === EnumStatusBarter.COMPLETED
 
   const [loading, setLoading] = useState(false)
   const [filesState, setFiles] = useState<{ file: File[]; string: string[] }>({
@@ -67,51 +65,6 @@ function FooterFormCreateMessage({
       }
     },
     [loading],
-  )
-
-  const handleImageChange = useCallback(
-    async (event: ChangeEvent<HTMLInputElement>) => {
-      const files = event.target.files
-
-      let filesReady = {
-        file: [...filesState.file] as File[],
-        string: [...filesState.string] as string[],
-      }
-
-      if (files) {
-        for (let i = 0; i < files.length; i++) {
-          const file = files[i]
-
-          if (file) {
-            if (file.size < MAX_FILE_SIZE) {
-              const is = filesState.file.some((_) => _.size === file.size && _.name === file.name)
-
-              if (is) {
-                continue
-              }
-
-              const reader = new FileReader()
-              reader.readAsDataURL(file)
-              reader.onload = function (f) {
-                filesReady = {
-                  ...filesReady,
-                  file: [...filesReady.file, file],
-                  string: [...filesReady.string, f!.target!.result as string],
-                }
-              }
-            }
-          }
-        }
-      }
-
-      await sleep()
-
-      return Promise.resolve({
-        file: filesReady.file.splice(0, 9),
-        string: filesReady.string.splice(0, 9),
-      })
-    },
-    [filesState],
   )
 
   const { refetch } = useQuery({
@@ -155,18 +108,46 @@ function FooterFormCreateMessage({
     }
   }, [watch("text")])
 
-  const receiverID = thread?.emitter?.id === userId ? thread.receivers[0]?.id! : thread?.emitter?.id!
-
   const disabled = (!watch("text").trim() && !filesState.file.length) || loading
 
   const onSubmit = handleSubmit(async (values) => {
     const message = values.text.trim()
 
+    const { receivers = [], emitter } = thread ?? {}
+
+    let emitterId = userId
+    const idsR = receivers.map((_) => _.id)
+    let allReceivers = [...idsR, emitter?.id!]
+    let currentReceivers = allReceivers.filter((_) => _ !== userId)
+
+    const { owner, users = [] } = dataCompany?.data ?? {}
+
+    clg("onSubmit receivers.length: ", receivers)
+    clg("onSubmit owner: ", owner)
+    clg("onSubmit userId: ", userId)
+
+    if (receivers.length > 1 && owner && owner.id === userId && users.length > 0) {
+      clg("onSubmit for: users:", users)
+      const letEmitter: number[] = []
+      for (const user of users) {
+        const id = user.id
+        if (idsR.includes(id)) {
+          letEmitter.push(id)
+          break
+        }
+      }
+      clg("onSubmit for: letEmitter:", letEmitter)
+      if (letEmitter.length > 0) {
+        emitterId = letEmitter[0]
+        currentReceivers = allReceivers.filter((_) => _ !== letEmitter[0])
+      }
+    }
+
     const body: IRequestPostMessages = {
       threadId: Number(thread?.id!),
       parentId: null,
-      emitterId: userId!,
-      receiverIds: [receiverID],
+      emitterId: emitterId!,
+      receiverIds: currentReceivers,
       enabled: true,
       created: new Date(),
     }
@@ -183,8 +164,8 @@ function FooterFormCreateMessage({
           message: message,
           parentId: null,
           threadId: Number(thread?.id!),
-          emitterId: userId!,
-          receiverIds: [receiverID],
+          emitterId: emitterId!,
+          receiverIds: currentReceivers,
           images: [],
           readIds: [],
           imagesString: filesState.string,
@@ -227,26 +208,7 @@ function FooterFormCreateMessage({
     }
   })
 
-  if (isLoadingThread || isLoadingBarter) return <LoadingFooter />
-
-  if (disabledBarterCompleted)
-    return (
-      <div className="w-full fixed md:absolute py-3 md:py-4 px-2.5 bottom-0 left-0 right-0 bg-BG-second border-t border-solid border-grey-stroke z-50 h-16 md:h-[4.5rem] flex flex-col items-center gap-1 justify-center">
-        <p className="text-xs text-center text-text-secondary font-normal">Обмен завершён</p>
-        <Link
-          className="text-sm font-medium text-center text-text-accent"
-          href={{
-            pathname: "/chat",
-            query: {
-              user: receiverID,
-            },
-          }}
-          prefetch={false}
-        >
-          Продолжить в личном чате
-        </Link>
-      </div>
-    )
+  if (isLoadingThread) return <LoadingFooter />
 
   return (
     <form
@@ -272,10 +234,8 @@ function FooterFormCreateMessage({
                 "rounded-[1.25rem] border border-solid border-grey-stroke",
                 "placeholder:text-text-secondary outline-none",
               )}
-              disabled={loading || disabledBarterCompleted}
-              placeholder={
-                disabledBarterCompleted ? "Обмен завершён. Оставьте отзыв или продолжите общение в личном чате" : "Написать сообщение..."
-              }
+              disabled={loading}
+              placeholder={"Написать сообщение..."}
               ref={textRef}
             />
             <div className="absolute right-4 bottom-2.5 w-5 h-5 bg-transparent border-none outline-none cursor-pointer z-40 overflow-hidden">
@@ -285,12 +245,11 @@ function FooterFormCreateMessage({
                 accept="image/*"
                 multiple
                 onChange={async (event) => {
-                  const dataValues = await handleImageChange(event)
+                  const dataValues = await handleImageChange(event, filesState)
                   console.log("dataValues: ", dataValues)
                   setFiles(dataValues)
                   event.target.value = ""
                 }}
-                disabled={disabledBarterCompleted}
               />
               <IconPaperClip />
             </div>
@@ -301,12 +260,11 @@ function FooterFormCreateMessage({
         type="submit"
         className={cx(
           "w-8 h-10 px-4 py-5 relative border-none outline-none disabled:cursor-no-drop",
-          !disabled || disabledBarterCompleted ? "opacity-100" : "opacity-50",
+          !disabled ? "opacity-100" : "opacity-50",
         )}
-        disabled={disabled || disabledBarterCompleted}
+        disabled={disabled}
       >
         <svg
-          xmlns="http://www.w3.org/2000/svg"
           width="32"
           height="32"
           viewBox="0 0 32 32"
@@ -330,3 +288,22 @@ function FooterFormCreateMessage({
 
 FooterFormCreateMessage.displayName = "FooterFormCreateMessage"
 export default memo(FooterFormCreateMessage)
+
+// if (disabledBarterCompleted)
+//   return (
+//     <div className="w-full fixed md:absolute py-3 md:py-4 px-2.5 bottom-0 left-0 right-0 bg-BG-second border-t border-solid border-grey-stroke z-50 h-16 md:h-[4.5rem] flex flex-col items-center gap-1 justify-center">
+//       <p className="text-xs text-center text-text-secondary font-normal">Обмен завершён</p>
+//       <Link
+//         className="text-sm font-medium text-center text-text-accent"
+//         href={{
+//           pathname: "/chat",
+//           query: {
+//             user: receiverID,
+//           },
+//         }}
+//         prefetch={false}
+//       >
+//         Продолжить в личном чате
+//       </Link>
+//     </div>
+//   )

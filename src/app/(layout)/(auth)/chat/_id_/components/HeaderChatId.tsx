@@ -35,7 +35,9 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
 
   const { data: dataO } = dataOffer ?? {}
   const offer = dataO as unknown as ISmallDataOfferBarter
-  const messageType = typeMessage({ provider: thread?.provider, last: message, offer: offer! })
+  const { receivers = [] } = thread ?? {}
+  const isGroup = receivers.length > 1
+  const messageType = typeMessage({ provider: thread?.provider, last: message, offer: offer!, isGroup })
 
   const isOnline = users.some((_) => _.id === user?.id!)
 
