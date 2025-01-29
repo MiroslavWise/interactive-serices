@@ -16,12 +16,13 @@ import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 import { cx } from "@/lib/cx"
 import { formatOfMMMM } from "@/helpers"
 import { getIdOffer } from "@/services"
+import { QUERY_CHAT_MESSAGES } from "@/types/constants"
 import { onNumberOfPhotos } from "@/helpers/number-of-photos"
 import { deCrypted, useAuth, useDraftChat, useOnline } from "@/store"
 import { typeMessage, userInterlocutor } from "@/helpers/user-interlocutor"
 
 function ItemMessageChat({ item }: { item: IResponseThreads }) {
-  const [id, setId] = useQueryState("chat-id-messages", parseAsInteger)
+  const [id, setId] = useQueryState(QUERY_CHAT_MESSAGES, parseAsInteger)
   const users = useOnline(({ users }) => users)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { provider } = item ?? {}

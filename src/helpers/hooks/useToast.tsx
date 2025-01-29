@@ -10,6 +10,7 @@ import Button, { ButtonLink } from "@/components/common/Button"
 import { ButtonCircleGradient, ButtonClose, NextImageMotion } from "@/components/common"
 
 import { useResize } from "./use-resize.hook"
+import { QUERY_CHAT_MESSAGES } from "@/types/constants"
 
 interface IValue {
   title?: string
@@ -45,7 +46,7 @@ export const useToast = () => {
           <p>{message}</p>
         </section>
         <div data-footer>
-          <Link href={{ pathname: `/chat/${threadId}` }}>Перейти в чат</Link>
+          <Link href={{ pathname: "/chat", query: { [QUERY_CHAT_MESSAGES]: threadId! } }}>Перейти в чат</Link>
         </div>
       </div>
     )
@@ -69,7 +70,12 @@ export const useToast = () => {
         {!!title && <h4>{title}</h4>}
         <p>{message}</p>
         {status === "accepted" && threadId ? (
-          <ButtonLink type="button" typeButton="fill-primary" label="Перейти в чат" href={{ pathname: `/chat/${threadId}` }} />
+          <ButtonLink
+            type="button"
+            typeButton="fill-primary"
+            label="Перейти в чат"
+            href={{ pathname: `/chat`, query: { [QUERY_CHAT_MESSAGES]: threadId } }}
+          />
         ) : null}
         {status === EnumStatusBarter.INITIATED && threadIdBarter ? (
           <ButtonLink

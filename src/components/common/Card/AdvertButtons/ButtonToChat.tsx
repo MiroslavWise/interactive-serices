@@ -15,6 +15,7 @@ import { dispatchAuthModal } from "@/store"
 import { EnumTypeProvider } from "@/types/enum"
 import { postThread } from "@/services/threads"
 import { useToast } from "@/helpers/hooks/useToast"
+import { QUERY_CHAT_MESSAGES } from "@/types/constants"
 import { providerIsAscending } from "@/lib/sortIdAscending"
 
 interface IPropsButtonToChat {
@@ -52,7 +53,7 @@ function ButtonToChat({ offer }: IPropsButtonToChat) {
             enabled: true,
           }
           const { res } = await postThread(data_)
-          push(`/chat/${res?.id}`)
+          push(`/chat?${QUERY_CHAT_MESSAGES}=${res?.id}`)
           setLoading(false)
           return
         }

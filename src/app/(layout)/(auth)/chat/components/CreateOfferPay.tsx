@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useMemo } from "react"
-import { useRouter } from "next/navigation"
 import { parseAsInteger, useQueryState } from "nuqs"
 
 import LoadingChat from "./LoadingChat"
@@ -14,11 +13,12 @@ import { postThread } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { useCountMessagesNotReading } from "@/helpers"
 import { providerIsAscending } from "@/lib/sortIdAscending"
+import { QUERY_CHAT_MESSAGES, QUERY_CHAT_OFFER_PAY } from "@/types/constants"
 
-function CreateOfferPay({ offerPay }: { offerPay: string }) {
+function CreateOfferPay() {
   const { on } = useToast()
-  const { push, prefetch } = useRouter()
-  const [_, setId] = useQueryState("chat-id-messages", parseAsInteger)
+  const [_, setId] = useQueryState(QUERY_CHAT_MESSAGES, parseAsInteger)
+  const [offerPay, setOfferPay] = useQueryState(QUERY_CHAT_OFFER_PAY)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { refetchCountMessages } = useCountMessagesNotReading()
 
@@ -57,8 +57,7 @@ function CreateOfferPay({ offerPay }: { offerPay: string }) {
     const idCreate = await createThread(Number(userId), offerNumber?.idUser!)
 
     if (!idCreate) {
-      prefetch(`/chat`)
-      push(`/chat`)
+      setOfferPay(null)
       on(
         {
           message: "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
@@ -69,6 +68,7 @@ function CreateOfferPay({ offerPay }: { offerPay: string }) {
     }
     if (idCreate) {
       refetchCountMessages()
+      setOfferPay(null)
       setId(idCreate!)
       return
     }
@@ -76,8 +76,7 @@ function CreateOfferPay({ offerPay }: { offerPay: string }) {
 
   useEffect(() => {
     if (offerNumber === undefined) {
-      prefetch(`/chat`)
-      push(`/chat`)
+      setOfferPay(null)
     } else {
       if (userId) {
         createChat()

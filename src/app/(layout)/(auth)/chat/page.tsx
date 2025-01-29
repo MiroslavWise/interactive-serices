@@ -7,8 +7,10 @@ import ComponentCurrentChat from "./_id_/ComponentCurrentChat"
 const EmptyState = dynamic(() => import("./components/EmptyState"))
 const CreateNewChat = dynamic(() => import("./components/CreateNewChat"))
 
+import { QUERY_CHAT_MESSAGES } from "@/types/constants"
+
 export default () => {
-  const [id] = useQueryState("chat-id-messages", parseAsInteger)
+  const [id] = useQueryState(QUERY_CHAT_MESSAGES, parseAsInteger)
 
   if (id && typeof id === "number") return <ComponentCurrentChat id={id} />
 

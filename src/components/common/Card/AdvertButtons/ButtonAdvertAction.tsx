@@ -3,15 +3,16 @@ import Link from "next/link"
 import { TTypeActionCompany } from "@/services/types/company"
 import { advertsButtonLabels, EAdvertsButton, EnumProviderThreads, EnumSign, EnumTypeProvider } from "@/types/enum"
 
-import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchAuthModal, dispatchBallonOffer, dispatchBallonPost, useAuth } from "@/store"
-import { IPosts } from "@/services/posts/types"
-import { IResponseOffers } from "@/services/offers/types"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { providerIsAscending } from "@/lib/sortIdAscending"
-import { IPostThreads } from "@/services/threads/types"
+import { IPosts } from "@/services/posts/types"
 import { postThread } from "@/services/threads"
+import { useToast } from "@/helpers/hooks/useToast"
+import { QUERY_CHAT_MESSAGES } from "@/types/constants"
+import { IPostThreads } from "@/services/threads/types"
+import { IResponseOffers } from "@/services/offers/types"
+import { providerIsAscending } from "@/lib/sortIdAscending"
+import { dispatchAuthModal, dispatchBallonOffer, dispatchBallonPost, useAuth } from "@/store"
 
 const buttonCN =
   "relative bg-grey-field border-none outline-none flex flex-row items-center justify-center cursor-pointer touch-manipulation rounded-lg px-2.5 w-min hover:opacity-85 disabled:opacity-50 disabled:cursor-not-allowed *:font-normal h-9"
@@ -54,7 +55,7 @@ function ButtonAdvertAction({ actions, provider, offer, post }: IProps) {
         }
         data_.offerId = id!
         const { res } = await postThread(data_)
-        push(`/chat/${res?.id}`)
+        push(`/chat?${QUERY_CHAT_MESSAGES}=${res?.id}`)
       }
       return
     }

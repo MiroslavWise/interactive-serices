@@ -2,6 +2,7 @@ import { type IUserOffer } from "../offers/types"
 import { type IBarterResponse } from "../barters/types"
 import { type IPromiseReturn, type TOrder } from "../types/general"
 import { IResponse } from "../request/types"
+import { QUERY_CHAT_OFFER_PAY } from "@/types/constants"
 
 type TTypeOperation =
   | "create"
@@ -15,8 +16,7 @@ type TTypeOperation =
   | "feedback-received-no"
   | "canceled"
 
-type TTypeProviderNotifications = "barter" | "offer-pay" | "comment"
-
+type TTypeProviderNotifications = "barter" | typeof QUERY_CHAT_OFFER_PAY | "comment"
 interface IPostNotification {
   read: boolean
   enabled: boolean

@@ -14,6 +14,7 @@ import { LoadingProfile } from "@/components/common"
 import { getUserId } from "@/services"
 import { dayFormat, useResize } from "@/helpers"
 import { useAuth, useVisibleExchanges } from "@/store"
+import { QUERY_CHAT_MESSAGES } from "@/types/constants"
 
 export const CardOffer: TCardOffer = ({ id, threadId, created, status, initiator, consigner }) => {
   const { id: myUserId } = useAuth(({ auth }) => auth) ?? {}
@@ -32,7 +33,7 @@ export const CardOffer: TCardOffer = ({ id, threadId, created, status, initiator
   })
 
   const href: UrlObject = !!threadId
-    ? { pathname: `/chat/${threadId}` }
+    ? { pathname: `/chat`, query: { [QUERY_CHAT_MESSAGES]: threadId } }
     : !!id
     ? {
         pathname: `/chat`,
