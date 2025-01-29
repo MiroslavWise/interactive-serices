@@ -35,13 +35,13 @@ function ListMessages({ thread, ferUl, setMessages, messages }: IProps) {
     enabled: !!thread?.id,
   })
 
-  const items = dataMessages?.data || []
+  const items = dataMessages?.data ?? []
 
   useEffect(() => {
-    if (items.length) {
+    if (!isLoading && dataMessages?.data) {
       setMessages(items)
     }
-  }, [items])
+  }, [items, isLoading, dataMessages])
 
   useEffect(() => {
     setTimeout(() => {
