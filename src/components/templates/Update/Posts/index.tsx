@@ -9,6 +9,7 @@ import IconFile_06 from "@/components/icons/IconFile_06"
 import AddressController from "./components/AddressController"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 import { ImageStatic, NextImageMotion } from "@/components/common"
+import ControlParticipant from "../../CreatePost/components/ControlParticipant"
 
 import { cx } from "@/lib/cx"
 import { queryClient } from "@/context"
@@ -35,6 +36,7 @@ function UpdatePost() {
       file: [],
       string: [],
     },
+    isParticipants: false,
     help: !!post?.urgent,
     deletesImages: [],
     addressFeature: null,
@@ -105,14 +107,13 @@ function UpdatePost() {
           onSubmit={onSubmit}
           className="w-full h-full-minus-standard-header-modal flex flex-col items-center gap-5 p-5 pb-24 md:*:max-w-[26.25rem] overflow-x-hidden overflow-y-auto"
         >
-          <AddressController control={control} setValue={setValue} />
           <Controller
             name="title"
             control={control}
             render={({ field, fieldState: { error } }) => (
               <fieldset className="w-full flex flex-col gap-2">
                 <label htmlFor={field.name} className="text-text-primary text-sm font-medium">
-                Тема События
+                  Тема События
                 </label>
                 <input
                   type="text"
@@ -317,6 +318,11 @@ function UpdatePost() {
                 </fieldset>
               )
             }}
+          />
+          <AddressController control={control} setValue={setValue} />
+          <ControlParticipant
+            //@ts-ignore
+            control={control}
           />
           <footer className="fixed md:absolute bottom-0 left-0 right-0 w-full !max-w-full pt-2.5 px-5 pb-[1.875rem] bg-BG-second flex flex-row items-center justify-center md:rounded-b-2 md:*:max-w-[26.25rem] z-50">
             <Button type="submit" className="" typeButton="fill-primary" label="Сохранить" loading={loading} disabled={loading} />
