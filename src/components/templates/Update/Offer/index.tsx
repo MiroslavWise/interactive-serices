@@ -123,7 +123,7 @@ export default function UpdateOffer() {
           )}
         />
         <fieldset className="w-full flex flex-col gap-2">
-          <label className="text-text-primary text-sm font-normal text-left">Предложить категорию</label>
+          <label className="text-text-primary text-sm font-normal text-left">Категория</label>
           <div data-input className="relative w-full h-12">
             <input type="text" readOnly disabled />
             <div
