@@ -12,6 +12,9 @@ import { getOffers, patchOffer } from "@/services"
 import { resolverSchema, TSchema, LIMIT_DESCRIPTION } from "./shema"
 import { dispatchUpdateDiscussionAndAlert, useAuth, useUpdateDiscussionAndAlert } from "@/store"
 import ControlImages from "./components/ControlImages"
+import { updateImageOffer } from "./utils/update-image"
+
+import styles from "./styles/style.module.scss"
 
 export const CN_UPDATE_DISCUSSION_AND_ALERT = "max-md:!rounded-none"
 
@@ -31,9 +34,7 @@ function UpdateDiscussionAndAlert() {
   const [files, setFiles] = useState<File[]>([])
   const [strings, setStrings] = useState<string[]>([])
   const [deleteIdPhotos, setDeleteIdPhotos] = useState<number[]>([])
-
   const photos = images.filter((_) => _.attributes.mime.includes("image"))
-
   /** --------------------- */
 
   const firstAddress = addresses?.[0]
@@ -55,7 +56,7 @@ function UpdateDiscussionAndAlert() {
     resolver: resolverSchema,
   })
 
-  const onSubmit = handleSubmit((values) => {
+  const onSubmit = handleSubmit(async (values) => {
     const data: IPatchOffers = {}
 
     const newTitle = values.title.trim()
@@ -69,17 +70,33 @@ function UpdateDiscussionAndAlert() {
     }
 
     if (!loading) {
-      if (Object.keys(data).length) {
+      if (Object.keys(data).length > 0 || deleteIdPhotos.length > 0 || files.length > 0) {
         setLoading(true)
-        patchOffer(data, id!).then((response) => {
-          if (response.ok) {
+        const responses = await Promise.all([
+          updateImageOffer({
+            id: id!,
+            userId: userId!,
+            files: files,
+            images: images,
+            provider: provider!,
+            deleteIdPhotos: deleteIdPhotos,
+          }),
+          Object.keys(data).length > 0 ? patchOffer(data, id!) : Promise.resolve({ ok: "not update" } as const),
+        ])
+
+        if (responses.every((_) => _.ok === "not update")) {
+          setTimeout(() => {
+            dispatchUpdateDiscussionAndAlert({ visible: false })
+          })
+        } else {
+          if (responses?.[1].ok) {
             refetch()
             setTimeout(() => {
               dispatchUpdateDiscussionAndAlert({ visible: false })
             })
           }
-          setLoading(false)
-        })
+        }
+        setLoading(false)
       } else {
         setTimeout(() => {
           dispatchUpdateDiscussionAndAlert({ visible: false })
@@ -99,6 +116,7 @@ function UpdateDiscussionAndAlert() {
       </header>
       <form
         className={cx(
+          styles.container,
           "w-full relative overflow-x-hidden overflow-y-auto h-full-minus-standard-header-modal pt-5 md:px-[4.375rem] pb-[1.625rem] max-md:!p-5 flex flex-col gap-5",
           "[&>fieldset]:w-full [&>fieldset]:flex [&>fieldset]:flex-col [&>fieldset]:gap-2 [&>fieldset]:items-start",
           "[&>fieldset>label]:text-text-primary text-sm [&>fieldset>label]:text-left [&>fieldset>label]:font-medium",
