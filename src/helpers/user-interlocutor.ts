@@ -27,15 +27,15 @@ function typeMessage({
   last: string | null
   offer?: ISmallDataOfferBarter
   isGroup?: boolean
-}): string {
-  if (isGroup) return "Групповой"
-  if (provider === EnumProviderThreads.HELP) return "Помощь"
+}): string | null {
+  if (isGroup) return `Групповой${offer ? `: ${offer?.title ?? ""}` : ""}`
+  if (provider === EnumProviderThreads.HELP) return `Помощь${offer ? `: ${offer?.title ?? ""}` : ""}`
   if (provider === EnumProviderThreads.PERSONAL) return "Личные"
   if (provider === EnumProviderThreads.BARTER && !!offer)
     return `${objProvider[EnumProviderThreads.BARTER]} ${offer?.category?.title || "Предложение"}`
   if (provider === EnumProviderThreads.OFFER_PAY && !!offer)
     return `${objProvider[EnumProviderThreads.OFFER_PAY]} ${offer?.category?.title || "Предложение"}`
-  return `${objProvider[provider] || ""} ${last || ""}`
+  return null
 }
 
 export { userInterlocutor, typeMessage }
