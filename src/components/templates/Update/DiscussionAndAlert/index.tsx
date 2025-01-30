@@ -11,6 +11,7 @@ import { cx } from "@/lib/cx"
 import { getOffers, patchOffer } from "@/services"
 import { resolverSchema, TSchema, LIMIT_DESCRIPTION } from "./shema"
 import { dispatchUpdateDiscussionAndAlert, useAuth, useUpdateDiscussionAndAlert } from "@/store"
+import ControlImages from "./components/ControlImages"
 
 export const CN_UPDATE_DISCUSSION_AND_ALERT = "max-md:!rounded-none"
 
@@ -24,7 +25,16 @@ function UpdateDiscussionAndAlert() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const [loading, setLoading] = useState(false)
   const offer = useUpdateDiscussionAndAlert(({ offer }) => offer)
-  const { id, title, description, provider, addresses, urgent } = offer ?? {}
+  const { id, title, description, provider, addresses, urgent, images = [] } = offer ?? {}
+
+  /** Отдел для изображений */
+  const [files, setFiles] = useState<File[]>([])
+  const [strings, setStrings] = useState<string[]>([])
+  const [deleteIdPhotos, setDeleteIdPhotos] = useState<number[]>([])
+
+  const photos = images.filter((_) => _.attributes.mime.includes("image"))
+
+  /** --------------------- */
 
   const firstAddress = addresses?.[0]
   const additional = firstAddress?.additional?.replace(`${firstAddress?.country}, `, "").replace(`${firstAddress?.region}, `, "") ?? ""
@@ -135,6 +145,15 @@ function UpdateDiscussionAndAlert() {
               {!!error ? <i>{error.message}</i> : null}
             </fieldset>
           )}
+        />
+        <ControlImages
+          files={files}
+          setFiles={setFiles}
+          strings={strings}
+          setStrings={setStrings}
+          deleteIdPhotos={deleteIdPhotos}
+          setDeleteIdPhotos={setDeleteIdPhotos}
+          photos={photos}
         />
         <Controller
           name="address"

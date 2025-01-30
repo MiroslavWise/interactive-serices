@@ -8,6 +8,8 @@ import Button from "@/components/common/Button"
 import { useContextCompany } from "./ContextCompany"
 import { patchCompanyUsers } from "@/services/companies"
 import { resolverSchemaUsers, TSchemaUsers } from "../utils/schema"
+import { clg } from "@console"
+import { cx } from "@/lib/cx"
 
 interface IProps {
   id: number
@@ -17,7 +19,7 @@ interface IProps {
 function ComponentAddUser({ users, id }: IProps) {
   const { refetch } = useContextCompany()
   const [loading, setLoading] = useState(false)
-  const { handleSubmit, control } = useForm<TSchemaUsers>({
+  const { handleSubmit, control, setError } = useForm<TSchemaUsers>({
     defaultValues: {
       id: "",
     },
@@ -28,8 +30,14 @@ function ComponentAddUser({ users, id }: IProps) {
     if (!loading) {
       setLoading(true)
       const newUsers = Array.from(new Set([...users.map((_) => _.id), Number(values.id)]))
-      await patchCompanyUsers(newUsers, id)
-      await refetch()
+      const response = await patchCompanyUsers(newUsers, id)
+      if (response.res) {
+        await refetch()
+      } else {
+        clg("ОШИБКА ДОБАВЛЕНИЯ ЮЗЕРА", response?.error, "error")
+        setError("id", { message: response?.error?.message ?? "Какая-то ошибка добавления, посмотрите в консоль!!!" })
+      }
+
       setLoading(false)
     }
   })
@@ -53,6 +61,7 @@ function ComponentAddUser({ users, id }: IProps) {
               onChange={(event) => field.onChange(event.target.value.replace(/[^0-9]/g, ""))}
               data-error={!!error?.message}
             />
+            <span className={cx(error?.message ? "text-xs text-text-error" : "hidden")}>{error?.message}</span>
           </fieldset>
         )}
       />
