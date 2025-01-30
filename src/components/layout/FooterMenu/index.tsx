@@ -1,8 +1,7 @@
 "use client"
 
-import { useMemo } from "react"
 import { useQueryState, parseAsInteger } from "nuqs"
-import { usePathname, useSearchParams, useParams } from "next/navigation"
+import { usePathname } from "next/navigation"
 
 import { LinkMap } from "./components/LinkMap"
 import { LinkOffers } from "./components/LinkOffers"
