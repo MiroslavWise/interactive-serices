@@ -43,7 +43,7 @@ function FooterFormCreateMessage({
   const { company } = user ?? {}
   const { id: companyId } = company ?? {}
 
-  const { data: dataCompany, isLoading } = useQuery({
+  const { data: dataCompany } = useQuery({
     queryFn: () => getCompanyId(companyId!),
     queryKey: ["company", companyId],
     enabled: !!companyId,
@@ -122,12 +122,7 @@ function FooterFormCreateMessage({
 
     const { owner, users = [] } = dataCompany?.data ?? {}
 
-    clg("onSubmit receivers.length: ", receivers)
-    clg("onSubmit owner: ", owner)
-    clg("onSubmit userId: ", userId)
-
     if (receivers.length > 1 && owner && owner.id === userId && users.length > 0) {
-      clg("onSubmit for: users:", users)
       const letEmitter: number[] = []
       for (const user of users) {
         const id = user.id
@@ -136,7 +131,6 @@ function FooterFormCreateMessage({
           break
         }
       }
-      clg("onSubmit for: letEmitter:", letEmitter)
       if (letEmitter.length > 0) {
         emitterId = letEmitter[0]
         currentReceivers = allReceivers.filter((_) => _ !== letEmitter[0])

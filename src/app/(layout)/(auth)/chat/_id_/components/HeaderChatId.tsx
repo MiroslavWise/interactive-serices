@@ -17,6 +17,7 @@ import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 import { cx } from "@/lib/cx"
 import { getIdOffer } from "@/services"
 import { useAuth, useOnline } from "@/store"
+import { getCompanyId } from "@/services/companies"
 import { typeMessage, userInterlocutor } from "@/helpers/user-interlocutor"
 
 function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; isLoadingThread: boolean }) {
@@ -25,6 +26,16 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
   const users = useOnline(({ users }) => users)
   const message = thread?.messages?.length ? thread?.messages?.[0]?.message : null
   const { firstName, lastName = "" } = user ?? {}
+
+  const my = useAuth(({ user }) => user)
+  const { company } = my ?? {}
+  const { id: companyId } = company ?? {}
+
+  const { data: dataCompany } = useQuery({
+    queryFn: () => getCompanyId(companyId!),
+    queryKey: ["company", companyId],
+    enabled: !!companyId,
+  })
 
   const offerId = thread?.provider === EnumProviderThreads.OFFER_PAY ? thread?.offerId : null
   const { data: dataOffer } = useQuery({
@@ -36,7 +47,7 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
   const { data: dataO } = dataOffer ?? {}
   const offer = dataO as unknown as ISmallDataOfferBarter
   const { receivers = [] } = thread ?? {}
-  const isGroup = receivers.length > 1
+  const isGroup = receivers.length > 1 && dataCompany?.data?.owner?.id === my?.id
   const messageType = typeMessage({ provider: thread?.provider, last: message, offer: offer!, isGroup })
 
   const isOnline = users.some((_) => _.id === user?.id!)
