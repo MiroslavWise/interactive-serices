@@ -29,6 +29,7 @@ function typeMessage({
   isGroup?: boolean
 }): string {
   if (isGroup) return "Групповой"
+  if (provider === EnumProviderThreads.HELP) return "Помощь"
   if (provider === EnumProviderThreads.PERSONAL) return "Личные"
   if (provider === EnumProviderThreads.BARTER && !!offer)
     return `${objProvider[EnumProviderThreads.BARTER]} ${offer?.category?.title || "Предложение"}`

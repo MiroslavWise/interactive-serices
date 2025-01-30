@@ -46,8 +46,8 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
 
   const { data: dataO } = dataOffer ?? {}
   const offer = dataO as unknown as ISmallDataOfferBarter
-  const { receivers = [] } = thread ?? {}
-  const isGroup = receivers.length > 1 && dataCompany?.data?.owner?.id === my?.id
+  const { receivers = [], provider } = thread ?? {}
+  const isGroup = receivers.length > 1 && dataCompany?.data?.owner?.id === my?.id && provider === EnumProviderThreads.HELP
   const messageType = typeMessage({ provider: thread?.provider, last: message, offer: offer!, isGroup })
 
   const isOnline = users.some((_) => _.id === user?.id!)
