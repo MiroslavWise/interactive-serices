@@ -87,7 +87,13 @@ function ItemMessage({ message }: { message: IMessages }) {
           message.message ? "flex flex-col" : "hidden",
         )}
       >
-        <p className={cx(emitter?.id === userId ? "hidden" : "text-text-accent text-sm font-medium whitespace-nowrap text-ellipsis")}>
+        <p
+          className={cx(
+            emitter?.id === userId || !emitter?.firstName
+              ? "hidden"
+              : "text-text-accent text-sm font-medium whitespace-nowrap text-ellipsis",
+          )}
+        >
           {emitter?.firstName ?? "Имя"} {emitter?.lastName ?? null}
         </p>
         <p className="text-text-primary text-sm font-normal flex flex-wrap flex-row break-words whitespace-pre-wrap">
