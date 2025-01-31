@@ -1,8 +1,8 @@
 "use client"
 
 import dynamic from "next/dynamic"
+import { useQueryState } from "nuqs"
 import { type PropsWithChildren } from "react"
-import { useSearchParams } from "next/navigation"
 
 import LoadingChat from "./LoadingChat"
 const CreateUser = dynamic(() => import("./CreateUser"), {
@@ -18,17 +18,17 @@ const CreateOfferPay = dynamic(() => import("./CreateOfferPay"), {
   loading: LoadingChat,
 })
 
+import { QUERY_CHAT_BARTER_ID, QUERY_CHAT_HELP, QUERY_CHAT_ID_USER, QUERY_CHAT_OFFER_PAY } from "@/types/constants"
+
 function CreateNewChat({ children }: PropsWithChildren) {
-  const searchParams = useSearchParams()
+  const [idUser] = useQueryState(QUERY_CHAT_ID_USER)
+  const [barterId] = useQueryState(QUERY_CHAT_BARTER_ID)
+  const [offerPay] = useQueryState(QUERY_CHAT_OFFER_PAY)
+  const [help] = useQueryState(QUERY_CHAT_HELP)
 
-  const idUser = searchParams.get("user")
-  const barterId = searchParams.get("barter-id")
-  const offerPay = searchParams.get("offer-pay")
-  const help = searchParams.get("help")
-
-  if (!!idUser && typeof idUser === "string") return <CreateUser idUser={idUser} />
-  if (!!barterId && typeof barterId === "string") return <CreateBarter idBarter={barterId} />
-  if (!!offerPay && typeof offerPay === "string") return <CreateOfferPay offerPay={offerPay} />
+  if (!!idUser && typeof idUser === "string") return <CreateUser />
+  if (!!barterId && typeof barterId === "string") return <CreateBarter />
+  if (!!offerPay && typeof offerPay === "string") return <CreateOfferPay />
   if (!!help && typeof help === "string") return <CreateHelp />
 
   return children

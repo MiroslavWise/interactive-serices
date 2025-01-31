@@ -8,6 +8,7 @@ import { AuthListener } from "./AuthListener"
 import { useAuth } from "@/store"
 import env from "@/config/environment"
 import SocketOnlineGlobal from "./SocketOnline"
+import { clg } from "@console"
 
 interface IContextSocket {
   socket: Socket | undefined
@@ -31,11 +32,12 @@ export const WebSocketProvider = ({ children }: PropsWithChildren) => {
 
   useInsertionEffect(() => {
     function connectError(e: any) {
+      clg("ОШИБКА ПОДКЛЮЧЕНИЯ К СОКЕТУ", e, "error")
       console.log("%c--- connect_error ---", "color: #f00; font-size: 1.5rem;", e)
     }
 
     function error(e: any) {
-      console.info("%c--- error socket --- ", "color: #f00; font-size: 1.5rem;", e)
+      clg("ОШИБКА СОКЕТА", e, "error")
     }
     if (!isFetch) {
       if (accessToken) {
@@ -53,7 +55,7 @@ export const WebSocketProvider = ({ children }: PropsWithChildren) => {
 
         socket.on("connect", () => {
           const upgradedTransport = socket.io.engine.transport.name
-          console.log("%c--- connect upgradedTransport ---", `color:  #${upgradedTransport ? "0f0" : "fd3412"}`, upgradedTransport)
+          clg(`подключение к сокету:`, upgradedTransport)
           setSocketState(socket)
         })
         socket.on("connect_error", connectError)

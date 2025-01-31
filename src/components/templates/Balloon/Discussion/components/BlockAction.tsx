@@ -12,6 +12,7 @@ import IconSpinner from "@/components/icons/IconSpinner"
 
 import { cx } from "@/lib/cx"
 import { postThread } from "@/services"
+import { QUERY_CHAT_MESSAGES } from "@/types/constants"
 import { useStatusAuth } from "@/helpers/use-status-auth"
 import { providerIsAscending } from "@/lib/sortIdAscending"
 import { dispatchAuthModal, dispatchModalClose, useAuth, EStatusAuth } from "@/store"
@@ -44,7 +45,7 @@ function BlockAction({ offer, setExpandComment }: IProps) {
       const { id } = res ?? {}
 
       if (!!id) {
-        const url = `/chat/${id}`
+        const url = `/chat?${QUERY_CHAT_MESSAGES}=${id}`
         push(url)
       } else {
         const url = `/chat?user=${offer?.userId}`

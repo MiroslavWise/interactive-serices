@@ -91,6 +91,7 @@ const schemaUpdate = z.object({
   address: address.optional(),
   file,
   help,
+  isParticipants: z.boolean().default(false),
   deletesImages: z.array(z.number()),
   addressFeature: schemaFeatureMember?.nullable()?.optional().default(null),
 })

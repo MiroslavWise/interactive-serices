@@ -1,7 +1,7 @@
 "use client"
 
-import { useRouter } from "next/navigation"
 import { useInsertionEffect, useMemo } from "react"
+import { parseAsInteger, useQueryState } from "nuqs"
 
 import { EnumProviderThreads } from "@/types/enum"
 import { type IPostThreads } from "@/services/threads/types"
@@ -13,12 +13,14 @@ import { useAuth } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
 import { patchBarter, postThread } from "@/services"
 import { useCountMessagesNotReading } from "@/helpers"
+import { QUERY_CHAT_MESSAGES } from "@/types/constants"
 import { providerIsAscending } from "@/lib/sortIdAscending"
 
-function CreateBarter({ idBarter }: { idBarter: string }) {
+function CreateBarter() {
   const { on } = useToast()
+  const [_, setId] = useQueryState(QUERY_CHAT_MESSAGES, parseAsInteger)
+  const [idBarter, setIdBarter] = useQueryState("barter-id")
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { prefetch, push } = useRouter()
   const { refetchCountMessages } = useCountMessagesNotReading()
 
   const barterNumber = useMemo(() => {
@@ -63,8 +65,7 @@ function CreateBarter({ idBarter }: { idBarter: string }) {
     const idCreate = await createThread(Number(userId), barterNumber?.idUser!)
 
     if (!idCreate) {
-      prefetch(`/chat`)
-      push(`/chat`)
+      setIdBarter(null)
       on(
         {
           message: "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
@@ -74,15 +75,14 @@ function CreateBarter({ idBarter }: { idBarter: string }) {
       return
     }
     refetchCountMessages().finally(() => {
-      prefetch(`/chat/${idCreate}`)
-      push(`/chat/${idCreate}`)
+      setIdBarter(null)
+      setId(idCreate!)
     })
   }
 
   useInsertionEffect(() => {
     if (!barterNumber) {
-      prefetch(`/chat`)
-      push(`/chat`)
+      setIdBarter(null)
     } else {
       if (userId) {
         createChat()

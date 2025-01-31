@@ -39,6 +39,12 @@ export async function updatePatch({ id, idNote, userId, images, defaultValues, n
     dataNote.description = newDescription
   }
 
+  const newIs = newValues.isParticipants
+  const oldIs = defaultValues.isParticipants
+  if (newIs !== oldIs) {
+    dataPost.isParticipants = newIs
+  }
+
   const files = newValues.file.file
   const newOldImages = images.filter((item) => !newValues.deletesImages.includes(item))
 
@@ -57,10 +63,6 @@ export async function updatePatch({ id, idNote, userId, images, defaultValues, n
 
     const list = [...newOldImages, ...ids].slice(0, 9)
 
-    // if (list.length === 0) {
-    //   dataNote.images = [null]
-    // } else {
-    // }
     dataNote.images = list
   }
 

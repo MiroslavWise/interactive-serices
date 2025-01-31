@@ -16,7 +16,7 @@ import { useAuth, useCollapseChat } from "@/store"
 import { getThreadId, getUserId } from "@/services"
 import { userInterlocutor } from "@/helpers/user-interlocutor"
 
-export default ({ params: { id } }: { params: { id: string } }) => {
+function ComponentProfile({ id }: { id: number }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const collapse = useCollapseChat(({ collapse }) => collapse)
 
@@ -69,8 +69,10 @@ export default ({ params: { id } }: { params: { id: string } }) => {
           prefetch
         />
         <FriendB user={userData?.data!} />
-        <MenuCustomer user={userData?.data!} id={id} />
+        <MenuCustomer user={userData?.data!} id={id!} />
       </footer>
     </section>
   )
 }
+
+export default ComponentProfile

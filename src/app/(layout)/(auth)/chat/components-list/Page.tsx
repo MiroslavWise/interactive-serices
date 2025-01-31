@@ -1,17 +1,17 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import { useParams } from "next/navigation"
+import { parseAsInteger, useQueryState } from "nuqs"
 
 const ListMessages = dynamic(() => import("./ListMessages"), { ssr: false })
 const HeaderAndNavigation = dynamic(() => import("./HeaderAndNavigation"), { ssr: false })
 
 import { cx } from "@/lib/cx"
 import WrapperContext from "./ContextChats"
+import { QUERY_CHAT_MESSAGES } from "@/types/constants"
 
 export default () => {
-  const params = useParams()
-  const { id } = (params as { id: string }) ?? {}
+  const [id] = useQueryState(QUERY_CHAT_MESSAGES, parseAsInteger)
 
   return (
     <>

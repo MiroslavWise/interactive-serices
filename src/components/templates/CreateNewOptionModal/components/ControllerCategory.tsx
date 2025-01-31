@@ -312,7 +312,7 @@ function ControllerCategory({ control, setValue: setValueForm }: IProps) {
                   ))} */}
                 </>
               ))}
-              <button
+              {/* <button
                 type="button"
                 title="Предложить категорию"
                 aria-label="Предложить категорию"
@@ -324,7 +324,7 @@ function ControllerCategory({ control, setValue: setValueForm }: IProps) {
                 }}
               >
                 <span className="text-sm text-left text-text-accent font-normal whitespace-nowrap">Предложить категорию</span>
-              </button>
+              </button> */}
             </ul>
           </div>
         </fieldset>

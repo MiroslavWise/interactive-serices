@@ -2,11 +2,12 @@
 
 import Link from "next/link"
 import { memo, useMemo } from "react"
-import { useParams } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
+import { parseAsInteger, useQueryState } from "nuqs"
 
 import { EnumProviderThreads } from "@/types/enum"
 import { type IResponseThreads } from "@/services/threads/types"
+import { type ISmallDataOfferBarter } from "@/services/barters/types"
 
 import ChatIconProvider from "./ChatIconProvider"
 import { NextImageMotion } from "@/components/common"
@@ -14,40 +15,33 @@ import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 
 import { cx } from "@/lib/cx"
 import { formatOfMMMM } from "@/helpers"
-import { getBarterId, getIdOffer } from "@/services"
+import { getIdOffer } from "@/services"
+import { QUERY_CHAT_MESSAGES } from "@/types/constants"
 import { onNumberOfPhotos } from "@/helpers/number-of-photos"
 import { deCrypted, useAuth, useDraftChat, useOnline } from "@/store"
 import { typeMessage, userInterlocutor } from "@/helpers/user-interlocutor"
 
 function ItemMessageChat({ item }: { item: IResponseThreads }) {
-  const { id } = useParams() as { id?: string | number }
+  const [id, setId] = useQueryState(QUERY_CHAT_MESSAGES, parseAsInteger)
   const users = useOnline(({ users }) => users)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { provider } = item ?? {}
   const cryptMessage = useDraftChat((chats) => chats[item.id])
   const draftMessage = deCrypted(cryptMessage)
 
-  const barterId = item?.provider === EnumProviderThreads.BARTER ? item?.barterId : null
   const offerId = item?.provider === EnumProviderThreads.OFFER_PAY ? item?.offerId : null
-  const { data: dataBarter } = useQuery({
-    queryFn: () => getBarterId(barterId!),
-    queryKey: ["barters", { id: barterId! }],
-    enabled: !!barterId,
-  })
   const { data: dataOffer } = useQuery({
     queryFn: () => getIdOffer(offerId!),
     queryKey: ["offers", { offerId: offerId! }],
     enabled: !!offerId,
   })
   const user = userInterlocutor({ m: item.emitter, r: item.receivers, userId: userId! })
-  const { data: dataB } = dataBarter ?? {}
   const { data: dataO } = dataOffer ?? {}
-  const offer = user?.id === dataB?.consigner?.userId ? dataB?.consigner : user?.id === dataB?.initiator?.userId ? dataB?.initiator : null
 
   const message = item?.messages?.length ? item?.messages?.[0] : null
   const isOnline = users.some((_) => _.id === user?.id!)
 
-  const messageType = typeMessage({ provider: provider, last: message?.message!, offer: offer! || dataO })
+  const messageType = typeMessage({ provider: provider, last: message?.message!, offer: dataO! as unknown as ISmallDataOfferBarter })
   const time = item?.messages?.length > 0 ? item?.messages?.[0]?.created! : item?.created
   const lastTime =
     formatOfMMMM(time, "dd:MM:yy") === formatOfMMMM(new Date(), "dd:MM:yy") ? formatOfMMMM(time, "HH:mm") : formatOfMMMM(time, "dd MMMM")
@@ -60,7 +54,6 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
       return (
         <div className="w-5 h-4 px-2.5 py-2 relative">
           <svg
-            xmlns="http://www.w3.org/2000/svg"
             width="20"
             height="16"
             viewBox="0 0 20 16"
@@ -141,13 +134,13 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
   )
 
   return (
-    <Link
+    <li
       key={`::key::chat::${item.id}::`}
-      href={{ pathname: `/chat/${item.id}` }}
       className={cx(
-        "w-full py-2.5 pl-2.5 grid grid-cols-[3.25rem_minmax(0,1fr)] gap-3 rounded-.625 hover:bg-grey-field items-center",
-        id && Number(id) === item.id && "!bg-grey-field",
+        "w-full py-2.5 pl-2.5 grid grid-cols-[3.25rem_minmax(0,1fr)] gap-3 rounded-.625 hover:bg-grey-field items-center cursor-pointer",
+        id === item.id && "!bg-grey-field",
       )}
+      onClick={(event) => setId(item.id)}
     >
       <div className="relative w-[3.25rem] h-[3.25rem] p-[1.625rem] bg-grey-stroke-light rounded-full">
         {user && user?.image ? (
@@ -193,7 +186,7 @@ function ItemMessageChat({ item }: { item: IResponseThreads }) {
         <p className="text-text-primary font-normal text-sm text-left line-clamp-1 text-ellipsis whitespace-nowrap">{messageType}</p>
         <p className="text-text-secondary">{c}</p>
       </article>
-    </Link>
+    </li>
   )
 }
 

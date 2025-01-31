@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { parseAsInteger, useQueryState } from "nuqs"
 
 import { EnumProviderThreads } from "@/types/enum"
 import { type IPostThreads } from "@/services/threads/types"
@@ -12,12 +12,14 @@ import { useAuth } from "@/store"
 import { postThread } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { useCountMessagesNotReading } from "@/helpers"
+import { QUERY_CHAT_MESSAGES } from "@/types/constants"
 import { providerIsAscending } from "@/lib/sortIdAscending"
 
-function CreateUser({ idUser }: { idUser: string }) {
+function CreateUser() {
   const { on } = useToast()
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { prefetch, push } = useRouter()
+  const [_, setId] = useQueryState(QUERY_CHAT_MESSAGES, parseAsInteger)
+  const [idUser, setIdUser] = useQueryState("user")
   const { refetchCountMessages } = useCountMessagesNotReading()
 
   async function createChat() {
@@ -38,8 +40,7 @@ function CreateUser({ idUser }: { idUser: string }) {
     }
 
     if (!idUser) {
-      prefetch("/chat")
-      push("/chat")
+      setIdUser(null)
       return
     }
     const idUserReceiver: number = Number(idUser)
@@ -47,8 +48,7 @@ function CreateUser({ idUser }: { idUser: string }) {
     const idCreate = await createThread(Number(userId), idUserReceiver)
 
     if (!idCreate) {
-      prefetch(`/chat`)
-      push(`/chat`)
+      setIdUser(null)
       on(
         {
           message: "Извините, мы не смогли создать для вас чат. Сервер сейчас перегружен",
@@ -58,15 +58,14 @@ function CreateUser({ idUser }: { idUser: string }) {
       return
     }
     refetchCountMessages().finally(() => {
-      prefetch(`/chat/${idCreate}`)
-      push(`/chat/${idCreate}`)
+      setIdUser(null)
+      setId(idCreate!)
     })
   }
 
   useEffect(() => {
     if (!idUser) {
-      prefetch(`/chat`)
-      push(`/chat`)
+      setIdUser(null)
     } else {
       if (userId && idUser) {
         createChat()

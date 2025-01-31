@@ -32,6 +32,7 @@ import {
   useNewServicesBannerMap,
   dispatchOpenPreCloseCreateService,
   createCopyOffer,
+  dispatchClearCopyOffer,
 } from "@/store"
 import {
   type TSchemaCreate,
@@ -43,7 +44,7 @@ import {
 } from "./utils/create.schema"
 import { headerTitle } from "./constants/titles"
 import { onDefault } from "./utils/default-values"
-import { patchOffer, postOffer, fileUploadService, postAddress, getOffers } from "@/services"
+import { patchOffer, postOffer, fileUploadService, postAddress, getOffers, getUserIdOffers } from "@/services"
 
 export default function CreateNewOptionModal() {
   const [loading, setLoading] = useState(false)
@@ -64,8 +65,8 @@ export default function CreateNewOptionModal() {
   }
 
   const { refetch } = useQuery({
-    queryFn: () => getOffers({ provider: typeAdd!, order: "DESC", user: userId! }),
-    queryKey: ["offers", { userId: userId, provider: typeAdd }],
+    queryFn: () => getUserIdOffers(userId!, { provider: typeAdd!, order: "DESC" }),
+    queryKey: ["offers-user", { userId: userId, provider: typeAdd }],
     enabled: false,
   })
 
@@ -224,6 +225,10 @@ export default function CreateNewOptionModal() {
     closeCreateOffers()
     dispatchModalClose()
   }
+
+  useEffect(() => {
+    return dispatchClearCopyOffer
+  }, [])
 
   return (
     <>

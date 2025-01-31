@@ -61,15 +61,17 @@ function HeaderItemDotsPost({ post }: IProps) {
           aria-labelledby={TITLE_UPDATE}
           onClick={(event) => {
             event.stopPropagation()
-            if (userId === userIdPost && !archive) {
+            if (!archive) {
               dispatchUpdatePost(post)
             }
           }}
-          className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field cursor-pointer"
+          className={cx(
+            "w-full grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field cursor-pointer",
+            archive ? "hidden" : "grid",
+          )}
         >
           <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
             <svg
-              xmlns="http://www.w3.org/2000/svg"
               width="16"
               height="16"
               viewBox="0 0 16 16"

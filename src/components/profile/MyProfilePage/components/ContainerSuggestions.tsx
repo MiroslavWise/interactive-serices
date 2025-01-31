@@ -15,7 +15,7 @@ import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
 import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 
 import { cx } from "@/lib/cx"
-import { getPosts } from "@/services/posts"
+import { getPosts, getPostsFromUser } from "@/services/posts"
 import { getOffers, getUserIdOffers } from "@/services"
 import { dispatchModal, dispatchCreatePost, EModalData, openCreateOffers, useAuth } from "@/store"
 
@@ -46,14 +46,14 @@ export const ContainerSuggestions = () => {
   )
 
   const { data, isLoading } = useQuery({
-    queryFn: () => getOffers({ provider: state, order: "DESC", user: userId! }),
-    queryKey: ["offers", { userId: userId, provider: state ?? EnumTypeProvider.offer }],
+    queryFn: () => getUserIdOffers(userId!, { provider: state, order: "DESC" }),
+    queryKey: ["offers-user", { userId: userId, provider: state! }],
     enabled: !!userId! && [EnumTypeProvider.alert, EnumTypeProvider.offer].includes(state),
   })
 
   const { data: dataPosts, isLoading: isLoadingPosts } = useQuery({
-    queryFn: () => getPosts({ order: "DESC", user: userId! }, true),
-    queryKey: ["posts", { userId: userId!, order: "DESC" }],
+    queryFn: () => getPostsFromUser({ query: { order: "DESC" }, userId: userId! }),
+    queryKey: ["posts-user", { userId: userId!, order: "DESC" }],
     enabled: !!userId && state === EnumTypeProvider.POST,
   })
 

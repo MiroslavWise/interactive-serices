@@ -1,6 +1,6 @@
 import { Controller, type Control } from "react-hook-form"
 
-import { type TSchemaCreatePost } from "../schema"
+import { TSchemaCreatePostUpdate, type TSchemaCreatePost } from "../schema"
 
 import IconCheck from "@/components/icons/IconCheck"
 

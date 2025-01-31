@@ -22,10 +22,10 @@ import AddUser from "@/components/common/AddUser"
 import { cx } from "@/lib/cx"
 import { clg } from "@console"
 import { queryClient } from "@/context"
-import { getPosts, postPosts } from "@/services/posts"
 import { patchNote, postNote } from "@/services/notes"
 import { onProgress, onUploadProgress } from "./utils"
 import { createAddress } from "@/helpers/address/create"
+import { getPostsFromUser, postPosts } from "@/services/posts"
 import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
 import { fileUploadService, getGeocodeSearch, postAddress } from "@/services"
 import { resolverCreatePost, resolverCreatePostMap, type TSchemaCreatePost } from "./schema"
@@ -44,9 +44,9 @@ function CreatePost() {
   const initMapAddress = useCreatePost(({ initAddress }) => initAddress)
 
   const { refetch: refetchProfile } = useQuery({
-    queryFn: () => getPosts({ order: "DESC", user: userId! }),
-    queryKey: ["posts", { userId: userId!, order: "DESC" }],
-    enabled: !!userId,
+    queryFn: () => getPostsFromUser({ query: { order: "DESC" }, userId: userId! }),
+    queryKey: ["posts-user", { userId: userId!, order: "DESC" }],
+    enabled: false,
   })
 
   const {
@@ -65,7 +65,7 @@ function CreatePost() {
         file: [],
         string: [],
       },
-      userId:null,
+      userId: null,
       isParticipants: false,
       address: stateModal === EModalData.CREATE_POST_MAP ? initMapAddress?.additional : "",
       initAddress: stateModal === EModalData.CREATE_POST_MAP ? initMapAddress : undefined,

@@ -71,7 +71,7 @@ function AddressController({ control, setValue }: IProps) {
             />
             <article
               className={cx(
-                "absolute top-[calc(100%_+_0.25rem)] w-full bg-BG-second shadow-box-down max-h-[12.375rem] rounded-xl overflow-hidden overflow-y-auto",
+                "absolute bottom-[calc(100%_+_0.25rem)] w-full bg-BG-second shadow-box-down max-h-[12.375rem] rounded-xl overflow-hidden overflow-y-auto",
                 focusGeo && exactAddresses ? "flex z-50 opacity-100 visible" : "hidden -z-10 opacity-0 invisible",
               )}
             >

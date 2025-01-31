@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 import { EnumStatusBarter } from "@/types/enum"
 import { IBarterResponse, ISmallDataOfferBarter } from "@/services/barters/types"
 
+import Avatar from "@avatar"
 import { ButtonLink } from "../../Button"
 import { ImageCategory } from "../../Image"
 import { LoadingProfile } from "../../Loading"
@@ -14,11 +15,11 @@ import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { cx } from "@/lib/cx"
 import { dayFormat } from "@/helpers"
+import { QUERY_CHAT_MESSAGES } from "@/types/constants"
 import { dispatchInitiatedBarter, useAuth } from "@/store"
 import { getOffersCategories, getUserId } from "@/services"
 
 import styles from "./styles/style.module.scss"
-import Avatar from "@avatar"
 
 const title: Map<EnumStatusBarter, string> = new Map([
   [EnumStatusBarter.EXECUTED, "Начало обмена"],
@@ -151,7 +152,10 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
           href={
             !!threadId
               ? {
-                  pathname: `/chat/${threadId}`,
+                  pathname: `/chat`,
+                  query: {
+                    [QUERY_CHAT_MESSAGES]: threadId,
+                  },
                 }
               : id
               ? {
@@ -174,7 +178,10 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
           href={
             !!threadId
               ? {
-                  pathname: `/chat/${threadId}`,
+                  pathname: `/chat`,
+                  query: {
+                    [QUERY_CHAT_MESSAGES]: threadId,
+                  },
                 }
               : id
               ? {

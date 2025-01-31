@@ -1,3 +1,5 @@
+import { QUERY_CHAT_OFFER_PAY } from "./constants"
+
 export enum EnumTypeProvider {
   profile = "profile",
   offer = "offer",

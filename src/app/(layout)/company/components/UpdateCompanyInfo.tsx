@@ -24,7 +24,7 @@ function UpdateCompanyInfo({ company, refetch }: IProps) {
   const [loading, setLoading] = useState(false)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { title, ad, erid, inn, ogrn, owner } = company ?? {}
-  const { handleSubmit, control } = useForm<TSchemaCompany>({
+  const { getValues, control } = useForm<TSchemaCompany>({
     defaultValues: {
       title: title ?? "",
       ad: ad ?? "",
@@ -35,21 +35,10 @@ function UpdateCompanyInfo({ company, refetch }: IProps) {
     resolver: resolverSchemaCompany,
   })
 
-  const onSubmit = handleSubmit(async (values) => {
-    if (!loading && isMain) {
-      setLoading(true)
-      const response = await updateCompany({ values, defaults: company! })
-      if (response.ok !== "not update") {
-        refetch()
-      }
-      setLoading(false)
-    }
-  })
-
   const isMain = userId === owner?.id
 
   return (
-    <form onSubmit={onSubmit} className={cx("w-full flex flex-col gap-3 overflow-y-auto h-full py-5", styles.form)}>
+    <form className={cx("w-full flex flex-col gap-3 overflow-y-auto h-full py-5", styles.form)}>
       <h3 className="text-xl font-semibold text-text-primary">Обновление данных о компании</h3>
       <p className="-mt-2 mb-3 text-text-secondary text-sm font-normal">
         Обновите информацию о вашей компании при необходимости. В случае предоставления некорректных данных ваша компания будет удалена
@@ -115,7 +104,24 @@ function UpdateCompanyInfo({ company, refetch }: IProps) {
           </fieldset>
         )}
       />
-      <Button type="submit" label="Обновить" loading={loading} className="mt-3" disabled={!isMain} />
+      <Button
+        type="button"
+        label="Обновить"
+        loading={loading}
+        className="mt-3"
+        disabled={!isMain}
+        onClick={async () => {
+          if (!loading && isMain) {
+            setLoading(true)
+            const values = getValues()
+            const response = await updateCompany({ values, defaults: company! })
+            if (response.ok !== "not update") {
+              refetch()
+            }
+            setLoading(false)
+          }
+        }}
+      />
     </form>
   )
 }

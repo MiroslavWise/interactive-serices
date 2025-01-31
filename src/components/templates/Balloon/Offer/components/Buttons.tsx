@@ -9,6 +9,7 @@ import Button from "@/components/common/Button"
 
 import { cx } from "@/lib/cx"
 import { postThread } from "@/services"
+import { QUERY_CHAT_MESSAGES } from "@/types/constants"
 import { providerIsAscending } from "@/lib/sortIdAscending"
 import { dispatchAuthModal, dispatchModalClose, useAuth } from "@/store"
 
@@ -99,7 +100,7 @@ function Buttons({ offer, children }: { offer: IResponseOffers; children: ReactN
         enabled: true,
       }
       const { res } = await postThread(data_)
-      push(`/chat/${res?.id}`)
+      push(`/chat?${QUERY_CHAT_MESSAGES}=${res?.id}`)
       dispatchModalClose()
       // closeHasBalloons()
       setLoadingChat(false)

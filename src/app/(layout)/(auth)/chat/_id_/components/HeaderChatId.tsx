@@ -2,9 +2,11 @@
 
 import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
+import { parseAsInteger, useQueryState } from "nuqs"
 
 import { EnumProviderThreads } from "@/types/enum"
 import { type IResponseThread } from "@/services/threads/types"
+import { type ISmallDataOfferBarter } from "@/services/barters/types"
 
 import Avatar from "@avatar"
 import AbsoluteMenu from "./AbsoluteMenu"
@@ -14,8 +16,10 @@ import IconArrowLeft from "@/components/icons/IconArrowLeft"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { cx } from "@/lib/cx"
+import { getIdOffer } from "@/services"
 import { useAuth, useOnline } from "@/store"
-import { getBarterId, getIdOffer } from "@/services"
+import { getCompanyId } from "@/services/companies"
+import { QUERY_CHAT_MESSAGES } from "@/types/constants"
 import { typeMessage, userInterlocutor } from "@/helpers/user-interlocutor"
 
 function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; isLoadingThread: boolean }) {
@@ -24,25 +28,30 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
   const users = useOnline(({ users }) => users)
   const message = thread?.messages?.length ? thread?.messages?.[0]?.message : null
   const { firstName, lastName = "" } = user ?? {}
+  const [_, setId] = useQueryState(QUERY_CHAT_MESSAGES, parseAsInteger)
 
-  const barterId = thread?.provider === EnumProviderThreads.BARTER ? thread?.barterId : null
-  const { data: dataBarter } = useQuery({
-    queryFn: () => getBarterId(barterId!),
-    queryKey: ["barters", { id: barterId! }],
-    enabled: !!barterId,
+  const my = useAuth(({ user }) => user)
+  const { company } = my ?? {}
+  const { id: companyId } = company ?? {}
+
+  const { data: dataCompany } = useQuery({
+    queryFn: () => getCompanyId(companyId!),
+    queryKey: ["company", companyId],
+    enabled: !!companyId,
   })
 
-  const offerId = thread?.provider === EnumProviderThreads.OFFER_PAY ? thread?.offerId : null
+  const offerId = [EnumProviderThreads.OFFER_PAY, EnumProviderThreads.HELP].includes(thread?.provider) ? thread?.offerId ?? null : null
   const { data: dataOffer } = useQuery({
     queryFn: () => getIdOffer(thread?.offerId!),
     queryKey: ["offers", { offerId: thread?.offerId! }],
     enabled: !!offerId,
   })
 
-  const { data: dataB } = dataBarter ?? {}
   const { data: dataO } = dataOffer ?? {}
-  const offer = user?.id === dataB?.consigner?.userId ? dataB?.consigner : user?.id === dataB?.initiator?.userId ? dataB?.initiator : null
-  const messageType = typeMessage({ provider: thread?.provider, last: message, offer: offer! || dataO })
+  const offer = dataO as unknown as ISmallDataOfferBarter
+  const { receivers = [], provider } = thread ?? {}
+  const isGroup = receivers.length > 1 && dataCompany?.data?.owner?.id === my?.id && provider === EnumProviderThreads.HELP
+  const messageType = typeMessage({ provider: thread?.provider, last: message, offer: offer!, isGroup })
 
   const isOnline = users.some((_) => _.id === user?.id!)
 
@@ -50,12 +59,12 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
 
   return (
     <header className="absolute z-50 top-0 left-0 right-0 w-full py-1.5 md:py-[0.9375rem] px-1.5 md:px-5 grid md:grid-cols-[1.25rem_minmax(0,1fr)_4.5rem] grid-cols-[2.5rem_minmax(0,1fr)_2.5rem] items-center gap-1 md:gap-4 bg-BG-second border-b border-solid border-grey-stroke md:h-[4.25rem] h-[3.25]">
-      <Link
-        href={{ pathname: "/chat" }}
+      <button
+        onClick={() => setId(null)}
         className="w-10 md:w-5 h-10 md:h-5 p-5 md:p-2.5 relative cursor-pointer *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"
       >
         <IconArrowLeft />
-      </Link>
+      </button>
       <article className="w-full items-center gap-2.5 md:gap-3 grid grid-cols-[2.25rem_minmax(0,1fr)]">
         <Avatar className="w-9 h-9 rounded-full" image={user?.image} userId={user?.id} />
         <div className="w-full flex flex-col gap-0.5">
@@ -74,7 +83,7 @@ function HeaderChatId({ thread, isLoadingThread }: { thread: IResponseThread; is
               <span className="text-[0.8125rem] text-text-secondary font-normal">в сети</span>
             </div>
           </div>
-          <p className="text-[0.8125rem] text-text-primary font-normal text-ellipsis line-clamp-1">{messageType || " "}</p>
+          <p className="text-[0.8125rem] text-text-primary font-normal text-ellipsis line-clamp-1">{messageType}</p>
         </div>
       </article>
       <div

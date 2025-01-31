@@ -29,7 +29,8 @@ import {
 import { cx } from "@/lib/cx"
 import { getPostId } from "@/services/posts"
 import { queryClient, useWebSocket } from "@/context"
-import { useAuth, dispatchVisibleNotifications, dispatchAddTestimonials, dispatchModal, EModalData, dispatchBallonPost } from "@/store"
+import { QUERY_CHAT_MESSAGES, QUERY_CHAT_OFFER_PAY } from "@/types/constants"
+import { useAuth, dispatchVisibleNotifications, dispatchModal, EModalData, dispatchBallonPost } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
@@ -54,7 +55,7 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
   const categories = c?.data || []
 
   const idUser = useMemo(() => {
-    if (provider === "offer-pay") {
+    if (provider === QUERY_CHAT_OFFER_PAY) {
       const dataTh = data as unknown as IResponseThreads & { emitterId: number; receiverIds: number[] }
       if (dataTh?.emitterId! === userId) {
         return dataTh?.receiverIds[0]
@@ -101,7 +102,7 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
       }
     }
 
-    if (provider === "offer-pay") {
+    if (provider === QUERY_CHAT_OFFER_PAY) {
       const dataTh = data as unknown as IResponseThreads
       return dataTh?.offerId!
     }
@@ -112,7 +113,7 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
   const { data: dataOffer } = useQuery({
     queryFn: () => getIdOffer(offerId!),
     queryKey: ["offers", { offerId: offerId }],
-    enabled: !!offerId && ["barter", "offer-pay"].includes(provider),
+    enabled: !!offerId && ["barter", QUERY_CHAT_OFFER_PAY].includes(provider),
   })
 
   const categoryOfferName = useMemo(() => {
@@ -127,7 +128,7 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
       }
     }
 
-    if (provider === "offer-pay") {
+    if (provider === QUERY_CHAT_OFFER_PAY) {
       return {
         offer: categories?.find((item) => item?.id === dataOffer?.data?.categoryId),
       }
@@ -164,7 +165,7 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
     switch (provider) {
       case "barter":
         return "barter"
-      case "offer-pay":
+      case QUERY_CHAT_OFFER_PAY:
         return "barter"
       default:
         return "barter"
@@ -175,7 +176,7 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
     switch (provider) {
       case "barter":
         return "barter"
-      case "offer-pay":
+      case QUERY_CHAT_OFFER_PAY:
         return "personal"
       default:
         return "default"
@@ -316,7 +317,7 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
         }
       }
     }
-    if (provider === "offer-pay") {
+    if (provider === QUERY_CHAT_OFFER_PAY) {
       const { firstName } = profile ?? {}
       // const dataThread = data as unknown as IResponseThreads
       const { title } = categoryOfferName?.offer ?? {}
@@ -333,7 +334,7 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
   }, [data, provider, userId, profile, categoryOfferName])
 
   const buttons: ReactNode | null = useMemo(() => {
-    if (provider === "offer-pay") {
+    if (provider === QUERY_CHAT_OFFER_PAY) {
       if (operation === "create") {
         const dataThread = data as unknown as IResponseThreads
 
@@ -342,7 +343,7 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
             type="button"
             typeButton="fill-primary"
             label="Перейти в чат"
-            href={{ pathname: `/chat/${dataThread?.id}` }}
+            href={{ pathname: `/chat`, query: { [QUERY_CHAT_MESSAGES]: dataThread?.id } }}
             onClick={(event) => {
               event.stopPropagation()
               if (close) {
@@ -412,7 +413,10 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
               href={
                 !!data?.threadId
                   ? {
-                      pathname: `/chat/${data?.threadId}`,
+                      pathname: "/chat",
+                      query: {
+                        [QUERY_CHAT_MESSAGES]: data?.threadId!,
+                      },
                     }
                   : !!data?.id
                   ? {
@@ -447,7 +451,10 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
                 href={
                   !!data?.threadId
                     ? {
-                        pathname: `/chat/${data?.threadId}`,
+                        pathname: "/chat",
+                        query: {
+                          [QUERY_CHAT_MESSAGES]: data?.threadId,
+                        },
                       }
                     : !!data?.id
                     ? {
@@ -542,7 +549,7 @@ export const ItemNotification = (props: IResponseNotifications & { close?: Dispa
   }
 
   const afterUser = useMemo(() => {
-    if (provider === "offer-pay") {
+    if (provider === QUERY_CHAT_OFFER_PAY) {
       return profile?.image?.attributes?.url ? (
         <NextImageMotion
           className="w-10 h-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"

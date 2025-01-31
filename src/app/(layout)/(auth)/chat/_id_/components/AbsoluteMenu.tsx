@@ -12,7 +12,7 @@ import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
-import { getBarterId, getIdOffer } from "@/services"
+import { getIdOffer } from "@/services"
 import { userInterlocutor } from "@/helpers/user-interlocutor"
 import { dispatchComplaintModalUser, dispatchOpenDeleteChat, useAuth } from "@/store"
 
@@ -21,24 +21,15 @@ function AbsoluteMenu({ thread }: { thread: IResponseThread }) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const user = userInterlocutor({ m: thread?.emitter!, r: thread?.receivers!, userId: userId! })
 
-  const barterId = thread?.provider === EnumProviderThreads.BARTER ? thread?.barterId : null
   const offerId = thread?.provider === EnumProviderThreads.OFFER_PAY ? thread?.offerId : null
 
-  const { data: dataBarter } = useQuery({
-    queryFn: () => getBarterId(barterId!),
-    queryKey: ["barters", { id: barterId! }],
-    enabled: !!barterId,
-  })
   const { data: dataOffer } = useQuery({
     queryFn: () => getIdOffer(thread?.offerId!),
     queryKey: ["offers", { offerId: thread?.offerId! }],
     enabled: !!offerId,
   })
 
-  const { data: dataB } = dataBarter ?? {}
   const { data: dataO } = dataOffer ?? {}
-
-  const offer = user?.id === dataB?.consigner?.userId ? dataB?.consigner : user?.id === dataB?.initiator?.userId ? dataB?.initiator : null
 
   function onComplaint() {
     dispatchComplaintModalUser({
@@ -82,14 +73,7 @@ function AbsoluteMenu({ thread }: { thread: IResponseThread }) {
           </div>
           <span>Перейти в профиль</span>
         </Link>
-        {!!dataB ? (
-          <Link href={{ pathname: `/offer/${offer?.id!}` }} target="_blank">
-            <div>
-              <IconDefaultOffer />
-            </div>
-            <span className="line-clamp-1 text-ellipsis">{offer?.category?.title || "Умения и услуги"}</span>
-          </Link>
-        ) : !!dataO ? (
+        {!!dataO ? (
           <Link href={{ pathname: `/offer/${dataO?.id!}` }} target="_blank">
             <div>
               <IconDefaultOffer />

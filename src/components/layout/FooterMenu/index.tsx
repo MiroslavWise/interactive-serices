@@ -1,7 +1,7 @@
 "use client"
 
-import { useMemo } from "react"
-import { usePathname, useSearchParams, useParams } from "next/navigation"
+import { useQueryState, parseAsInteger } from "nuqs"
+import { usePathname } from "next/navigation"
 
 import { LinkMap } from "./components/LinkMap"
 import { LinkOffers } from "./components/LinkOffers"
@@ -10,19 +10,17 @@ import { CreateButton } from "./components/CreateButton"
 import { LinkMessages } from "./components/LinkMessages"
 
 import { cx } from "@/lib/cx"
-import { useStatusAuth } from "@/helpers/use-status-auth"
 import { EStatusAuth } from "@/store"
+import { QUERY_CHAT_MESSAGES } from "@/types/constants"
+import { useStatusAuth } from "@/helpers/use-status-auth"
 
 export default function FooterMenu({}) {
   const pathname = usePathname()
   const statusAuth = useStatusAuth()
-  const thread = useSearchParams()?.get("thread")
-  const params = useParams()
 
-  const notActive = useMemo(
-    () => (pathname.includes("messages") && !!thread) || (pathname.includes("/chat") && !!params?.id) || false,
-    [pathname, params],
-  )
+  const [id] = useQueryState(QUERY_CHAT_MESSAGES, parseAsInteger)
+
+  const notActive = id && typeof id === "number"
 
   return (
     <footer
