@@ -4,6 +4,7 @@ import { EnumTypeProvider } from "@/types/enum"
 import { ETitleRole } from "@/services/roles/types"
 import { type IResponseOffers } from "@/services/offers/types"
 
+import IconEdit from "@/components/icons/IconEdit"
 import IconShare from "@/components/icons/IconShare"
 import IconStar01 from "@/components/icons/IconStar-01"
 import IconComplaint from "@/components/icons/IconComplaint"
@@ -22,7 +23,6 @@ import {
   dispatchComplaintModalOffer,
   dispatchUpdateDiscussionAndAlert,
 } from "@/store"
-import IconEdit from "@/components/icons/IconEdit"
 
 const LABEL_REPLACE = "Редактировать"
 const TITLE_SHARE = "Поделиться"

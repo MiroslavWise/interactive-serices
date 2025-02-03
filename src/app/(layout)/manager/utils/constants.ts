@@ -1,10 +1,10 @@
 import { EnumTypeProvider } from "@/types/enum"
 
 export enum ELinkManager {
-  OFFER = "offer",
+  OFFER = "activities",
   USERS = "users",
-  COMPLAINTS = "complaints",
   POSTS = "posts",
+  COMPLAINTS = "complaints",
   CATEGORIES = "categories",
   COMPANIES = "companies",
 }
@@ -19,7 +19,7 @@ interface I {
 export const LINKS: I[] = [
   {
     label: "Активности",
-    path: "/manager/offer",
+    path: "/manager/activities",
   },
   {
     label: "Пользователи",
@@ -43,7 +43,7 @@ export const LINKS: I[] = [
   },
 ]
 
-export type TLOffer = "all" | EnumTypeProvider.alert | EnumTypeProvider.offer
+export type TLOffer = EnumTypeProvider.alert | EnumTypeProvider.offer | EnumTypeProvider.POST
 
 interface ILOffer {
   label: string
@@ -52,15 +52,15 @@ interface ILOffer {
 
 export const LINKS_OFFER: ILOffer[] = [
   {
-    label: "Все активности",
-    path: "all",
-  },
-  {
     label: "Предложения",
     path: EnumTypeProvider.offer,
   },
   {
     label: "SOS-сообщения",
     path: EnumTypeProvider.alert,
+  },
+  {
+    label: "События",
+    path: EnumTypeProvider.POST,
   },
 ]
