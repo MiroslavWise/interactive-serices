@@ -12,8 +12,9 @@ const LABEL = "Поделиться"
 function ButtonShareMenuMobile({ user }: { user: IUserResponse }) {
   const { id, profile } = user ?? {}
 
-  const linkUser =
-    `/user/${id}` + profile?.username && !profile?.username.includes("$") && !profile?.username.includes("/") ? `/${profile?.username}` : ""
+  const linkUser = `/user/${id}${
+    profile?.username && !profile?.username.includes("$") && !profile?.username.includes("/") ? `/${profile?.username}` : ""
+  }`
 
   const onShare = useNavigator({
     url: linkUser,
