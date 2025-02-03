@@ -22,6 +22,7 @@ import {
   dispatchComplaintModalOffer,
   dispatchUpdateDiscussionAndAlert,
 } from "@/store"
+import IconEdit from "@/components/icons/IconEdit"
 
 const LABEL_REPLACE = "Редактировать"
 const TITLE_SHARE = "Поделиться"
@@ -92,7 +93,7 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
             className={cx(!isManager && "!hidden")}
           >
             <div>
-              <IconShare />
+              <IconEdit />
             </div>
             <span>{LABEL_REPLACE}</span>
           </a>
