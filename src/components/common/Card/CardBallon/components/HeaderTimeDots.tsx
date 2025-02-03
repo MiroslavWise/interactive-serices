@@ -14,8 +14,16 @@ import { cx } from "@/lib/cx"
 import useRole from "@/helpers/is-role"
 import { daysAgo, useOutsideClickEvent } from "@/helpers"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
-import { dispatchAddTestimonials, dispatchComplaintModalOffer, displayAddAdvert, useAuth } from "@/store"
+import {
+  useAuth,
+  displayAddAdvert,
+  dispatchUpdateOffer,
+  dispatchAddTestimonials,
+  dispatchComplaintModalOffer,
+  dispatchUpdateDiscussionAndAlert,
+} from "@/store"
 
+const LABEL_REPLACE = "Редактировать"
 const TITLE_SHARE = "Поделиться"
 const TITLE_COMPLAINT = "Пожаловаться"
 const LABEL_ADD_ADVERT = "Добавить рекламу"
@@ -35,6 +43,15 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
 
   function onReview() {
     dispatchAddTestimonials({ offer, provider: offer.provider })
+  }
+
+  function onReplace(event: any) {
+    event.stopPropagation()
+    if (offer?.provider === EnumTypeProvider.offer) {
+      dispatchUpdateOffer(true, offer)
+    } else if (EnumTypeProvider.alert === offer?.provider!) {
+      dispatchUpdateDiscussionAndAlert({ offer: offer!, visible: true })
+    }
   }
 
   return (
@@ -67,6 +84,18 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
             visible ? "opacity-100 visible -z-10" : "opacity-0 invisible z-[120]",
           )}
         >
+          <a
+            title={LABEL_REPLACE}
+            aria-label={LABEL_REPLACE}
+            aria-labelledby={LABEL_REPLACE}
+            onClick={onReplace}
+            className={cx(!isManager && "!hidden")}
+          >
+            <div>
+              <IconShare />
+            </div>
+            <span>{LABEL_REPLACE}</span>
+          </a>
           <a title={TITLE_SHARE} aria-label={TITLE_SHARE} aria-labelledby={TITLE_SHARE} onClick={onShare}>
             <div>
               <IconShare />

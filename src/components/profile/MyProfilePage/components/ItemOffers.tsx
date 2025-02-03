@@ -43,7 +43,7 @@ function ItemOffers({ offer }: { offer: IResponseOffers }) {
   function handleUpdate() {
     if (provider === EnumTypeProvider.offer) {
       dispatchUpdateOffer(true, offer)
-    } else if ([EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(provider)) {
+    } else if ([EnumTypeProvider.alert].includes(provider)) {
       dispatchUpdateDiscussionAndAlert({ offer: offer!, visible: true })
     }
   }
@@ -118,7 +118,6 @@ function ItemOffers({ offer }: { offer: IResponseOffers }) {
                 }}
               >
                 <svg
-                  xmlns="http://www.w3.org/2000/svg"
                   width="16"
                   height="16"
                   viewBox="0 0 16 16"
