@@ -37,7 +37,7 @@ function FooterButton({ user }: { user: IUserResponse }) {
   }
 
   return (
-    <>
+    <> 
       <Button
         type="button"
         typeButton="regular-primary"
@@ -52,7 +52,7 @@ function FooterButton({ user }: { user: IUserResponse }) {
         aria-label="Пожаловаться"
         aria-labelledby="Пожаловаться"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" className="w-5 h-5">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="w-5 h-5">
           <g clipPath="url(#clip0_6305_23715)">
             <path
               d="M10.0845 5.58955C10.5405 5.58955 10.9102 5.95922 10.9102 6.41524V10.085C10.9102 10.541 10.5405 10.9106 10.0845 10.9106C9.62849 10.9106 9.25882 10.541 9.25882 10.085V6.41524C9.25882 5.95922 9.62849 5.58955 10.0845 5.58955Z"
@@ -72,11 +72,6 @@ function FooterButton({ user }: { user: IUserResponse }) {
               className="fill-element-accent-1"
             />
           </g>
-          <defs>
-            <clipPath id="clip0_6305_23715">
-              <rect width="20" height="20" fill="white" />
-            </clipPath>
-          </defs>
         </svg>
         <article className={cx("absolute -top-1 -right-3 rounded-md bg-element-accent-2 py-1 px-2 -translate-y-full opacity-0 invisible")}>
           <span className="text-text-tab text-xs text-center font-normal">Пожаловаться</span>

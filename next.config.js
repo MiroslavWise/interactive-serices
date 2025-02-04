@@ -25,6 +25,13 @@ module.exports = {
       child_process: false,
       tls: false,
     }
+    config.module.rules.push({
+      test: /\.worker\.js$/,
+      loader: "worker-loader",
+      options: {
+        publicPath: "/_next/",
+      },
+    })
 
     return config
   },

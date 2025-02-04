@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 import Button from "@/components/common/Button"
 import IconHelp from "@/components/icons/IconHelp"
 import { ImageCategory } from "@/components/common"
-import { IconXClose } from "@/components/icons/IconXClose"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 import { getOffersCategories } from "@/services"
@@ -55,7 +55,7 @@ export default function FilterCategory() {
           }}
           className="w-12 h-12 p-6 relative rounded-full border border-solid border-grey-stroke-light bg-BG-second *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"
         >
-          <IconXClose />
+          <IconSprite id="x-close-20-20" />
         </button>
       </header>
       <section className="w-full overflow-x-hidden overflow-y-auto pt-2.5 pb-5">

@@ -2,10 +2,9 @@
 
 import { Dispatch, useState } from "react"
 
-import { IUserOffer } from "@/services/offers/types"
+import { IUserResponse } from "@/services/users/types"
 
 import Avatar from "@avatar"
-import IconXClose from "@/components/icons/IconXClose"
 import IconVerifiedTick from "@/components/icons/IconVerifiedTick"
 
 import { cx } from "@/lib/cx"
@@ -15,7 +14,7 @@ import { queryClient } from "@/context/QueryClientProviderContext"
 import { useOutsideClickEvent } from "@/helpers/hooks/useOutsideClickEvent"
 
 import styles from "../styles/list-companies.module.scss"
-import { IUserResponse } from "@/services/users/types"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 interface IProps {
   value: null | number
@@ -87,7 +86,7 @@ function UserAddSearch({ value, onChange, error }: IProps) {
                 </div>
               </div>
               <a
-                className="cursor-pointer text-sm font-medium text-text-error w-fit grid grid-cols-[minmax(0,1fr)_1rem] gap-1 [&>svg]:w-4 [&>svg]:h-4"
+                className="cursor-pointer text-sm font-medium text-text-error w-fit grid grid-cols-[minmax(0,1fr)_1rem] gap-1"
                 onClick={(event) => {
                   event.stopPropagation()
                   onChange(null)
@@ -96,7 +95,9 @@ function UserAddSearch({ value, onChange, error }: IProps) {
                 }}
               >
                 Отменить
-                <IconXClose />
+                <div className="relative w-4 h-4">
+                  <IconSprite id="x-close-20-20" className="w-4 h-4" />
+                </div>
               </a>
             </div>
           </article>

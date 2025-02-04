@@ -54,4 +54,6 @@ interface IQueries {
   barter?: number
   offer?: number
   receiver?: number | string
+  limit?: number
+  page?: number
 }

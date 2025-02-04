@@ -3,11 +3,11 @@
 import { useState } from "react"
 
 import ListAll from "./components/ListAll"
-import { IconXClose } from "@/components/icons/IconXClose"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
-import { SEGMENT_FRIENDS, type TFriends } from "./constants/segments"
 import { dispatchCloseFriends, useFriends } from "@/store"
+import { SEGMENT_FRIENDS, type TFriends } from "./constants/segments"
 
 function Friends() {
   const visible = useFriends(({ visible }) => visible)
@@ -29,7 +29,7 @@ function Friends() {
             "*:w-5 *:h-5 [&>svg>path]:stroke-text-primary",
           )}
         >
-          <IconXClose />
+          <IconSprite id="x-close-20-20" />
         </button>
         <header className="w-full flex items-center justify-center py-6 px-3">
           <h3 className="text-text-primary text-2xl font-semibold">Друзья</h3>

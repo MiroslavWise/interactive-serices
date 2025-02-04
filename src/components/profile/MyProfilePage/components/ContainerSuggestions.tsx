@@ -1,32 +1,27 @@
 "use client"
 
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { parseAsStringEnum, useQueryState } from "nuqs"
+import { parseAsInteger, parseAsStringEnum, useQueryState } from "nuqs"
 
 import { EnumTypeProvider } from "@/types/enum"
 
-import ItemOffers from "./ItemOffers"
 import ContainerPosts from "./ContainerPosts"
 import Button from "@/components/common/Button"
+import ContainerOffers from "./ContainerOffers"
 import IconPost from "@/components/icons/IconPost"
 import IconOfferBalloon from "@/components/icons/IconOfferBalloon"
 import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
-import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 
 import { cx } from "@/lib/cx"
-import { getPosts, getPostsFromUser } from "@/services/posts"
-import { getOffers, getUserIdOffers } from "@/services"
+import { getUserIdOffers } from "@/services"
+import { getPostsFromUser } from "@/services/posts"
 import { dispatchModal, dispatchCreatePost, EModalData, openCreateOffers, useAuth } from "@/store"
 
 const CN_UL = "w-full h-fit grid grid-cols-3 max-2xl:grid-cols-2 max-xl:grid-cols-1 overflow-y-visible z-10 pb-5 gap-2.5 md:gap-4"
 
 const titleEmpty: Map<EnumTypeProvider, string> = new Map([
   [EnumTypeProvider.offer, "Начните предлагать услуги и обмениваться ими с жителям Sheira прямо сейчас. Создайте своё умение или услугу"],
-  // [
-  //   EnumTypeProvider.discussion,
-  //   "Есть проблема, которую нужно срочно обсудить? Или хотите спросить мнение по какому‑то вопросу? Давайте создадим обсуждение",
-  // ],
   [
     EnumTypeProvider.alert,
     "Случилось что‑то важное и хотите предупредить других? Или у вас случилась проблема и нужна помощь? Давайте создадим SOS-сообщение",
@@ -40,16 +35,11 @@ const titleEmpty: Map<EnumTypeProvider, string> = new Map([
 export const ContainerSuggestions = () => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
+  const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1))
   const [state] = useQueryState(
     "type",
     parseAsStringEnum<EnumTypeProvider>(Object.values(EnumTypeProvider)).withDefault(EnumTypeProvider.offer),
   )
-
-  const { data, isLoading } = useQuery({
-    queryFn: () => getUserIdOffers(userId!, { provider: state, order: "DESC" }),
-    queryKey: ["offers-user", { userId: userId, provider: state! }],
-    enabled: !!userId! && [EnumTypeProvider.alert, EnumTypeProvider.offer].includes(state),
-  })
 
   const { data: dataPosts, isLoading: isLoadingPosts } = useQuery({
     queryFn: () => getPostsFromUser({ query: { order: "DESC" }, userId: userId! }),
@@ -57,8 +47,30 @@ export const ContainerSuggestions = () => {
     enabled: !!userId && state === EnumTypeProvider.POST,
   })
 
-  const items = data?.data ?? []
+  const { data, isLoading } = useQuery({
+    queryFn: () => getUserIdOffers(userId!, { provider: state, order: "DESC", page: page || 1, limit: 12 }),
+    queryKey: ["offers-user", { userId: userId, provider: state!, page: page, limit: 12 }],
+    enabled: !!userId! && [EnumTypeProvider.alert, EnumTypeProvider.offer].includes(state),
+  })
+
+  // const { data: dataOffers, postMessage, loading } = useWorker<IResponseOffers[]>()
+
+  // useEffect(() => {
+  //   if (!!userId) {
+  //     if ([EnumTypeProvider.alert, EnumTypeProvider.offer].includes(state!)) {
+  //       postMessage(
+  //         getStringOfferUserId(userId!, {
+  //           provider: state,
+  //           order: "DESC",
+  //         }),
+  //       )
+  //     }
+  //   }
+  // }, [userId, state])
+
+  const items = data?.data || []
   const length = items.length
+  const total = data?.meta?.total
 
   const itemsPost = dataPosts?.data ?? []
   const lengthPosts = itemsPost.length
@@ -66,7 +78,6 @@ export const ContainerSuggestions = () => {
   const functionAndTitle = useMemo(() => {
     const title: Map<Partial<EnumTypeProvider>, string> = new Map([
       [EnumTypeProvider.offer, "Создать умение или услугу"],
-      // [EnumTypeProvider.discussion, "Создать обсуждение"],
       [EnumTypeProvider.alert, "Создать SOS"],
       [EnumTypeProvider.POST, "Создать пост"],
     ])
@@ -85,7 +96,7 @@ export const ContainerSuggestions = () => {
   }, [state])
 
   if (
-    ([EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(state!) && isLoading) ||
+    ([EnumTypeProvider.offer, EnumTypeProvider.alert].includes(state!) && isLoading) ||
     (state === EnumTypeProvider.POST && isLoadingPosts)
   )
     return (
@@ -144,14 +155,8 @@ export const ContainerSuggestions = () => {
       </section>
     )
 
-  if ([EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(state))
-    return (
-      <ul className={CN_UL} data-test="profile-container-suggestions" id={state}>
-        {items.map((_) => (
-          <ItemOffers key={`::key::${_.id}::${_.provider}::`} offer={_!} />
-        ))}
-      </ul>
-    )
+  if ([EnumTypeProvider.offer, EnumTypeProvider.alert].includes(state))
+    return <ContainerOffers items={items} page={page} onPage={(number) => setPage(number)} total={total} />
 
   if (state === EnumTypeProvider.POST) return <ContainerPosts posts={itemsPost} />
 

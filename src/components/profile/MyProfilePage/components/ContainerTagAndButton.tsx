@@ -1,6 +1,6 @@
 "use client"
 
-import { parseAsStringEnum, useQueryState } from "nuqs"
+import { parseAsInteger, parseAsStringEnum, useQueryState } from "nuqs"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { type ISegmentValues } from "@/components/common/Segments/types"
@@ -27,6 +27,7 @@ export const ContainerTagAndButton = () => {
     "type",
     parseAsStringEnum<EnumTypeProvider>(Object.values(EnumTypeProvider)).withDefault(EnumTypeProvider.offer),
   )
+  const [_, setPage] = useQueryState("page", parseAsInteger)
 
   return (
     <div className="w-full h-11 max-md:[&>article>li]:px-2.5">
@@ -35,6 +36,7 @@ export const ContainerTagAndButton = () => {
         VALUES={TABS}
         active={TABS.find((_) => _.value === (state || EnumTypeProvider.offer))!}
         setActive={({ value }) => {
+          setPage(null)
           setState(value)
         }}
       />

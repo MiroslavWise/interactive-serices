@@ -7,8 +7,8 @@ import { useEffect, useMemo, useState } from "react"
 import type { IValuesCategories, IMainAndSubCategories } from "./types/types"
 
 import Button from "@/components/common/Button"
-import IconXClose from "@/components/icons/IconXClose"
 import { ItemCategory } from "./components/ItemCategory"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import ItemCategorySearch from "./components/ItemCategorySearch"
 
 import { cx } from "@/lib/cx"
@@ -198,7 +198,7 @@ export const ChangeService = () => {
                       "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4 [&>svg>path]:stroke-text-button",
                     )}
                   >
-                    <IconXClose />
+                    <IconSprite id="x-close-20-20" />
                   </button>
                 </a>
               ))}

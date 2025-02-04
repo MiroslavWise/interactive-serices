@@ -2,10 +2,9 @@ import { useMemo, useState } from "react"
 import { Control, Controller, UseFormTrigger, UseFormSetValue, FieldErrors } from "react-hook-form"
 
 import { TSchemaCreate } from "../utils/create.schema"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import { IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 import { IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
-
-import IconXClose from "@/components/icons/IconXClose"
 
 import { queryClient } from "@/context"
 import { getGeocodeSearch } from "@/services"
@@ -99,7 +98,7 @@ function ControlAddress({ control, watch, trigger, setValue, errors, offerCopyAd
                 blurAddress()
               }}
             >
-              <IconXClose />
+              <IconSprite id="x-close-20-20" />
             </button>
             <ul
               data-active={isFocus && (isEmptySearch || Array.isArray(exactAddresses))}

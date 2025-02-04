@@ -1,5 +1,5 @@
 import IconHelp from "@/components/icons/IconHelp"
-import { IconXClose } from "@/components/icons/IconXClose"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import IconHelpColor from "@/components/icons/IconHelpColor"
 import { IconFilters } from "@/components/icons/IconFilters"
 import IconChevronDown from "@/components/icons/IconChevronDown"
@@ -134,7 +134,7 @@ function TimesFilter() {
               urgent !== key && "!hidden",
             )}
           >
-            <IconXClose />
+            <IconSprite id="x-close-20-20" />
           </div>
         </a>
       ))}

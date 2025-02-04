@@ -3,7 +3,7 @@ import QRCode from "react-qr-code"
 
 import { ImageStatic } from "@/components/common"
 import BadgesImMobile from "./components/BadgesImMobile"
-import { IconXClose } from "@/components/icons/IconXClose"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import IconAppleApps from "@/components/icons/IconAppleApps"
 
 import { cx } from "@/lib/cx"
@@ -31,7 +31,7 @@ function DownloadApplication() {
           onClick={() => dispatchDownloadApplication(false)}
           className="absolute bg-BG-second top-0 -right-1 translate-x-full w-12 h-12 rounded-full p-3.5 flex items-center justify-center *:w-5 *:h-5 [&>svg>path]:stroke-text-primary"
         >
-          <IconXClose />
+          <IconSprite id="x-close-20-20" />
         </button>
         <article
           style={{

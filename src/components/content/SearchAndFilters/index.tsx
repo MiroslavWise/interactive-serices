@@ -1,15 +1,8 @@
 import IconSearch from "@/components/icons/IconSearch"
-import IconXClose from "@/components/icons/IconXClose"
-import { IconFilters } from "@/components/icons/IconFilters"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
-import {
-  useSearchFilters,
-  useCollapseServices,
-  dispatchValueSearchFilters,
-  dispatchActiveFilterScreen,
-  dispatchVisibleSearchFilters,
-} from "@/store"
 import { cx } from "@/lib/cx"
+import { useSearchFilters, useCollapseServices, dispatchValueSearchFilters, dispatchVisibleSearchFilters } from "@/store"
 
 import styles from "./styles.module.scss"
 
@@ -55,7 +48,7 @@ export const SearchAndFilters = () => {
             }}
             data-test="button-search-and-filters-on-clear"
           >
-            <IconXClose />
+            <IconSprite id="x-close-20-20" />
           </button>
         ) : null}
       </div>

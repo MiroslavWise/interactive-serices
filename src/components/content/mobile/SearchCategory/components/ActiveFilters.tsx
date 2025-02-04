@@ -2,7 +2,7 @@ import { memo, useCallback } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { ImageCategory } from "@/components/common"
-import { IconXClose } from "@/components/icons/IconXClose"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 import { getOffersCategories } from "@/services"
@@ -45,7 +45,7 @@ function ActiveFilters({ activeFilters }: { activeFilters: number[] }) {
             }}
             className="w-4 h-4 border-none outline-none relative bg-transparent *:absolute *:w-4 *:h-4 *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 [&>svg>path]:stroke-text-button"
           >
-            <IconXClose />
+            <IconSprite id="x-close-20-20" />
           </button>
         </a>
       ))}

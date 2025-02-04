@@ -2,12 +2,13 @@
 
 import { CSSProperties, useMemo } from "react"
 
+import { IconSprite } from "@/components/icons/icon-sprite"
+
 import type { TButtonClose, IPositionAbsolute } from "./types/types"
 
 import { cx } from "@/lib/cx"
 
 import styles from "./styles/style.module.scss"
-import { IconXClose } from "@/components/icons/IconXClose"
 
 export const ButtonClose: TButtonClose = ({ onClick, position, className }) => {
   const positionCSS: CSSProperties = useMemo(() => {
@@ -38,7 +39,7 @@ export const ButtonClose: TButtonClose = ({ onClick, position, className }) => {
       }}
       data-close
     >
-      <IconXClose />
+      <IconSprite id="x-close-20-20" />
     </button>
   )
 }

@@ -193,12 +193,10 @@ function Modal() {
           event.stopPropagation()
         }}
       >
-        {visible ? (
-          <ButtonClose
-            onClick={close}
-            className="!top-0 !right-0 md:!-right-1 !translate-x-0 md:!translate-x-full max-md:!bg-transparent max-md:!border-none"
-          />
-        ) : null}
+        <ButtonClose
+          onClick={close}
+          className="!top-0 !right-0 md:!-right-1 !translate-x-0 md:!translate-x-full max-md:!bg-transparent max-md:!border-none w-12 aspect-square h-12"
+        />
         {data ? (DATA_MODAL.has(data!) ? DATA_MODAL.get(data!) : null) : null}
       </section>
     </div>

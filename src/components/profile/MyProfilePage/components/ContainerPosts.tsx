@@ -7,6 +7,7 @@ import ItemPost from "./ItemPost"
 
 import { nameTitle } from "@/lib/names"
 import { cx } from "@/lib/cx"
+import VirtualGrid from "@/components/common/VirtualGrid"
 
 interface IProps {
   posts: IPosts[]

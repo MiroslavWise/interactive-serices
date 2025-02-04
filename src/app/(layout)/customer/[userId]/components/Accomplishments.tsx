@@ -1,9 +1,5 @@
 import { ReactNode } from "react"
 
-import { EnumStatusBarter } from "@/types/enum"
-
-import { getTestimonials, getUserId } from "@/services"
-
 export const ICON: Record<TKeyItem, ReactNode> = {
   barters: (
     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">

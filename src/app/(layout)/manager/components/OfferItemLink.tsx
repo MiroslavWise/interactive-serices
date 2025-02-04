@@ -1,6 +1,8 @@
 "use client"
 
-import { useQueryState } from "nuqs"
+import { parseAsStringEnum, useQueryState } from "nuqs"
+
+import { EnumTypeProvider } from "@/types/enum"
 
 import { cx } from "@/lib/cx"
 import { TLOffer } from "../utils/constants"
@@ -13,9 +15,12 @@ interface IProps {
 }
 
 function OfferItemLink({ q, label }: IProps) {
-  const [state, setState] = useQueryState("type")
+  const [state, setState] = useQueryState(
+    "type",
+    parseAsStringEnum<EnumTypeProvider>(Object.values(EnumTypeProvider)).withDefault(EnumTypeProvider.offer),
+  )
 
-  const is = (state ?? "all") === q
+  const is = (state ?? "") === q
 
   return (
     <a className={cx(styles.link, "relative no-underline cursor-pointer", is && styles.is)} onClick={() => setState(q)}>

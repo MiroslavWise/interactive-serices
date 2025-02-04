@@ -84,3 +84,9 @@
     }
   }
 }
+
+.rs-pagination-btn-active {
+  border-color: var(--element-accent-1) !important;
+  color: var(--text-accent) !important;
+  outline: none !important;
+}

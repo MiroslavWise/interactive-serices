@@ -5,7 +5,7 @@ import { memo, useState } from "react"
 import type { IResponseOffersCategories } from "@/services/offers-categories/types"
 
 import { ImageCategory } from "@/components/common"
-import { IconXClose } from "@/components/icons/IconXClose"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { useAuth } from "@/store"
 import { patchUser } from "@/services"
@@ -48,7 +48,7 @@ export const ItemCategory = memo(function ItemCategory(
           data-test="li-button-modal-active-services-from-on-delete"
           className="bg-transparent border-none outline-none w-4 h-4 p-2 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4 *:opacity-60 [&>svg>path]:stroke-text-button"
         >
-          <IconXClose />
+          <IconSprite id="x-close-20-20" />
         </button>
       </header>
       <p className="text-text-button text-sm font-normal line-clamp-3 text-ellipsis">{title}</p>

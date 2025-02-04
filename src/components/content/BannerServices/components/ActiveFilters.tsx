@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 import { EnumTypeProvider } from "@/types/enum"
 
 import { ImageCategory } from "@/components/common"
-import { IconXClose } from "@/components/icons/IconXClose"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 import { getOffersCategories } from "@/services"
@@ -46,7 +46,7 @@ function ActiveFilters() {
                 deleteCategories(item)
               }}
             >
-              <IconXClose />
+              <IconSprite id="x-close-20-20" className="w-4 h-4" />
             </button>
           </a>
         ))}

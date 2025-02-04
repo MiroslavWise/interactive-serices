@@ -89,3 +89,11 @@ export interface IServiceOffers {
   delete(id: number | string): IPromiseReturn<IResponseCreate>
   getUserId(id: number | string, value?: IQueriesOffers, isInvalid?: boolean): Promise<IResponse<IResponseOffers[]>>
 }
+
+interface IStringUrl {
+  url: string
+  options?: RequestInit
+}
+
+export type TGetStringOffers = (value?: IQueriesOffers) => IStringUrl
+export type TGetStringOffersUserId = (id: number, value?: IQueriesOffers) => IStringUrl

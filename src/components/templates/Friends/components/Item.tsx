@@ -4,17 +4,16 @@ import { useMemo } from "react"
 import { type IFriendsResponse } from "@/services/friends/types"
 
 import Avatar from "@avatar"
-import IconAddFriend from "@/components/icons/IconAddFriend"
-import IconAccentChat from "@/components/icons/IconAccentChat"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import Button, { ButtonLink } from "@/components/common/Button"
 import IconCheckFriend from "@/components/icons/IconCheckFriend"
 import RatingAndFeedbackComponent from "./RatingAndFeedbackComponent"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { cx } from "@/lib/cx"
-import { dispatchCloseFriends, useAuth } from "@/store"
 import { postFriend } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
+import { dispatchCloseFriends, useAuth } from "@/store"
 
 interface IProps {
   item: IFriendsResponse
@@ -48,7 +47,7 @@ function ItemFriend({ item, myFriendsIds, refetchResponse, disabledOnFriendsRequ
 
   const isAdd = useMemo(() => myFriendsIds.includes(item.id), [myFriendsIds])
 
-  return ( 
+  return (
     <li className="w-full h-[3.125rem] grid grid-cols-[3.125rem_minmax(0,1fr)_2.25rem] md:grid-cols-[3.125rem_minmax(0,1fr)_13.0625rem] gap-3 items-center">
       <Avatar className="w-[3.125rem] h-[3.125rem] aspect-square rounded-.625" image={item.image} userId={item.id} />
       <div className="w-full flex flex-col items-start justify-center gap-1">
@@ -109,7 +108,7 @@ function ItemFriend({ item, myFriendsIds, refetchResponse, disabledOnFriendsRequ
               className="bg-grey-field relative p-[1.125rem] *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"
               onClick={dispatchCloseFriends}
             >
-              <IconAccentChat />
+              <IconSprite id="accent-chat-20-20" className="text-element-accent-1" />
             </Link>
           )
         ) : (
@@ -124,7 +123,7 @@ function ItemFriend({ item, myFriendsIds, refetchResponse, disabledOnFriendsRequ
         )}
         onClick={onHandleAdd}
       >
-        <IconAddFriend />
+        <IconSprite id="add-friend-20-20" />
       </button>
       <Link
         className={cx(
@@ -140,7 +139,7 @@ function ItemFriend({ item, myFriendsIds, refetchResponse, disabledOnFriendsRequ
         prefetch={false}
         onClick={dispatchCloseFriends}
       >
-        <IconAccentChat />
+        <IconSprite id="accent-chat-20-20" className="text-element-accent-1" />
       </Link>
     </li>
   )

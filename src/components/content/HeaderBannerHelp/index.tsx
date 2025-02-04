@@ -3,7 +3,7 @@
 import Link from "next/link"
 
 import IconHelp from "@/components/icons/IconHelp"
-import { IconXClose } from "@/components/icons/IconXClose"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import { IconChevron } from "@/components/icons/IconChevron"
 
 import { cx } from "@/lib/cx"
@@ -41,7 +41,7 @@ function HeaderBannerHelp({ is }: { is: boolean }) {
         )}
         onClick={dispatchCloseBanner}
       >
-        <IconXClose />
+        <IconSprite id="x-close-20-20" className="stroke-text-button" />
       </button>
     </header>
   )

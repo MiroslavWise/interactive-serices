@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query"
 import { IUserOffer } from "@/services/offers/types"
 
 import Avatar from "@avatar"
-import IconXClose from "@/components/icons/IconXClose"
 import IconVerifiedTick from "@/components/icons/IconVerifiedTick"
 
 import { cx } from "@/lib/cx"
@@ -13,6 +12,7 @@ import { useOutsideClickEvent } from "@/helpers"
 import { getCompanyId } from "@/services/companies"
 
 import styles from "./style.module.scss"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 interface IProps {
   value: null | number
@@ -82,7 +82,7 @@ function AddUser({ onChange, value }: IProps) {
                 </div>
               </div>
               <a
-                className="cursor-pointer text-sm font-medium text-text-error w-fit grid grid-cols-[minmax(0,1fr)_1rem] gap-1 [&>svg]:w-4 [&>svg]:h-4"
+                className="cursor-pointer text-sm font-medium text-text-error w-fit grid grid-cols-[minmax(0,1fr)_1rem] gap-1"
                 onClick={(event) => {
                   event.stopPropagation()
                   onChange(null)
@@ -90,7 +90,9 @@ function AddUser({ onChange, value }: IProps) {
                 }}
               >
                 Отменить
-                <IconXClose />
+                <div className="w-4 h-4 relative">
+                  <IconSprite id="x-close-20-20" className="w-4 h-4" />
+                </div>
               </a>
             </div>
           </article>

@@ -1,3 +1,5 @@
+import { useEffect } from "react"
+
 import { FooterAsideLeft } from "./components/Footer"
 import { BlockProfileAside, ButtonFriends } from "@/components/profile"
 

@@ -82,17 +82,6 @@ function CardBallon({ offer, className }: IProps) {
         handleClick()
       }}
     >
-      {/* <header
-        className={cx(
-          "[background:var(--more-red-gradient)] w-full py-1.5 px-2.5 flex-row gap-2 items-center justify-center rounded-t-2xl",
-          !!urgent && provider !== EnumTypeProvider.offer ? "flex" : "hidden",
-        )}
-      >
-        <div className="w-4 h-4 relative">
-          <IconHelp />
-        </div>
-        <span className="text-text-button text-xs font-medium">Щедрое сердце</span>
-      </header> */}
       <HeaderTimeDots offer={offer} />
       <HeaderTitle offer={offer} />
       <section className="overflow-hidden w-full flex flex-col gap-3">

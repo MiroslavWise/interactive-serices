@@ -8,21 +8,25 @@ import ItemFeedBack from "@/app/(layout)/customer/[userId]/@feedback/components/
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
+import { useResize } from "@/helpers"
 import { getTestimonials } from "@/services"
 
 import styles from "./style.module.scss"
 
 export const HistoryExchangeOffers = () => {
+  const { isTablet } = useResize()
   const { id } = useAuth(({ auth }) => auth) ?? {}
 
   const { data, isLoading } = useQuery({
     queryFn: () => getTestimonials({ receiver: id, order: "DESC" }),
     queryKey: ["testimonials", { receiver: id, order: "DESC" }],
-    enabled: !!id,
+    enabled: !!id && !isTablet,
   })
 
   const items = data?.data ?? []
   const length = items.length
+
+  if (isTablet) return null
 
   return (
     <aside

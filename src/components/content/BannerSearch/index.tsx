@@ -1,10 +1,10 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useFormContext, Controller } from "react-hook-form"
 
 import IconSearch from "@/components/icons/IconSearch"
-import IconXClose from "@/components/icons/IconXClose"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import ULServices from "./components/ULServices"
 import EmptyArticle from "./components/EmptyArticle"
@@ -84,7 +84,7 @@ function BannerSearch() {
                   }}
                   data-test="button-search-filters-on-clear"
                 >
-                  <IconXClose />
+                  <IconSprite id="x-close-20-20" />
                 </button>
               </>
             )}

@@ -1,6 +1,6 @@
 "use client"
 
-import { IconXClose } from "@/components/icons/IconXClose"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 import { dispatchCloseMenuMobileOnUser } from "@/store"
@@ -17,7 +17,7 @@ const ButtonCloseMenuMobile = () => (
       "*:w-5 *:h-5 [&>svg>path]:stroke-text-primary",
     )}
   >
-    <IconXClose />
+    <IconSprite id="x-close-20-20" />
   </button>
 )
 

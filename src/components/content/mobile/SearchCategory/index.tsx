@@ -3,14 +3,14 @@
 import dynamic from "next/dynamic"
 import { useEffect, useRef, useState } from "react"
 
+import { EnumTypeProvider } from "@/types/enum"
 import { type IPosts } from "@/services/posts/types"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import ActiveFilters from "./components/ActiveFilters"
 import { ServicesMobile } from "./components/Services"
-import { IconXClose } from "@/components/icons/IconXClose"
 import { IconSearch } from "@/components/icons/IconSearch"
-import { IconFilters } from "@/components/icons/IconFilters"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import TimesFilter from "../../BannerServices/components/TimesFilter"
 import IconDoubleChevronsUp from "@/components/icons/IconDoubleChevronsUp"
 const FilterCategory = dynamic(() => import("./components/FilterCategory"))
@@ -30,7 +30,6 @@ import { getSearch } from "@/services/search"
 import { SERVICES } from "../../BannerServices/constants"
 
 import styles from "./styles/style.module.scss"
-import { EnumTypeProvider } from "@/types/enum"
 
 export default function SearchCategory() {
   const [loading, setLoading] = useState(false)
@@ -160,7 +159,7 @@ export default function SearchCategory() {
               "*:w-4 *:h-4",
             )}
           >
-            <IconXClose />
+            <IconSprite id="x-close-20-20" />
           </button>
         </div>
       </header>
