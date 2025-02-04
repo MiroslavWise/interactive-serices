@@ -1,10 +1,11 @@
 "use client"
 
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { parseAsStringEnum, useQueryState } from "nuqs"
 
 import { EnumTypeProvider } from "@/types/enum"
+import { IResponseOffers } from "@/services/offers/types"
 
 import ItemOffers from "./ItemOffers"
 import ContainerPosts from "./ContainerPosts"
@@ -12,21 +13,17 @@ import Button from "@/components/common/Button"
 import IconPost from "@/components/icons/IconPost"
 import IconOfferBalloon from "@/components/icons/IconOfferBalloon"
 import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
-import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 
 import { cx } from "@/lib/cx"
-import { getUserIdOffers } from "@/services"
+import { getStringOfferUserId } from "@/services"
 import { getPostsFromUser } from "@/services/posts"
+import useWorker from "@/helpers/hooks/useWorker.hook"
 import { dispatchModal, dispatchCreatePost, EModalData, openCreateOffers, useAuth } from "@/store"
 
 const CN_UL = "w-full h-fit grid grid-cols-3 max-2xl:grid-cols-2 max-xl:grid-cols-1 overflow-y-visible z-10 pb-5 gap-2.5 md:gap-4"
 
 const titleEmpty: Map<EnumTypeProvider, string> = new Map([
   [EnumTypeProvider.offer, "Начните предлагать услуги и обмениваться ими с жителям Sheira прямо сейчас. Создайте своё умение или услугу"],
-  // [
-  //   EnumTypeProvider.discussion,
-  //   "Есть проблема, которую нужно срочно обсудить? Или хотите спросить мнение по какому‑то вопросу? Давайте создадим обсуждение",
-  // ],
   [
     EnumTypeProvider.alert,
     "Случилось что‑то важное и хотите предупредить других? Или у вас случилась проблема и нужна помощь? Давайте создадим SOS-сообщение",
@@ -45,19 +42,28 @@ export const ContainerSuggestions = () => {
     parseAsStringEnum<EnumTypeProvider>(Object.values(EnumTypeProvider)).withDefault(EnumTypeProvider.offer),
   )
 
-  const { data, isLoading } = useQuery({
-    queryFn: () => getUserIdOffers(userId!, { provider: state, order: "DESC" }),
-    queryKey: ["offers-user", { userId: userId, provider: state! }],
-    enabled: !!userId! && [EnumTypeProvider.alert, EnumTypeProvider.offer].includes(state),
-  })
-
   const { data: dataPosts, isLoading: isLoadingPosts } = useQuery({
     queryFn: () => getPostsFromUser({ query: { order: "DESC" }, userId: userId! }),
     queryKey: ["posts-user", { userId: userId!, order: "DESC" }],
     enabled: !!userId && state === EnumTypeProvider.POST,
   })
 
-  const items = data?.data ?? []
+  const { data: dataOffers, postMessage, loading } = useWorker<IResponseOffers[]>()
+
+  useEffect(() => {
+    if (!!userId) {
+      if ([EnumTypeProvider.alert, EnumTypeProvider.offer].includes(state!)) {
+        postMessage(
+          getStringOfferUserId(userId!, {
+            provider: state,
+            order: "DESC",
+          }),
+        )
+      }
+    }
+  }, [userId, state])
+
+  const items = Array.isArray(dataOffers?.data) ? dataOffers?.data : []
   const length = items.length
 
   const itemsPost = dataPosts?.data ?? []
@@ -66,7 +72,6 @@ export const ContainerSuggestions = () => {
   const functionAndTitle = useMemo(() => {
     const title: Map<Partial<EnumTypeProvider>, string> = new Map([
       [EnumTypeProvider.offer, "Создать умение или услугу"],
-      // [EnumTypeProvider.discussion, "Создать обсуждение"],
       [EnumTypeProvider.alert, "Создать SOS"],
       [EnumTypeProvider.POST, "Создать пост"],
     ])
@@ -84,10 +89,7 @@ export const ContainerSuggestions = () => {
     }
   }, [state])
 
-  if (
-    ([EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(state!) && isLoading) ||
-    (state === EnumTypeProvider.POST && isLoadingPosts)
-  )
+  if (([EnumTypeProvider.offer, EnumTypeProvider.alert].includes(state!) && loading) || (state === EnumTypeProvider.POST && isLoadingPosts))
     return (
       <ul className={cx(CN_UL, "loading-screen")} id={state}>
         {[1323, 2123, 32312, 5123123, 1234, 35512].map((_) => (
