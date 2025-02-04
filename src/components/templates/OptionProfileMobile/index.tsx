@@ -5,12 +5,26 @@ import { useSwipeable } from "react-swipeable"
 import Button from "@/components/common/Button"
 
 import { cx } from "@/lib/cx"
-import { useOptionProfileMobile, dispatchOptionProfileMobile, dispatchMobileChangeAbout, dispatchModal, EModalData } from "@/store"
+import { useNavigator } from "@/helpers/hooks/use-navigator"
+import { useOptionProfileMobile, dispatchOptionProfileMobile, dispatchMobileChangeAbout, dispatchModal, EModalData, useAuth } from "@/store"
 
 import styles from "./style.module.scss"
 
 export const OptionProfileMobile = () => {
   const visible = useOptionProfileMobile(({ visible }) => visible)
+
+  const user = useAuth(({ user }) => user)
+
+  const { id, profile } = user ?? {}
+
+  const linkUser =
+    `/user/${id}` +
+    (profile?.username && !profile?.username.includes(`$`) && !profile?.username.includes("/") ? `/${profile?.username}` : "")
+
+  const onShare = useNavigator({
+    url: linkUser,
+    title: profile?.firstName ?? "Имя",
+  })
 
   // function handleOpen() {
   //   dispatchOnboarding("open")
@@ -40,6 +54,13 @@ export const OptionProfileMobile = () => {
       <section onClick={(event) => event.stopPropagation()} {...handlers} data-test="section-option-profile-mobile">
         <div data-line-gray />
         <div data-buttons>
+          <Button
+            type="button"
+            typeButton="regular-primary"
+            label="Поделиться"
+            className="bg-btn-second-default !h-9 py-1.5 px-4 [&>span]:text-sm !rounded-[1.125rem]"
+            onClick={onShare}
+          />
           <Button type="button" typeButton="regular-primary" label="Изменить описание обо мне" onClick={handleChangeAbout} />
           {/* <Button
             type="button"

@@ -6,6 +6,7 @@ import { type PropsWithChildren } from "react"
 import { type Viewport, type Metadata } from "next"
 
 const Providers = dynamic(() => import("./providers"))
+const IconFillSprite = dynamic(() => import("@/components/icons/icon-sprite"))
 
 import { cx } from "@/lib/cx"
 import env, { APPLE_ID, APPLE_NAME, keyWords, URL_APPLE_APP } from "@/config/environment"
@@ -199,6 +200,7 @@ export default async ({ children }: PropsWithChildren) => (
           __html: schemaOrg,
         }}
       />
+      <IconFillSprite />
     </body>
   </html>
 )

@@ -6,13 +6,12 @@ import { type TSchemaCreate } from "../utils/create.schema"
 import { type IResponseOffersCategories } from "@/services/offers-categories/types"
 
 import { ImageCategory } from "@/components/common"
-import { IconXClose } from "@/components/icons/IconXClose"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import { IconChevron } from "@/components/icons/IconChevron"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
 import { getOffersCategories } from "@/services"
-import { dispatchVisibleCreateNewCategory } from "@/store"
 
 import styles from "../styles/list-category.module.scss"
 
@@ -31,9 +30,6 @@ function ControllerCategory({ control, setValue: setValueForm }: IProps) {
   const categories = c?.data || []
   const trimValue = value.trim().toLowerCase()
 
-  // const [expandSlug, setExpandSlug] = useState<string | null>(null)
-  // const onExpandSlug = (slug: string) => setExpandSlug((_) => (_ === slug ? null : slug))
-
   const main = useMemo(() => {
     const array: IResponseOffersCategories[] = []
 
@@ -45,17 +41,6 @@ function ControllerCategory({ control, setValue: setValueForm }: IProps) {
 
     return array
   }, [categories])
-  // const subs = useMemo(() => {
-  //   const array: IResponseOffersCategories[] = []
-
-  //   for (const item of categories) {
-  //     if (item.provider !== "main") {
-  //       array.push(item)
-  //     }
-  //   }
-
-  //   return array
-  // }, [categories])
   const searchList = useMemo(() => {
     const array: IResponseOffersCategories[] = []
 
@@ -69,21 +54,6 @@ function ControllerCategory({ control, setValue: setValueForm }: IProps) {
 
     return array
   }, [trimValue])
-
-  // const subMainCategories = useCallback(
-  //   (slug: string) => {
-  //     const array: IResponseOffersCategories[] = []
-
-  //     for (const item of subs) {
-  //       if (item.provider === slug) {
-  //         array.push(item)
-  //       }
-  //     }
-
-  //     return array
-  //   },
-  //   [subs],
-  // )
 
   const currentCategory = useCallback(
     (id: number | string) => (!!id ? categories.find((_) => Number(_.id) === Number(id)) : null),
@@ -157,7 +127,7 @@ function ControllerCategory({ control, setValue: setValueForm }: IProps) {
               }}
               className="relative w-4 h-4 p-2 bg-transparent *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4"
             >
-              <IconXClose />
+              <IconSprite id="x-close-20-20" />
             </button>
           </div>
           {!!error ? <i>Поле не может оставаться незаполненным</i> : null}

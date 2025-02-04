@@ -3,9 +3,8 @@ import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import Avatar from "@avatar"
-import IconXClose from "@/components/icons/IconXClose"
 import NoFriends from "../Friends/components/NoFriends"
-import IconAccentChat from "@/components/icons/IconAccentChat"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import Button, { ButtonLink } from "@/components/common/Button"
 import IconCheckFriend from "@/components/icons/IconCheckFriend"
 import LoadingFriends from "../Friends/components/LoadingFriends"
@@ -18,8 +17,6 @@ import { getFriends, postFriend } from "@/services"
 import { useToast } from "@/helpers/hooks/useToast"
 import { DeclensionAllQuantityFriends } from "@/lib/declension"
 import { dispatchDeleteFriend, dispatchMyFriends, useAuth, useMyFriends } from "@/store"
-import { clg } from "@console"
-import IconAddFriend from "@/components/icons/IconAddFriend"
 
 function MyFriends() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -97,7 +94,7 @@ function MyFriends() {
           )}
           onClick={dispatchMyFriends}
         >
-          <IconXClose />
+          <IconSprite id="x-close-20-20" />
         </button>
         <header className="w-full flex items-center justify-center h-standard-header-modal">
           <h3 className="text-2xl text-center font-semibold text-text-primary">Друзья</h3>
@@ -151,7 +148,7 @@ function MyFriends() {
                           className="bg-grey-field relative p-[1.125rem] *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"
                           onClick={dispatchMyFriends}
                         >
-                          <IconAccentChat />
+                          <IconSprite id="accent-chat-20-20" className="text-element-accent-1" />
                         </Link>
                       </div>
                       <button
@@ -159,7 +156,7 @@ function MyFriends() {
                         className="h-9 w-9 relative rounded-full flex md:hidden *:w-5 *:h-5"
                         onClick={() => onHandleAdd(item.id)}
                       >
-                        <IconAddFriend />
+                        <IconSprite id="add-friend-20-20" />
                       </button>
                     </li>
                   ))
@@ -214,7 +211,7 @@ function MyFriends() {
                     prefetch={false}
                     className="h-9 w-9 relative rounded-full flex md:hidden *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"
                   >
-                    <IconAccentChat />
+                    <IconSprite id="accent-chat-20-20" className="text-element-accent-1" />
                   </Link>
                 </li>
               ))}

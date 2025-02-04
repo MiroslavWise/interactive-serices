@@ -1,19 +1,27 @@
 "use client"
 
-import Link from "next/link"
-
 import Button from "@/components/common/Button"
 
-import { dispatchModal, dispatchOnboarding, EModalData } from "@/store"
+import { dispatchModal, EModalData, useAuth } from "@/store"
+import { useNavigator } from "@/helpers/hooks/use-navigator"
 
 export const FooterAsideLeft = () => {
+  const user = useAuth(({ user }) => user)
+
   function handleOut() {
     dispatchModal(EModalData.OutAccount)
   }
 
-  function handleOpen() {
-    dispatchOnboarding("open")
-  }
+  const { id, profile } = user ?? {}
+
+  const linkUser =
+    `/user/${id}` +
+    (profile?.username && !profile?.username.includes(`$`) && !profile?.username.includes("/") ? `/${profile?.username}` : "")
+
+  const onShare = useNavigator({
+    url: linkUser,
+    title: profile?.firstName ?? "Имя",
+  })
 
   return (
     <footer className="w-full flex flex-col gap-2.5 mt-auto mb-5" data-test="footer-aside-profile">
@@ -26,6 +34,13 @@ export const FooterAsideLeft = () => {
         className="h-9"
         data-test="footer-aside-profile-button-on-modal-instruction"
       /> */}
+      <Button
+        type="button"
+        typeButton="regular-primary"
+        label="Поделиться"
+        className="bg-btn-second-default !h-9 py-1.5 px-4 [&>span]:text-sm !rounded-[1.125rem]"
+        onClick={onShare}
+      />
       <section className="w-full flex flex-row justify-between items-end gap-3">
         <div className="flex flex-col items-start">
           <p className="text-text-secondary text-xs text-left font-normal">Нужна помощь?</p>

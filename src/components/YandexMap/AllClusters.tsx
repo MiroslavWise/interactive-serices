@@ -12,8 +12,8 @@ import { type IResponseOffers } from "@/services/offers/types"
 
 import Marker from "./Marker"
 import IconPost from "../icons/IconPost"
+import { IconSprite } from "../icons/icon-sprite"
 import { ImageCategory, NextImageMotion } from "../common"
-import IconAlertBalloon from "../icons/IconAlertBalloon"
 
 import {
   useFiltersServices,
@@ -183,7 +183,7 @@ function AllClusters() {
                           id={properties?.offer?.categoryId!}
                         />
                       ) : provider === EnumTypeProvider.alert ? (
-                        <IconAlertBalloon />
+                        <IconSprite id="alert-balloon-20-20" />
                       ) : provider === EnumTypeProvider.POST ? (
                         <IconPost />
                       ) : null}

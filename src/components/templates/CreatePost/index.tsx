@@ -11,13 +11,13 @@ import { type IBodyPost } from "@/services/posts/types"
 import { type IResponseGeocode } from "@/services/addresses/types/geocodeSearch"
 
 import Button from "@/components/common/Button"
+import AddUser from "@/components/common/AddUser"
 import ControlHelp from "./components/ControlHelp"
-import IconXClose from "@/components/icons/IconXClose"
 import IconFile_06 from "@/components/icons/IconFile_06"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 import ControlParticipant from "./components/ControlParticipant"
 import CurrentImage from "../CreateNewOptionModal/components/CurrentImage"
-import AddUser from "@/components/common/AddUser"
 
 import { cx } from "@/lib/cx"
 import { clg } from "@console"
@@ -384,7 +384,7 @@ function CreatePost() {
                       blurAddress()
                     }}
                   >
-                    <IconXClose />
+                    <IconSprite id="x-close-20-20" />
                   </button>
                   <ul
                     className="-translate-y-full"

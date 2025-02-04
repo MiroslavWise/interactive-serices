@@ -7,7 +7,7 @@ import { patchAdvertPosts } from "@/services/posts"
 import { patchAdvertOffer } from "@/services"
 
 import Button from "@/components/common/Button"
-import IconXClose from "@/components/icons/IconXClose"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 import { hideAddAdvert } from "@/store"
@@ -124,7 +124,7 @@ function FormSelectCompany({ id, type }: { id: number; type: EnumTypeProvider })
                     }}
                     className="relative w-4 h-4 p-2 bg-transparent *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4"
                   >
-                    <IconXClose />
+                    <IconSprite id="x-close-20-20" />
                   </button>
                 </div>
               ) : null}

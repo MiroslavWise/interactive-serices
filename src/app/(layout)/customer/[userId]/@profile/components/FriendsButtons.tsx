@@ -9,7 +9,7 @@ import { type IUserOffer } from "@/services/offers/types"
 import { type IUserResponse } from "@/services/users/types"
 
 import ButtonMenuMobile from "./ButtonMenuMobile"
-import IconAccentChat from "@/components/icons/IconAccentChat"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import Button, { ButtonLink } from "@/components/common/Button"
 import IconCheckAccent from "@/components/icons/IconCheckAccent"
 import IconCheckFriend from "@/components/icons/IconCheckFriend"
@@ -167,7 +167,7 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
             }}
             className="bg-btn-second-default relative p-[1.125rem] *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"
           >
-            <IconAccentChat />
+            <IconSprite id="accent-chat-20-20" className="text-element-accent-1" />
           </Link>
           <ButtonMenuMobile />
         </>
@@ -183,7 +183,7 @@ function FriendsButtons({ user }: { user: IUserResponse }) {
             }}
             className="bg-btn-second-default relative p-[1.125rem] *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"
           >
-            <IconAccentChat />
+            <IconSprite id="accent-chat-20-20" className="text-element-accent-1" />
           </Link>
           <ButtonMenuMobile />
         </>

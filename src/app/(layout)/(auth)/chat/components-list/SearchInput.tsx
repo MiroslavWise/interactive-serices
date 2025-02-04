@@ -2,10 +2,9 @@
 
 import { IconSearch } from "@/components/icons/IconSearch"
 
-import { IconXClose } from "@/components/icons/IconXClose"
-
 import { cx } from "@/lib/cx"
 import { useChatContext } from "./ContextChats"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 function SearchInput() {
   const { search, dispatchSearch } = useChatContext()
@@ -30,7 +29,7 @@ function SearchInput() {
         )}
         onClick={() => dispatchSearch("")}
       >
-        <IconXClose />
+        <IconSprite id="x-close-20-20" />
       </div>
     </div>
   )

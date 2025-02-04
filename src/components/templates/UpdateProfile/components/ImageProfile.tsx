@@ -4,7 +4,7 @@ import { memo, useCallback, useState } from "react"
 import { type IMageProfile } from "../types/types"
 import { type IPatchProfileData } from "@/services/profile/types"
 
-import IconXClose from "@/components/icons/IconXClose"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import { ImageStatic, NextImageMotion } from "@/components/common"
 
 import { cx } from "@/lib/cx"
@@ -114,7 +114,7 @@ export const ImageProfile = memo(function ImageProfile({ file, image, setFile, r
             data-test="button-update-image-profile-delete-photo"
             className="w-6 h-6 flex items-center justify-center border border-solid border-grey-stroke-light rounded-xl bg-BG-second absolute -top-1.5 -right-1.5 md:opacity-0 md:invisible group-hover:opacity-100 group-hover:visible *:w-4 *:h-4 [&>svg>path]:stroke-text-primary"
           >
-            <IconXClose />
+            <IconSprite id="x-close-20-20" />
           </button>
         ) : null}
       </div>

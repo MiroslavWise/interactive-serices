@@ -4,8 +4,8 @@ import { Controller, useForm } from "react-hook-form"
 
 import Button from "@/components/common/Button"
 import ControlHelp from "./components/ControlHelp"
-import IconXClose from "@/components/icons/IconXClose"
 import IconFile_06 from "@/components/icons/IconFile_06"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import AddressController from "./components/AddressController"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 import { ImageStatic, NextImageMotion } from "@/components/common"
@@ -98,7 +98,7 @@ function UpdatePost() {
           className="absolute z-50 top-0 right-0 md:-right-1 md:translate-x-full w-12 h-12 md:bg-BG-second rounded-full p-3.5 *:w-5 *:h-5 flex items-center justify-center"
           onClick={() => dispatchUpdatePost()}
         >
-          <IconXClose />
+          <IconSprite id="x-close-20-20" />
         </button>
         <header className="w-full border-b border-solid border-grey-separator h-standard-header-modal p-5 md:pt-6 max-md:pb-4 flex flex-row items-center justify-start md:justify-center">
           <h3 className="text-text-primary text-2xl font-semibold">Редактирование</h3>

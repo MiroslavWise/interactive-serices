@@ -5,7 +5,7 @@ import { type Control, Controller } from "react-hook-form"
 import { type IFormValues } from "../types/types"
 
 import { ImageCategory } from "@/components/common"
-import { IconXClose } from "@/components/icons/IconXClose"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import { IconChevron } from "@/components/icons/IconChevron"
 
 import { cx } from "@/lib/cx"
@@ -135,7 +135,7 @@ function ControllerCategory({ control }: IProps) {
                 field.onChange(null)
               }}
             >
-              <IconXClose />
+              <IconSprite id="x-close-20-20" />
             </button>
           </div>
           <div

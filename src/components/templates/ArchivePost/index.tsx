@@ -1,8 +1,8 @@
 import { useState } from "react"
 
 import Button from "@/components/common/Button"
-import IconXClose from "@/components/icons/IconXClose"
 import IconArchive from "@/components/icons/IconArchive"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 import { clg } from "@console"
@@ -43,7 +43,7 @@ function ArchivePost() {
           className="absolute top-0 translate-x-full -right-4 h-12 w-12 rounded-full md:bg-BG-second p-3.5 [&>svg>path]:stroke-text-primary"
           onClick={no}
         >
-          <IconXClose />
+          <IconSprite id="x-close-20-20" />
         </button>
         <article className="flex flex-col items-center gap-5">
           <div className="relative h-11 w-11 bg-grey-field rounded-full *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-element-accent-1">

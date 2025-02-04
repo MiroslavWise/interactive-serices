@@ -1,8 +1,8 @@
-import IconXClose from "@/components/icons/IconXClose"
+import { NextImageMotion } from "@/components/common"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 import { useContextPostsComments } from "./ContextComments"
-import { NextImageMotion } from "@/components/common"
 
 function ItemFormAddNote() {
   const { writeResponse, onWriteResponse } = useContextPostsComments()
@@ -42,7 +42,7 @@ function ItemFormAddNote() {
         className="w-5 h-5 relative p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"
         onClick={() => onWriteResponse(null)}
       >
-        <IconXClose />
+        <IconSprite id="x-close-20-20" />
       </button>
     </div>
   )

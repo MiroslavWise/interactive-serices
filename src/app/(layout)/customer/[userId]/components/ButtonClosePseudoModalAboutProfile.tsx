@@ -1,6 +1,6 @@
 "use client"
 
-import { IconXClose } from "@/components/icons/IconXClose"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 import { dispatchCloseCustomerAbout } from "@/store"
@@ -15,7 +15,7 @@ function ButtonClosePseudoModalAboutProfile() {
       )}
       onClick={dispatchCloseCustomerAbout}
     >
-      <IconXClose />
+      <IconSprite id="x-close-20-20" />
     </button>
   )
 }

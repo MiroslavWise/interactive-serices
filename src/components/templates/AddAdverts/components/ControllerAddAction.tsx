@@ -4,15 +4,15 @@ import { Control, Controller } from "react-hook-form"
 
 import { advertsButtonLabels, activeArrayAdvertsButtonLabels, EAdvertsButton } from "@/types/enum"
 
-import IconXClose from "@/components/icons/IconXClose"
 import IconChevron from "@/components/icons/IconChevron"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 import { TSchemaAdvert } from "../schema"
+import descriptionURL from "./descriptionURL"
 import { useOutsideClickEvent } from "@/helpers"
 
 import styles from "../styles/list-action.module.scss"
-import descriptionURL from "./descriptionURL"
 
 interface IProps {
   actionAdvertButton?: EAdvertsButton
@@ -78,7 +78,7 @@ function ControllerAddAction({ control, actionAdvertButton }: IProps) {
                 }}
                 className="relative w-4 h-4 p-2 bg-transparent *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4"
               >
-                <IconXClose />
+                <IconSprite id="x-close-20-20" />
               </button>
             </div>
             <div

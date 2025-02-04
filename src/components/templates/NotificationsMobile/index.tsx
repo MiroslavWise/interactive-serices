@@ -6,8 +6,8 @@ import { useQuery } from "@tanstack/react-query"
 import { EnumStatusBarter } from "@/types/enum"
 import type { IResponseNotifications } from "@/services/notifications/types"
 
+import { IconSprite } from "@/components/icons/icon-sprite"
 import { ItemNotification } from "@/components/notifications"
-import { IconXClose } from "@/components/icons/IconXClose"
 
 import { cx } from "@/lib/cx"
 import { serviceNotifications } from "@/services"
@@ -81,7 +81,7 @@ export function NotificationsMobile() {
         <header>
           <h3>Уведомления</h3>
           <button onClick={() => dispatchVisibleNotifications(false)}>
-            <IconXClose />
+            <IconSprite id="x-close-20-20" />
           </button>
         </header>
         {maps.length ? (
