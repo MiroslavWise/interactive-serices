@@ -1,3 +1,5 @@
+"use client"
+
 import { type IResponseTestimonials } from "@/services/testimonials/types"
 
 import Avatar from "@avatar"
@@ -10,7 +12,7 @@ import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 import { formatOfMMM } from "@/helpers"
 import { EnumTypeProvider } from "@/types/enum"
 
-async function ItemFeedBack(props: IResponseTestimonials) {
+function ItemFeedBack(props: IResponseTestimonials) {
   const { rating, id, message, created, targetId, user, provider, images } = props ?? {}
 
   const { image, firstName, lastName = "" } = user ?? {}

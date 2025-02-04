@@ -2,22 +2,20 @@
 
 import { useEffect, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { parseAsStringEnum, useQueryState } from "nuqs"
+import { parseAsInteger, parseAsStringEnum, useQueryState } from "nuqs"
 
 import { EnumTypeProvider } from "@/types/enum"
-import { IResponseOffers } from "@/services/offers/types"
 
-import ItemOffers from "./ItemOffers"
 import ContainerPosts from "./ContainerPosts"
 import Button from "@/components/common/Button"
+import ContainerOffers from "./ContainerOffers"
 import IconPost from "@/components/icons/IconPost"
 import IconOfferBalloon from "@/components/icons/IconOfferBalloon"
 import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
 
 import { cx } from "@/lib/cx"
-import { getStringOfferUserId } from "@/services"
+import { getUserIdOffers } from "@/services"
 import { getPostsFromUser } from "@/services/posts"
-import useWorker from "@/helpers/hooks/useWorker.hook"
 import { dispatchModal, dispatchCreatePost, EModalData, openCreateOffers, useAuth } from "@/store"
 
 const CN_UL = "w-full h-fit grid grid-cols-3 max-2xl:grid-cols-2 max-xl:grid-cols-1 overflow-y-visible z-10 pb-5 gap-2.5 md:gap-4"
@@ -37,6 +35,7 @@ const titleEmpty: Map<EnumTypeProvider, string> = new Map([
 export const ContainerSuggestions = () => {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
 
+  const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1))
   const [state] = useQueryState(
     "type",
     parseAsStringEnum<EnumTypeProvider>(Object.values(EnumTypeProvider)).withDefault(EnumTypeProvider.offer),
@@ -48,23 +47,30 @@ export const ContainerSuggestions = () => {
     enabled: !!userId && state === EnumTypeProvider.POST,
   })
 
-  const { data: dataOffers, postMessage, loading } = useWorker<IResponseOffers[]>()
+  const { data, isLoading } = useQuery({
+    queryFn: () => getUserIdOffers(userId!, { provider: state, order: "DESC", page: page || 1, limit: 12 }),
+    queryKey: ["offers-user", { userId: userId, provider: state!, page: page, limit: 12 }],
+    enabled: !!userId! && [EnumTypeProvider.alert, EnumTypeProvider.offer].includes(state),
+  })
 
-  useEffect(() => {
-    if (!!userId) {
-      if ([EnumTypeProvider.alert, EnumTypeProvider.offer].includes(state!)) {
-        postMessage(
-          getStringOfferUserId(userId!, {
-            provider: state,
-            order: "DESC",
-          }),
-        )
-      }
-    }
-  }, [userId, state])
+  // const { data: dataOffers, postMessage, loading } = useWorker<IResponseOffers[]>()
 
-  const items = Array.isArray(dataOffers?.data) ? dataOffers?.data : []
+  // useEffect(() => {
+  //   if (!!userId) {
+  //     if ([EnumTypeProvider.alert, EnumTypeProvider.offer].includes(state!)) {
+  //       postMessage(
+  //         getStringOfferUserId(userId!, {
+  //           provider: state,
+  //           order: "DESC",
+  //         }),
+  //       )
+  //     }
+  //   }
+  // }, [userId, state])
+
+  const items = data?.data || []
   const length = items.length
+  const total = data?.meta?.total
 
   const itemsPost = dataPosts?.data ?? []
   const lengthPosts = itemsPost.length
@@ -89,7 +95,10 @@ export const ContainerSuggestions = () => {
     }
   }, [state])
 
-  if (([EnumTypeProvider.offer, EnumTypeProvider.alert].includes(state!) && loading) || (state === EnumTypeProvider.POST && isLoadingPosts))
+  if (
+    ([EnumTypeProvider.offer, EnumTypeProvider.alert].includes(state!) && isLoading) ||
+    (state === EnumTypeProvider.POST && isLoadingPosts)
+  )
     return (
       <ul className={cx(CN_UL, "loading-screen")} id={state}>
         {[1323, 2123, 32312, 5123123, 1234, 35512].map((_) => (
@@ -146,14 +155,8 @@ export const ContainerSuggestions = () => {
       </section>
     )
 
-  if ([EnumTypeProvider.offer, EnumTypeProvider.alert, EnumTypeProvider.discussion].includes(state))
-    return (
-      <ul className={CN_UL} data-test="profile-container-suggestions" id={state}>
-        {items.map((_) => (
-          <ItemOffers key={`::key::${_.id}::${_.provider}::`} offer={_!} />
-        ))}
-      </ul>
-    )
+  if ([EnumTypeProvider.offer, EnumTypeProvider.alert].includes(state))
+    return <ContainerOffers items={items} page={page} onPage={(number) => setPage(number)} total={total} />
 
   if (state === EnumTypeProvider.POST) return <ContainerPosts posts={itemsPost} />
 

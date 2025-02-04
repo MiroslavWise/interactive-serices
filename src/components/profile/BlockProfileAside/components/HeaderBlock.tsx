@@ -65,7 +65,7 @@ function HeaderBlock() {
             data-test="block-profile-aside-section-info-time"
             className="text-text-disabled text-center text-xs font-normal"
           >
-            На Sheira с {format(created!, "do MMMM yyyy", { locale: ru })}
+            На Sheira с {format(created! as unknown as Date, "do MMMM yyyy", { locale: ru })}
           </time>
         ) : null}
       </section>

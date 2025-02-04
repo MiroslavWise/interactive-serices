@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { memo } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
@@ -9,6 +10,7 @@ import IconHelp from "@/components/icons/IconHelp"
 import ItemServiceImages from "./ItemServiceImages"
 import IconMapWhite from "@/components/icons/IconMapWhite"
 import IconArrowRight from "@/components/icons/IconArrowRight"
+import AdvertisingData from "@/components/common/Card/CardBallon/components/AdvertisingData"
 
 import {
   dispatchBallonAlert,
@@ -20,7 +22,6 @@ import {
   dispatchUpdateOffer,
 } from "@/store"
 import { cx } from "@/lib/cx"
-import AdvertisingData from "@/components/common/Card/CardBallon/components/AdvertisingData"
 
 function ItemOffers({ offer }: { offer: IResponseOffers }) {
   const { images, description, addresses, provider, id, urgent, category, company } = offer ?? {}
@@ -142,4 +143,4 @@ function ItemOffers({ offer }: { offer: IResponseOffers }) {
 }
 
 ItemOffers.displayName = "ItemOffers"
-export default ItemOffers
+export default memo(ItemOffers)
