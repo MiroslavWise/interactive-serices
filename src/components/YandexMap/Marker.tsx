@@ -50,6 +50,7 @@ function Marker({ properties, geometry, reactifiedApi, is }: FeatureCluster) {
           isAdvertising={isAdvertising}
           provider={provider}
           urgent={urgent}
+          categoryId={offer?.categoryId}
           image={image}
           onClick={() => {
             if (provider === EnumTypeProvider.offer) {

@@ -2,9 +2,9 @@
 
 import Button from "@/components/common/Button"
 import IconPlus from "@/components/icons/IconPlus"
+import { IconSpriteNavHeader } from "@/components/icons/icon-sprite-nav-header"
 
 import { cx } from "@/lib/cx"
-import { MENU_ICONS } from "../constants/menu-icons"
 import { useSign } from "../../FooterMenu/hooks/useSign"
 import { useStatusAuth } from "@/helpers/use-status-auth"
 import { dispatchIntro, dispatchModal, dispatchNewServicesBanner, EModalData, EStatusAuth, useModal } from "@/store"
@@ -58,8 +58,8 @@ export const Buttons = () => {
         className="px-2.5"
         title={statusAuth === EStatusAuth.AUTHORIZED ? "Выйти" : "Войти"}
         suffixIcon={
-          <div className="relative w-6 h-6 *:w-6 :h-6 [&>svg>path]:fill-text-accent">
-            {statusAuth === EStatusAuth.AUTHORIZED ? MENU_ICONS.out : MENU_ICONS.profile}
+          <div className="relative w-6 h-6 *:w-6 :h-6 text-element-accent-1">
+            <IconSpriteNavHeader id={`sprite-nav-header-${statusAuth === EStatusAuth.AUTHORIZED ? "out" : "profile"}`} />
           </div>
         }
         typeButton="regular-primary"

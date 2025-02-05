@@ -1,47 +1,19 @@
 import { AxiosError } from "axios"
-import { type IReturnData } from "../types/general"
+import { IResponse } from "../request/types"
 import { type TSchemaEmailSignIn } from "@/components/templates/ModalSign/utils/email-sign-in.schema"
 
-import { isTokenExpired, useAuth, type TAuth } from "@/store"
+import { clg } from "@console"
 import { instance } from "../request/instance"
+import { isTokenExpired, useAuth, type TAuth } from "@/store"
 
 const url = "/auth"
 
-export async function login({ email, password }: TSchemaEmailSignIn): Promise<IReturnData<TAuth>> {
-  try {
-    const body: TSchemaEmailSignIn = { email, password }
+export async function login({ email, password }: TSchemaEmailSignIn): Promise<IResponse<TAuth>> {
+  const body: TSchemaEmailSignIn = { email, password }
 
-    const { data, status } = await instance.post(`${url}/login`, { ...body })
+  const response = await instance.post(`${url}/login`, { ...body })
 
-    if (status >= 200 && status < 300) {
-      return {
-        ok: true,
-        res: data?.data,
-        error: null,
-        meta: data?.meta,
-      }
-    }
-
-    return {
-      ok: false,
-      res: null,
-      error: data?.error,
-      meta: null,
-    }
-  } catch (e) {
-    if (e instanceof AxiosError) {
-      const error = e?.response?.data?.error
-      return {
-        ok: false,
-        error: error,
-      }
-    }
-
-    return {
-      ok: false,
-      error: e,
-    }
-  }
+  return response as unknown as IResponse<TAuth>
 }
 
 export async function refresh() {
@@ -59,35 +31,29 @@ export async function refresh() {
     const body = { email, refreshToken }
 
     if (boolean) {
-      const { data, status } = await instance.post(`${url}/refresh`, { ...body })
+      const response = (await instance.post(`${url}/refresh`, { ...body })) as IResponse<any>
 
-      if (status >= 200 && status < 300) {
+      if (response.status >= 200 && response.status <= 300) {
         return {
-          ok: true,
-          res: data?.data,
+          data: response?.data,
+          error: null,
         }
       } else {
         return {
-          ok: false,
+          data: null,
+          error: response.error,
         }
       }
     } else {
       return {
-        ok: true,
-        res: auth,
+        data: auth,
+        error: null,
       }
     }
   } catch (e) {
-    if (e instanceof AxiosError) {
-      const error = e?.response?.data?.error
-      return {
-        ok: false,
-        error: error,
-      }
-    }
-
     return {
-      ok: false,
+      data: null,
+      error: e,
     }
   }
 }

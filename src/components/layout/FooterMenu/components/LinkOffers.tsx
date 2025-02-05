@@ -13,6 +13,7 @@ import { getBarterUserIdReceiver } from "@/services"
 import { useStatusAuth } from "@/helpers/use-status-auth"
 
 import styles from "../styles/link.module.scss"
+import { IconSpriteNavHeader } from "@/components/icons/icon-sprite-nav-header"
 
 const TITLE = "О Sheira"
 
@@ -56,8 +57,8 @@ export const LinkOffers = ({ pathname }: { pathname: string }) => {
       aria-labelledby={TITLE}
     >
       <section className="h-full flex flex-col items-center gap-[0.1875rem]">
-        <article className="relative w-6 h-6 p-3 *:absolute *:top-1/2 *:left-1/2 *:h-6 *:w-6 *:-translate-x-1/2 *:-translate-y-1/2">
-          {MENU_ICONS.about}
+        <article className={cx("relative w-6 h-6 p-3 *:h-6 *:w-6 text-text-secondary")}>
+          <IconSpriteNavHeader id="sprite-nav-header-about" />
         </article>
         <p
           className={cx(

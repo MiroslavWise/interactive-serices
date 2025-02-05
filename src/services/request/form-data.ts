@@ -1,10 +1,11 @@
 import { AxiosError, type RawAxiosRequestHeaders } from "axios"
 
 import { EStatusAuth } from "@/types/enum"
-import { type MethodUploadFile } from "./types"
+import { IResponse, type MethodUploadFile } from "./types"
 
 import { instance } from "./instance"
 import { authToken } from "../auth/authService"
+import { IResponseUploadFile } from "../file-upload/types"
 
 export const postForm: MethodUploadFile = async ({ url, file, onUploadProgress }) => {
   const fullTokenString = authToken()
@@ -13,53 +14,27 @@ export const postForm: MethodUploadFile = async ({ url, file, onUploadProgress }
     return {
       data: null,
       error: EStatusAuth.NOT_AUTHORIZATION,
-    }
+      status: 401,
+      meta: null,
+    } as IResponse<IResponseUploadFile>
   }
 
-  const head: RawAxiosRequestHeaders = {
-    "Content-Type": "multipart/form-data",
-  }
+  // const head: RawAxiosRequestHeaders = {
+  //   "Content-Type": "multipart/form-data",
+  // }
 
-  if (fullTokenString) {
-    head.Authorization = fullTokenString
-  }
+  // if (fullTokenString) {
+  //   head.Authorization = fullTokenString
+  // }
 
   return instance
     .postForm(url, file, {
-      headers: head,
+      // headers: head,
       onUploadProgress: (event) => {
         if (onUploadProgress) {
           onUploadProgress(event, file.get("caption"))
         }
       },
     })
-    .then(({ data, status }) => {
-      if (status >= 200 && status < 300) {
-        return {
-          meta: data?.meta ?? null,
-          data: data?.data ?? null,
-          error: data?.error ?? null,
-        }
-      } else {
-        return {
-          meta: data?.meta ?? null,
-          data: data?.data ?? null,
-          error: data?.error ?? null,
-        }
-      }
-    })
-    .catch((error) => {
-      if (error instanceof AxiosError) {
-        const e = error?.response?.data?.error
-        return {
-          data: null,
-          error: e,
-        }
-      }
-
-      return {
-        data: null,
-        error: error,
-      }
-    })
+    .then((response) => response as unknown as IResponse<IResponseUploadFile>)
 }

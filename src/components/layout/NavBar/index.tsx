@@ -3,6 +3,7 @@ import dynamic from "next/dynamic"
 import { Logo } from "./components/Logo"
 const FooterMenu = dynamic(() => import("../FooterMenu"))
 const MobileHeader = dynamic(() => import("../MobileHeader"))
+const SpriteNavHeader = dynamic(() => import("@/components/icons/icon-sprite-nav-header"))
 const Links = dynamic(() => import("./components/Links").then((res) => res.Links))
 const Buttons = dynamic(() => import("./components/Buttons").then((res) => res.Buttons))
 
@@ -16,6 +17,7 @@ export default function NavBarProfile() {
       </nav>
       <MobileHeader />
       <FooterMenu />
+      <SpriteNavHeader />
     </>
   )
 }

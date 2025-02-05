@@ -31,12 +31,12 @@ export const useAuth = create(
   ),
 )
 
-function setData(res: TAuth | null) {
+function setData(data: TAuth | null) {
   useAuth.setState(
     (_) => ({
       ..._,
-      auth: res ?? null,
-      isAuth: !!res ? EStatusAuth.AUTHORIZED : EStatusAuth.UNAUTHORIZED,
+      auth: data ?? null,
+      isAuth: !!data ? EStatusAuth.AUTHORIZED : EStatusAuth.UNAUTHORIZED,
     }),
     true,
   )
@@ -44,14 +44,12 @@ function setData(res: TAuth | null) {
 
 export async function dispatchLoginTokenData({ email, password }: TSchemaEmailSignIn) {
   const response = await login({ email, password })
-  clg("response await", response, "error")
-  if (response.ok) {
-    setData(response?.res!)
-    clg("response setData", response, "error")
+  if (response) {
+    setData(response.data)
     await queryClient
       .fetchQuery({
         queryFn: getUser,
-        queryKey: ["user", { userId: response?.res?.id! }],
+        queryKey: ["user", { userId: response?.data?.id! }],
       })
       .then(({ data }) => {
         if (!!data) {
@@ -70,11 +68,11 @@ export async function dispatchLoginTokenData({ email, password }: TSchemaEmailSi
 
 export const dispatchRefresh = async () => {
   return refresh().then((response) => {
-    const { ok, res } = response
-    if (ok) {
+    const { data, error } = response
+    if (data) {
       useAuth.setState((_) => ({
         ..._,
-        auth: res as TAuth,
+        auth: data,
         isAuth: EStatusAuth.AUTHORIZED,
       }))
 

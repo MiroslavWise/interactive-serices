@@ -127,7 +127,7 @@ function ReciprocalExchange() {
           : values.select_new_proposal === ETypeOfNewCreated.new
           ? postOffer(dataNewOffer)
           : Promise.resolve({ data: { id: values?.my_offer! }, error: null }),
-      ).then((response: IResponse<IResponseCreate>) => {
+      ).then((response) => {
         if (!!response?.data) {
           const dataBarter: IPostDataBarter = {
             provider: EnumTypeProvider.barter,
