@@ -1,6 +1,6 @@
 "use client"
 
-import { parseAsStringEnum, useQueryState } from "nuqs"
+import { parseAsInteger, parseAsStringEnum, useQueryState } from "nuqs"
 import LinkService, { EProviderLinkCustomer, ILink } from "./LinkService"
 
 export const LINKS_PROVIDER_OFFERS: ILink[] = [
@@ -23,6 +23,7 @@ function ComponentLinks() {
     "provider",
     parseAsStringEnum<EProviderLinkCustomer>(Object.values(EProviderLinkCustomer)).withDefault(EProviderLinkCustomer.offer),
   )
+  const [_, setPage] = useQueryState("page", parseAsInteger.withDefault(1))
 
   return (
     <section className="w-full flex flex-row flex-nowrap h-11 rounded-[1.375rem] bg-BG-second p-1 min-h-11">
@@ -32,7 +33,10 @@ function ComponentLinks() {
           provider={_.provider}
           label={_.label}
           active={provider === _.provider}
-          on={(value) => setProvider(value)}
+          on={(value) => {
+            setProvider(value)
+            setPage(null)
+          }}
         />
       ))}
     </section>

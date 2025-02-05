@@ -2,20 +2,23 @@
 
 import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { parseAsStringEnum, useQueryState } from "nuqs"
+import { parseAsInteger, parseAsStringEnum, useQueryState } from "nuqs"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { EProviderLinkCustomer } from "./LinkService"
 
+import ItemPost from "../offers/components/ItemPost"
+import PaginationRS from "@/components/common/PaginationRS"
 import ComponentLoadingService from "./ComponentLoadingService"
 import ItemServiceData from "../offers/components/ItemService-data"
 import WrapperItemService from "../offers/components/WrapperItemService"
 
-import { nameTitle } from "@/lib/names"
-import { getPosts } from "@/services/posts"
-import { getOffers, getUserIdOffers } from "@/services"
-import ItemPost from "../offers/components/ItemPost"
 import { cx } from "@/lib/cx"
+import { nameTitle } from "@/lib/names"
+import { getOffers } from "@/services"
+import { getPosts } from "@/services/posts"
+
+const PAGE_SIZE = 12
 
 const NAV: { value: boolean; label: string }[] = [
   {
@@ -34,10 +37,18 @@ function ComponentsServices({ userId }: { userId: number | string }) {
     "provider",
     parseAsStringEnum<EProviderLinkCustomer>(Object.values(EProviderLinkCustomer)).withDefault(EProviderLinkCustomer.offer),
   )
+  const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1))
 
   const { data, isLoading } = useQuery({
-    queryFn: () => getOffers({ provider: provider as unknown as EnumTypeProvider, order: "DESC", user: userId! as number }),
-    queryKey: ["offers", { userId: userId, provider: provider }],
+    queryFn: () =>
+      getOffers({
+        provider: provider as unknown as EnumTypeProvider,
+        order: "DESC",
+        user: userId! as number,
+        page: page,
+        limit: PAGE_SIZE,
+      }),
+    queryKey: ["offers", { userId: userId, provider: provider, page: page, limit: PAGE_SIZE }],
     enabled: [EnumTypeProvider.offer, EnumTypeProvider.alert].includes(provider! as unknown as EnumTypeProvider),
   })
 
@@ -47,7 +58,7 @@ function ComponentsServices({ userId }: { userId: number | string }) {
   })
 
   const items = data?.data ?? []
-  const length = items.length
+  const total = data?.meta?.total
 
   const itemsPosts = dataPosts?.data ?? []
   const lengthPosts = itemsPosts.length
@@ -93,11 +104,11 @@ function ComponentsServices({ userId }: { userId: number | string }) {
     )
 
   return (
-    <section className={`w-full h-full flex flex-col gap-2.5 ${!length && "items-center justify-center"}`}>
-      {length ? (
+    <section className={`w-full h-full flex flex-col gap-2.5 ${!total && "items-center justify-center"}`}>
+      {total ? (
         <>
           <p className="text-text-secondary text-[0.8125rem] leading-[1.125rem] font-normal">
-            {length}&nbsp;{nameTitle(length, provider)}
+            {total}&nbsp;{nameTitle(total!, provider)}
           </p>
           <ul className="w-full grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
             {items.map((offer) => (
@@ -106,6 +117,9 @@ function ComponentsServices({ userId }: { userId: number | string }) {
               </WrapperItemService>
             ))}
           </ul>
+          <div className="w-full flex flex-row items-center md:items-start">
+            <PaginationRS total={total} page={page} onPage={setPage} pageSize={PAGE_SIZE} />
+          </div>
         </>
       ) : (
         <p className="text-text-primary text-sm font-normal whitespace-nowrap mt-10">
