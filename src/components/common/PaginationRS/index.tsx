@@ -21,7 +21,9 @@ function PaginationRS({ total, pageSize = 12, page = 1, onPage }: IProps) {
     }
   }, [total])
 
-  return <Pagination prev next size="lg" total={t} limit={pageSize} activePage={page} onChangePage={onPage} />
+  if (!t) return null
+
+  return <Pagination prev next total={t} limit={pageSize} activePage={page} onChangePage={onPage} />
 }
 
 export default PaginationRS
