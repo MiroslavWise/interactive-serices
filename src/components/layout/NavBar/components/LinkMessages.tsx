@@ -14,7 +14,7 @@ export const LinkMessages = ({ pathname }: { pathname: string }) => {
 
   return (
     <Link key="::messages::link::" data-active={is} title={TITLE} aria-label={TITLE} aria-labelledby={TITLE} href={{ pathname: "/chat" }}>
-      <div className={cx(`w-6 h-6 relative *:w-6 *:h-6`, is ? "text-element-accent-1" : "text-element-grey")}>
+      <div className={cx(`w-6 h-6 relative *:w-6 *:h-6`, is ? "text-element-accent-1" : "text-text-primary")}>
         <IconSpriteNavHeader id="sprite-nav-header-message" />
       </div>
       <span>{TITLE}</span>

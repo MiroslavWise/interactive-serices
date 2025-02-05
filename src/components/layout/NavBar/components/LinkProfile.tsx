@@ -16,7 +16,7 @@ export const LinkProfile = ({ pathname }: { pathname: string }) => (
     aria-label={TITLE}
     aria-labelledby={TITLE}
   >
-    <div className={cx(`w-6 h-6 relative *:w-6 *:h-6`, pathname.includes("/profile") ? "text-element-accent-1" : "text-element-grey")}>
+    <div className={cx(`w-6 h-6 relative *:w-6 *:h-6`, pathname.includes("/profile") ? "text-element-accent-1" : "text-text-primary")}>
       <IconSpriteNavHeader id="sprite-nav-header-profile" />
     </div>
     <span>{TITLE}</span>

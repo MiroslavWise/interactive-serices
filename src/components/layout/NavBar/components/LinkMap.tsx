@@ -11,7 +11,7 @@ export const LinkMap = ({ pathname }: { pathname: string }) => {
 
   return (
     <Link href="/" data-active={is} prefetch title={TITLE} aria-label={TITLE} aria-labelledby={TITLE} className={cx()}>
-      <div className={cx(`w-6 h-6 relative *:w-6 *:h-6`, is ? "text-element-accent-1" : "text-element-grey")}>
+      <div className={cx(`w-6 h-6 relative *:w-6 *:h-6`, is ? "text-element-accent-1" : "text-text-primary")}>
         <IconSpriteNavHeader id="sprite-nav-header-map" />
       </div>
       <span>{TITLE}</span>
