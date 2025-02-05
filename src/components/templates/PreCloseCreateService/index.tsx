@@ -5,12 +5,12 @@ import { EnumTypeProvider } from "@/types/enum"
 import Button from "@/components/common/Button"
 import IconMark from "@/components/icons/IconMark"
 import IconPost from "@/components/icons/IconPost"
-import IconOfferBalloon from "@/components/icons/IconOfferBalloon"
 import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
 import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 
 import { cx } from "@/lib/cx"
 import { closeCreateOffers, dispatchClosePreCloseCreateService, dispatchModalClose, usePreCloseCreateService } from "@/store"
+import { IconSpriteCategoryId } from "@/components/icons/icon-sprite-category"
 
 const H: Map<EnumTypeProvider, string> = new Map([
   [EnumTypeProvider.offer, "Умения и услуги"],
@@ -21,11 +21,11 @@ const H: Map<EnumTypeProvider, string> = new Map([
 ])
 
 const ICON = new Map([
-  [EnumTypeProvider.offer, IconOfferBalloon],
-  [EnumTypeProvider.alert, IconAlertCirlceRed],
-  [EnumTypeProvider.discussion, IconDiscussionBalloon],
-  [EnumTypeProvider.POST, IconPost],
-  [EnumTypeProvider.NOTE, IconPost],
+  [EnumTypeProvider.offer, <IconSpriteCategoryId id={`category-default`} key={`EnumTypeProvider.offer`} />],
+  [EnumTypeProvider.alert, <IconAlertCirlceRed key={`EnumTypeProvider.alert`} />],
+  [EnumTypeProvider.discussion, <IconDiscussionBalloon key={`EnumTypeProvider.discussion`} />],
+  [EnumTypeProvider.POST, <IconPost key={`EnumTypeProvider.POST`} />],
+  [EnumTypeProvider.NOTE, <IconPost key={`EnumTypeProvider.NOTE`} />],
 ])
 
 function PreCloseCreateService() {
@@ -50,12 +50,11 @@ function PreCloseCreateService() {
           <div className="relative pb-4 flex flex-col w-[4.375rem]">
             <div
               className={cx(
-                "w-[4.375rem] h-[4.375rem] rounded-[2.1875rem] bg-grey-field flex items-center justify-center p-[1.1875rem] *:w-8 *:h-8",
+                "relative w-[4.375rem] h-[4.375rem] rounded-[2.1875rem] bg-grey-field flex items-center justify-center p-[1.1875rem] *:w-8 *:h-8",
                 type === EnumTypeProvider.alert && "[&>svg>g>path]:!fill-text-error",
-                type === EnumTypeProvider.offer && "[&>svg>g>path]:!fill-element-accent-1",
               )}
             >
-              {ICON.has(type!) ? ICON.get(type!)!() : null}
+              {ICON.has(type!) ? ICON.get(type!) : null}
             </div>
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-8 bg-[#fea032] rounded-2xl p-[0.45rem] flex items-center justify-center *:w-[1.1rem] *:h-[1.1rem]">
               <IconMark />

@@ -81,7 +81,7 @@ export const LinkNotification = ({ pathname }: { pathname: string }) => {
       aria-labelledby={TITLE}
     >
       <div
-        className={cx(`w-6 h-6 relative *:w-6 *:h-6`, pathname?.includes("/notifications") ? "text-element-accent-1" : "text-element-grey")}
+        className={cx(`w-6 h-6 relative *:w-6 *:h-6`, pathname?.includes("/notifications") ? "text-element-accent-1" : "text-text-primary")}
       >
         <IconSpriteNavHeader id="sprite-nav-header-notification" />
       </div>
