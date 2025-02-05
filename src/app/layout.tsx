@@ -6,8 +6,8 @@ import { type PropsWithChildren } from "react"
 import { type Viewport, type Metadata } from "next"
 
 const Providers = dynamic(() => import("./providers"), { ssr: false })
-const IconFillSprite = dynamic(() => import("@/components/icons/icon-sprite"), { ssr: false })
-const IconSpriteCategory = dynamic(() => import("@/components/icons/icon-sprite-category"), { ssr: false })
+const IconFillSprite = dynamic(() => import("@/components/icons/icon-sprite"))
+const IconSpriteCategory = dynamic(() => import("@/components/icons/icon-sprite-category"))
 
 import { cx } from "@/lib/cx"
 import env, { APPLE_ID, APPLE_NAME, keyWords, URL_APPLE_APP } from "@/config/environment"

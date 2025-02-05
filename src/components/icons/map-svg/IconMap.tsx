@@ -3,31 +3,21 @@ import { ReactElement, type DispatchWithoutAction } from "react"
 import { type IImageData } from "@/types/type"
 import { EnumTypeProvider } from "@/types/enum"
 
-import Offer from "./offer"
-import Alert from "./alert"
-import Posts from "./posts"
-
 /** @deprecated */
 import IconPost from "@/components/icons/IconPost"
 import IconCategoryDefault from "../IconCategoryDefault"
 import { NextImageMotion } from "@/components/common/Image"
 import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
+import { IconSpriteMap } from "../icon-sprite-map"
 
 interface IProps {
   image?: IImageData
   provider: EnumTypeProvider
   onClick: DispatchWithoutAction
+  categoryId?: number
   urgent?: boolean
   isAdvertising?: boolean
 }
-
-const prov = {
-  [EnumTypeProvider.offer]: (urgent: boolean) => <Offer urgent={!!urgent} />,
-  [EnumTypeProvider.alert]: (urgent: boolean) => <Alert urgent={!!urgent} />,
-  [EnumTypeProvider.POST]: (urgent: boolean) => <Posts urgent={!!urgent} />,
-} as Record<EnumTypeProvider, (urgent: boolean) => ReactElement>
-
-const icon = (value: EnumTypeProvider) => (prov.hasOwnProperty(value!) ? prov[value!]! : (urgent: boolean) => null)
 
 const Rainbow = {
   [EnumTypeProvider.offer]: <IconCategoryDefault />,
@@ -63,17 +53,23 @@ export default ({ provider, onClick, urgent, isAdvertising, image }: IProps) =>
       </div>
     </>
   ) : (
-    <svg
-      width={urgent ? "43" : "35"}
-      height={urgent ? "53" : "41"}
-      viewBox={urgent ? "0 0 43 53" : "0 0 35 41"}
-      fill="none"
-      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer w-[2.1875rem] h-[2.5625rem]"
+    <IconSpriteMap
+      className="w-[2.1875rem] h-[2.5625rem] cursor-pointer"
       onClick={(event) => {
         event.stopPropagation()
         onClick()
       }}
-    >
-      {icon(provider)(!!urgent)}
-    </svg>
+      id={`${provider}-balloon${!!urgent ? "-urgent" : ""}`}
+    />
   )
+
+//   <svg
+//   width={urgent ? "43" : "35"}
+//   height={urgent ? "53" : "41"}
+//   viewBox={urgent ? "0 0 43 53" : "0 0 35 41"}
+//   fill="none"
+//   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer w-[2.1875rem] h-[2.5625rem]"
+
+// >
+//   {icon(provider)(!!urgent)}
+// </svg>

@@ -1,11 +1,12 @@
 import Link from "next/link"
 
+import { IconSpriteNavHeader } from "@/components/icons/icon-sprite-nav-header"
+
 import { cx } from "@/lib/cx"
 import { EStatusAuth } from "@/store"
 import { useSign } from "../hooks/useSign"
 import { ITEMS_LINK_FOOTER } from "../constants"
 import { useStatusAuth } from "@/helpers/use-status-auth"
-import { MENU_ICONS } from "../../NavBar/constants/menu-icons"
 
 import styles from "../styles/link.module.scss"
 
@@ -35,8 +36,8 @@ export const LinkProfile = ({ pathname }: { pathname: string }) => {
       aria-labelledby={TITLE}
     >
       <section className="h-full flex flex-col items-center gap-[0.1875rem]">
-        <article className="relative w-6 h-6 p-3 *:absolute *:top-1/2 *:left-1/2 *:h-6 *:w-6 *:-translate-x-1/2 *:-translate-y-1/2">
-          {MENU_ICONS.profile}
+        <article className={cx(`w-6 h-6 relative *:w-6 *:h-6`, isActive ? "text-element-accent-1" : "text-element-grey")}>
+          <IconSpriteNavHeader id="sprite-nav-header-profile" />
         </article>
         <p
           className={cx(

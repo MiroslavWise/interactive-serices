@@ -11,6 +11,7 @@ import { useAuth } from "@/store"
 import { useOutsideClickEvent } from "@/helpers"
 import { serviceNotifications } from "@/services"
 import { MENU_ICONS } from "../constants/menu-icons"
+import { IconSpriteNavHeader } from "@/components/icons/icon-sprite-nav-header"
 
 const TITLE = "Уведомления"
 
@@ -79,7 +80,11 @@ export const LinkNotification = ({ pathname }: { pathname: string }) => {
       aria-label={TITLE}
       aria-labelledby={TITLE}
     >
-      {MENU_ICONS.notifications}
+      <div
+        className={cx(`w-6 h-6 relative *:w-6 *:h-6`, pathname?.includes("/notifications") ? "text-element-accent-1" : "text-element-grey")}
+      >
+        <IconSpriteNavHeader id="sprite-nav-header-notification" />
+      </div>
       <span>{TITLE}</span>
       {count ? (
         <div data-count>

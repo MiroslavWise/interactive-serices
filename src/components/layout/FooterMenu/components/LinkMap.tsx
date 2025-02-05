@@ -1,10 +1,10 @@
 import Link from "next/link"
 
-import { MENU_ICONS } from "../../NavBar/constants/menu-icons" 
+import { IconSpriteNavHeader } from "@/components/icons/icon-sprite-nav-header"
 
 import { cx } from "@/lib/cx"
-import { dispatchIntro, EStatusAuth } from "@/store"
 import { ITEMS_LINK_FOOTER } from "../constants"
+import { dispatchIntro, EStatusAuth } from "@/store"
 import { useStatusAuth } from "@/helpers/use-status-auth"
 
 import styles from "../styles/link.module.scss"
@@ -33,8 +33,8 @@ export const LinkMap = ({ pathname }: { pathname: string }) => {
       aria-labelledby={TITLE}
     >
       <section className="h-full flex flex-col items-center gap-[0.1875rem]">
-        <article className="relative w-6 h-6 p-3 *:absolute *:top-1/2 *:left-1/2 *:h-6 *:w-6 *:-translate-x-1/2 *:-translate-y-1/2">
-          {statusAuth === EStatusAuth.AUTHORIZED ? MENU_ICONS.map : MENU_ICONS.about}
+        <article className={cx("relative w-6 h-6 p-3 *:h-6 *:w-6", isActive ? "text-text-accent" : "text-text-secondary")}>
+          <IconSpriteNavHeader id={`sprite-nav-header-${statusAuth === EStatusAuth.AUTHORIZED ? "map" : "about"}`} />
         </article>
         <p
           className={cx(
