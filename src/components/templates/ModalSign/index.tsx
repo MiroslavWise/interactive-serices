@@ -53,7 +53,7 @@ function ModalSign() {
       <section className="bg-BG-second rounded-t-3xl rounded-b-none max-md:overflow-hidden max-md:min-h-20 md:rounded-2 relative w-full h-fit max-h-full max-md:!rounded-none max-md:!p-0 max-md:h-full max-w-[30.625rem]">
         <ButtonClose
           onClick={dispatchCloseModalAuth}
-          className="!top-0 !right-0 md:!-right-1 !translate-x-0 md:!translate-x-full max-md:!bg-transparent max-md:!border-none"
+          className="!top-0 !right-0 md:!-right-1 !translate-x-0 md:!translate-x-full max-md:!bg-transparent max-md:!border-none w-12 aspect-square h-12"
         />
         <ul className="scroll-no overflow-x-hidden overflow-y-auto p-0 pb-10 w-full gap-8 h-full flex flex-col items-center z-[2] max-md:relative max-md:gap-[1.875rem]">
           <HeaderAuth />

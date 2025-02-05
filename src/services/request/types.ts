@@ -29,7 +29,8 @@ export type MethodUploadFile = (values: {
 interface I<T = any> {
   data: T | null
   error: any | null
-  meta?: IMetaData
+  meta?: IMetaData | null
+  status: number
 }
 
 export type IResponse<T = any> = Readonly<I<T>>

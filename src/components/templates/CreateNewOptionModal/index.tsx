@@ -44,7 +44,7 @@ import {
 } from "./utils/create.schema"
 import { headerTitle } from "./constants/titles"
 import { onDefault } from "./utils/default-values"
-import { patchOffer, postOffer, fileUploadService, postAddress, getOffers, getUserIdOffers } from "@/services"
+import { patchOffer, postOffer, fileUploadService, postAddress, getUserIdOffers } from "@/services"
 
 export default function CreateNewOptionModal() {
   const [loading, setLoading] = useState(false)
@@ -52,8 +52,8 @@ export default function CreateNewOptionModal() {
   const typeAdd = useAddCreateModal(({ typeAdd }) => typeAdd)
   const { refetch: refetchDataMap } = useMapOffers()
   const stateModal = useModal(({ data }) => data)
-  const initMapAddress = useNewServicesBannerMap(({ addressInit }) => addressInit)
   const offer = createCopyOffer(({ offer }) => offer)
+  const initMapAddress = useNewServicesBannerMap(({ addressInit }) => addressInit)
 
   const [progress, setProgress] = useState<Record<string, AxiosProgressEvent>>({})
 
@@ -65,8 +65,8 @@ export default function CreateNewOptionModal() {
   }
 
   const { refetch } = useQuery({
-    queryFn: () => getUserIdOffers(userId!, { provider: typeAdd!, order: "DESC" }),
-    queryKey: ["offers-user", { userId: userId, provider: typeAdd }],
+    queryFn: () => getUserIdOffers(userId!, { provider: typeAdd!, order: "DESC", page: 1, limit: 12 }),
+    queryKey: ["offers-user", { userId: userId, provider: typeAdd, page: 1, limit: 12 }],
     enabled: false,
   })
 

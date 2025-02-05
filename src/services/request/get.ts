@@ -44,6 +44,7 @@ export async function fetchGet<T = any>({ url, query }: IGet, isInvalid?: boolea
           data: newResponse?.data ?? null,
           error: newResponse?.error ?? null,
           meta: newResponse?.meta,
+          status: 200,
         }
       }
     }
@@ -52,6 +53,7 @@ export async function fetchGet<T = any>({ url, query }: IGet, isInvalid?: boolea
       data: data ?? null,
       error: error ?? null,
       meta: meta,
+      status: error?.code ?? 400,
     }
   } catch (e) {
     return handleError(e)

@@ -51,12 +51,12 @@ export const SignInEmail = ({ children, itemForgot }: { children: ReactNode; ite
           return
         }
       }
-      if (!!response?.error && !response?.ok) {
+      if (!!response?.error && !response.data) {
         console.log("ERROR ---У нас возникла ошибка, мы сейчас её решаем!---", response?.error)
         on({ message: "У нас возникла ошибка, мы сейчас её решаем!" }, "warning")
         return
       }
-      if (!!response?.res) {
+      if (!!response.data) {
         dispatchCloseModalAuth()
       }
     }
