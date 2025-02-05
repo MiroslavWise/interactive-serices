@@ -60,7 +60,7 @@ export default function SpriteNavHeader() {
           className="!fill-none stroke-current transition-colors"
         />
       </symbol>
-      <symbol viewBox="0 0 24 24" id="sprite-nav-header-out">
+      <symbol viewBox="0 0 16 16" id="sprite-nav-header-out">
         <g>
           <g>
             <path
