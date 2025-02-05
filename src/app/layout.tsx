@@ -5,8 +5,9 @@ import NextTopLoader from "nextjs-toploader"
 import { type PropsWithChildren } from "react"
 import { type Viewport, type Metadata } from "next"
 
-const Providers = dynamic(() => import("./providers"))
-const IconFillSprite = dynamic(() => import("@/components/icons/icon-sprite"))
+const Providers = dynamic(() => import("./providers"), { ssr: false })
+const IconFillSprite = dynamic(() => import("@/components/icons/icon-sprite"), { ssr: false })
+const IconSpriteCategory = dynamic(() => import("@/components/icons/icon-sprite-category"), { ssr: false })
 
 import { cx } from "@/lib/cx"
 import env, { APPLE_ID, APPLE_NAME, keyWords, URL_APPLE_APP } from "@/config/environment"
@@ -14,8 +15,8 @@ import env, { APPLE_ID, APPLE_NAME, keyWords, URL_APPLE_APP } from "@/config/env
 import "@/scss/init.scss"
 import "./build.css"
 import "react-toastify/dist/ReactToastify.css"
-import ButtonHelpTelegram from "@/components/templates/ButtonHelpTelegram"
 import { schemaOrg } from "@/utils/schema-org"
+import ButtonHelpTelegram from "@/components/templates/ButtonHelpTelegram"
 
 export const inter = Inter({ weight: ["400", "500", "600"], subsets: ["latin"], style: "normal", variable: "--font-inter" })
 
@@ -201,6 +202,7 @@ export default async ({ children }: PropsWithChildren) => (
         }}
       />
       <IconFillSprite />
+      <IconSpriteCategory />
     </body>
   </html>
 )

@@ -1,7 +1,7 @@
 import { useTheme } from "next-themes"
 
 export default () => {
-  const { systemTheme, theme } = useTheme()
+  const { systemTheme } = useTheme()
 
   return (
     <svg
