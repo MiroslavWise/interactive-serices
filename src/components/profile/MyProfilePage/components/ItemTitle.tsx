@@ -4,11 +4,9 @@ import { EnumTypeProvider } from "@/types/enum"
 import { ETitleRole } from "@/services/roles/types"
 import { IResponseOffers } from "@/services/offers/types"
 
-import IconMap from "@/components/icons/IconMap"
 import { ImageCategory } from "@/components/common"
-import IconShare from "@/components/icons/IconShare"
+import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
-import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
 import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 import IconCurrencyRubleCircle from "@/components/icons/IconCurrencyRubleCircle"
 
@@ -25,7 +23,6 @@ import {
   dispatchMapCoordinates,
   displayAddAdvert,
 } from "@/store"
-import IconCopy from "@/components/icons/IconCopy"
 
 const TITLE_SHARE = "Поделиться"
 const TITLE_TO_MAP = "Показать на карте"
@@ -71,9 +68,9 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
             event.stopPropagation()
             setOpen((prev) => !prev)
           }}
-          className="w-6 h-6 relative p-3 bg-transparent border-none outline-none *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4 z-30 *:pointer-events-none"
+          className="w-6 h-6 relative p-3 bg-transparent *:w-4 *:h-4 z-30 *:pointer-events-none text-element-grey-light hover:text-element-accent-1"
         >
-          <IconDotsHorizontal />
+          <SpriteDefault id="dots-horizontal" />
         </button>
         <section
           className={cx(
@@ -110,13 +107,13 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
             }}
           >
             <div>
-              <IconMap />
+              <SpriteDefault id="icon-default-map" className="w-5 h-5 text-text-primary" />
             </div>
             <span>{TITLE_TO_MAP}</span>
           </Link>
           <a title={TITLE_SHARE} aria-label={TITLE_SHARE} aria-labelledby={TITLE_SHARE} onClick={onShare}>
             <div>
-              <IconShare />
+              <SpriteDefault id="icon-share" className="w-5 h-5 text-text-primary" />
             </div>
             <span>{TITLE_SHARE}</span>
           </a>
@@ -147,7 +144,7 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
             }}
           >
             <div>
-              <IconCopy />
+              <SpriteDefault id="dots-horizontal" className="text-text-primary w-5 h-5" />
             </div>
             <span>{CREATE_COPY}</span>
           </a>

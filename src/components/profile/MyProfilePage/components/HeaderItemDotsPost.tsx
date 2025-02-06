@@ -5,7 +5,7 @@ import { type IPosts } from "@/services/posts/types"
 import IconArchive from "@/components/icons/IconArchive"
 import IconActivity from "@/components/icons/IconActivity"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
-import IconDotsHorizontal from "@/components/icons/IconDotsHorizontal"
+import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 import IconCurrencyRubleCircle from "@/components/icons/IconCurrencyRubleCircle"
 
 import { cx } from "@/lib/cx"
@@ -41,13 +41,13 @@ function HeaderItemDotsPost({ post }: IProps) {
     <div className="w-6 h-6 relative flex" ref={ref}>
       <button
         type="button"
-        className="w-6 h-6 relative p-3 *:absolute *:-translate-x-1/2 *:-translate-y-1/2 *:left-1/2 *:top-1/2 *:w-4 *:h-4"
+        className="w-6 h-6 relative p-3 *:w-4 *:h-4 text-element-grey-light hover:text-element-accent-1"
         onClick={(event) => {
           event.stopPropagation()
           setOpen((_) => !_)
         }}
       >
-        <IconDotsHorizontal />
+        <SpriteDefault id="dots-horizontal" />
       </button>
       <article
         className={cx(

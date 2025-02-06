@@ -2,10 +2,9 @@
 
 import { type IUserResponse } from "@/services/users/types"
 
-import IconShare from "@/components/icons/IconShare"
-
 import { dispatchCloseMenuMobileOnUser } from "@/store"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
+import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 
 const LABEL = "Поделиться"
 
@@ -28,8 +27,8 @@ function ButtonShareMenuMobile({ user }: { user: IUserResponse }) {
 
   return (
     <button type="button" title={LABEL} aria-label={LABEL} aria-labelledby={LABEL} onClick={handle}>
-      <div>
-        <IconShare />
+      <div className="relative w-5 h-5">
+        <SpriteDefault id="icon-share" className="w-5 h-5 text-text-primary" />
       </div>
       <span className="text-text-primary">{LABEL}</span>
     </button>

@@ -3,7 +3,7 @@ import { useState } from "react"
 import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseComplains } from "@/services/complains/types"
 
-import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
+import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 
 import { formatOfMMM } from "@/helpers"
 import { getIdOffer } from "@/services"
@@ -50,11 +50,8 @@ function ItemComplain(props: IResponseComplains) {
     >
       <div className="w-full flex flex-row items-center justify-between gap-3">
         <time className="text-text-secondary text-xs font-normal">{formatOfMMM(created)}</time>
-        <button
-          type="button"
-          className="relative w-4 h-4 p-2 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4"
-        >
-          <IconDotsHorizontal />
+        <button type="button" className="relative w-4 h-4 p-2 *:w-4 *:h-4 text-element-grey-light hover:text-element-accent-1">
+          <SpriteDefault id="dots-horizontal" />
         </button>
       </div>
       <h3 className="text-text-primary text-base font-semibold">{onTitle(provider)}</h3>

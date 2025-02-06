@@ -8,7 +8,7 @@ import Button from "@/components/common/Button"
 import { NextImageMotion } from "@/components/common"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
-import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
+import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 
 import { cx } from "@/lib/cx"
 import { dayFormat } from "@/helpers"
@@ -135,9 +135,9 @@ export const MContainerAboutProfile = () => {
             type="button"
             onClick={handleOpenOption}
             data-test="button-open-option"
-            className="bg-grey-field relative p-[1.125rem] [&>svg>path]:fill-btn-main-default *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4"
+            className="bg-grey-field relative p-[1.125rem] *:w-4 *:h-4 text-element-grey-light hover:text-element-accent-1"
           >
-            <IconDotsHorizontal />
+            <SpriteDefault id="dots-horizontal" />
           </button>
         </section>
         <BadgesColors userId={userId!} />

@@ -5,26 +5,22 @@ import Link from "next/link"
 import { EnumTypeProvider } from "@/types/enum"
 import { IResponseOffers } from "@/services/offers/types"
 
-import IconMap from "@/components/icons/IconMap"
-import IconShare from "@/components/icons/IconShare"
 import IconMapWhite from "@/components/icons/IconMapWhite"
-import IconComplaint from "@/components/icons/IconComplaint"
 import IconArrowRight from "@/components/icons/IconArrowRight"
-import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
+import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
 import {
-  dispatchAddTestimonials,
-  dispatchBallonAlert,
-  dispatchBallonDiscussion,
-  dispatchBallonOffer,
-  dispatchComplaintModalOffer,
-  dispatchMapCoordinates,
   useAuth,
+  dispatchBallonOffer,
+  dispatchBallonAlert,
+  dispatchMapCoordinates,
+  dispatchAddTestimonials,
+  dispatchBallonDiscussion,
+  dispatchComplaintModalOffer,
 } from "@/store"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
-import IconStar01 from "@/components/icons/IconStar-01"
 
 const TITLE_TO_MAP = "Показать на карте"
 const TITLE_COMPLAINT = "Пожаловаться"
@@ -59,13 +55,13 @@ function ButtonShare({ offer }: { offer: IResponseOffers }) {
     >
       <button
         type="button"
-        className="w-4 h-4 relative border-none outline-none *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4 z-30"
+        className="w-4 h-4 relative *:w-4 *:h-4 z-30 text-element-grey-light hover:text-element-accent-1"
         onClick={(event) => {
           event.stopPropagation()
           setOpen((prev) => !prev)
         }}
       >
-        <IconDotsHorizontal />
+        <SpriteDefault id="dots-horizontal" />
       </button>
       <section
         className={cx(
@@ -75,7 +71,6 @@ function ButtonShare({ offer }: { offer: IResponseOffers }) {
           "[&>*>span]:text-text-primary [&>*>span]:text-sm [&>*>span]:font-normal [&>*>span]:text-left [&>*>span]:whitespace-nowrap",
           "[&>*>div]:w-5 [&>*>div]:h-5  [&>*>div]:relative  [&>*>div]:p-2.5",
           "hover:*:bg-grey-field",
-          "[&>*>div>svg]:w-5 [&>*>div>svg]:h-5 [&>*>div>svg]:absolute [&>*>div>svg]:top-1/2 [&>*>div>svg]:left-1/2 [&>*>div>svg]:-translate-x-1/2 [&>*>div>svg]:-translate-y-1/2",
         )}
       >
         <Link
@@ -102,13 +97,13 @@ function ButtonShare({ offer }: { offer: IResponseOffers }) {
           }}
         >
           <div>
-            <IconMap />
+            <SpriteDefault id="icon-default-map" className="w-5 h-5 text-text-primary" />
           </div>
           <span>{TITLE_TO_MAP}</span>
         </Link>
         <a title={TITLE_SHARE} aria-label={TITLE_SHARE} aria-labelledby={TITLE_SHARE} onClick={onShare}>
           <div>
-            <IconShare />
+            <SpriteDefault id="icon-share" className="w-5 h-5 text-text-primary" />
           </div>
           <span>{TITLE_SHARE}</span>
         </a>
@@ -119,8 +114,8 @@ function ButtonShare({ offer }: { offer: IResponseOffers }) {
           onClick={onReview}
           className={cx((userIdOffer === userId || !userId) && "!hidden")}
         >
-          <div>
-            <IconStar01 />
+          <div className="*:w-5 *h-5 text-text-primary">
+            <SpriteDefault id="icon-star" />
           </div>
           <span>{LABEL_REVIEW}</span>
         </a>
@@ -137,7 +132,7 @@ function ButtonShare({ offer }: { offer: IResponseOffers }) {
           }}
         >
           <div>
-            <IconComplaint />
+            <SpriteDefault id="icon-complaint" className="text-text-error w-5 h-5" />
           </div>
           <span className="!text-text-error">{TITLE_COMPLAINT}</span>
         </a>
