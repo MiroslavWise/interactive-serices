@@ -49,17 +49,19 @@ function AllClusters() {
   const [size, setSize] = React.useState<any>()
 
   React.useEffect(() => {
-    Promise.all([ymaps3.import("@yandex/ymaps3-reactify"), ymaps3?.import("@yandex/ymaps3-clusterer@0.0.1"), ymaps3.ready]).then(
-      async ([{ reactify }, cl]) => {
-        const react = reactify.bindTo(React, ReactDOM)
-        setReactifiedApi(react.module(ymaps3))
-        const { clusterByGrid, YMapClusterer } = react.module(cl)
-        //@ts-ignore
-        const grid = clusterByGrid({ gridSize: 64 })
-        setSize(grid)
-        setMapClusterer(YMapClusterer)
-      },
-    )
+    if (typeof ymaps3 !== "undefined") {
+      Promise.all([ymaps3?.import("@yandex/ymaps3-reactify"), ymaps3?.import("@yandex/ymaps3-clusterer@0.0.1"), ymaps3.ready]).then(
+        async ([{ reactify }, cl]) => {
+          const react = reactify.bindTo(React, ReactDOM)
+          setReactifiedApi(react.module(ymaps3))
+          const { clusterByGrid, YMapClusterer } = react.module(cl)
+          //@ts-ignore
+          const grid = clusterByGrid({ gridSize: 64 })
+          setSize(grid)
+          setMapClusterer(YMapClusterer)
+        },
+      )
+    }
   }, [])
 
   const { itemsOffers } = useMapOffers()

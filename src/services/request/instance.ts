@@ -43,7 +43,7 @@ instance.interceptors.request.use((config) => {
 
 instance.interceptors.response.use(
   //@ts-ignore
-  (response) => formatSuccessResponse(response) as IResponse<any>,
+  (response) => formatSuccessResponse(response) as IResponse,
   (error) => formatErrorResponse(error),
 )
 
@@ -51,11 +51,11 @@ const formatSuccessResponse = (response: AxiosResponse<IResponseSuccess, any>) =
   const newResponse = {
     data: response.data.data,
     meta: response.data.meta,
-    error: null,
+    error: response.data.error,
     status: response.status,
   }
 
-  return newResponse as IResponse<any>
+  return newResponse as IResponse
 }
 
 const formatErrorResponse = async (error: any) => {

@@ -3,8 +3,10 @@ import { type IResponse } from "./types"
 import { URL_API } from "@/helpers"
 
 import { handleError } from "./error"
+import { instance } from "./instance"
 import { createHeaders } from "./header"
 import { invalidAccessTokenRefresh } from "@/helpers/functions/invalid-access-token-refresh"
+import { AxiosResponse } from "axios"
 
 interface IGet {
   url: string
@@ -58,4 +60,18 @@ export async function fetchGet<T = any>({ url, query }: IGet, isInvalid?: boolea
   } catch (e) {
     return handleError(e)
   }
+}
+
+export function getAxios<R = any, Q = R>(url: string, query?: object) {
+  instance.defaults.paramsSerializer = (params) => {
+    const searchParams = new URLSearchParams()
+
+    for (const [key, value] of Object.entries(params)) {
+      searchParams.append(key, typeof value === "string" ? value : String(value))
+    }
+
+    return searchParams.toString()
+  }
+
+  return instance.get<Q, AxiosResponse<R, any>>(url, query)
 }

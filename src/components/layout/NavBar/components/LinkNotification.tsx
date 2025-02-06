@@ -122,7 +122,7 @@ export const LinkNotification = ({ pathname }: { pathname: string }) => {
           <article className="w-full py-2.5 px-[3.125rem] flex flex-col items-center gap-4">
             <h3 className="text-text-primary text-center text-xl font-semibold">У вас пока нет уведомлений</h3>
             <p className="text-text-secondary text-center text-base font-medium">
-              Здесь будут появляться уведомления о новых обсуждениях и SOS-сообщениях, отзывах, статусах предложений и многое другое.
+              Здесь будут появляться уведомления о новых событиях и SOS-сообщениях, отзывах, статусах умений и услуг и многое другое.
             </p>
           </article>
         )}

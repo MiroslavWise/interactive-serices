@@ -1,5 +1,11 @@
 import type { UUID } from "crypto"
 
+export interface IPaginateQuery {
+  limit?: number
+  page?: number
+  order?: TOrder
+}
+
 export interface IMetaData {
   page: number
   limit: number
@@ -33,4 +39,8 @@ export type TProviderOffer =
   | "games"
   | "rent"
 
+export enum EOrder {
+  DESC = "DESC",
+  ASC = "ASC",
+}
 export type TOrder = "DESC" | "ASC"

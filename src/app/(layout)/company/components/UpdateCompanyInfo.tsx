@@ -39,10 +39,10 @@ function UpdateCompanyInfo({ company, refetch }: IProps) {
 
   return (
     <form className={cx("w-full flex flex-col gap-3 overflow-y-auto h-full py-5", styles.form)}>
-      <h3 className="text-xl font-semibold text-text-primary">Обновление данных о компании</h3>
+      <h3 className="text-xl font-semibold text-text-primary">Данные о компании</h3>
       <p className="-mt-2 mb-3 text-text-secondary text-sm font-normal">
-        Обновите информацию о вашей компании при необходимости. В случае предоставления некорректных данных ваша компания будет удалена
-        модерацией. Пожалуйста, проверяйте вводимую информацию на точность и актуальность.
+        Информация о вашей компании. В случае предоставления некорректных данных ваша компания будет удалена модерацией. Пожалуйста,
+        проверяйте информацию на точность и актуальность.
       </p>
       <Controller
         name="title"
@@ -52,7 +52,7 @@ function UpdateCompanyInfo({ company, refetch }: IProps) {
             <label className="text-sm text-text-primary font-medium" htmlFor={field.name} title="Название компании">
               Название компании
             </label>
-            <input type="text" placeholder="Введите название" {...field} data-error={!!error} disabled={!isMain} />
+            <input type="text" placeholder="Введите название" {...field} data-error={!!error} disabled />
           </fieldset>
         )}
       />
@@ -64,7 +64,7 @@ function UpdateCompanyInfo({ company, refetch }: IProps) {
             <label className="text-sm text-text-primary font-medium" htmlFor={field.name} title="ИНН компании">
               ИНН компании
             </label>
-            <input type="text" placeholder="Введите ИНН" {...field} data-error={!!error} maxLength={MAX_LENGTH_INN} disabled={!isMain} />
+            <input type="text" placeholder="Введите ИНН" {...field} data-error={!!error} maxLength={MAX_LENGTH_INN} disabled />
           </fieldset>
         )}
       />
@@ -76,7 +76,7 @@ function UpdateCompanyInfo({ company, refetch }: IProps) {
             <label className="text-sm text-text-primary font-medium" htmlFor={field.name} title="ОГРН компании">
               ОГРН (Основной гос. регистрационный номер)
             </label>
-            <input type="text" placeholder="Введите ОГРН" {...field} data-error={!!error} maxLength={MAX_LENGTH_OGRN} disabled={!isMain} />
+            <input type="text" placeholder="Введите ОГРН" {...field} data-error={!!error} maxLength={MAX_LENGTH_OGRN} disabled />
           </fieldset>
         )}
       />
@@ -88,7 +88,7 @@ function UpdateCompanyInfo({ company, refetch }: IProps) {
             <label className="text-sm text-text-primary font-medium" htmlFor={field.name} title="ERID рекламной компании">
               ERID рекламной компании
             </label>
-            <input type="text" placeholder="Введите ERID" {...field} data-error={!!error} disabled={!isMain} />
+            <input type="text" placeholder="Введите ERID" {...field} data-error={!!error} disabled />
           </fieldset>
         )}
       />
@@ -100,16 +100,16 @@ function UpdateCompanyInfo({ company, refetch }: IProps) {
             <label className="text-sm text-text-primary font-medium" htmlFor={field.name} title="Описание">
               Описание (не обязательно)
             </label>
-            <input type="text" placeholder="Введите описание" {...field} data-error={!!error} disabled={!isMain} />
+            <input type="text" placeholder="Введите описание" {...field} data-error={!!error} disabled />
           </fieldset>
         )}
       />
-      <Button
+      {/* <Button
         type="button"
         label="Обновить"
         loading={loading}
         className="mt-3"
-        disabled={!isMain}
+        disabled
         onClick={async () => {
           if (!loading && isMain) {
             setLoading(true)
@@ -121,7 +121,7 @@ function UpdateCompanyInfo({ company, refetch }: IProps) {
             setLoading(false)
           }
         }}
-      />
+      /> */}
     </form>
   )
 }
