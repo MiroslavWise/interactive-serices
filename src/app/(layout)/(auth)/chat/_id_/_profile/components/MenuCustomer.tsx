@@ -2,9 +2,8 @@
 
 import { type IUserResponse } from "@/services/users/types"
 
-import IconComplaint from "@/components/icons/IconComplaint"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
-import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
+import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
@@ -33,11 +32,11 @@ function MenuCustomer({ user, id }: { user: IUserResponse; id: string | number }
   return (
     <button
       type="button"
-      className="[&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:h-5 [&>svg]:w-5"
+      className="[&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-x-1/2 [&>svg]:-translate-y-1/2 [&>svg]:h-5 [&>svg]:w-5 text-element-grey-light hover:text-element-accent-1"
       ref={ref}
       onClick={() => set((_) => !_)}
     >
-      <IconDotsHorizontal />
+      <SpriteDefault id="dots-horizontal" />
       <article
         className={cx(
           "absolute -right-[2.125rem] rounded-xl bg-BG-second shadow-menu-absolute p-3 w-44 flex flex-col gap-0.5 -top-2.5 -translate-y-full",
@@ -52,8 +51,8 @@ function MenuCustomer({ user, id }: { user: IUserResponse; id: string | number }
             onComplaint()
           }}
         >
-          <div className="relative w-5 h-5 p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5">
-            <IconComplaint />
+          <div className="relative w-5 h-5 p-2.5">
+            <SpriteDefault id="icon-complaint" className="text-text-error w-5 h-5" />
           </div>
           <span>Пожаловаться</span>
         </a>

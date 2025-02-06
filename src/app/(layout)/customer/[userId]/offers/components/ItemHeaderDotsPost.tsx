@@ -3,11 +3,8 @@ import Link from "next/link"
 import { EnumTypeProvider } from "@/types/enum"
 import { type IPosts } from "@/services/posts/types"
 
-import IconMap from "@/components/icons/IconMap"
-import IconStar01 from "@/components/icons/IconStar-01"
 import IconActivity from "@/components/icons/IconActivity"
-import IconComplaint from "@/components/icons/IconComplaint"
-import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
+import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
@@ -45,13 +42,13 @@ function ItemHeaderDotsPost({ post }: IProps) {
     <div className="w-6 h-6 relative flex" ref={ref}>
       <button
         type="button"
-        className="w-6 h-6 relative p-3 *:absolute *:-translate-x-1/2 *:-translate-y-1/2 *:left-1/2 *:top-1/2 *:w-4 *:h-4"
+        className="w-6 h-6 relative p-3 *:w-4 *:h-4 text-element-grey-light hover:text-element-accent-1"
         onClick={(event) => {
           event.stopPropagation()
           setOpen((_) => !_)
         }}
       >
-        <IconDotsHorizontal />
+        <SpriteDefault id="dots-horizontal" />
       </button>
       <article
         className={cx(
@@ -61,7 +58,6 @@ function ItemHeaderDotsPost({ post }: IProps) {
           "[&>*>span]:text-text-primary [&>*>span]:text-sm [&>*>span]:font-normal [&>*>span]:text-left [&>*>span]:whitespace-nowrap",
           "[&>*>div]:w-5 [&>*>div]:h-5  [&>*>div]:relative  [&>*>div]:p-2.5",
           "hover:*:bg-grey-field",
-          "[&>*>div>svg]:w-5 [&>*>div>svg]:h-5 [&>*>div>svg]:absolute [&>*>div>svg]:top-1/2 [&>*>div>svg]:left-1/2 [&>*>div>svg]:-translate-x-1/2 [&>*>div>svg]:-translate-y-1/2",
         )}
       >
         <a
@@ -111,7 +107,7 @@ function ItemHeaderDotsPost({ post }: IProps) {
           }}
         >
           <div>
-            <IconMap />
+            <SpriteDefault id="icon-default-map" className="w-5 h-5 text-text-primary" />
           </div>
           <span>{TITLE_TO_MAP}</span>
         </Link>
@@ -127,13 +123,8 @@ function ItemHeaderDotsPost({ post }: IProps) {
           <span className="text-text-primary text-sm font-normal text-left">{TITLE_SHARE}</span>
         </a>
         <a title={LABEL_REVIEW} aria-label={LABEL_REVIEW} aria-labelledby={LABEL_REVIEW} onClick={onReview}>
-          <div
-            className={cx(
-              "w-5 h-5 flex items-center justify-center relative p-2.5",
-              "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-primary",
-            )}
-          >
-            <IconStar01 />
+          <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
+            <SpriteDefault id="icon-star" className="text-text-primary w-5 h-5" />
           </div>
           <span className="text-text-primary text-sm font-normal text-left">{LABEL_REVIEW}</span>
         </a>
@@ -150,7 +141,7 @@ function ItemHeaderDotsPost({ post }: IProps) {
           }}
         >
           <div>
-            <IconComplaint />
+            <SpriteDefault id="icon-complaint" className="text-text-error w-5 h-5" />
           </div>
           <span className="!text-text-error">{TITLE_COMPLAINT}</span>
         </a>

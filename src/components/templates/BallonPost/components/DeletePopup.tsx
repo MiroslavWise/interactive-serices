@@ -1,11 +1,11 @@
 import { type INotes } from "@/services/notes/types"
 
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
-import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
+import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 
 import { cx } from "@/lib/cx"
-import { dispatchDeleteNote, useAuth } from "@/store"
 import { useOutsideClickEvent } from "@/helpers"
+import { dispatchDeleteNote, useAuth } from "@/store"
 
 function DeletePopup({ note }: { note: INotes }) {
   const [open, set, ref] = useOutsideClickEvent()
@@ -17,13 +17,13 @@ function DeletePopup({ note }: { note: INotes }) {
     <div className="w-4 h-4 relative flex" ref={ref}>
       <button
         type="button"
-        className="relative h-4 w-4 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4"
+        className="relative h-4 w-4 *:w-4 *:h-4 text-element-grey-light hover:text-element-accent-1"
         onClick={(event) => {
           event.stopPropagation()
           set((_) => !_)
         }}
       >
-        <IconDotsHorizontal />
+        <SpriteDefault id="dots-horizontal" />
       </button>
       <article
         className={cx(

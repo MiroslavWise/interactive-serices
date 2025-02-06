@@ -2,10 +2,7 @@ import { EnumTypeProvider } from "@/types/enum"
 import { ETitleRole } from "@/services/roles/types"
 import { type IPosts } from "@/services/posts/types"
 
-import IconShare from "@/components/icons/IconShare"
-import IconStar01 from "@/components/icons/IconStar-01"
-import IconComplaint from "@/components/icons/IconComplaint"
-import IconDotsHorizontal from "@/components/icons/IconDotsHorizontal"
+import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 import IconCurrencyRubleCircle from "@/components/icons/IconCurrencyRubleCircle"
 
 import { cx } from "@/lib/cx"
@@ -56,14 +53,14 @@ function ComponentDots({ post }: IProps) {
       <div className="relative h-4 w-4 border-none outline-none bg-transparent flex items-center justify-center z-[91]">
         <button
           type="button"
-          className="absolute bg-transparent border-none outline-none top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-8 w-8 z-50 *:h-4 *:w-4 flex items-center justify-center"
+          className="absolute bg-transparent top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-8 w-8 z-50 *:h-4 *:w-4 flex items-center justify-center text-element-grey-light hover:text-element-accent-1"
           ref={ref}
           onClick={(event) => {
             event.stopPropagation()
             setVisible((prev) => !prev)
           }}
         >
-          <IconDotsHorizontal />
+          <SpriteDefault id="dots-horizontal" />
         </button>
         <article
           className={cx(
@@ -111,7 +108,7 @@ function ComponentDots({ post }: IProps) {
           </a>
           <a title={TITLE_SHARE} aria-label={TITLE_SHARE} aria-labelledby={TITLE_SHARE} onClick={onShare}>
             <div>
-              <IconShare />
+              <SpriteDefault id="icon-share" className="w-5 h-5 text-text-primary" />
             </div>
             <span>{TITLE_SHARE}</span>
           </a>
@@ -126,7 +123,7 @@ function ComponentDots({ post }: IProps) {
             }}
           >
             <div>
-              <IconStar01 />
+              <SpriteDefault id="icon-star" className="text-text-primary w-5 h-5" />
             </div>
             <span>{LABEL_REVIEW}</span>
           </a>
@@ -144,7 +141,7 @@ function ComponentDots({ post }: IProps) {
             }}
           >
             <div>
-              <IconComplaint />
+              <SpriteDefault id="icon-complaint" className="text-text-error w-5 h-5" />
             </div>
             <span className="!text-text-error">{TITLE_COMPLAINT}</span>
           </a>

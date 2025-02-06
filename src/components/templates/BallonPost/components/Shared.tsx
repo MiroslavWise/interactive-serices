@@ -2,11 +2,9 @@ import { EnumTypeProvider } from "@/types/enum"
 import { ETitleRole } from "@/services/roles/types"
 import { type IPosts } from "@/services/posts/types"
 
-import IconStar01 from "@/components/icons/IconStar-01"
 import IconArchive from "@/components/icons/IconArchive"
 import IconActivity from "@/components/icons/IconActivity"
-import IconComplaint from "@/components/icons/IconComplaint"
-import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
+import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 import IconCurrencyRubleCircle from "@/components/icons/IconCurrencyRubleCircle"
 
 import { cx } from "@/lib/cx"
@@ -57,13 +55,13 @@ function SharedDotsPost({ post }: IProps) {
     <div className="absolute -top-1 -right-1 w-6 h-6 flex" ref={ref}>
       <button
         type="button"
-        className="relative w-6 h-6 p-3 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4"
+        className="relative w-6 h-6 p-3 *:w-4 *:h-4 text-element-grey-light hover:text-element-accent-1"
         onClick={(event) => {
           event.stopPropagation()
           set((_) => !_)
         }}
       >
-        <IconDotsHorizontal />
+        <SpriteDefault id="dots-horizontal" />
       </button>
       <article
         className={cx(
@@ -146,7 +144,7 @@ function SharedDotsPost({ post }: IProps) {
           )}
         >
           <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
-            <IconStar01 />
+            <SpriteDefault id="icon-star" className="text-text-primary w-5 h-5" />
           </div>
           <span className="text-sm font-normal text-left text-text-primary">{LABEL_REVIEW}</span>
         </a>
@@ -183,13 +181,8 @@ function SharedDotsPost({ post }: IProps) {
             }}
             className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field"
           >
-            <div
-              className={cx(
-                "w-5 h-5 flex items-center justify-center relative p-2.5",
-                "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5",
-              )}
-            >
-              <IconComplaint />
+            <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
+              <SpriteDefault id="icon-complaint" className="text-text-error w-5 h-5" />
             </div>
             <span className="text-sm font-normal text-left !text-text-error">{TITLE_COMPLAINT}</span>
           </a>

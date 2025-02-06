@@ -3,7 +3,7 @@
 import { type IUserOffer } from "@/services/offers/types"
 import { type IUserResponse } from "@/services/users/types"
 
-import IconComplaint from "@/components/icons/IconComplaint"
+import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 
 import { dispatchCloseMenuMobileOnUser, dispatchComplaintModalUser } from "@/store"
 
@@ -33,7 +33,7 @@ function ButtonComplaintMenuMobile({ user }: { user: IUserResponse }) {
   return (
     <button type="button" title={LABEL} aria-label={LABEL} aria-labelledby={LABEL} onClick={handle}>
       <div>
-        <IconComplaint />
+        <SpriteDefault id="icon-complaint" className="text-text-error w-5 h-5" />
       </div>
       <span className="text-text-error">{LABEL}</span>
     </button>

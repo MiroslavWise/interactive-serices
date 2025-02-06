@@ -6,10 +6,9 @@ import { EnumTypeProvider } from "@/types/enum"
 import { ETitleRole } from "@/services/roles/types"
 import { type IResponseOffers } from "@/services/offers/types"
 
-import IconMap from "@/components/icons/IconMap"
-import IconStar01 from "@/components/icons/IconStar-01"
 import IconActivity from "@/components/icons/IconActivity"
 import IconAlertCircle from "@/components/icons/IconAlertCircle"
+import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 import IconCurrencyRubleCircle from "@/components/icons/IconCurrencyRubleCircle"
 
 import { cx } from "@/lib/cx"
@@ -79,13 +78,8 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
           }
         }}
       >
-        <div
-          className={cx(
-            "w-5 h-5 flex items-center justify-center relative p-2.5",
-            "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5",
-          )}
-        >
-          <IconMap />
+        <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
+          <SpriteDefault id="icon-default-map" className="w-5 h-5 text-text-primary" />
         </div>
         <span className="text-text-primary text-sm font-normal text-left">{LABEL_MAP}</span>
       </a>
@@ -108,7 +102,7 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
         className={cx((offerUserId === userId || !userId) && "!hidden")}
       >
         <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
-          <IconStar01 />
+          <SpriteDefault id="icon-star" className="text-text-primary w-5 h-5" />
         </div>
         <span className="text-text-primary text-sm font-normal text-left">{LABEL_REVIEW}</span>
       </a>

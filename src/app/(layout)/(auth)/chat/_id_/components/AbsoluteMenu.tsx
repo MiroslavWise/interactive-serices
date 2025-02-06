@@ -5,10 +5,9 @@ import { EnumProviderThreads } from "@/types/enum"
 import { type IResponseThread } from "@/services/threads/types"
 
 import IconProfile from "@/components/icons/IconProfile"
-import IconComplaint from "@/components/icons/IconComplaint"
 import IconTrashBlack from "@/components/icons/IconTrashBlack"
 import IconDefaultOffer from "@/components/icons/IconDefaultOffer"
-import { IconDotsHorizontal } from "@/components/icons/IconDotsHorizontal"
+import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
@@ -49,14 +48,14 @@ function AbsoluteMenu({ thread }: { thread: IResponseThread }) {
   return (
     <button
       type="button"
-      className="[&>svg>path]:fill-text-primary z-20"
+      className="[&>svg>path]:fill-text-primary z-20 text-element-grey-light hover:text-element-accent-1"
       ref={ref}
       onClick={(event) => {
         event.stopPropagation()
         set((_) => !_)
       }}
     >
-      <IconDotsHorizontal />
+      <SpriteDefault id="dots-horizontal" />
       <article
         className={cx(
           "absolute top-full md:top-[calc(100%_+_0.625rem)] right-1 md:-right-2.5 shadow-menu-absolute p-3 flex flex-col gap-0.5 bg-BG-second w-fit min-w-60 rounded-xl",
@@ -89,7 +88,7 @@ function AbsoluteMenu({ thread }: { thread: IResponseThread }) {
           }}
         >
           <div>
-            <IconComplaint />
+            <SpriteDefault id="icon-complaint" className="text-text-error w-5 h-5" />
           </div>
           <span className="!text-text-error">Пожаловаться</span>
         </a>
