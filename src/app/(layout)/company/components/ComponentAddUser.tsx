@@ -35,7 +35,7 @@ function ComponentAddUser({ users, id }: IProps) {
   const [usersSearch, setUsers] = useState<IUserResponse[]>([])
   const debouncedValue = useDebounce(search, 1250)
   const [loading, setLoading] = useState(false)
-  const { handleSubmit, control, setError, watch } = useForm<TSchemaUsers>({
+  const { handleSubmit, control, setError, watch, reset } = useForm<TSchemaUsers>({
     defaultValues: {
       id: null,
     },
@@ -73,12 +73,13 @@ function ComponentAddUser({ users, id }: IProps) {
     }
   }
 
-  const onSubmit = handleSubmit(async (values) => {
+  const onSubmit = handleSubmit(async (values, form) => {
     if (!loading) {
       setLoading(true)
       const newUsers = Array.from(new Set([...users.map((_) => _.id), Number(values.id)]))
       const response = await patchCompanyUsers(newUsers, id)
       if (response.res) {
+        reset()
         await refetch()
       } else {
         clg("ОШИБКА ДОБАВЛЕНИЯ ЮЗЕРА", response?.error, "error")
