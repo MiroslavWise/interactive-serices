@@ -1,4 +1,4 @@
-import { type TOrder } from "../types/general"
+import { IPaginateQuery, type TOrder } from "../types/general"
 import { IUserOffer, type IUserOffer as IUserSmall } from "../offers/types"
 import { type IAddressesResponse } from "../addresses/types/serviceAddresses"
 import { INotes } from "../notes/types"
@@ -63,11 +63,8 @@ interface IQuestion {
   userAnswers: number[] // {{user_id}}[]
 }
 
-interface IQueries {
-  order?: TOrder
+interface IQueries extends IPaginateQuery {
   user?: number
-  limit?: number
-  page?: number
   archive?: 1 | 0
 }
 

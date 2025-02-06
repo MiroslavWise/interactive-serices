@@ -7,7 +7,7 @@ import ItemComplain from "./components/ItemComplain"
 import { getComplains } from "@/services"
 
 export default () => {
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryFn: () => getComplains({ query: { order: "DESC" } }),
     queryKey: ["complains"],
   })

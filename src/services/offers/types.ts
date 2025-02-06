@@ -2,7 +2,7 @@ import { type IImageData } from "@/types/type"
 import { type ICompany } from "../types/company"
 import { type IResponse } from "../request/types"
 import { EnumHelper, EnumTypeProvider } from "@/types/enum"
-import { type IPromiseReturn, type TOrder } from "../types/general"
+import { IPaginateQuery, type IPromiseReturn, type TOrder } from "../types/general"
 import { type IResponseOffersCategories } from "../offers-categories/types"
 import { type IAddressesResponse } from "../addresses/types/serviceAddresses"
 import { type TGenderForm } from "@/components/templates/UpdateProfile/utils/update-form.schema"
@@ -71,13 +71,10 @@ export interface IResponseOffers {
   company?: ICompany
 }
 
-export interface IQueriesOffers {
+export interface IQueriesOffers extends IPaginateQuery {
   category?: string
-  order?: TOrder
   user?: number
   provider?: EnumTypeProvider
-  limit?: number
-  page?: number
   urgent?: EnumHelper
 }
 

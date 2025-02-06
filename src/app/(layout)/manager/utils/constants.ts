@@ -52,7 +52,7 @@ interface ILOffer {
 
 export const LINKS_OFFER: ILOffer[] = [
   {
-    label: "Предложения",
+    label: "Умения и услуги",
     path: EnumTypeProvider.offer,
   },
   {

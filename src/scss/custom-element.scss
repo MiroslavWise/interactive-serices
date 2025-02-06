@@ -85,6 +85,10 @@
   }
 }
 
+.rs-pagination-btn {
+  color: var(--text-primary) !important;
+}
+
 .rs-pagination-btn-active {
   border-color: var(--element-accent-1) !important;
   color: var(--text-accent) !important;

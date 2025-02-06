@@ -11,12 +11,7 @@ import { EnumTypeProvider } from "@/types/enum"
 
 import { getOffers } from "@/services"
 import { getPosts } from "@/services/posts"
-
-interface IObj {
-  provider?: EnumTypeProvider
-  limit: number
-  page: number
-}
+import { IQueriesOffers } from "@/services/offers/types"
 
 function ComponentsOffers() {
   const [type] = useQueryState(
@@ -26,7 +21,7 @@ function ComponentsOffers() {
   const [page] = useQueryState("page", parseAsInteger)
 
   const filter = useMemo(() => {
-    const obj: IObj = {
+    const obj: IQueriesOffers = {
       limit: 24,
       page: 1,
     }

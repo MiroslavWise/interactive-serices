@@ -48,7 +48,7 @@ function CardBallon({ offer, className }: IProps) {
       <div
         className={cx(
           styles.container,
-          "w-full cursor-pointer p-4 flex flex-col gap-3 border-solid border rounded-2xl border-l-2 border-l-element-accent-1 overflow-hidden",
+          "w-full cursor-pointer p-4 flex flex-col gap-3 border-solid border rounded-2xl border-l-2 border-l-element-accent-1",
           provider === EnumTypeProvider.offer && "bg-BG-second border-grey-stroke-light",
           className,
         )}
@@ -71,7 +71,7 @@ function CardBallon({ offer, className }: IProps) {
     <article
       className={cx(
         styles.container,
-        "w-full cursor-pointer p-4 flex flex-col gap-3 border-solid border rounded-2xl overflow-hidden",
+        "w-full cursor-pointer p-4 flex flex-col gap-3 border-solid border rounded-2xl",
         provider === EnumTypeProvider.offer && "bg-BG-second border-grey-stroke-light",
         provider === EnumTypeProvider.alert && "bg-card-red border-card-border-red",
         provider === EnumTypeProvider.discussion && "!hidden",

@@ -8,7 +8,6 @@ import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { getNotes } from "@/services/notes"
 import { daysAgo, getMillisecond } from "@/helpers"
-import { clg } from "@console"
 
 interface IProps {
   post: IPosts

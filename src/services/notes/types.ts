@@ -24,7 +24,7 @@ export interface IBodyNote {
   isAuthRead?: boolean
 }
 
-interface IQueries {
+export interface IQueriesNotes {
   order: TOrder
   limit?: number
   user?: number
@@ -34,5 +34,5 @@ interface IQueries {
 
 export type TPostNote = (body: IBodyNote) => Promise<IResponse<INotes>>
 export type TPatchNote = (id: number, body: Partial<IBodyNote>) => IPromiseReturn<INotes>
-export type TGetNotes = (query: IQueries) => Promise<IResponse<INotes[]>>
+export type TGetNotes = (query: IQueriesNotes) => Promise<IResponse<INotes[]>>
 export type TDeleteNote = (id: number) => Promise<any>
