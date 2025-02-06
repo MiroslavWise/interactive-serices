@@ -5,6 +5,7 @@ import { URL_API } from "@/helpers"
 import { handleError } from "./error"
 import { createHeaders } from "./header"
 import { invalidAccessTokenRefresh } from "@/helpers/functions/invalid-access-token-refresh"
+import { instance } from "./instance"
 
 interface IGet {
   url: string
@@ -57,5 +58,13 @@ export async function fetchGet<T = any>({ url, query }: IGet, isInvalid?: boolea
     }
   } catch (e) {
     return handleError(e)
+  }
+}
+
+export const getAxios = (url: string, query?: object) => {
+  instance.defaults.paramsSerializer = (params) => {
+    const searchParams = new URLSearchParams()
+
+    return searchParams.toString()
   }
 }
