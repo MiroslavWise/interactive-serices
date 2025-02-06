@@ -32,7 +32,7 @@ export const resolverSchemaCompany = zodResolver(schema)
 export type TFiles = z.infer<typeof file>
 
 const schemaUsers = z.object({
-  id: z.string().min(1, { message: "Введите id пользователя" }).default(""),
+  id: z.nullable(z.number()).default(null),
 })
 
 export type TSchemaUsers = z.infer<typeof schemaUsers>
