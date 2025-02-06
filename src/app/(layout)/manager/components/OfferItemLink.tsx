@@ -1,6 +1,6 @@
 "use client"
 
-import { parseAsStringEnum, useQueryState } from "nuqs"
+import { parseAsInteger, parseAsStringEnum, useQueryState } from "nuqs"
 
 import { EnumTypeProvider } from "@/types/enum"
 
@@ -19,11 +19,18 @@ function OfferItemLink({ q, label }: IProps) {
     "type",
     parseAsStringEnum<EnumTypeProvider>(Object.values(EnumTypeProvider)).withDefault(EnumTypeProvider.offer),
   )
+  const [_, setPage] = useQueryState("page", parseAsInteger)
 
-  const is = (state ?? "") === q
+  const is = state === q
 
   return (
-    <a className={cx(styles.link, "relative no-underline cursor-pointer", is && styles.is)} onClick={() => setState(q)}>
+    <a
+      className={cx(styles.link, "relative no-underline cursor-pointer", is && styles.is)}
+      onClick={() => {
+        setState(q)
+        setPage(null)
+      }}
+    >
       <span className={cx("text-sm font-medium transition-colors", is ? "text-text-accent" : "text-text-primary")}>{label}</span>
     </a>
   )

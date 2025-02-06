@@ -39,4 +39,8 @@ export type TProviderOffer =
   | "games"
   | "rent"
 
+export enum EOrder {
+  DESC = "DESC",
+  ASC = "ASC",
+}
 export type TOrder = "DESC" | "ASC"
