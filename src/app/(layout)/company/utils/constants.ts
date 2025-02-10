@@ -11,10 +11,10 @@ export interface ILink {
 }
 
 export const LINKS: ILink[] = [
-  {
-    label: "Информация",
-    path: "/company",
-  },
+  // {
+  //   label: "Информация",
+  //   path: "/company",
+  // },
   {
     label: "Список аккаунтов",
     path: "/company/users",

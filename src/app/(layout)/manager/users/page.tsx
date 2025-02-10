@@ -68,13 +68,13 @@ export default () => {
               debouncedValue()
             }}
             placeholder="Введите имя, фамилия или id, если хотите найти быстрее пользователя"
-            className="w-full pl-11"
+            className="w-full !pl-11"
           />
           <div className="pointer-events-none absolute top-1/2 -translate-y-1/2 left-3 w-5 h-5 *:w-5 *:h-5">
             <IconSearch />
           </div>
         </div>
-        <ComponentSortActive />
+        <ComponentSortActive total={total} />
       </div>
       <ul className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
         {isLoading ? (

@@ -10,8 +10,8 @@ import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
 import { useOutsideClickEvent } from "@/helpers"
 import { serviceNotifications } from "@/services"
-import { MENU_ICONS } from "../constants/menu-icons"
 import { IconSpriteNavHeader } from "@/components/icons/icon-sprite-nav-header"
+import { DESCRIPTION_NOTIFICATIONS_EMPTY } from "@/components/templates/NotificationsMobile/constants/navigation"
 
 const TITLE = "Уведомления"
 
@@ -121,9 +121,7 @@ export const LinkNotification = ({ pathname }: { pathname: string }) => {
         ) : (
           <article className="w-full py-2.5 px-[3.125rem] flex flex-col items-center gap-4">
             <h3 className="text-text-primary text-center text-xl font-semibold">У вас пока нет уведомлений</h3>
-            <p className="text-text-secondary text-center text-base font-medium">
-              Здесь будут появляться уведомления о новых событиях и SOS-сообщениях, отзывах, статусах умений и услуг и многое другое.
-            </p>
+            <p className="text-text-secondary text-center text-base font-medium">{DESCRIPTION_NOTIFICATIONS_EMPTY.all}</p>
           </article>
         )}
         <footer className="w-full h-10 flex items-center justify-center px-0 pt-[0.5625rem] pb-[0.6875rem] border-t border-solid border-grey-stroke-light">
