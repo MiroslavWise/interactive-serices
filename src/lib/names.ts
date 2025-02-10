@@ -1,64 +1,33 @@
 import { EProviderLinkCustomer } from "@/app/(layout)/customer/[userId]/components/LinkService"
 import { EnumTypeProvider } from "@/types/enum"
 
-export function nameTitle(length: number, provider: EProviderLinkCustomer | EnumTypeProvider) {
-  var num = length % 10
-  if (length >= 10 && length <= 20) {
-    if (EProviderLinkCustomer.discussion === provider) {
-      return "обсуждений"
-    }
-    if (EProviderLinkCustomer.post === provider) {
-      return "событий"
-    }
-    if (EnumTypeProvider.NOTE === provider) {
-      return "записей"
-    }
-    if (EProviderLinkCustomer.alert === provider) {
-      return "SOS-сообщений"
-    }
-    return "умений, или услуг"
+type Provider = EProviderLinkCustomer | EnumTypeProvider | "users" | "default"
+
+const forms = {
+  [EProviderLinkCustomer.discussion]: ["обсуждение", "обсуждения", "обсуждений"],
+  [EProviderLinkCustomer.post]: ["событие", "события", "событий"],
+  [EnumTypeProvider.NOTE]: ["запись", "записи", "записей"],
+  [EProviderLinkCustomer.alert]: ["SOS-сообщение", "SOS-сообщения", "SOS-сообщений"],
+  users: ["пользователь", "пользователя", "пользователей"],
+  default: ["умение, или услуга", "умения или услуги", "умений, или услуг"],
+} as Record<Provider, [string, string, string]>
+
+function getFormIndex(n: number): number {
+  const num = n % 100
+  if (num >= 11 && num <= 20) return 2
+  switch (num % 10) {
+    case 1:
+      return 0
+    case 2:
+    case 3:
+    case 4:
+      return 1
+    default:
+      return 2
   }
-  if (num > 1 && num < 5) {
-    if (EProviderLinkCustomer.discussion === provider) {
-      return "обсуждения"
-    }
-    if (EProviderLinkCustomer.post === provider) {
-      return "события"
-    }
-    if (EnumTypeProvider.NOTE === provider) {
-      return "записи"
-    }
-    if (EProviderLinkCustomer.alert === provider) {
-      return "SOS-сообщения"
-    }
-    return "умения или услуги"
-  }
-  if (num == 1) {
-    if (EProviderLinkCustomer.discussion === provider) {
-      return "обсуждение"
-    }
-    if (EProviderLinkCustomer.post === provider) {
-      return "событие"
-    }
-    if (EnumTypeProvider.NOTE === provider) {
-      return "запись"
-    }
-    if (EProviderLinkCustomer.alert === provider) {
-      return "SOS-сообщение"
-    }
-    return "умение, или услуга"
-  }
-  if (EProviderLinkCustomer.discussion === provider) {
-    return "обсуждений"
-  }
-  if (EnumTypeProvider.NOTE === provider) {
-    return "записей"
-  }
-  if (EProviderLinkCustomer.post === provider) {
-    return "событий"
-  }
-  if (EProviderLinkCustomer.alert === provider) {
-    return "SOS-сообщений"
-  }
-  return "умений и услуг"
+}
+
+export function nameTitle(length: number, provider: Provider) {
+  const formKey = Object.keys(forms).includes(provider) ? provider : "default"
+  return forms[formKey][getFormIndex(length)]
 }
