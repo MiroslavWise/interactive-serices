@@ -31,11 +31,11 @@ function ActiveFilters() {
           <a
             key={`::key::item::filter::category::${item}::`}
             data-test={`a-filters-category-banner-service-${item}`}
-            className={cx(
-              itemCategory(item)?.slug === "kursk" ? "[background:var(--more-red-gradient)]" : "[background:var(--more-blue-gradient)]",
-            )}
+            // className={cx(
+            //   itemCategory(item)?.slug === "kursk" ? "[background:var(--more-red-gradient)]" : "[background:var(--more-blue-gradient)]",
+            // )}
           >
-            <div data-icon>
+            <div data-icon className="relative *:w-4 *:h-4 *:rounded-sm">
               <ImageCategory id={item} slug={itemCategory(item)?.slug} provider={itemCategory(item)?.provider} />
             </div>
             <span>{itemCategory(item) ? itemCategory(item)?.title : null}</span>
@@ -45,6 +45,7 @@ function ActiveFilters() {
                 event.stopPropagation()
                 deleteCategories(item)
               }}
+              className="relative w-4 h-4 p-2"
             >
               <IconSprite id="x-close-20-20" className="w-4 h-4" />
             </button>
