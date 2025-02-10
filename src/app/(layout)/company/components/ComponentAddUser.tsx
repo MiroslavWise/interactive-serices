@@ -80,12 +80,13 @@ function ComponentAddUser({ users, id }: IProps) {
       const response = await patchCompanyUsers(newUsers, id)
       if (response.res) {
         reset()
+        setInput("")
+        setUser(null)
         await refetch()
       } else {
         clg("ОШИБКА ДОБАВЛЕНИЯ ЮЗЕРА", response?.error, "error")
         setError("id", { message: response?.error?.message ?? "Какая-то ошибка добавления, посмотрите в консоль!!!" })
       }
-
       setLoading(false)
     }
   })
