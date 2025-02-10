@@ -68,7 +68,7 @@ export default () => {
               debouncedValue()
             }}
             placeholder="Введите имя, фамилия или id, если хотите найти быстрее пользователя"
-            className="w-full pl-11"
+            className="w-full !pl-11"
           />
           <div className="pointer-events-none absolute top-1/2 -translate-y-1/2 left-3 w-5 h-5 *:w-5 *:h-5">
             <IconSearch />
