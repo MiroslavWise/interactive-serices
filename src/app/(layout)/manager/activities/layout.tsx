@@ -14,5 +14,5 @@ export const metadata: Metadata = {
 }
 
 export default ({ children }: PropsWithChildren) => (
-  <section className="w-full flex flex-col p-5 gap-7 bg-BG-second h-full ">{children}</section>
+  <section className="w-full flex flex-col p-5 gap-7 bg-BG-second h-full">{children}</section>
 )

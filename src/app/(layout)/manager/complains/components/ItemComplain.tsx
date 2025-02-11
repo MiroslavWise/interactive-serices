@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseComplains } from "@/services/complains/types"
@@ -7,23 +8,28 @@ import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 
 import { formatOfMMM } from "@/helpers"
 import { getIdOffer } from "@/services"
-import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer } from "@/store"
+import { getPostId } from "@/services/posts"
+import { useToast } from "@/helpers/hooks/useToast"
+import { dispatchBallonAlert, dispatchBallonDiscussion, dispatchBallonOffer, dispatchBallonPost } from "@/store"
 
 const titleMap: Map<EnumTypeProvider, string> = new Map([
   [EnumTypeProvider.profile, "Жалоба на пользователя"],
   [EnumTypeProvider.offer, "Жалоба на умение или услугу"],
   [EnumTypeProvider.discussion, "Жалоба на обсуждение"],
   [EnumTypeProvider.alert, "Жалоба на SOS-сообщение"],
+  [EnumTypeProvider.POST, "Жалоба на событие"],
 ])
 
 const onTitle = (value: EnumTypeProvider) => (titleMap.has(value) ? titleMap.get(value) : null)
 
 function ItemComplain(props: IResponseComplains) {
-  const { provider, created, message, receiverId } = props ?? {}
+  const { on } = useToast()
+  const { push } = useRouter()
   const [loading, setLoading] = useState(false)
+  const { provider, created, message, receiverId } = props ?? {}
 
   async function handle() {
-    if ([EnumTypeProvider.offer, EnumTypeProvider.discussion, EnumTypeProvider.alert].includes(provider)) {
+    if ([EnumTypeProvider.offer, EnumTypeProvider.alert].includes(provider)) {
       if (!loading) {
         setLoading(true)
         const { data } = await getIdOffer(receiverId!)
@@ -37,9 +43,30 @@ function ItemComplain(props: IResponseComplains) {
           if (data.provider === EnumTypeProvider.alert) {
             dispatchBallonAlert({ offer: data })
           }
+        } else {
+          on({
+            message: `Удалено или не существует!!!`,
+          })
         }
         setLoading(false)
       }
+      return
+    }
+    if (provider === EnumTypeProvider.POST) {
+      setLoading(true)
+      const { data } = await getPostId(receiverId!)
+      if (!!data) {
+        dispatchBallonPost(data)
+      } else {
+        on({
+          message: `Удалено или не существует!!!`,
+        })
+      }
+      setLoading(false)
+      return
+    }
+    if (provider === EnumTypeProvider.profile) {
+      return push(`/customer/${receiverId}`)
     }
   }
 

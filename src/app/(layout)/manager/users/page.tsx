@@ -76,7 +76,7 @@ export default () => {
         </div>
         <ComponentSort total={total} type="users" />
       </div>
-      <ul className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+      <ul className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4"> 
         {isLoading ? (
           Array.from({ length: LIMIT }, (_, index) => index).map((item) => (
             <li key={`:loading-${item}:`} className="w-full grid grid-cols-[3.125rem_minmax(0,1fr)] gap-3 p-2 rounded-sm loading-screen">
