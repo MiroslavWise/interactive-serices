@@ -1,6 +1,7 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { createPortal } from "react-dom"
+import { memo, useEffect, useRef } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
 
@@ -22,7 +23,7 @@ import { DATA_MODAL, ID_MODAL, STYLE_MODAL } from "../Data"
 
 import styles from "./style.module.scss"
 
-function Modal() {
+function Modal({ portalRoot }: { portalRoot: any }) {
   const data = useModal(({ data }) => data)
   const visible = useModal(({ visible }) => visible)
   const ref = useRef<HTMLDivElement>(null)
@@ -167,7 +168,9 @@ function Modal() {
     }
   }, [visible, data, visibleCreateCategory, visibleOnboarding, typeAdd])
 
-  return (
+  if (!portalRoot) return null
+
+  return createPortal(
     <div
       className={cx(
         styles.wrapperModal,
@@ -199,9 +202,10 @@ function Modal() {
         />
         {data ? (DATA_MODAL.has(data!) ? DATA_MODAL.get(data!) : null) : null}
       </section>
-    </div>
+    </div>,
+    portalRoot,
   )
 }
 
 Modal.displayName = "Modal"
-export default Modal
+export default memo(Modal)

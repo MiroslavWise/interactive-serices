@@ -1,5 +1,6 @@
 "use client"
 
+import { useRef } from "react"
 import dynamic from "next/dynamic"
 
 import {
@@ -70,12 +71,14 @@ function Containers() {
   const visibleVideo = useVideoModal(({ visible }) => visible)
   const { type, id } = useAddAdvert()
   const isOpen = type !== null && id !== null
+  const ref = useRef<HTMLDivElement>(null)
 
   const { isTablet } = useResize()
 
   return (
     <>
-      <Modal />
+      <div id="portal-root" ref={ref} />
+      <Modal portalRoot={ref.current!} />
       <WelcomeModal />
       <PhotoCarousel />
       <Intro />
