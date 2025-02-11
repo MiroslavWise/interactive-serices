@@ -83,11 +83,7 @@ function Containers() {
       <PhotoCarousel />
       <Intro />
       {visibleVideo && <VideoModal />}
-      {statusAuth === EStatusAuth.UNAUTHORIZED && (
-        <>
-          <ModalSign />
-        </>
-      )}
+      {statusAuth === EStatusAuth.UNAUTHORIZED && <ModalSign />}
       <Friends />
       <CookiesToast />
       <PublicProfile />

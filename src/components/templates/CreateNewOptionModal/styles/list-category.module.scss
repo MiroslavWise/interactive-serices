@@ -3,16 +3,12 @@
   z-index: 3;
 
   & > input {
-    height: 3rem !important;
-    outline: none !important;
-    border-radius: 1.5rem;
     padding: 0 3rem 0 0.875rem;
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
     line-height: 1.25rem;
     border: 0.0625rem solid var(--grey-stroke);
-    background: var(--BG-second);
 
     &[data-error="true"] {
       border-color: var(--element-error);
