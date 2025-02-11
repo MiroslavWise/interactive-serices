@@ -78,33 +78,33 @@ export default () => {
 
   return (
     <>
-      <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-        <nav className="flex flex-row gap-5 items-center justify-start">
-          {LINKS_OFFER.map(({ path, label }) => (
-            <OfferItemLink key={`:d:v:B:N:M-${path}:`} q={path} label={label} />
-          ))}
-        </nav>
-        <div className="flex flex-col md:flex-row md:items-center gap-2 md:justify-end">
+      <div className="w-full flex flex-col gap-2">
+        <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+          <nav className="flex flex-row gap-5 items-center justify-start">
+            {LINKS_OFFER.map(({ path, label }) => (
+              <OfferItemLink key={`:d:v:B:N:M-${path}:`} q={path} label={label} />
+            ))}
+          </nav>
           <ComponentSort
             type={type}
             total={
               [EnumTypeProvider.offer, EnumTypeProvider.alert].includes(type) ? total : type === EnumTypeProvider.POST ? totalPosts : 0
             }
           />
-          <div className="w-full max-w-[35rem] relative">
-            <input
-              type="text"
-              value={input}
-              onChange={(event) => {
-                setInput(event.target.value)
-                debouncedValue()
-              }}
-              placeholder="Введите имя, фамилия или id, если хотите найти быстрее пользователя"
-              className="w-full !pl-11"
-            />
-            <div className="pointer-events-none absolute top-1/2 -translate-y-1/2 left-3 w-5 h-5 *:w-5 *:h-5">
-              <IconSearch />
-            </div>
+        </div>
+        <div className="w-full max-w-[35rem] relative">
+          <input
+            type="text"
+            value={input}
+            onChange={(event) => {
+              setInput(event.target.value)
+              debouncedValue()
+            }}
+            placeholder="Введите имя, фамилия или id, если хотите найти быстрее пользователя"
+            className="w-full !pl-11"
+          />
+          <div className="pointer-events-none absolute top-1/2 -translate-y-1/2 left-3 w-5 h-5 *:w-5 *:h-5">
+            <IconSearch />
           </div>
         </div>
       </div>
