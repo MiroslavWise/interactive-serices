@@ -18,11 +18,11 @@ export const useMapOffers = () => {
   const objProvider = useMemo(() => {
     const obj: IQueriesOffers = {}
 
-    if (providers !== "all" && [EnumTypeProvider.alert, EnumTypeProvider.discussion, EnumTypeProvider.offer].includes(providers)) {
+    if (providers !== "all" && [EnumTypeProvider.alert, EnumTypeProvider.offer].includes(providers)) {
       obj.provider = providers
     }
 
-    if (!!urgent) {
+    if (!!urgent && providers !== EnumTypeProvider.alert) {
       obj.urgent = urgent
     }
 
