@@ -1,7 +1,8 @@
 import { type Metadata } from "next"
+import { type PropsWithChildren } from "react"
 
 export const metadata: Metadata = {
-  title: "Список жалоб",
+  title: "Панель менеджера | Активности",
   robots: {
     index: false,
     follow: false,
@@ -12,6 +13,6 @@ export const metadata: Metadata = {
   },
 }
 
-export default ({ children }: { children: React.ReactNode }) => (
+export default ({ children }: PropsWithChildren) => (
   <section className="w-full flex flex-col p-5 gap-7 bg-BG-second h-full">{children}</section>
 )

@@ -3,7 +3,7 @@ import { EnumTypeProvider } from "@/types/enum"
 export enum ELinkManager {
   OFFER = "activities",
   USERS = "users",
-  COMPLAINTS = "complaints",
+  COMPLAINTS = "complains",
   CATEGORIES = "categories",
   COMPANIES = "companies",
   REVIEWS = "reviews",
@@ -27,7 +27,7 @@ export const LINKS: I[] = [
   },
   {
     label: "Жалобы",
-    path: "/manager/complaints",
+    path: "/manager/complains",
   },
   {
     label: "Категории",

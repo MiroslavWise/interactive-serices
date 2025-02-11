@@ -1,5 +1,6 @@
 import { IResponse } from "../request/types"
 import { EnumTypeProvider } from "@/types/enum"
+import { IPaginateQuery } from "../types/general"
 
 export interface IPostComplains {
   receiverId: number
@@ -22,10 +23,7 @@ export interface IServiceComplains {
   post(values: IPostComplains): Promise<IResponse<{ id: number }>>
 }
 
-interface IQuery {
-  order: "ASC" | "DESC"
-  page?: number //1
-  limit?: number //1000
+interface IQuery extends IPaginateQuery {
   receiver?: number
   user?: number
 }

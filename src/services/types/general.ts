@@ -1,8 +1,11 @@
 import type { UUID } from "crypto"
 
 export interface IPaginateQuery {
+  /** Кол-во записей на страницу */
   limit?: number
+  /** Страница */
   page?: number
+  /** Порядок следования */
   order?: TOrder
 }
 

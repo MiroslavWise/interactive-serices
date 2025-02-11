@@ -73,6 +73,7 @@ export interface IResponseOffers {
 
 export interface IQueriesOffers extends IPaginateQuery {
   category?: string
+  search?: string
   user?: number
   provider?: EnumTypeProvider
   urgent?: EnumHelper

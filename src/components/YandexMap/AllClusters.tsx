@@ -29,6 +29,7 @@ import { getPosts } from "@/services/posts"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import { JSONStringBounds } from "@/utils/map-sort"
 import { useFormProviderSearch } from "@/app/(layout)/components/FormProviderSearch"
+import { clg } from "@console"
 
 export type ReactifiedApi = ReactifiedModule<typeof ymaps3>
 export type FeatureCluster = Feature & {
@@ -132,7 +133,13 @@ function AllClusters() {
             <span className="text-center text-text-primary text-sm">{features?.length}</span>
           </div>
           <article className="absolute bg-BG-second top-1/2 -translate-y-1/2 left-9 max-w-80 w-max hidden z-50 rounded-lg group-hover:flex overflow-hidden shadow-box-down">
-            <ul className="w-full flex flex-col gap-0.5 py-3 px-1.5 max-h-52 overflow-hidden overflow-y-scroll">
+            <ul
+              className="w-full flex flex-col gap-0.5 py-3 px-1.5 max-h-52 overflow-hidden overflow-y-scroll"
+              onWheel={(event) => {
+                event.preventDefault()
+                event.stopPropagation()
+              }}
+            >
               {features.map(({ id, properties, geometry }) => {
                 const { provider, offer, post } = properties ?? {}
 

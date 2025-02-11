@@ -19,6 +19,7 @@ function OfferItemLink({ q, label }: IProps) {
     "type",
     parseAsStringEnum<EnumTypeProvider>(Object.values(EnumTypeProvider)).withDefault(EnumTypeProvider.offer),
   )
+  const [search, setSearch] = useQueryState("search")
   const [_, setPage] = useQueryState("page", parseAsInteger)
 
   const is = state === q
@@ -29,6 +30,7 @@ function OfferItemLink({ q, label }: IProps) {
       onClick={() => {
         setState(q)
         setPage(null)
+        setSearch(null)
       }}
     >
       <span className={cx("text-sm font-medium transition-colors", is ? "text-text-accent" : "text-text-primary")}>{label}</span>
