@@ -28,16 +28,16 @@ function ComponentSort({ total, type }: { total?: number; type: ProviderNameTitl
 
   return (
     <div className="flex flex-row items-center justify-end gap-2">
-      <span className="text-text-secondary text-[0.8125rem] leading-[1.125rem] font-normal">
+      <span className="text-text-secondary text-[0.8125rem] leading-[1.125rem] font-normal whitespace-nowrap">
         {t} {nameTitle(t ?? 0, type)}
       </span>
-      <div className="ml-auto flex items-center justify-start md:justify-end gap-1">
+      <div className="flex items-center gap-1 flex-nowrap">
         <div className={cx("relative w-5 h-5", order === EOrder.DESC ? "*:rotate-0" : "*:rotate-180")}>
           <IconSort />
         </div>
         <button
           type="button"
-          className="text-sm font-medium text-text-primary"
+          className="text-sm font-medium text-text-primary whitespace-nowrap"
           onClick={() => setOrder(order === EOrder.DESC ? EOrder.ASC : EOrder.DESC)}
         >
           {ORDER.hasOwnProperty(order) ? ORDER[order] : null}
