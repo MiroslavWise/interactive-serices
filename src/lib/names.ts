@@ -1,7 +1,7 @@
 import { EProviderLinkCustomer } from "@/app/(layout)/customer/[userId]/components/LinkService"
 import { EnumTypeProvider } from "@/types/enum"
 
-type Provider = EProviderLinkCustomer | EnumTypeProvider | "users" | "default"
+export type ProviderNameTitle = EProviderLinkCustomer | EnumTypeProvider | "users" | "default"
 
 const forms = {
   [EProviderLinkCustomer.discussion]: ["обсуждение", "обсуждения", "обсуждений"],
@@ -10,7 +10,7 @@ const forms = {
   [EProviderLinkCustomer.alert]: ["SOS-сообщение", "SOS-сообщения", "SOS-сообщений"],
   users: ["пользователь", "пользователя", "пользователей"],
   default: ["умение, или услуга", "умения или услуги", "умений, или услуг"],
-} as Record<Provider, [string, string, string]>
+} as Record<ProviderNameTitle, [string, string, string]>
 
 function getFormIndex(n: number): number {
   const num = n % 100
@@ -27,7 +27,7 @@ function getFormIndex(n: number): number {
   }
 }
 
-export function nameTitle(length: number, provider: Provider) {
+export function nameTitle(length: number, provider: ProviderNameTitle) {
   const formKey = Object.keys(forms).includes(provider) ? provider : "default"
   return forms[formKey][getFormIndex(length)]
 }

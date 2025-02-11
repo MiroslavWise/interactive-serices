@@ -8,15 +8,15 @@ import { parseAsInteger, parseAsStringEnum, useQueryState } from "nuqs"
 import { EOrder } from "@/services/types/general"
 
 import Avatar from "@avatar"
+import IconSearch from "@/components/icons/IconSearch"
+import ComponentSort from "../components/ComponentSort"
 import PaginationRS from "@/components/common/PaginationRS"
+import ComponentsDotsUser from "../components/ComponentsDotsUser"
 import IconVerifiedTick from "@/components/icons/IconVerifiedTick"
-import ComponentSortActive from "../components/ComponentSortActive"
 import RatingAndFeedbackComponent from "@/components/templates/Friends/components/RatingAndFeedbackComponent"
 
 import { useDebounce } from "@/helpers"
 import { getUsers, IQUsers } from "@/services"
-import IconSearch from "@/components/icons/IconSearch"
-import ComponentsDotsUser from "../components/ComponentsDotsUser"
 
 const LIMIT = 24
 
@@ -74,7 +74,7 @@ export default () => {
             <IconSearch />
           </div>
         </div>
-        <ComponentSortActive total={total} />
+        <ComponentSort total={total} type="users" />
       </div>
       <ul className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
         {isLoading ? (
