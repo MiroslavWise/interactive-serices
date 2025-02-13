@@ -1,4 +1,6 @@
 .main {
+  padding-top: var(--height-header-nav-bar);
+
   & > section {
     & > ul {
       height: 100%;
@@ -27,7 +29,7 @@
         text-align: start;
         font-size: 1rem;
         font-style: normal;
-        font-weight: 400;
+        font-weight: 300;
 
         & > a {
           color: var(--link-color);
@@ -50,12 +52,7 @@
   }
 
   @media screen and (max-width: 768px) {
-    & > section {
-      & > ul {
-        padding-top: calc(var(--height-mobile-header) + 1.25rem);
-        padding-inline: 0.75rem;
-        padding-bottom: calc(var(--height-mobile-footer-nav) + 1.25rem);
-      }
-    }
+    padding-top: var(--height-mobile-header);
+    padding-bottom: var(--height-mobile-footer-nav);
   }
 }

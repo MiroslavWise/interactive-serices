@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 
 export default () => (
   <ul className="h-full w-full overflow-y-auto flex flex-col items-start gap-3">
+    <h1 className="mb-4 font-bold text-text-primary text-[2rem] leading-9">{title}</h1>
     <h3 className="text-text-primary text-2xl font-semibold">1. Общие положения</h3>
     <p>
       1.1. Общество с ограниченной ответственностью «ШЕЙРА» (далее по тексту – Оператор) ставит соблюдение прав и свобод граждан одним из
@@ -118,7 +119,9 @@ export default () => (
       5.5. Веб-сайт и приложения может содержать ссылки на другие сайты, находящиеся вне контроля Оператора и вне действия настоящей
       Политики.
     </p>
-    <h3 className="text-text-primary text-2xl font-semibold">6. Порядок сбора, хранения, передачи и других видов обработки персональных данных</h3>
+    <h3 className="text-text-primary text-2xl font-semibold">
+      6. Порядок сбора, хранения, передачи и других видов обработки персональных данных
+    </h3>
     <p>
       6.1. Оператор обеспечивает сохранность персональных данных и принимает все возможные меры, исключающие доступ к персональным данным
       неуполномоченных лиц.

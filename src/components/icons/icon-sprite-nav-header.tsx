@@ -1,3 +1,5 @@
+import { cx } from "@/lib/cx"
+
 export default function SpriteNavHeader() {
   return (
     <svg width={0} height={0} style={{ display: "none" }}>
@@ -87,21 +89,47 @@ export default function SpriteNavHeader() {
           </g>
         </g>
       </symbol>
+      <symbol viewBox="0 0 100 100" id="sprite-nav-header-burger-menu">
+        <path
+          className="svg-burger-line svg-burger-line1 stroke-current transition-colors"
+          stroke="currentColor"
+          d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058"
+        />
+        <path className="svg-burger-line svg-burger-line2 stroke-current transition-colors" stroke="currentColor" d="M 20,50 H 80" />
+        <path
+          className="svg-burger-line svg-burger-line3 stroke-current transition-colors"
+          stroke="currentColor"
+          d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942"
+        />
+      </symbol>
+      <symbol viewBox="0 0 100 100" id="sprite-nav-header-burger-menu-x">
+        <path
+          className="svg-burger-line svg-burger-line1 stroke-current transition-colors"
+          stroke="currentColor"
+          d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058"
+        />
+        <path className="svg-burger-line svg-burger-line2 stroke-current transition-colors" stroke="currentColor" d="M 20,50 H 80" />
+        <path
+          className="svg-burger-line svg-burger-line3 stroke-current transition-colors"
+          stroke="currentColor"
+          d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942"
+        />
+      </symbol>
     </svg>
   )
 }
 
-type TIconLayout = "map" | "profile" | "message" | "notification" | "about" | "out"
+type TIconLayout = "map" | "profile" | "message" | "notification" | "about" | "out" | "burger-menu" | "burger-menu-x"
 
-type T = `sprite-nav-header-${TIconLayout}`
+export type TSpriteNav = `sprite-nav-header-${TIconLayout}`
 
 interface IProps {
-  id: T
+  id: TSpriteNav
 }
 
 export const IconSpriteNavHeader = ({ id }: IProps) => {
   return (
-    <svg width={32} height={32} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+    <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
       <use href={`#${id}`} />
     </svg>
   )

@@ -40,7 +40,7 @@ export const NotificationBell = () => {
       className="relative z-10 w-6 h-6 bg-transparent border-none outline-none flex items-center justify-center"
       data-test="button-header-mobile-notification"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
         <path
           fill-rule="evenodd"
           clip-rule="evenodd"

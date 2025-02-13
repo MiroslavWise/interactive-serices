@@ -1,7 +1,18 @@
 import Link from "next/link"
+import { type Metadata } from "next"
 
+const title = "Политика обработки персональных данных"
+
+export const metadata: Metadata = {
+  title,
+  description: title,
+  appleWebApp: { title, statusBarStyle: "default" },
+  category: "policy, terms",
+  openGraph: { title, description: title },
+}
 export default () => (
   <ul>
+    <h1 className="mb-4 font-bold text-text-primary text-[2rem] leading-9">{title}</h1>
     <h3>1. Общие положения</h3>
     <p>
       1.1. Общество с ограниченной ответственностью «ШЕЙРА» (далее по тексту – Оператор) ставит соблюдение прав и свобод граждан одним из

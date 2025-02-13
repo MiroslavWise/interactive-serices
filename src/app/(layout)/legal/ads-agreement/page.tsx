@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default () => (
   <ul>
-    <h3>Согласие на маркетинговые коммуникации</h3>
+    <h1 className="mb-4 font-bold text-text-primary text-[2rem] leading-9">{title}</h1>
     <p>
       При регистрации на сайте&nbsp;
       <Link href={{ pathname: "https://sheira.ru/" }} target="_blank">

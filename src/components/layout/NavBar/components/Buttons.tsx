@@ -1,5 +1,7 @@
 "use client"
 
+import { useState } from "react"
+
 import Button from "@/components/common/Button"
 import IconPlus from "@/components/icons/IconPlus"
 import { IconSpriteNavHeader } from "@/components/icons/icon-sprite-nav-header"
@@ -8,15 +10,16 @@ import { cx } from "@/lib/cx"
 import { useSign } from "../../FooterMenu/hooks/useSign"
 import { useStatusAuth } from "@/helpers/use-status-auth"
 import { dispatchIntro, dispatchModal, dispatchNewServicesBanner, EModalData, EStatusAuth, useModal } from "@/store"
+import ButtonOpenDrawer from "./ButtonOpenDrawer"
 
 export const Buttons = () => {
+  const [open, setOpen] = useState(false)
   const handleAuthModal = useSign()
   const statusAuth = useStatusAuth()
   const isCreateModal = useModal(({ data }) => data === EModalData.NewServicesBanner)
 
   return (
     <div className="relative flex flex-row gap-3">
-      {/* Убрана кнопка "Скачать приложение" https://sheira.youtrack.cloud/agiles/154-2/155-47?issue=1-927" */}
       {/* <Button
         type="button"
         label="Скачать приложение"
@@ -36,11 +39,10 @@ export const Buttons = () => {
       <Button
         label="Создать"
         typeButton="fill-primary"
-        className="max-2xl:[&>span]:hidden"
         suffixIcon={
           <div
             className={cx(
-              "relative w-6 h-6 *:w-6 :h-6 [&>svg>path]:fill-text-button *:transition-transform *:duration-200",
+              "relative w-6 h-6 *:w-6 *:h-6 [&>svg>path]:fill-text-button *:transition-transform *:duration-200",
               isCreateModal ? "*:rotate-180" : "*:rotate-0",
             )}
           >
@@ -58,7 +60,7 @@ export const Buttons = () => {
         className="px-2.5"
         title={statusAuth === EStatusAuth.AUTHORIZED ? "Выйти" : "Войти"}
         suffixIcon={
-          <div className="relative w-6 h-6 *:w-6 :h-6 text-element-accent-1">
+          <div className="relative w-6 h-6 *:w-6 *:h-6 text-element-accent-1">
             <IconSpriteNavHeader id={`sprite-nav-header-${statusAuth === EStatusAuth.AUTHORIZED ? "out" : "profile"}`} />
           </div>
         }
@@ -71,6 +73,7 @@ export const Buttons = () => {
           }
         }}
       />
+      <ButtonOpenDrawer type="sprite-nav-header-burger-menu" />
     </div>
   )
 }
