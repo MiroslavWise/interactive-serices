@@ -13,10 +13,7 @@ export const metadata: Metadata = {
 export default () => (
   <ul className="h-full w-full overflow-y-auto flex flex-col items-start gap-3">
     <h1 className="mb-4 font-bold text-text-primary text-[2rem] leading-9">{title}</h1>
-    <p className="!font-light -mt-2">
-      <a href="">Подробности в нашей презентации.</a>
-    </p>
-    {/* <p className="!font-light">
+    <p className="!font-light">
       Мы рады представить вам коммерческую часть нашей платформы, которая открывает новые возможности для рекламы и продвижения вашего
       бизнеса.
     </p>
@@ -38,7 +35,7 @@ export default () => (
       или <a href="mailto:reklama@sheira.ru">reklama@sheira.ru</a>, чтобы узнать больше о возможностях рекламы и продвижения.
     </p>
     <p className="!font-light -mt-2">
-      Подробности в нашей презентации. (ссылка открывается в отдельном окне – там можно просмотреть файл и скачать его)
-    </p> */}
+      <a href="">Подробности в нашей презентации.</a>
+    </p>
   </ul>
 )
