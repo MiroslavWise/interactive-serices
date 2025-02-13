@@ -36,7 +36,6 @@ export const Buttons = () => {
       <Button
         label="Создать"
         typeButton="fill-primary"
-        className="max-2xl:[&>span]:hidden"
         suffixIcon={
           <div
             className={cx(
