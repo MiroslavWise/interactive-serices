@@ -7,6 +7,30 @@ import ButtonOpenDrawer from "@/components/layout/NavBar/components/ButtonOpenDr
 import { cx } from "@/lib/cx"
 import { dispatchCloseDrawer, useOpenDrawer } from "@/store"
 
+interface ILink {
+  pathname: string
+  label: string
+}
+
+const LINKS: ILink[] = [
+  {
+    pathname: "/ads",
+    label: "Реклама",
+  },
+  {
+    pathname: "https://t.me/sheirainfo",
+    label: "Обратная связь",
+  },
+  {
+    pathname: "/legal/privacy-policy",
+    label: "Политика конфиденциальности",
+  },
+  {
+    pathname: "/legal/terms",
+    label: "Правила пользования",
+  },
+]
+
 function DrawerMenuMain() {
   const open = useOpenDrawer(({ visible }) => visible)
 
@@ -32,18 +56,16 @@ function DrawerMenuMain() {
         </div>
         <div className="w-full h-[calc(100%_-_var(--height-header-nav-bar))] px-6 py-6 flex flex-col">
           <ul className="w-full flex flex-col">
-            <Link className="text-text-primary text-base font-normal p-1 hover:opacity-85" href={{ pathname: `/ads` }}>
-              Реклама
-            </Link>
-            <a className="text-text-primary text-base font-normal p-1 hover:opacity-85" href="https://t.me/sheirainfo" target="_blank">
-              Обратная связь
-            </a>
-            <Link className="text-text-primary text-base font-normal p-1 hover:opacity-85" href={{ pathname: `/legal/privacy-policy` }}>
-              Политика конфиденциальности
-            </Link>
-            <Link className="text-text-primary text-base font-normal p-1 hover:opacity-85" href={{ pathname: `/legal/terms` }}>
-              Правила пользования
-            </Link>
+            {LINKS.map(({ pathname, label }) => (
+              <Link
+                className="text-text-primary text-base font-normal p-1 hover:opacity-85"
+                href={pathname}
+                target="_blank"
+                key={`vc;d=-e0rw-${pathname}`}
+              >
+                {label}
+              </Link>
+            ))}
           </ul>
         </div>
       </div>
