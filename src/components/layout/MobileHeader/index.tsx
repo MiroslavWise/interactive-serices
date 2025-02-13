@@ -1,6 +1,7 @@
 "use client"
 
-import { useParams, usePathname } from "next/navigation"
+import { usePathname } from "next/navigation"
+import { parseAsInteger, useQueryState } from "nuqs"
 
 import { Logo } from "./components/Logo"
 import { NotificationBell } from "./components/NotificationBell"
@@ -8,17 +9,19 @@ import { IconSpriteNavHeader } from "@/components/icons/icon-sprite-nav-header"
 
 import { cx } from "@/lib/cx"
 import { dispatchOpenDrawer, useMobileSearchCategory, useSearchMobile } from "@/store"
+import { QUERY_CHAT_MESSAGES } from "@/types/constants"
 
 export default function MobileHeader() {
   const visibleSearchMobile = useSearchMobile(({ visible }) => visible)
   const visibleSearchCategory = useMobileSearchCategory(({ visible }) => visible)
   const pathname = usePathname()
-  const params = useParams()
-
-  const { id } = params ?? {}
+  const [id] = useQueryState(QUERY_CHAT_MESSAGES, parseAsInteger)
 
   const isNotHeader =
-    visibleSearchCategory || visibleSearchMobile || pathname.includes("/customer/") || (pathname.includes("/chat") && !!id)
+    visibleSearchCategory ||
+    visibleSearchMobile ||
+    pathname.includes("/customer/") ||
+    (pathname.includes("/chat") && typeof id === "number")
 
   return (
     <header
