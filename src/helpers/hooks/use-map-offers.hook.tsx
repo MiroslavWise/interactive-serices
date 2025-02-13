@@ -1,16 +1,17 @@
 "use client"
 
 import { useMemo } from "react"
-import { useQuery } from "@tanstack/react-query"
+import { useQueries, useQuery } from "@tanstack/react-query"
 
 import { EnumTypeProvider } from "@/types/enum"
-import { type IQueriesOffers } from "@/services/offers/types"
+import { type IResponseOffers, type IQueriesOffers } from "@/services/offers/types"
 
 import { getOffers, getOffersCategories } from "@/services"
-import { useFiltersScreen, useFiltersServices, useSearchFilters, useUrgentFilter } from "@/store"
+import { useFiltersScreen, useFiltersServices, useUrgentFilter } from "@/store"
+
+const LIMIT = 100
 
 export const useMapOffers = () => {
-  const idTitleCategory = useSearchFilters(({ id }) => id)
   const providers = useFiltersServices(({ providers }) => providers)
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
   const urgent = useUrgentFilter(({ urgent }) => urgent)
@@ -53,20 +54,16 @@ export const useMapOffers = () => {
 
   const obj = activeCategories.length && EnumTypeProvider.offer === providers ? { category: activeCategories.join(",") } : {}
 
-  const {
-    data: dataOffers,
-    isLoading,
-    refetch,
-  } = useQuery({
+  const { data, isLoading: is } = useQuery({
     queryFn: () =>
       getOffers({
         order: "DESC",
-        limit: 5000,
+        limit: 1,
         ...obj,
         ...objProvider,
       }),
     queryKey: [
-      "offers",
+      "offers-total",
       {
         ...obj,
         ...objProvider,
@@ -74,9 +71,51 @@ export const useMapOffers = () => {
     ],
   })
 
+  const total = data?.meta?.total
+  const array = Array.from({ length: Math.ceil((total || 0) / LIMIT) }).map((_, index) => index + 1)
+
+  const responses = useQueries({
+    queries: array.map((number) => ({
+      queryFn: () =>
+        getOffers({
+          order: "DESC",
+          limit: LIMIT,
+          page: number,
+          ...obj,
+          ...objProvider,
+        }),
+      queryKey: [
+        "offers",
+        {
+          limit: LIMIT,
+          page: number,
+          ...obj,
+          ...objProvider,
+        },
+      ],
+      enabled: !!total && !!data?.data && Array.isArray(data?.data),
+    })),
+  })
+
+  const isLoading = responses.some((item) => item.isLoading)
+
+  const offers = useMemo(() => {
+    const _offers: IResponseOffers[][] = []
+
+    if (!isLoading && !is) {
+      for (const item of responses) {
+        if (item.data?.data && Array.isArray(item.data.data)) {
+          _offers.push(item.data?.data)
+        }
+      }
+    }
+
+    return _offers.flat()
+  }, [responses, is])
+
   return {
-    itemsOffers: dataOffers?.data?.filter((item) => (idTitleCategory ? item?.categoryId === idTitleCategory : true)) || [],
-    isLoading,
-    refetch,
+    itemsOffers: offers,
+    isLoading: isLoading || is,
+    refetch: () => Promise.resolve(),
   }
 }
