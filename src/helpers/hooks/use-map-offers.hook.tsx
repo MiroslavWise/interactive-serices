@@ -58,7 +58,7 @@ export const useMapOffers = () => {
     isLoading,
     refetch,
   } = useQuery({
-    queryFn: () => getOffers({ order: "DESC", ...obj, ...objProvider }),
+    queryFn: () => getOffers({ order: "DESC", limit: 5000, ...obj, ...objProvider }),
     queryKey: [
       "offers",
       {
