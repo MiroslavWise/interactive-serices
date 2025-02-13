@@ -25,11 +25,11 @@ import {
   useBounds,
 } from "@/store"
 import { cx } from "@/lib/cx"
-import { getPosts } from "@/services/posts"
-import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
-import { JSONStringBounds } from "@/utils/map-sort"
-import { useFormProviderSearch } from "@/app/(layout)/components/FormProviderSearch"
 import { clg } from "@console"
+import { getPosts } from "@/services/posts"
+import { JSONStringBounds } from "@/utils/map-sort"
+import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
+import { useFormProviderSearch } from "@/app/(layout)/components/FormProviderSearch"
 
 export type ReactifiedApi = ReactifiedModule<typeof ymaps3>
 export type FeatureCluster = Feature & {
