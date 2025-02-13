@@ -2,7 +2,7 @@ import { type PropsWithChildren } from "react"
 
 import { cx } from "@/lib/cx"
 
-import styles from "./layout.module.scss"
+import styles from "../legal/layout.module.scss"
 
 export default ({ children }: PropsWithChildren) => (
   <main className={cx(styles.main, "w-full h-screen md:h-full flex flex-col items-center px-3")}>
