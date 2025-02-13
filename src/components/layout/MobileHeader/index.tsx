@@ -35,7 +35,7 @@ export default function MobileHeader() {
       <Logo />
       <div className="flex items-center gap-2">
         <NotificationBell />
-        <button type="button" className="relative w-6 h-6 *:w-8 *:h-8 text-text-primary" onClick={dispatchOpenDrawer}>
+        <button type="button" className="relative w-6 h-6 *:w-8 *:h-8 text-element-accent-1" onClick={dispatchOpenDrawer}>
           <IconSpriteNavHeader id="sprite-nav-header-burger-menu" />
         </button>
       </div>

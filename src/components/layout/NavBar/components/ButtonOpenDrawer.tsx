@@ -16,7 +16,7 @@ function ButtonOpenDrawer({ type }: { type: TSpriteNav }) {
       typeButton="regular-primary"
       onClick={dispatchOpenDrawer}
       suffixIcon={
-        <div className="relative w-6 h-6 *:w-8 *:h-8 text-text-primary">
+        <div className="relative w-6 h-6 *:w-8 *:h-8 text-element-accent-1">
           <IconSpriteNavHeader id={type} />
         </div>
       }
