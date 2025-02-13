@@ -61,7 +61,7 @@ export const useMapOffers = () => {
     queryFn: () =>
       getOffers({
         order: "DESC",
-        limit: 5000,
+        // limit: 5000,
         ...obj,
         ...objProvider,
       }),
