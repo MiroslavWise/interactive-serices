@@ -10,7 +10,7 @@ const Buttons = dynamic(() => import("./components/Buttons").then((res) => res.B
 export default function NavBarProfile() {
   return (
     <>
-      <nav className="fixed w-full top-0 left-0 right-0 h-[var(--height-header-nav-bar)] py-0 px-[3.25rem] hidden md:flex items-center justify-between z-[70] bg-[var(--BG-second)]">
+      <nav className="fixed w-full top-0 left-0 right-0 h-[var(--height-header-nav-bar)] py-0 px-5 hidden md:flex items-center justify-between z-[70] bg-[var(--BG-second)]">
         <Logo />
         <Links />
         <Buttons />

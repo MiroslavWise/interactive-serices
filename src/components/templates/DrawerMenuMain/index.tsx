@@ -50,7 +50,7 @@ function DrawerMenuMain() {
         )}
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="w-full flex items-center h-[var(--height-header-nav-bar)] justify-between px-6 [&>button]:max-md:aspect-square [&>button]:max-md:px-0">
+        <div className="w-full flex items-center h-[var(--height-header-nav-bar)] justify-between px-6 [&>button]:max-md:aspect-square [&>button]:max-md:px-0 [&>a]:opacity-0">
           <Logo />
           <ButtonOpenDrawer type="sprite-nav-header-burger-menu-x" />
         </div>
