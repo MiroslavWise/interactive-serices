@@ -1,6 +1,6 @@
 import { type Metadata } from "next"
 
-const title = "Правилами пользования"
+const title = "Правила пользования"
 
 export const metadata: Metadata = {
   title,

@@ -4,9 +4,10 @@ import { useParams, usePathname } from "next/navigation"
 
 import { Logo } from "./components/Logo"
 import { NotificationBell } from "./components/NotificationBell"
+import { IconSpriteNavHeader } from "@/components/icons/icon-sprite-nav-header"
 
 import { cx } from "@/lib/cx"
-import { useMobileSearchCategory, useSearchMobile } from "@/store"
+import { dispatchOpenDrawer, useMobileSearchCategory, useSearchMobile } from "@/store"
 
 export default function MobileHeader() {
   const visibleSearchMobile = useSearchMobile(({ visible }) => visible)
@@ -32,7 +33,12 @@ export default function MobileHeader() {
       data-not={isNotHeader}
     >
       <Logo />
-      <NotificationBell />
+      <div className="flex items-center gap-2">
+        <NotificationBell />
+        <button type="button" className="relative w-6 h-6 *:w-8 *:h-8 text-text-primary" onClick={dispatchOpenDrawer}>
+          <IconSpriteNavHeader id="sprite-nav-header-burger-menu" />
+        </button>
+      </div>
     </header>
   )
 }

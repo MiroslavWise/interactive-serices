@@ -1,11 +1,11 @@
 "use client"
 
+import Link from "next/link"
 import { Logo } from "@/components/layout/NavBar/components/Logo"
 import ButtonOpenDrawer from "@/components/layout/NavBar/components/ButtonOpenDrawer"
 
 import { cx } from "@/lib/cx"
 import { dispatchCloseDrawer, useOpenDrawer } from "@/store"
-import Link from "next/link"
 
 function DrawerMenuMain() {
   const open = useOpenDrawer(({ visible }) => visible)
@@ -21,12 +21,12 @@ function DrawerMenuMain() {
       />
       <div
         className={cx(
-          "flex flex-col h-full fixed top-0 right-0 bottom-0 w-80 bg-BG-second z-[999] transition-transform duration-300",
+          "flex flex-col h-full fixed top-0 right-0 bottom-0 w-full md:w-80 bg-BG-second z-[999] transition-transform duration-300",
           open ? "translate-x-0" : "translate-x-full",
         )}
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="w-full flex items-center h-[var(--height-header-nav-bar)] justify-between px-6">
+        <div className="w-full flex items-center h-[var(--height-header-nav-bar)] justify-between px-6 [&>button]:max-md:aspect-square [&>button]:max-md:px-0">
           <Logo />
           <ButtonOpenDrawer type="sprite-nav-header-burger-menu-x" />
         </div>
