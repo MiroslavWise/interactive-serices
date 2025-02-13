@@ -13,7 +13,10 @@ function DrawerMenuMain() {
   return (
     <>
       <div
-        className={cx("w-full h-full inset-0 fixed bg-translucent", open ? "z-[998] opacity-100 visible" : "-z-10  opacity-0 invisible")}
+        className={cx(
+          "w-full h-full inset-0 fixed bg-translucent transition-all",
+          open ? "z-[998] opacity-100 visible" : "-z-10  opacity-0 invisible",
+        )}
         onClick={dispatchCloseDrawer}
       />
       <div
