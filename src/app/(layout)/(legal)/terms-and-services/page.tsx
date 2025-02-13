@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 
 export default () => (
   <ul className="h-full w-full overflow-y-auto flex flex-col items-start gap-3">
+    <h1 className="mb-4 font-bold text-text-primary text-[2rem] leading-9">{title}</h1>
     <p>
       Сайт Sheira – мультифункциональный онлайновый сервис, гиперлокальное комьюнити для обмена информацией, опытом, товарами и услугами,
       место, где можно заявить о своей проблеме или оказать помощь другим, найти единомышленников, друзей по интересам, компанию для

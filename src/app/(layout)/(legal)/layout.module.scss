@@ -1,23 +1,9 @@
 .main {
+  padding-top: var(--height-header-nav-bar);
+
   & > section {
     & > ul {
-      height: 100%;
-      width: 100%;
-      overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.75rem;
-
-      & > h3 {
-        color: var(--text-primary);
-        text-align: start;
-        font-size: 1.5rem;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 2rem;
-      }
 
       & > p,
       & > li {
@@ -36,7 +22,6 @@
 
       & > li {
         padding-left: 0.875rem;
-        list-style-type: circle !important;
       }
 
       & > i {
@@ -50,12 +35,7 @@
   }
 
   @media screen and (max-width: 768px) {
-    & > section {
-      & > ul {
-        padding-top: calc(var(--height-mobile-header) + 1.25rem);
-        padding-inline: 0.75rem;
-        padding-bottom: calc(var(--height-mobile-footer-nav) + 1.25rem);
-      }
-    }
+    padding-top: var(--height-mobile-header);
+    padding-bottom: var(--height-mobile-footer-nav);
   }
 }

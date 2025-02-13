@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default () => (
   <ul className="h-full w-full overflow-y-auto flex flex-col items-start gap-3">
-    <h1 className="mb-4 font-bold text-text-primary text-[2rem] leading-9">Размещение рекламы</h1>
+    <h1 className="mb-4 font-bold text-text-primary text-[2rem] leading-9">{title}</h1>
     <p className="!font-light">
       Мы рады представить вам коммерческую часть нашей платформы, которая открывает новые возможности для рекламы и продвижения вашего
       бизнеса.

@@ -1,6 +1,18 @@
+import { type Metadata } from "next"
+
+const title = "Уведомление об использовании файлов куки (cookie)"
+
+export const metadata: Metadata = {
+  title,
+  description: title,
+  appleWebApp: { title, statusBarStyle: "default" },
+  category: "policy, rules",
+  openGraph: { title, description: title },
+}
+
 export default () => (
   <ul>
-    <h1 className="text-text-primary text-center text-2xl font-semibold">Уведомление об использовании файлов куки (cookie)</h1>
+    <h1 className="mb-4 font-bold text-text-primary text-[2rem] leading-9">{title}</h1>
     <h3>Файлы cookie</h3>
     <p>
       Для упрощения работы Пользователя с Сайтом используются cookie-файлы. Это небольшие элементы данных, сохраняемые на жестком диске
