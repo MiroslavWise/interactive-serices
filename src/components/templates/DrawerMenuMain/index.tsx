@@ -38,7 +38,7 @@ function DrawerMenuMain() {
     <>
       <div
         className={cx(
-          "w-full h-full inset-0 fixed bg-translucent transition-all",
+          "w-full h-full inset-0 fixed bg-translucent transition-all hidden md:flex",
           open ? "z-[998] opacity-100 visible" : "-z-10  opacity-0 invisible",
         )}
         onClick={dispatchCloseDrawer}
