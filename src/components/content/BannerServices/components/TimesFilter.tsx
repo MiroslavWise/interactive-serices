@@ -1,6 +1,4 @@
-import IconHelp from "@/components/icons/IconHelp"
 import { IconSprite } from "@/components/icons/icon-sprite"
-import IconHelpColor from "@/components/icons/IconHelpColor"
 import { IconFilters } from "@/components/icons/IconFilters"
 import IconChevronDown from "@/components/icons/IconChevronDown"
 
@@ -16,6 +14,7 @@ import {
   dispatchActiveFilterScreen,
 } from "@/store"
 import { EnumTypeProvider } from "@/types/enum"
+import { IconSpriteCategoryId } from "@/components/icons/icon-sprite-category"
 
 function TimesFilter() {
   const [open, setOpen, ref] = useOutsideClickEvent()
@@ -125,7 +124,9 @@ function TimesFilter() {
                 }
               }}
             >
-              <div className="relative w-4 h-4">{urgent === key ? <IconHelp /> : <IconHelpColor />}</div>
+              <div className="relative w-4 h-4 *:w-4 *:h-4">
+                {urgent === key ? <IconSpriteCategoryId id="category-heart-white" /> : <IconSpriteCategoryId id="category-heart" />}
+              </div>
               <span className={cx("text-[0.8125rem] leading-4 font-normal", urgent === key ? "text-text-button" : "text-text-primary")}>
                 {label}
               </span>

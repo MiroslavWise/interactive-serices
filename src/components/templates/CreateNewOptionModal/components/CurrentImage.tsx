@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react"
 import { type ControllerRenderProps } from "react-hook-form"
 
 import { ImageStatic } from "@/components/common"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 
@@ -49,7 +49,7 @@ function CurrentImage({ field, item, index, progress }: IProps) {
           field.onChange(deleteData)
         }}
       >
-        <IconTrashBlack />
+        <IconSprite id="trash-20-20" className="text-element-accent-2" />
       </button>
       <article ref={refArticle} />
     </div>

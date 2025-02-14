@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query"
 
 import Button from "@/components/common/Button"
 import { IconSprite } from "@/components/icons/icon-sprite"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
 import { cx } from "@/lib/cx"
 import { deleteNote, getNotes } from "@/services/notes"
@@ -47,8 +46,8 @@ function DeleteNote() {
           <IconSprite id="x-close-20-20" />
         </button>
         <article className="flex flex-col items-center gap-5">
-          <div className="relative h-11 w-11 bg-grey-field rounded-full *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-element-accent-1">
-            <IconTrashBlack />
+          <div className="relative h-11 w-11 bg-grey-field rounded-full *:w-5 *:h-5 text-element-accent-1">
+            <IconSprite id="trash-20-20" />
           </div>
           <h2 className="text-text-primary text-2xl font-semibold text-center">Вы хотите удалить запись?</h2>
         </article>

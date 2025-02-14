@@ -7,9 +7,9 @@ import { IQueryOffersCategories, IResponseOffersCategories } from "@/services/of
 
 import Button from "@/components/common/Button"
 import IconEdit from "@/components/icons/IconEdit"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
 import { getOffersCategories } from "@/services"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 interface IPropRow extends IResponseOffersCategories {}
 
@@ -23,8 +23,8 @@ const Row = ({ id, title, slug, provider }: IPropRow) => (
       <button type="button">
         <IconEdit />
       </button>
-      <button type="button">
-        <IconTrashBlack />
+      <button type="button" className="relative">
+        <IconSprite id="trash-20-20" />
       </button>
     </td>
   </tr>

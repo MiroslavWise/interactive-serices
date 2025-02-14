@@ -5,7 +5,6 @@ import { type IPosts } from "@/services/posts/types"
 
 import ProfileItem from "./ProfileItem"
 import ItemHeaderPost from "./ItemHeaderPost"
-import IconHelp from "@/components/icons/IconHelp"
 import ItemCommentsPost from "./ItemCommentsPost"
 import IconNote from "@/components/icons/IconNote"
 import IconPost from "@/components/icons/IconPost"
@@ -15,6 +14,7 @@ import IconArrowRight from "@/components/icons/IconArrowRight"
 import { cx } from "@/lib/cx"
 import { nameTitle } from "@/lib/names"
 import { dispatchBallonPost, dispatchMapCoordinates } from "@/store"
+import { IconSpriteCategoryId } from "@/components/icons/icon-sprite-category"
 
 function ItemPost({ post, on }: { post: IPosts; on?: () => void }) {
   const { title, notes, addresses, user, id, urgent } = post ?? {}
@@ -28,18 +28,23 @@ function ItemPost({ post, on }: { post: IPosts; on?: () => void }) {
   }
 
   return (
-    <li className="w-full bg-BG-second flex flex-col rounded-2xl cursor-pointer overflow-hidden" onClick={() => {
-      handle()
-      if(on){on()}
-    }}>
+    <li
+      className="w-full bg-BG-second flex flex-col rounded-2xl cursor-pointer overflow-hidden"
+      onClick={() => {
+        handle()
+        if (on) {
+          on()
+        }
+      }}
+    >
       <article
         className={cx(
           "w-full [background:var(--more-red-gradient)] flex-row items-center justify-center gap-2 py-1.5 px-2.5",
           !!urgent ? "flex" : "hidden",
         )}
       >
-        <div className="w-4 h-4 relative">
-          <IconHelp />
+        <div className="w-4 h-4 relative *:w-4 *:h-4">
+          <IconSpriteCategoryId id="category-heart-white" />
         </div>
         <span className="text-text-button text-xs font-medium">Щедрое сердце</span>
       </article>

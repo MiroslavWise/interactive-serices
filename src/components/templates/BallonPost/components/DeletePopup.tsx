@@ -1,6 +1,6 @@
 import { type INotes } from "@/services/notes/types"
 
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 
 import { cx } from "@/lib/cx"
@@ -37,8 +37,8 @@ function DeletePopup({ note }: { note: INotes }) {
         }}
       >
         <a className="w-full py-2 px-1.5 grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 items-center rounded-md bg-BG-second hover:bg-grey-field cursor-pointer">
-          <div className="relative w-5 h-5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-error">
-            <IconTrashBlack />
+          <div className="relative w-5 h-5 *:w-5 *:h-5 text-text-error">
+            <IconSprite id="trash-20-20" />
           </div>
           <span className="text-text-error text-sm font-normal whitespace-nowrap">Удалить запись</span>
         </a>

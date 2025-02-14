@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import * as ReactDOM from "react-dom"
-import { useTheme } from "next-themes"
 import { LngLat, YMapHotspot } from "ymaps3"
 import { ReactifiedModule } from "@yandex/ymaps3-types/reactify"
 
@@ -25,12 +24,26 @@ import { getAddressCoords } from "@/helpers/get-address"
 type ReactifiedApi = ReactifiedModule<typeof ymaps3>
 
 function ContextMap({ children }: React.PropsWithChildren) {
+  const [isDarkTheme, setIsDarkTheme] = React.useState(false)
   const { on } = useToast()
-  const { systemTheme } = useTheme()
   const statusAuth = useStatusAuth()
   const zoom = useMapCoordinates(({ zoom }) => zoom)
   const coordinates = useMapCoordinates(({ coordinates }) => coordinates)
   const [reactifiedApi, setReactifiedApi] = React.useState<ReactifiedApi>()
+
+  React.useEffect(() => {
+    const checkTheme = () => {
+      const mq = window.matchMedia("(prefers-color-scheme: dark)")
+      setIsDarkTheme(mq.matches)
+    }
+
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
+    mediaQuery.addEventListener("change", checkTheme)
+
+    checkTheme()
+
+    return () => mediaQuery.removeEventListener("change", checkTheme)
+  }, [])
 
   async function menuAddress(values: LngLat) {
     if (statusAuth !== EStatusAuth.AUTHORIZED) {
@@ -74,7 +87,7 @@ function ContextMap({ children }: React.PropsWithChildren) {
           zoom: zoom,
         } as any
       }
-      theme={systemTheme}
+      theme={isDarkTheme ? "dark" : "light"}
       zoomRange={{
         min: 6,
         max: 20,

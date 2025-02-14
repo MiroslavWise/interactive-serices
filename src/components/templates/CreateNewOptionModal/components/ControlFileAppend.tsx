@@ -6,12 +6,12 @@ import { type TSchemaCreate } from "../utils/create.schema"
 
 import CurrentImage from "./CurrentImage"
 import { NextImageMotion } from "@/components/common"
+import IconRepeat from "@/components/icons/IconRepeat"
 import IconFile_06 from "@/components/icons/IconFile_06"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 import { onChangeFile } from "@/helpers"
-import IconRepeat from "@/components/icons/IconRepeat"
 
 const onProgress = (files: File[], index: number, progress: Record<string, AxiosProgressEvent>): number => {
   const file = files[index]
@@ -81,7 +81,7 @@ function ControlFileAppend({ control, loading, progress, images }: IProps) {
                   <span className="text-sm font-medium text-text-primary line-clamp-1 text-ellipsis">{item.name}</span>
                   <button
                     type="button"
-                    className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4"
+                    className="w-6 h-6 p-3 relative *:w-4 *:h-4 text-element-accent-2"
                     onClick={(event) => {
                       event.stopPropagation()
                       const newFiles = {
@@ -91,7 +91,7 @@ function ControlFileAppend({ control, loading, progress, images }: IProps) {
                       field.onChange(newFiles)
                     }}
                   >
-                    <IconTrashBlack />
+                    <IconSprite id="trash-20-20" />
                   </button>
                 </article>
               ))}
@@ -131,7 +131,7 @@ function ControlFileAppend({ control, loading, progress, images }: IProps) {
                             }
                           }}
                         >
-                          {values.includes(image.id) ? <IconRepeat /> : <IconTrashBlack />}
+                          {values.includes(image.id) ? <IconRepeat /> : <IconSprite id="trash-20-20" className="text-element-accent-2" />}
                         </button>
                       </div>
                     ))}

@@ -5,7 +5,7 @@ import { EnumProviderThreads } from "@/types/enum"
 import { type IResponseThread } from "@/services/threads/types"
 
 import IconProfile from "@/components/icons/IconProfile"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import IconDefaultOffer from "@/components/icons/IconDefaultOffer"
 import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 
@@ -99,8 +99,8 @@ function AbsoluteMenu({ thread }: { thread: IResponseThread }) {
             dispatchOpenDeleteChat(thread?.id)
           }}
         >
-          <div className="[&>svg>path]:!fill-text-error">
-            <IconTrashBlack />
+          <div className="text-text-error w-5 h-5 relative *:w-5">
+            <IconSprite id="trash-20-20" />
           </div>
           <span className="!text-text-error">Удалить чат</span>
         </a>

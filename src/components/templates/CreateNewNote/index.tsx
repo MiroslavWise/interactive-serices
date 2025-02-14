@@ -8,11 +8,10 @@ import { type IBodyNote } from "@/services/notes/types"
 import Button from "@/components/common/Button"
 import IconPost from "@/components/icons/IconPost"
 import IconFile_06 from "@/components/icons/IconFile_06"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import CurrentImage from "../CreateNewOptionModal/components/CurrentImage"
 
 import { cx } from "@/lib/cx"
-import { clg } from "@console"
 import { queryClient } from "@/context"
 import { onChangeFile } from "@/helpers"
 import { getPostId } from "@/services/posts"
@@ -190,7 +189,7 @@ function CreateNewNote() {
                         <span className="text-sm font-medium text-text-primary line-clamp-1 text-ellipsis">{item.str.name ?? null}</span>
                         <button
                           type="button"
-                          className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4"
+                          className="w-6 h-6 p-3 relative *:w-4 *:h-4"
                           onClick={(event) => {
                             event.stopPropagation()
                             const newFiles = {
@@ -200,7 +199,7 @@ function CreateNewNote() {
                             field.onChange(newFiles)
                           }}
                         >
-                          <IconTrashBlack />
+                          <IconSprite id="trash-20-20" />
                         </button>
                       </article>
                     ))}

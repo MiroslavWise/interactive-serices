@@ -15,7 +15,6 @@ import AddUser from "@/components/common/AddUser"
 import ControlHelp from "./components/ControlHelp"
 import IconFile_06 from "@/components/icons/IconFile_06"
 import { IconSprite } from "@/components/icons/icon-sprite"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
 import ControlParticipant from "./components/ControlParticipant"
 import CurrentImage from "../CreateNewOptionModal/components/CurrentImage"
 
@@ -296,7 +295,7 @@ function CreatePost() {
                         <span className="text-sm font-medium text-text-primary line-clamp-1 text-ellipsis">{item.name}</span>
                         <button
                           type="button"
-                          className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4"
+                          className="w-6 h-6 p-3 relative *:w-4 *:h-4"
                           onClick={(event) => {
                             event.stopPropagation()
                             const newFiles = {
@@ -306,7 +305,7 @@ function CreatePost() {
                             field.onChange(newFiles)
                           }}
                         >
-                          <IconTrashBlack />
+                          <IconSprite id="trash-20-20" />
                         </button>
                       </article>
                     ))}

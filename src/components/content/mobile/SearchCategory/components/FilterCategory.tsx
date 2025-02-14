@@ -2,7 +2,6 @@ import { useMemo, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import Button from "@/components/common/Button"
-import IconHelp from "@/components/icons/IconHelp"
 import { ImageCategory } from "@/components/common"
 import { IconSprite } from "@/components/icons/icon-sprite"
 
@@ -11,6 +10,7 @@ import { getOffersCategories } from "@/services"
 import { dispatchActiveFilterScreen, dispatchDataFilterScreen, useFiltersScreen } from "@/store"
 
 import styles from "../styles/filter-category.module.scss"
+import { IconSpriteCategoryId } from "@/components/icons/icon-sprite-category"
 
 export default function FilterCategory() {
   const visible = useFiltersScreen(({ visible }) => visible)
@@ -76,9 +76,9 @@ export default function FilterCategory() {
                 state.some((some) => some === item.id) && item?.slug === "kursk" && `border-none [background:var(--more-red-gradient)]`,
               )}
             >
-              <div className="relative w-6 h-6 bg-transparent p-3 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-6 *:h-6">
+              <div className="relative w-6 h-6 bg-transparent p-3 *:w-6 *:h-6">
                 {item?.slug === "kursk" && state.some((some) => some === item.id) ? (
-                  <IconHelp />
+                  <IconSpriteCategoryId id="category-heart-white" />
                 ) : (
                   <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
                 )}

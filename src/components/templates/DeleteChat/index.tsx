@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 
 import Button from "@/components/common/Button"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 import { deleteThread } from "@/services"
@@ -36,13 +36,8 @@ function DeleteChat() {
   return (
     <>
       <article>
-        <div
-          className={cx(
-            "relative w-11 h-11 p-[1.375rem] rounded-full bg-grey-field",
-            "[&>svg>path]:!fill-text-error *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5",
-          )}
-        >
-          <IconTrashBlack />
+        <div className="relative w-11 h-11 p-[1.375rem] rounded-full bg-grey-field text-text-error *:w-5 *:h-5">
+          <IconSprite id="trash-20-20" />
         </div>
         <h2>Вы уверены, что хотите удалить чат?</h2>
         <p className="text-text-primary text-sm text-center font-normal -mt-1">Восстановить его не получится</p>

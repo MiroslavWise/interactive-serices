@@ -7,14 +7,14 @@ import HeaderItemPost from "./HeaderItemPost"
 import Button from "@/components/common/Button"
 import ItemCommentsPost from "./ItemCommentsPost"
 import IconNote from "@/components/icons/IconNote"
-import IconHelp from "@/components/icons/IconHelp"
 import IconMapWhite from "@/components/icons/IconMapWhite"
 import IconArrowRight from "@/components/icons/IconArrowRight"
+import { IconSpriteCategoryId } from "@/components/icons/icon-sprite-category"
+import AdvertisingData from "@/components/common/Card/CardBallon/components/AdvertisingData"
 
 import { cx } from "@/lib/cx"
 import { nameTitle } from "@/lib/names"
 import { dispatchMapCoordinates, dispatchOpenCreateNote, dispatchBallonPost, dispatchUpdatePost } from "@/store"
-import AdvertisingData from "@/components/common/Card/CardBallon/components/AdvertisingData"
 
 interface IProps {
   post: IPosts
@@ -41,8 +41,8 @@ function ItemPost({ post }: IProps) {
           !!urgent ? "flex" : "hidden",
         )}
       >
-        <div className="w-4 h-4 relative">
-          <IconHelp />
+        <div className="w-4 h-4 relative *:w-4">
+          <IconSpriteCategoryId id="category-heart-white" />
         </div>
         <span className="text-text-button text-xs font-medium">Щедрое сердце</span>
       </article>

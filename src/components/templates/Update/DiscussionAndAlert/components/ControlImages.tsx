@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from "react"
 import { IImageData } from "@/types/type"
 
 import { NextImageMotion } from "@/components/common/Image"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import { UploadPhoto } from "@/components/common/custom/UploadPhoto"
 
 interface IProps {
@@ -42,7 +42,7 @@ function ControlImages({ files, strings, photos, deleteIdPhotos, setDeleteIdPhot
               hash={item?.attributes?.blur}
             />
             <div
-              className="absolute top-1.5 right-1.5 h-8 w-8 rounded-full bg-BG-second shadow-menu-absolute flex items-center justify-center *:w-4 *:h-4 [&>svg>path]:fill-text-primary cursor-pointer"
+              className="absolute top-1.5 right-1.5 h-8 w-8 rounded-full bg-BG-second shadow-menu-absolute flex items-center justify-center *:w-4 *:h-4 text-text-primary cursor-pointer"
               onClick={() => {
                 setDeleteIdPhotos((prev) => {
                   if (prev.includes(item.id)) {
@@ -53,7 +53,7 @@ function ControlImages({ files, strings, photos, deleteIdPhotos, setDeleteIdPhot
                 })
               }}
             >
-              <IconTrashBlack />
+              <IconSprite id="trash-20-20" />
             </div>
           </div>
         ))}

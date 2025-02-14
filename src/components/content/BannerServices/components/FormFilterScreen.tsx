@@ -5,8 +5,8 @@ import { Controller, useForm } from "react-hook-form"
 import { type IValuesFormFilters } from "../types/types"
 
 import Button from "@/components/common/Button"
-import IconHelp from "@/components/icons/IconHelp"
 import { ImageCategory } from "@/components/common"
+import { IconSpriteCategoryId } from "@/components/icons/icon-sprite-category"
 
 import { cx } from "@/lib/cx"
 import { getOffersCategories } from "@/services"
@@ -71,9 +71,9 @@ function FormFilterScreen() {
                     `border-none [background:var(--more-red-gradient)]`,
                 )}
               >
-                <div className="w-6 h-6 p-3 bg-transparent relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-6 *:h-6">
+                <div className="w-6 h-6 p-3 bg-transparent relative *:w-6 *:h-6">
                   {item?.slug === "kursk" && field.value.some((some) => some === item.id) ? (
-                    <IconHelp />
+                    <IconSpriteCategoryId id="category-heart-white" />
                   ) : (
                     <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
                   )}

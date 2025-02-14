@@ -4,9 +4,8 @@ import { type IPosts } from "@/services/posts/types"
 
 import IconArchive from "@/components/icons/IconArchive"
 import IconActivity from "@/components/icons/IconActivity"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import { SpriteDefault } from "@/components/icons/icon-sprite-default"
-import IconCurrencyRubleCircle from "@/components/icons/IconCurrencyRubleCircle"
 
 import { cx } from "@/lib/cx"
 import useRole from "@/helpers/is-role"
@@ -120,13 +119,8 @@ function HeaderItemDotsPost({ post }: IProps) {
               dispatchOpenDeletePost(id!, title)
             }}
           >
-            <div
-              className={cx(
-                "w-5 h-5 flex items-center justify-center relative p-2.5",
-                "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-error",
-              )}
-            >
-              <IconTrashBlack />
+            <div className="w-5 h-5 flex items-center justify-center relative p-2.5 text-text-error *:w-5">
+              <IconSprite id="trash-20-20" />
             </div>
             <span className="text-text-error text-sm font-normal text-left">{LABEL_DELETE}</span>
           </a>
@@ -166,13 +160,8 @@ function HeaderItemDotsPost({ post }: IProps) {
             isManager && !isAdvertising ? "grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5" : "hidden",
           )}
         >
-          <div
-            className={cx(
-              "w-5 h-5 flex items-center justify-center relative p-2.5",
-              "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5",
-            )}
-          >
-            <IconCurrencyRubleCircle />
+          <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
+            <SpriteDefault id="icon-default-currency-ruble-circle" className="text-text-primary w-5 h-5" />
           </div>
           <span className="text-text-primary text-sm font-normal text-left">{LABEL_ADD_ADVERT}</span>
         </a>

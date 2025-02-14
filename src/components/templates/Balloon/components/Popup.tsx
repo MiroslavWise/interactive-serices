@@ -9,7 +9,6 @@ import { type IResponseOffers } from "@/services/offers/types"
 import IconActivity from "@/components/icons/IconActivity"
 import IconAlertCircle from "@/components/icons/IconAlertCircle"
 import { SpriteDefault } from "@/components/icons/icon-sprite-default"
-import IconCurrencyRubleCircle from "@/components/icons/IconCurrencyRubleCircle"
 
 import { cx } from "@/lib/cx"
 import useRole from "@/helpers/is-role"
@@ -125,7 +124,7 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
         className={cx((!isManager || provider !== EnumTypeProvider.offer || isAdvertising) && "!hidden")}
       >
         <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
-          <IconCurrencyRubleCircle />
+          <SpriteDefault id="icon-default-currency-ruble-circle" className="text-text-primary w-5 h-5" />
         </div>
         <span className="text-text-primary text-sm font-normal text-left">{LABEL_ADD_ADVERT}</span>
       </a>
