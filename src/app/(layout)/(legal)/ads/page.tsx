@@ -1,5 +1,6 @@
-import { type Metadata } from "next"
 import Link from "next/link"
+import { type Metadata } from "next"
+import env from "@/config/environment"
 
 const title = "Размещение рекламы"
 
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
   description: title,
   appleWebApp: { title, statusBarStyle: "default" },
   category: "policy, ads",
-  openGraph: { title, description: title },
+  openGraph: { title, description: title, images: `${env.server.host!}/api/og` },
 }
 
 export default () => (
