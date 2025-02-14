@@ -1,5 +1,5 @@
-import env from "@/config/environment"
 import { Metadata } from "next"
+import env from "@/config/environment"
 
 const title = "Реклама на Sheira - интеграция вашего бизнеса в повседневную жизнь людей"
 
