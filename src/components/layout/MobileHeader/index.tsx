@@ -8,8 +8,8 @@ import { NotificationBell } from "./components/NotificationBell"
 import { IconSpriteNavHeader } from "@/components/icons/icon-sprite-nav-header"
 
 import { cx } from "@/lib/cx"
-import { dispatchOpenDrawer, useMobileSearchCategory, useSearchMobile } from "@/store"
 import { QUERY_CHAT_MESSAGES } from "@/types/constants"
+import { dispatchOpenDrawer, useMobileSearchCategory, useSearchMobile } from "@/store"
 
 export default function MobileHeader() {
   const visibleSearchMobile = useSearchMobile(({ visible }) => visible)
@@ -26,14 +26,10 @@ export default function MobileHeader() {
   return (
     <header
       className={cx(
-        "w-full left-0 right-0 h-[var(--height-mobile-header)] fixed z-[71] bg-BG-second items-center justify-between px-5 py-2.5 flex md:hidden",
-        // pathname === "/" && visibleBanner
-        //   ? `top-16 ${isNotHeader ? "!-translate-y-[calc(100%_+_var(--height-banner))]" : ""}`
-        //   :
-        `top-0 ${isNotHeader ? "!-translate-y-full" : ""}`,
+        "w-full left-0 right-0 h-[var(--height-mobile-header)] fixed z-[71] bg-BG-second items-center justify-between px-5 py-2.5 flex md:hidden top-0",
+        isNotHeader && "!-translate-y-full opacity-0 invisible",
       )}
       data-test="header-mobile"
-      data-not={isNotHeader}
     >
       <Logo />
       <div className="flex items-center gap-2">

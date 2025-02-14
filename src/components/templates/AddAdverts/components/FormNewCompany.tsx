@@ -5,7 +5,6 @@ import Button from "@/components/common/Button"
 import { ImageStatic } from "@/components/common"
 import IconPlus from "@/components/icons/IconPlus"
 import ControllerAddAction from "./ControllerAddAction"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
 import { patchAdvertOffer } from "@/services/offers"
 import { IBodyAdvertAction } from "@/services/offers"
@@ -20,6 +19,7 @@ import { MAX_LENGTH_OGRN, MAX_LENGTH_INN, TSchemaAdvert, resolver, handleImageCh
 
 import styles from "../styles/style.module.scss"
 import { IBodyCompany, patchCompany, postCompany } from "@/services/companies"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 function FormNewCompany() {
   const [loading, setLoading] = useState(false)
@@ -232,7 +232,7 @@ function FormNewCompany() {
                       <ImageStatic src={item} alt={`${index}-img`} width={128} height={168} className="h-[10.5rem] w-32 aspect-[16/21]" />
                       <button
                         type="button"
-                        className="absolute z-10 top-1.5 bg-BG-second right-1.5 w-8 h-8 rounded-full *:w-4 *:h-4 [&>svg>path]:fill-text-primary flex items-center justify-center p-2"
+                        className="absolute z-10 top-1.5 bg-BG-second right-1.5 w-8 h-8 rounded-full *:w-4 *:h-4 text-text-primary p-2"
                         onClick={() => {
                           const newImages: TFiles = {
                             file: field.value.file.filter((_, i) => i !== index),
@@ -242,7 +242,7 @@ function FormNewCompany() {
                           field.onChange(newImages)
                         }}
                       >
-                        <IconTrashBlack />
+                        <IconSprite id="trash-20-20" />
                       </button>
                     </div>
                   ))}

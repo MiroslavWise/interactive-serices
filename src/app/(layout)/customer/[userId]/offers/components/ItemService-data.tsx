@@ -2,9 +2,9 @@ import { type IResponseOffers } from "@/services/offers/types"
 
 import Avatar from "@avatar"
 import ItemTitle from "../../components/ItemTitle"
-import IconHelp from "@/components/icons/IconHelp"
 import ItemServiceImages from "./ItemServiceImages"
 import ButtonShare, { LinkToMap } from "./ButtonShare"
+import { IconSpriteCategoryId } from "@/components/icons/icon-sprite-category"
 
 import { cx } from "@/lib/cx"
 import { fromNow } from "@/helpers"
@@ -26,8 +26,8 @@ function ItemServiceData({ offer }: IProps) {
           !!urgent ? "flex" : "hidden",
         )}
       >
-        <div className="w-4 h-4 relative">
-          <IconHelp />
+        <div className="w-4 h-4 relative *:w-4">
+          <IconSpriteCategoryId id="category-heart-white" />
         </div>
         <span className="text-text-button text-xs font-medium">Щедрое сердце</span>
       </article>

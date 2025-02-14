@@ -6,8 +6,8 @@ import { NuqsAdapter } from "nuqs/adapters/next/app"
 import Containers from "@/context/Containers"
 
 import { clg } from "@console"
+import { WebSocketProvider, QueryClientProviderContext } from "@/context"
 import { dispatchCookiesVisible, dispatchRefresh, useCookies } from "@/store"
-import { WebSocketProvider, NextThemesProvider, QueryClientProviderContext } from "@/context"
 
 export default ({ children }: { children: ReactNode }) => {
   useEffect(() => {
@@ -26,14 +26,12 @@ export default ({ children }: { children: ReactNode }) => {
 
   return (
     <NuqsAdapter>
-      <NextThemesProvider>
-        <QueryClientProviderContext>
-          <WebSocketProvider>
-            {children}
-            <Containers />
-          </WebSocketProvider>
-        </QueryClientProviderContext>
-      </NextThemesProvider>
+      <QueryClientProviderContext>
+        <WebSocketProvider>
+          {children}
+          <Containers />
+        </WebSocketProvider>
+      </QueryClientProviderContext>
     </NuqsAdapter>
   )
 }

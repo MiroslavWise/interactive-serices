@@ -27,7 +27,6 @@
     "blurhash-base64": "^0.0.3",
     "date-fns": "4.1.0",
     "next": "14.2.16",
-    "next-themes": "0.3.0",
     "nextjs-toploader": "^3.7.15",
     "nuqs": "^2.2.3",
     "react": "18.3.1",

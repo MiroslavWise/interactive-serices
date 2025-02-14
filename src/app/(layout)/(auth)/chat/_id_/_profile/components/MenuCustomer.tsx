@@ -2,12 +2,12 @@
 
 import { type IUserResponse } from "@/services/users/types"
 
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
 import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
 import { dispatchComplaintModalUser, dispatchOpenDeleteChat } from "@/store"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 function MenuCustomer({ user, id }: { user: IUserResponse; id: string | number }) {
   const [open, set, ref] = useOutsideClickEvent()
@@ -63,8 +63,8 @@ function MenuCustomer({ user, id }: { user: IUserResponse; id: string | number }
             dispatchOpenDeleteChat(id)
           }}
         >
-          <div className="relative w-5 h-5 p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:!fill-text-error">
-            <IconTrashBlack />
+          <div className="relative w-5 h-5 p-2.5 *:w-5 text-text-error">
+            <IconSprite id="trash-20-20" />
           </div>
           <span>Удалить чат</span>
         </a>

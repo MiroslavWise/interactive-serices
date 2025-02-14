@@ -2,10 +2,10 @@
 
 import { type Dispatch, memo } from "react"
 
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import { ImageStatic } from "@/components/common"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
-import { ImageStatic } from "@/components/common"
 
 interface IProps {
   files: {
@@ -37,9 +37,9 @@ function SendingPhotos({ dispatchDelete, files }: IProps) {
               dispatchDelete(index)
               event.stopPropagation()
             }}
-            className="absolute bg-BG-second w-8 h-8 rounded-full p-2 flex items-center justify-center top-1.5 right-1.5 z-30 *:w-4 *:h-4 [&>svg>path]:fill-text-primary"
+            className="absolute bg-BG-second w-8 h-8 rounded-full p-2 flex items-center justify-center top-1.5 right-1.5 z-30 *:w-4 *:h-4 text-text-primary"
           >
-            <IconTrashBlack />
+            <IconSprite id="trash-20-20" />
           </button>
           <ImageStatic
             src={item}

@@ -1,25 +1,22 @@
 import { Controller, useForm } from "react-hook-form"
-import { useQuery } from "@tanstack/react-query"
 import { useEffect, useRef, useState, type HTMLAttributes } from "react"
 
 import { EnumStatusBarter, EnumTypeProvider } from "@/types/enum"
-import { type IBodyPostTestimonials } from "@/services/testimonials/types"
 
 import Avatar from "@avatar"
+import Button from "@/components/common/Button"
+import { ImageStatic } from "@/components/common"
 import IconPlus from "@/components/icons/IconPlus"
 import IconStar from "@/components/icons/IconStar"
-import IconRepeat from "@/components/icons/IconRepeat"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
-import { ImageCategory, ImageStatic } from "@/components/common"
-import Button from "@/components/common/Button"
 
 import { cx } from "@/lib/cx"
 import { clg } from "@console"
 import { useToast } from "@/helpers/hooks/useToast"
-import { dispatchClearAddTestimonials, dispatchModal, EModalData, useAddTestimonials, useAuth } from "@/store"
+import { fileUploadService, patchTestimonial, postTestimonial } from "@/services"
 import { handleImageChange, MAX_LENGTH, resolver, TFiles, type TSchema } from "./utils"
-import { fileUploadService, getBarterId, patchTestimonial, postTestimonial, serviceNotifications } from "@/services"
+import { dispatchClearAddTestimonials, dispatchModal, EModalData, useAddTestimonials, useAuth } from "@/store"
 
 import styles from "./style.module.scss"
 
@@ -251,7 +248,7 @@ function ProvideFeedback() {
                       <ImageStatic src={item} alt={`${index}-img`} width={128} height={168} className="h-[10.5rem] w-32 aspect-[16/21]" />
                       <button
                         type="button"
-                        className="absolute z-10 top-1.5 bg-BG-second right-1.5 w-8 h-8 rounded-full *:w-4 *:h-4 [&>svg>path]:fill-text-primary flex items-center justify-center p-2"
+                        className="absolute z-10 top-1.5 bg-BG-second right-1.5 w-8 h-8 rounded-full *:w-4 *:h-4 text-text-primary p-2"
                         onClick={() => {
                           const newImages: TFiles = {
                             file: field.value.file.filter((_, i) => i !== index),
@@ -261,7 +258,7 @@ function ProvideFeedback() {
                           field.onChange(newImages)
                         }}
                       >
-                        <IconTrashBlack />
+                        <IconSprite id="trash-20-20" />
                       </button>
                     </div>
                   ))}

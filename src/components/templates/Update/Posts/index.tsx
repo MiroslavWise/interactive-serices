@@ -7,7 +7,6 @@ import ControlHelp from "./components/ControlHelp"
 import IconFile_06 from "@/components/icons/IconFile_06"
 import { IconSprite } from "@/components/icons/icon-sprite"
 import AddressController from "./components/AddressController"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
 import { ImageStatic, NextImageMotion } from "@/components/common"
 import ControlParticipant from "../../CreatePost/components/ControlParticipant"
 
@@ -213,7 +212,7 @@ function UpdatePost() {
                         <span className="text-sm font-medium text-text-primary line-clamp-1 text-ellipsis">файл №{item.index + 1}</span>
                         <button
                           type="button"
-                          className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4"
+                          className="w-6 h-6 p-3 relative *:w-4"
                           onClick={(event) => {
                             event.stopPropagation()
                             const newFiles = {
@@ -223,7 +222,7 @@ function UpdatePost() {
                             field.onChange(newFiles)
                           }}
                         >
-                          <IconTrashBlack />
+                          <IconSprite id="trash-20-20" className="text-element-accent-2" />
                         </button>
                       </article>
                     ))}
@@ -247,7 +246,7 @@ function UpdatePost() {
                         />
                         <button
                           type="button"
-                          className="absolute top-1.5 right-1.5 w-8 h-8 rounded-full bg-BG-second *:w-4 *:h-4 p-2 flex items-center justify-center [&>svg>path]:fill-text-primary"
+                          className="absolute top-1.5 right-1.5 w-8 h-8 rounded-full bg-BG-second *:w-4 *:h-4 p-2 flex items-center justify-center text-text-primary"
                           onClick={(event) => {
                             event.stopPropagation()
                             const ids = watch("deletesImages")
@@ -261,7 +260,7 @@ function UpdatePost() {
                             }
                           }}
                         >
-                          <IconTrashBlack />
+                          <IconSprite id="trash-20-20" />
                         </button>
                       </div>
                     ))}
@@ -279,7 +278,7 @@ function UpdatePost() {
                         />
                         <button
                           type="button"
-                          className="absolute top-1.5 right-1.5 w-8 h-8 rounded-full bg-BG-second *:w-4 *:h-4 p-2 flex items-center justify-center [&>svg>path]:fill-text-primary"
+                          className="absolute top-1.5 right-1.5 w-8 h-8 rounded-full bg-BG-second *:w-4 *:h-4 p-2 flex items-center justify-center text-text-primary"
                           onClick={(event) => {
                             event.stopPropagation()
                             field.onChange({
@@ -288,7 +287,7 @@ function UpdatePost() {
                             })
                           }}
                         >
-                          <IconTrashBlack />
+                          <IconSprite id="trash-20-20" />
                         </button>
                       </div>
                     ))}

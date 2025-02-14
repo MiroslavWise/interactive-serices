@@ -1,9 +1,9 @@
 import { type Dispatch } from "react"
 
 import { ImageStatic } from "@/components/common"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
 
 import { cx } from "@/lib/cx"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 interface IProps {
   files: string[]
@@ -26,9 +26,9 @@ function SendingPhotosComment({ files = [], dispatchDelete }: IProps) {
           <button
             type="button"
             onClick={(event) => dispatchDelete(index)}
-            className="absolute bg-BG-second w-8 h-8 rounded-full p-2 flex items-center justify-center top-1.5 right-1.5 z-30 *:w-4 *:h-4 [&>svg>path]:fill-text-primary"
+            className="absolute bg-BG-second w-8 h-8 rounded-full p-2 top-1.5 right-1.5 z-30 *:w-4 *:h-4 text-text-primary"
           >
-            <IconTrashBlack />
+            <IconSprite id="trash-20-20" />
           </button>
           <ImageStatic
             src={item}

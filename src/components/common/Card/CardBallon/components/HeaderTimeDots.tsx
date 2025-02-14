@@ -6,7 +6,6 @@ import { type IResponseOffers } from "@/services/offers/types"
 
 import IconEdit from "@/components/icons/IconEdit"
 import { SpriteDefault } from "@/components/icons/icon-sprite-default"
-import IconCurrencyRubleCircle from "@/components/icons/IconCurrencyRubleCircle"
 
 import { cx } from "@/lib/cx"
 import useRole from "@/helpers/is-role"
@@ -78,7 +77,6 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
             "[&>*>span]:text-text-primary [&>*>span]:text-sm [&>*>span]:font-normal [&>*>span]:text-left [&>*>span]:whitespace-nowrap",
             "[&>*>div]:w-5 [&>*>div]:h-5  [&>*>div]:relative  [&>*>div]:p-2.5",
             "hover:*:bg-grey-field",
-            "[&>*>div>svg]:w-5 [&>*>div>svg]:h-5 [&>*>div>svg]:absolute [&>*>div>svg]:top-1/2 [&>*>div>svg]:left-1/2 [&>*>div>svg]:-translate-x-1/2 [&>*>div>svg]:-translate-y-1/2",
             visible ? "opacity-100 visible -z-10" : "opacity-0 invisible z-[120]",
           )}
         >
@@ -89,7 +87,7 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
             onClick={onReplace}
             className={cx(!isManager && "!hidden")}
           >
-            <div>
+            <div className="relative w-5 h-5 *:w-5 *:h-5">
               <IconEdit />
             </div>
             <span>{LABEL_REPLACE}</span>
@@ -145,7 +143,7 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
             className={cx((!isManager || offer.provider !== EnumTypeProvider.offer || isAdvertising) && "!hidden")}
           >
             <div>
-              <IconCurrencyRubleCircle />
+              <SpriteDefault id="icon-default-currency-ruble-circle" className="text-text-primary w-5 h-5" />
             </div>
             <span>{LABEL_ADD_ADVERT}</span>
           </a>

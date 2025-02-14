@@ -1,12 +1,12 @@
 import Link from "next/link"
+import { Dispatch } from "react"
 
 import { IUserOffer } from "@/services/offers/types"
 
 import Avatar from "@avatar"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import IconVerifiedTick from "@/components/icons/IconVerifiedTick"
 import RatingAndFeedbackComponent from "@/components/templates/Friends/components/RatingAndFeedbackComponent"
-import IconTrashBlack from "@/components/icons/IconTrashBlack"
-import { Dispatch } from "react"
 
 interface IProps {
   user: IUserOffer
@@ -43,12 +43,8 @@ function ComponentItemUser({ user, isCustomer, onDelete }: IProps) {
         <RatingAndFeedbackComponent id={id} />
         {isCustomer ? (
           <>
-            <button
-              type="button"
-              className="absolute top-0 right-0 w-5 h-5 flex items-center justify-center *:w-4 *:h-4"
-              onClick={handleDelete}
-            >
-              <IconTrashBlack />
+            <button type="button" className="absolute top-0 right-0 w-5 h-5 *:w-4 *:h-4 text-element-accent-2" onClick={handleDelete}>
+              <IconSprite id="trash-20-20" />
             </button>
           </>
         ) : null}

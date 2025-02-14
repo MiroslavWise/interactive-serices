@@ -3,9 +3,7 @@ import { ETitleRole } from "@/services/roles/types"
 import { type IPosts } from "@/services/posts/types"
 
 import IconArchive from "@/components/icons/IconArchive"
-import IconActivity from "@/components/icons/IconActivity"
 import { SpriteDefault } from "@/components/icons/icon-sprite-default"
-import IconCurrencyRubleCircle from "@/components/icons/IconCurrencyRubleCircle"
 
 import { cx } from "@/lib/cx"
 import useRole from "@/helpers/is-role"
@@ -122,7 +120,7 @@ function SharedDotsPost({ post }: IProps) {
               "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-primary",
             )}
           >
-            <IconActivity />
+            <SpriteDefault id="icon-share" className="text-text-primary w-5 h-5" />
           </div>
           <span className="text-text-primary text-sm font-normal text-left">{TITLE_SHARE}</span>
         </a>
@@ -205,7 +203,7 @@ function SharedDotsPost({ post }: IProps) {
           )}
         >
           <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
-            <IconCurrencyRubleCircle />
+            <SpriteDefault id="icon-default-currency-ruble-circle" className="text-text-primary w-5 h-5" />
           </div>
           <span className="text-sm font-normal text-left text-text-primary">{LABEL_ADD_ADVERT}</span>
         </a>

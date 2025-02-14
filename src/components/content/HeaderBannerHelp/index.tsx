@@ -2,9 +2,9 @@
 
 import Link from "next/link"
 
-import IconHelp from "@/components/icons/IconHelp"
 import { IconSprite } from "@/components/icons/icon-sprite"
 import { IconChevron } from "@/components/icons/IconChevron"
+import { IconSpriteCategoryId } from "@/components/icons/icon-sprite-category"
 
 import { cx } from "@/lib/cx"
 import { dispatchCloseBanner } from "@/store"
@@ -20,8 +20,8 @@ function HeaderBannerHelp({ is }: { is: boolean }) {
       )}
     >
       <section className="grid gap-3 md:gap-2.5 items-center grid-cols-[2.5rem_minmax(0,1fr)] md:grid-cols-[1.5rem_minmax(0,1fr)]">
-        <div className="relative w-10 md:w-6 h-10 md:h-6 *:w-10 md:*:w-6 *:h-10 md:*:h-6">
-          <IconHelp />
+        <div className="relative w-10 md:w-6 h-10 md:h-6 *:w-10 md:*:w-6">
+          <IconSpriteCategoryId id="category-heart-white" />
         </div>
         <div className="flex flex-col items-start md:flex-row md:items-center md:gap-6">
           <p className="text-text-button text-base md:text-sm font-semibold">Щедрое сердце</p>
