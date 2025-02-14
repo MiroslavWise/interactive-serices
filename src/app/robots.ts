@@ -15,7 +15,17 @@ export default async function (): Promise<MetadataRoute.Robots> {
     rules: [
       {
         userAgent: "*",
-        allow: ["/", ...categories, "/app-store", "/legal/ads-agreement/", "/legal/privacy-policy/", "/legal/terms/", "/registration"],
+        allow: [
+          "/",
+          ...categories,
+          "/app-store",
+          "/legal/ads-agreement/",
+          "/legal/privacy-policy/",
+          "/legal/terms/",
+          "/registration",
+          "/ads",
+          "/ads-pdf",
+        ],
       },
     ],
     sitemap: `${env.server.host}/sitemap.xml`,
