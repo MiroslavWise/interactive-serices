@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   },
 }
 
-const url = "/pdf/Презентация_Реклама_на_геосервисе_sheira_ru_2025.pdf"
+const url = "/pdf/ads.pdf"
 
 export default () => (
   <iframe title={title} src={url} className="w-full h-dvh" width="100%" height="100dvh" frameBorder={0}>
