@@ -51,7 +51,19 @@ export default async function (): Promise<MetadataRoute.Sitemap> {
     {
       url: `${env.server.host}/registration`,
       lastModified: new Date(),
-      changeFrequency: "weekly",
+      changeFrequency: "monthly",
+      priority: 0.75,
+    },
+    {
+      url: `${env.server.host}/ads`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.75,
+    },
+    {
+      url: `${env.server.host}/ads-pdf`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
       priority: 0.75,
     },
   ]

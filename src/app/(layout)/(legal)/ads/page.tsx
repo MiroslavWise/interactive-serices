@@ -1,4 +1,5 @@
 import { type Metadata } from "next"
+import Link from "next/link"
 
 const title = "Размещение рекламы"
 
@@ -35,7 +36,9 @@ export default () => (
       или <a href="mailto:reklama@sheira.ru">reklama@sheira.ru</a>, чтобы узнать больше о возможностях рекламы и продвижения.
     </p>
     <p className="!font-light -mt-2">
-      <a href="">Подробности в нашей презентации.</a>
+      <Link href={{ pathname: "/ads-pdf" }} target="_blank">
+        Подробности в нашей презентации.
+      </Link>
     </p>
   </ul>
 )
