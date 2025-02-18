@@ -11,10 +11,10 @@ import ContextComments from "./components/ContextComments"
 // import { NextImageMotion } from "@/components/common/Image"
 import NavigationNoteAndComments from "./components/Navigation"
 import ComponentParticipants from "./components/ComponentParticipants"
-import { IconSpriteCategoryId } from "@/components/icons/icon-sprite-category"
 
 import { cx } from "@/lib/cx"
 import { useBalloonPost } from "@/store"
+import { SpriteHeart } from "@/components/icons/icon-sprite-heart"
 
 function BallonPost() {
   const data = useBalloonPost(({ data }) => data)
@@ -62,7 +62,7 @@ function BallonPost() {
               />
             </div>
           ) : !!urgent ? (
-            <IconSpriteCategoryId id="category-heart" />
+            <SpriteHeart />
           ) : (
             <IconPost />
           )}

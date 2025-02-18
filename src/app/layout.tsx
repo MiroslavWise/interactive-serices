@@ -5,8 +5,9 @@ import NextTopLoader from "nextjs-toploader"
 import { type PropsWithChildren } from "react"
 import { type Viewport, type Metadata } from "next"
 
-const Providers = dynamic(() => import("./providers"), { ssr: false })
+import IconSpriteHeart from "@/components/icons/icon-sprite-heart"
 import IconSpriteDefault from "@/components/icons/icon-sprite-default"
+const Providers = dynamic(() => import("./providers"), { ssr: false })
 import ButtonHelpTelegram from "@/components/templates/ButtonHelpTelegram"
 const IconFillSprite = dynamic(() => import("@/components/icons/icon-sprite"))
 const IconSpriteCategory = dynamic(() => import("@/components/icons/icon-sprite-category"))
@@ -206,6 +207,7 @@ export default async ({ children }: PropsWithChildren) => (
       <IconFillSprite />
       <IconSpriteCategory />
       <IconSpriteDefault />
+      <IconSpriteHeart />
     </body>
   </html>
 )
