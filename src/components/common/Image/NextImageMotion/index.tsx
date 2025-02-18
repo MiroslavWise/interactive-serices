@@ -28,7 +28,7 @@ export const NextImageMotion = (props: TTypes) => {
       blurDataURL={!!blur64 ? blur64 : blur}
       ref={ref}
       data-image={alt}
-      className={className || ""}
+      className={className}
       loading="lazy"
       src={src}
       alt={alt}

@@ -90,6 +90,16 @@ export default function IconSpriteDefault() {
           strokeLinejoin="round"
         />
       </symbol>
+      <symbol viewBox="0 0 24 24" id="icon-arrow-right">
+        <path
+          d="M4 12H20M20 12L14 6M20 12L14 18"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="stroke-current"
+        />
+      </symbol>
     </svg>
   )
 }
@@ -102,6 +112,7 @@ type TID =
   | "icon-complaint"
   | "icon-default-map"
   | "icon-default-currency-ruble-circle"
+  | "icon-arrow-right"
 
 export const SpriteDefault = ({ id, className }: { id: TID; className?: string }) => (
   <svg width={32} height={32} className={cx(className, "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2")}>

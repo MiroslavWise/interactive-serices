@@ -4,6 +4,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  background: var(--BG-second);
 
   & > header {
     & > h3 {
@@ -18,10 +19,14 @@
       background: var(--BG-second);
     }
     &[data-color="discussion"] {
-      background: linear-gradient(0deg, rgba(16, 117, 238, 0.04) 0%, rgba(16, 117, 238, 0.04) 100%), #fff;
+      background: linear-gradient(0deg, rgba(16, 117, 238, 0.04) 0%, rgba(16, 117, 238, 0.04) 100%), var(--BG-second);
     }
     &[data-color="alert"] {
-      background: linear-gradient(0deg, rgba(239, 68, 36, 0.04) 0%, rgba(239, 68, 36, 0.04) 100%), #fff;
+      background: linear-gradient(0deg, rgba(239, 68, 36, 0.04) 0%, rgba(239, 68, 36, 0.04) 100%), var(--BG-second);
+      // @media (prefers-color-scheme: dark) {
+      //   background: transparent;
+      // }
+      overflow: hidden;
     }
   }
 

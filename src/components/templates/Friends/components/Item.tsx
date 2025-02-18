@@ -54,7 +54,7 @@ function ItemFriend({ item, myFriendsIds, refetchResponse, disabledOnFriendsRequ
         <Link
           prefetch={false}
           href={{ pathname: `/customer/${item.id}` }}
-          className="w-full text-base text-left font-medium line-clamp-1 flex flex-row flex-nowrap gap-1 text-ellipsis cursor-pointer items-center"
+          className="w-full text-text-primary text-base text-left font-medium line-clamp-1 flex flex-row flex-nowrap gap-1 text-ellipsis cursor-pointer items-center"
           target="_blank"
         >
           {item?.firstName || "Имя"} {item.lastName || ""}
