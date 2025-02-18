@@ -152,7 +152,9 @@ export const MContainerAboutProfile = () => {
           <h4 className="text-text-secondary text-sm font-normal">Мои друзья</h4>
           <article className="w-full flex flex-row items-center justify-between gap-2.5">
             <h3>{friends}</h3>
-            <img src="/svg/arrow-right.svg" alt="light" width={20} height={20} />
+            <div className="relative w-5 h-5">
+              <SpriteDefault id="icon-arrow-right" className="w-5 h-5 text-text-primary" />
+            </div>
           </article>
         </button>
       </div>

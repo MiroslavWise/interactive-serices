@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { parseAsInteger, useQueryState } from "nuqs"
 import { ContainerAboutMe, ContainerSuggestions, ContainerTagAndButton, MContainerAboutProfile } from "@/components/profile"
 
@@ -8,14 +9,12 @@ import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
 
 import main from "../layout.module.scss"
-import { useRouter } from "next/navigation"
 
 export default function MyProfilePage() {
   const user = useAuth(({ user }) => user)
   const { push } = useRouter()
   const [userId, setUser] = useQueryState("userId", parseAsInteger)
   const [username, setUsername] = useQueryState("username")
-  //&& !username.includes(`$`) && !username.includes("/")
   useEffect(() => {
     if (userId) {
       if (user) {
