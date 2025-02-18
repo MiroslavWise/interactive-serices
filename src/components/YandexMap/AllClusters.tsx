@@ -30,6 +30,7 @@ import { getPosts } from "@/services/posts"
 import { JSONStringBounds } from "@/utils/map-sort"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import { useFormProviderSearch } from "@/app/(layout)/components/FormProviderSearch"
+import IconAlertCirlceRed from "../icons/IconAlertCirlceRed"
 
 export type ReactifiedApi = ReactifiedModule<typeof ymaps3>
 export type FeatureCluster = Feature & {
@@ -182,7 +183,7 @@ function AllClusters() {
                           src={imageCompany?.attributes?.url}
                           hash={imageCompany?.attributes?.blur}
                           alt={provider}
-                          className="object-cover absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-sm"
+                          className="object-cover w-6 h-6 rounded-sm"
                         />
                       ) : provider === EnumTypeProvider.offer ? (
                         <ImageCategory
@@ -192,7 +193,7 @@ function AllClusters() {
                           id={properties?.offer?.categoryId!}
                         />
                       ) : provider === EnumTypeProvider.alert ? (
-                        <IconSprite id="alert-balloon-20-20" />
+                        <IconAlertCirlceRed />
                       ) : provider === EnumTypeProvider.POST ? (
                         <IconPost />
                       ) : null}
