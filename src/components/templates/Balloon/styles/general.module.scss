@@ -4,6 +4,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  background: var(--BG-second);
 
   & > header {
     & > h3 {
@@ -22,6 +23,7 @@
     }
     &[data-color="alert"] {
       background: linear-gradient(0deg, rgba(239, 68, 36, 0.04) 0%, rgba(239, 68, 36, 0.04) 100%), #fff;
+      overflow: hidden;
     }
   }
 

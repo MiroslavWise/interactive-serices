@@ -4,16 +4,17 @@ import { type TTypeNavigatePost } from "./utils/schema"
 
 import ListNotes from "./components/ListNotes"
 import IconPost from "@/components/icons/IconPost"
+import { NextImageMotion } from "@/components/common"
 import ComponentProfilePost from "./components/Profile"
 import ListCommentsPost from "./components/ListComments"
 import ContextComments from "./components/ContextComments"
 // import { NextImageMotion } from "@/components/common/Image"
 import NavigationNoteAndComments from "./components/Navigation"
 import ComponentParticipants from "./components/ComponentParticipants"
+import { IconSpriteCategoryId } from "@/components/icons/icon-sprite-category"
 
 import { cx } from "@/lib/cx"
 import { useBalloonPost } from "@/store"
-import { NextImageMotion } from "@/components/common"
 
 function BallonPost() {
   const data = useBalloonPost(({ data }) => data)
@@ -38,36 +39,8 @@ function BallonPost() {
   } as const
 
   const isAdvertising = !!company
-  // const { image, title: titleCompany } = company ?? {}
 
   return (
-    // isAdvertising ? (
-    //   <>
-    //     <header
-    //       className={cx(
-    //         "w-full bg-[var(--card-svg-yellow)] rounded-t-3xl md:rounded-t-2 overflow-hidden p-5 pb-11 md:pb-[3.25rem]",
-    //         !!image ? "grid grid-cols-[2.5rem_minmax(0,1fr)] items-center gap-4" : "flex items-center justify-start",
-    //         "-mb-6 md:-mb-8",
-    //       )}
-    //     >
-    //       <div className={cx("relative w-10 h-10 rounded-sm overflow-hidden", !!image ? "flex" : "hidden")}>
-    //         {!!image ? (
-    //           <NextImageMotion
-    //             src={image?.attributes?.url}
-    //             hash={image?.attributes?.blur}
-    //             alt={titleCompany ?? ""}
-    //             width={80}
-    //             height={80}
-    //             className="object-cover absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10"
-    //           />
-    //         ) : null}
-    //       </div>
-    //       <h2 className="text-xl font-bold text-text-button">{title}</h2>
-    //     </header>
-    //     <section className="w-full h-full rounded-3xl md:rounded-2 bg-BG-second flex flex-col overflow-hidden p-5"></section>
-    //   </>
-    // ) :
-    // bg-card-border-yellow bg-[var(--card-svg-yellow)]
     <>
       <header
         className={cx(
@@ -89,7 +62,7 @@ function BallonPost() {
               />
             </div>
           ) : !!urgent ? (
-            <img src="/png/category/heart.png" width={26} height={26} alt="headrt" className="w-7 h-7" />
+            <IconSpriteCategoryId id="category-heart" />
           ) : (
             <IconPost />
           )}
