@@ -17,6 +17,7 @@ import env, { APPLE_ID, APPLE_NAME, keyWords, URL_APPLE_APP } from "@/config/env
 import "@/scss/init.scss"
 import "./build.css"
 import "react-toastify/dist/ReactToastify.css"
+
 import { schemaOrg } from "@/utils/schema-org"
 
 export const inter = Inter({ weight: ["400", "500", "600"], subsets: ["latin"], style: "normal", variable: "--font-inter" })
