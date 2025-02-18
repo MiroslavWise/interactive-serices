@@ -37,11 +37,7 @@ function ItemFormAddNote() {
           </article>
         </div>
       )}
-      <button
-        type="button"
-        className="w-5 h-5 relative p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"
-        onClick={() => onWriteResponse(null)}
-      >
+      <button type="button" className="w-5 h-5 relative p-2.5 *:w-5 *:h-5" onClick={() => onWriteResponse(null)}>
         <IconSprite id="x-close-20-20" />
       </button>
     </div>

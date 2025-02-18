@@ -7,6 +7,7 @@ import ImageComment from "./ImageComment"
 import ItemCommentNote from "./ItemCommentNote"
 import FooterNewComment from "./FooterNewComment"
 import IconComment from "@/components/icons/IconComment"
+import ComponentNoteInComment from "./ComponentNoteInComment"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
 
 import { cx } from "@/lib/cx"
@@ -14,7 +15,6 @@ import { daysAgo, useResize } from "@/helpers"
 import { dispatchPublicProfile } from "@/store"
 import { useContextPostsComments } from "./ContextComments"
 import { getCommentEnding } from "@/helpers/number-of-photos"
-import ComponentNoteInComment from "./ComponentNoteInComment"
 
 function ListCommentsPost({ post, handleToNote }: { post: IPosts; handleToNote: Dispatch<number> }) {
   const { isTablet } = useResize()
@@ -26,9 +26,9 @@ function ListCommentsPost({ post, handleToNote }: { post: IPosts; handleToNote: 
 
   return (
     <section className={cx("w-full flex flex-col gap-5 h-full", isLoading && "items-center justify-center")}>
+      {!!writeResponse && <ComponentNoteInComment note={writeResponse} />}
       {filterList.length ? (
         <>
-          {!!writeResponse && <ComponentNoteInComment note={writeResponse} />}
           <div className="w-full flex flex-row items-center justify-start gap-2">
             <div className="relative w-5 h-5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5">
               <IconComment />
