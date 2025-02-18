@@ -92,7 +92,7 @@ function DivMarker({
         <div
           className={cx(
             "flex div-alert-text bg-text-button absolute w-max left-0 top-1/2 -translate-y-1/2",
-            isAdvertising ? "translate-x-5" : "translate-x-3.5 transition-opacity opacity-0 group-hover:opacity-100",
+            isAdvertising ? "translate-x-5" : "translate-x-3.5 hidden invisible group-hover:grid group-hover:visible",
           )}
         >
           <section className="flex flex-col h-min">
