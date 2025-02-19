@@ -36,7 +36,6 @@ function FooterNewNote() {
   if (isBecomeMember && !userId) {
     return (
       <footer className="flex flex-col gap-0.5 items-center justify-center my-auto fixed md:absolute bottom-0 left-0 right-0 bg-BG-second md:rounded-b-2 border-t border-solid border-grey-stroke-light">
-        <h4 className="text-text-primary text-base font-medium text-center">Желаете стать участником события?</h4>
         <p className="text-text-secondary text-center text-sm font-normal">
           <a onClick={() => dispatchAuthModal({ visible: true, type: EnumSign.SignIn })} className="text-element-accent-1 cursor-pointer">
             Войдите
@@ -45,6 +44,7 @@ function FooterNewNote() {
           <a onClick={() => dispatchAuthModal({ visible: true, type: EnumSign.SignUp })} className="text-element-accent-1 cursor-pointer">
             зарегистрируйтесь
           </a>
+          , чтобы стать участником события
         </p>
       </footer>
     )
