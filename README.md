@@ -12,7 +12,3 @@ pnpm dev
 [MakeFile]
 
 ```make build-run PORT=3000```
-
-## Getting Started NODEMON
-
-```nodemon --watch app --exec "next build && next start -p 4400"```
