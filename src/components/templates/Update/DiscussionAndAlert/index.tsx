@@ -6,13 +6,13 @@ import { EnumTypeProvider } from "@/types/enum"
 import { type IPatchOffers } from "@/services/offers/types"
 
 import Button from "@/components/common/Button"
+import ControlImages from "./components/ControlImages"
 
 import { cx } from "@/lib/cx"
 import { getOffers, patchOffer } from "@/services"
-import { resolverSchema, TSchema, LIMIT_DESCRIPTION } from "./shema"
-import { dispatchUpdateDiscussionAndAlert, useAuth, useUpdateDiscussionAndAlert } from "@/store"
-import ControlImages from "./components/ControlImages"
 import { updateImageOffer } from "./utils/update-image"
+import { resolverSchema, TSchema, LIMIT_DESCRIPTION } from "./shema"
+import { dispatchModal, dispatchUpdateDiscussionAndAlert, EModalData, useAuth, useUpdateDiscussionAndAlert } from "@/store"
 
 import styles from "./styles/style.module.scss"
 
@@ -92,7 +92,7 @@ function UpdateDiscussionAndAlert() {
           if (responses?.[1].ok) {
             refetch()
             setTimeout(() => {
-              dispatchUpdateDiscussionAndAlert({ visible: false })
+              dispatchModal(EModalData.SUCCESS_UPDATE_ALERT)
             })
           }
         }

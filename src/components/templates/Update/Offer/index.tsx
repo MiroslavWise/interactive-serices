@@ -18,7 +18,7 @@ import { updateOffer } from "./utils/update"
 import { getGeocodeSearch, getOffers } from "@/services"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
 import { LIMIT_DESCRIPTION } from "../DiscussionAndAlert/shema"
-import { dispatchUpdateOffer, useAuth, useUpdateOffer } from "@/store"
+import { dispatchModal, dispatchUpdateOffer, EModalData, useAuth, useUpdateOffer } from "@/store"
 import { resolverUpdateOffer, TSchemaUpdateOffer } from "./utils/types"
 
 export default function UpdateOffer() {
@@ -94,7 +94,7 @@ export default function UpdateOffer() {
         if (typeof res.ok !== "string" && res.ok) {
           refetch()
         }
-        close()
+        dispatchModal(EModalData.SUCCESS_UPDATE_OFFER)
         setLoading(false)
       })
     }

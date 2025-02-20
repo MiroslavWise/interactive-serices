@@ -16,7 +16,7 @@ import { getNotes } from "@/services/notes"
 import { getPostId, getPosts } from "@/services/posts"
 import { handleImageChange, updatePatch } from "./utils"
 import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
-import { dispatchBallonPost, dispatchUpdatePost, useAuth, useUpdatePost } from "@/store"
+import { dispatchBallonPost, dispatchModal, dispatchUpdatePost, EModalData, useAuth, useUpdatePost } from "@/store"
 import { LIMIT_TITLE_POST, resolverCreatePostUpdate, type TSchemaCreatePostUpdate } from "../../CreatePost/schema"
 
 function UpdatePost() {
@@ -80,7 +80,7 @@ function UpdatePost() {
           dispatchBallonPost(dataPost)
         }
       } else {
-        dispatchBallonPost(post)
+        dispatchModal(EModalData.SUCCESS_UPDATE_POSTS)
       }
       setLoading(false)
       dispatchUpdatePost()

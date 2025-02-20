@@ -5,6 +5,7 @@ import DeleteUser from "../DeleteUser"
 import DeleteChat from "../DeleteChat"
 import CreatePost from "../CreatePost"
 import BallonPost from "../BallonPost"
+import DeletePost from "../Delete/Post"
 import DeleteOffer from "../DeleteOffer"
 import UpdateOffer from "../Update/Offer"
 import BalloonAlert from "../Balloon/Alert"
@@ -14,39 +15,39 @@ import UpdateProfile from "../UpdateProfile"
 import CreateNewNote from "../CreateNewNote"
 import ComplaintModal from "../ComplaintModal"
 import ChangePassword from "../ChangePassword"
+import ProvideFeedback from "../ProvideFeedback"
+import UpdateSuccess from "../Update/UpdateSuccess"
 import NewServicesBanner from "../NewServicesBanner"
 import SuccessCreatePost from "../SuccessCreatePost"
 import BalloonDiscussion from "../Balloon/Discussion"
 import SuccessNewOptional from "../SuccessNewOptional"
 import CreateNewOptionModal from "../CreateNewOptionModal"
 import SuccessProvideFeedback from "../SuccessProvideFeedback"
-import DeletePost from "../Delete/Post"
-import ProvideFeedback from "../ProvideFeedback"
+import UpdateCompanyDelete from "../Update/Company/UpdateCompanyDelete"
+import UpdateCompanyEnabled from "../Update/Company/UpdateCompanyEnabled"
 
 import { cx } from "@/lib/cx"
 import { EModalData } from "@/store"
 
 import { CN_SUCCESS_NEW_OPTIONAL } from "../SuccessNewOptional/style"
 import { CN_SECTION } from "@/components/templates/NewServicesBanner/style"
-import styleCreateNewOptionModal from "@/components/templates/CreateNewOptionModal/styles/style.module.scss"
-import stylesComplaintModal from "@/components/templates/ComplaintModal/styles/style.module.scss"
-import stylesUpdateProfile from "@/components/templates/UpdateProfile/styles/style.module.scss"
-import stylesGeneralOffer from "@/components/templates/Balloon/styles/general.module.scss"
-import stylesOffer from "@/components/templates/Balloon/Offer/styles/style.module.scss"
-import stylesAlertAndDiscussion from "@/components/templates/Balloon/Discussion/styles/style.module.scss"
 import stylesOutAccount from "@/components/templates/OutAccount/style.module.scss"
-import stylesUpdateOffer from "@/components/templates/Update/Offer/style.module.scss"
-import stylesChangePassword from "@/components/templates/ChangePassword/style.module.scss"
 import stylesCreatePost from "@/components/templates/CreatePost/style.module.scss"
-import stylesSuccessCreatePost from "@/components/templates/SuccessCreatePost/style.module.scss"
 import stylesBallonPost from "@/components/templates/BallonPost/style.module.scss"
+import stylesUpdateOffer from "@/components/templates/Update/Offer/style.module.scss"
+import stylesOffer from "@/components/templates/Balloon/Offer/styles/style.module.scss"
+import stylesGeneralOffer from "@/components/templates/Balloon/styles/general.module.scss"
+import stylesChangePassword from "@/components/templates/ChangePassword/style.module.scss"
+import stylesUpdateProfile from "@/components/templates/UpdateProfile/styles/style.module.scss"
+import stylesSuccessCreatePost from "@/components/templates/SuccessCreatePost/style.module.scss"
+import stylesComplaintModal from "@/components/templates/ComplaintModal/styles/style.module.scss"
 import UpdateDiscussionAndAlert, { CN_UPDATE_DISCUSSION_AND_ALERT } from "../Update/DiscussionAndAlert"
-import UpdateCompanyDelete from "../Update/Company/UpdateCompanyDelete"
-import UpdateCompanyEnabled from "../Update/Company/UpdateCompanyEnabled"
+import stylesAlertAndDiscussion from "@/components/templates/Balloon/Discussion/styles/style.module.scss"
+import styleCreateNewOptionModal from "@/components/templates/CreateNewOptionModal/styles/style.module.scss"
 
+const stringBalloonOffer = cx(stylesGeneralOffer.containerGeneral, stylesOffer.container)
 const stringBalloonAlert = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
 const stringBalloonDiscussion = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
-const stringBalloonOffer = cx(stylesGeneralOffer.containerGeneral, stylesOffer.container)
 
 export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.NewServicesBanner, <NewServicesBanner key="::key::modal::new-services-banner" />], //Выбор трёх созданий: предложения, дискуссии и алерта
@@ -80,9 +81,14 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.BALLOON_POST, <BallonPost key="::key::BallonPost" />], //Балун поста
   [EModalData.DELETE_FRIEND, <DeleteFriend key="::key::DeleteFriend" />], //Удаление друга
   [EModalData.DELETE_POST, <DeletePost key="::key::DeleteFriend" />], //Удаление друга
+
   [EModalData.UPDATE_DELETE_COMPANY, <UpdateCompanyDelete key="::key::UpdateCompanyDelete::" />], //Удаление компании
   [EModalData.UPDATE_ENABLED_COMPANY, <UpdateCompanyEnabled key="::key::UpdateCompanyEnabled::" />], //Деактивация компании
   [EModalData.UPDATE_ENABLED_ACTIVE_COMPANY, <UpdateCompanyEnabled key="::key::UpdateCompanyEnabled::" />], //Активация компании
+
+  [EModalData.SUCCESS_UPDATE_OFFER, <UpdateSuccess key="::key::UpdateSuccess-offer::" />], //Успешное обновление умения
+  [EModalData.SUCCESS_UPDATE_ALERT, <UpdateSuccess key="::key::UpdateSuccess-alert::" />], //Успешное обновление SOS-сообщения
+  [EModalData.SUCCESS_UPDATE_POSTS, <UpdateSuccess key="::key::UpdateSuccess-posts::" />], //Успешное обновление события
 ])
 export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.NewServicesBanner, CN_SECTION], //
@@ -109,7 +115,10 @@ export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.UpdateOffer, stylesUpdateOffer.container], //
   [EModalData.ChangePassword, stylesChangePassword.container], //
   // [EModalData.ActiveServicesFrom, stylesActiveServicesFrom.container], //
-  [EModalData.SuccessNewOptional, CN_SUCCESS_NEW_OPTIONAL], //
+  [EModalData.SuccessNewOptional, CN_SUCCESS_NEW_OPTIONAL],
+  [EModalData.SUCCESS_UPDATE_ALERT, CN_SUCCESS_NEW_OPTIONAL],
+  [EModalData.SUCCESS_UPDATE_OFFER, CN_SUCCESS_NEW_OPTIONAL],
+  [EModalData.SUCCESS_UPDATE_POSTS, CN_SUCCESS_NEW_OPTIONAL],
   [EModalData.UpdateDiscussionAndAlert, CN_UPDATE_DISCUSSION_AND_ALERT], //
   // [EModalData.CancelExchange, CN_CANCEL_EXCHANGE], //
   [EModalData.CREATE_POST, stylesCreatePost.container], //
