@@ -1,31 +1,9 @@
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
 import { type AxiosProgressEvent } from "axios"
 import { type Dispatch, type SetStateAction } from "react"
 
-import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
+import { TSchema } from "./schema"
 
-const sleep = () => new Promise((r) => setTimeout(r, 50))
-
-const description = z
-  .string()
-  .trim()
-  .max(MAX_LENGTH_DESCRIPTION_NOTE, { message: `Не более ${MAX_LENGTH_DESCRIPTION_NOTE} символов` })
-  .default("")
-  .optional()
-const file = z.object({
-  file: z.array(z.instanceof(File)),
-  string: z.array(z.string()),
-})
-const schemaNote = z.object({
-  description: description,
-  file: file,
-  is: z.boolean().default(false),
-})
-
-export const resolverCreateNote = zodResolver(schemaNote)
-export type TSchemaCreateNote = z.infer<typeof schemaNote>
-export const DEFAULT_VALUES: TSchemaCreateNote = {
+export const DEFAULT_VALUES: TSchema = {
   description: "",
   file: {
     file: [],

@@ -16,10 +16,11 @@ import { queryClient } from "@/context"
 import { onChangeFile } from "@/helpers"
 import { getPostId } from "@/services/posts"
 import { fileUploadService } from "@/services"
+import { schemaResolver, TSchema } from "./schema"
 import { patchNote, postNote } from "@/services/notes"
 import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
+import { DEFAULT_VALUES, onProgress, onUploadProgress } from "./utils"
 import { dispatchBallonPost, dispatchCloseCreateNote, useAuth, useCreateNewNote } from "@/store"
-import { DEFAULT_VALUES, onProgress, onUploadProgress, resolverCreateNote, type TSchemaCreateNote } from "./utils"
 
 function CreateNewNote() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -27,8 +28,8 @@ function CreateNewNote() {
   const [loading, setLoading] = useState(false)
   const [progress, setProgress] = useState<Record<string, AxiosProgressEvent>>({})
 
-  const { handleSubmit, control, watch } = useForm<TSchemaCreateNote>({
-    resolver: resolverCreateNote,
+  const { handleSubmit, control, watch } = useForm<TSchema>({
+    resolver: schemaResolver,
     defaultValues: DEFAULT_VALUES,
   })
 
@@ -98,7 +99,7 @@ function CreateNewNote() {
     }
   })
 
-  const disabled = !watch("file").file.length && !watch("description")
+  const disabled = watch("file").file.length === 0 && !watch("description")
 
   return (
     <>
@@ -270,7 +271,7 @@ function CreateNewNote() {
               label="Сохранить"
               className="w-full h-11 py-2.5"
               loading={loading}
-              disabled={loading || disabled}
+              disabled={loading}
             />
           </footer>
         </form>
