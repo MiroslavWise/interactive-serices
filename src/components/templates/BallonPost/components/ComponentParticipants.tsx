@@ -47,9 +47,10 @@ function ComponentParticipants({ postUserId, id, title, isParticipant }: IProps)
             <div className="relative w-5 h-5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5"></div>
             <span className="text-text-primary text-sm font-medium">{nameCount}</span>
           </div>
-          <ul className="w-full flex flex-col gap-2.5">
-            {list.map((item: IUserOffer) => (
-              <li key={`key:comment:${item.id}:`} className="w-full grid grid-cols-[2rem_minmax(0,1fr)] gap-3">
+          <ul className="w-full flex flex-col gap-2.5 pl-4">
+            {list.map((item, index) => (
+              <li key={`key:comment:${item.id}:`} className="w-full grid grid-cols-[2rem_minmax(0,1fr)] gap-3 relative">
+                <span className="absolute top-1/2 -translate-y-1/2 right-full pr-0.5 text-xs text-text-accent text-right">{index + 1}</span>
                 <Avatar className="w-8 h-8 p-4 rounded-full" image={item?.image} userId={item?.id} />
                 <article className="w-full flex flex-col gap-0.5">
                   <div className="flex flex-row items-center gap-2">
