@@ -9,16 +9,17 @@ import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
 import { cx } from "@/lib/cx"
 import { dispatchModalClose, EModalData, useModal } from "@/store"
 
-const title: Map<EModalData, string> = new Map([
-  [EModalData.SUCCESS_UPDATE_ALERT, "Мы скоро обновим SOS-сообщение на карте"],
-  [EModalData.SUCCESS_UPDATE_OFFER, "Обновление завершено!"],
-  [EModalData.SUCCESS_UPDATE_POSTS, "Обновление завершено!"],
-])
+// const title: Map<EModalData, string> = new Map([
+//   [EModalData.SUCCESS_UPDATE_ALERT, "Обновление завершено!"],
+//   [EModalData.SUCCESS_UPDATE_OFFER, "Обновление завершено!"],
+//   [EModalData.SUCCESS_UPDATE_POSTS, "Обновление завершено!"],
+// ])
 
 const description: Map<EModalData, string> = new Map([
   [
     EModalData.SUCCESS_UPDATE_ALERT,
-    "Ваше SOS-сообщение сейчас отправлено на модерацию, после проверки оно обновится на карте. Это займёт некоторое малое время",
+    "Изменения сохранены, и ваше SOS-сообщение будут обновлены на карте. Для того, чтобы увидеть обновления прямо сейчас, перезагрузите страниц",
+    // "Ваше SOS-сообщение сейчас отправлено на модерацию, после проверки оно обновится на карте. Это займёт некоторое малое время",
   ],
   [
     EModalData.SUCCESS_UPDATE_OFFER,
@@ -26,7 +27,8 @@ const description: Map<EModalData, string> = new Map([
   ],
   [
     EModalData.SUCCESS_UPDATE_POSTS,
-    "Ваше событие отправлено на модерацию, после проверки оно обновится на карте. Это займёт некоторое малое время",
+    "Изменения сохранены, и ваше событие будут обновлены на карте. Для того, чтобы увидеть обновления прямо сейчас, перезагрузите страницу",
+    // "Ваше событие отправлено на модерацию, после проверки оно обновится на карте. Это займёт некоторое малое время",
   ],
 ])
 
@@ -61,7 +63,10 @@ function UpdateSuccess() {
             <IconCheck />
           </div>
         </div>
-        <h2 className="text-text-primary text-center text-2xl font-semibold">{type && title.has(type) ? title.get(type) : null}</h2>
+        <h2 className="text-text-primary text-center text-2xl font-semibold">
+          Обновление завершено!
+          {/* {type && title.has(type) ? title.get(type) : null} */}
+        </h2>
         <p className="text-text-primary text-center text-sm font-normal">{type && description.has(type) ? description.get(type) : null}</p>
       </article>
       <Button
