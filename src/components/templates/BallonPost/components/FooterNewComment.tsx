@@ -99,7 +99,6 @@ function FooterNewComment({ post }: { post: IPosts }) {
 
       resetField("comment")
       resetField("file")
-      onWriteResponse(null)
       if (textRef.current) {
         textRef.current.style.borderRadius = `1.25rem`
         textRef.current.style.height = "2.5rem"
