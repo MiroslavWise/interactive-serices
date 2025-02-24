@@ -26,7 +26,7 @@ const description: Map<EnumTypeProvider, string> = new Map([
   //   EnumTypeProvider.discussion,
   //   "Ваше обсуждение сейчас отправлена на модерацию, после проверки вы получите уведомление об этом в личном кабинете",
   // ],
-  [EnumTypeProvider.offer, "Ваше умение или услуга успешно создана и уже отображается на карте"],
+  [EnumTypeProvider.offer, "Ваше умение или услуга успешно создана! Для того, чтобы увидеть ее, перезагрузите страницу"],
 ])
 
 function SuccessNewOptional() {
