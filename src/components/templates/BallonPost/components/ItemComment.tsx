@@ -40,7 +40,7 @@ function ItemComment({ comment, handleToNote }: IProps) {
   }
 
   return (
-    <li className="w-full grid grid-cols-[2rem_minmax(0,1fr)] gap-3">
+    <li className={cx("w-full grid grid-cols-[2rem_minmax(0,1fr)] gap-3", open ? "z-50" : "z-0")}>
       <Avatar className="w-8 h-8 p-4 rounded-full" image={user?.image} userId={commentUserId} />
       <article className="w-full flex flex-col gap-0.5 pb-2.5 border-b border-solid border-grey-stroke-light">
         <div className="w-full flex flex-row items-center justify-start gap-2 relative">
@@ -67,7 +67,6 @@ function ItemComment({ comment, handleToNote }: IProps) {
           <div
             className={cx(
               "absolute top-1/2 right-0 -translate-y-1/2",
-              open ? "z-50" : "z-0",
               !!userId && (userId === postUserId || userId === commentUserId) ? "flex items-center justify-center" : "hidden",
             )}
             ref={ref}
