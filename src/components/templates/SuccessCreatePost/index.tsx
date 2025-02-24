@@ -27,9 +27,7 @@ function SuccessCreatePost() {
           </div>
         </div>
         <h3 className="text-text-primary font-semibold text-2xl text-center">Мы скоро разместим Событие на карте</h3>
-        <p className="text-text-primary text-center font-normal text-sm">
-          Ваше событие сейчас отправлено на модерацию, после проверки вы получите уведомление об этом в личном кабинете
-        </p>
+        <p className="text-text-primary text-center font-normal text-sm">Ваше событие успешно создано и уже отображается на карте</p>
       </article>
       <Button type="button" typeButton="fill-primary" label="Понятно" onClick={dispatchModalClose} className="md:max-w-56" />
     </>

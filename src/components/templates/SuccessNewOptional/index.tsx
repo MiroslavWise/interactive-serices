@@ -13,8 +13,8 @@ import { dispatchModalClose, useAddCreateModal } from "@/store"
 
 const title: Map<EnumTypeProvider, string> = new Map([
   [EnumTypeProvider.alert, "Мы скоро разместим SOS-сообщение на карте"],
-  [EnumTypeProvider.discussion, "Мы скоро разместим Обсуждение на карте"],
-  [EnumTypeProvider.offer, "Отлично! Мы скоро разместим Умение или услугу на карте"],
+  // [EnumTypeProvider.discussion, "Мы скоро разместим Обсуждение на карте"],
+  [EnumTypeProvider.offer, "Готово!"],
 ])
 
 const description: Map<EnumTypeProvider, string> = new Map([
@@ -22,14 +22,11 @@ const description: Map<EnumTypeProvider, string> = new Map([
     EnumTypeProvider.alert,
     "Ваше SOS-сообщение сейчас отправлено на модерацию, после проверки вы получите уведомление об этом в личном кабинете",
   ],
-  [
-    EnumTypeProvider.discussion,
-    "Ваше обсуждение сейчас отправлена на модерацию, после проверки вы получите уведомление об этом в личном кабинете",
-  ],
-  [
-    EnumTypeProvider.offer,
-    "Ваше умение или услуга отправлено на модерацию, после проверки вы получите уведомление об этом в личном кабинете",
-  ],
+  // [
+  //   EnumTypeProvider.discussion,
+  //   "Ваше обсуждение сейчас отправлена на модерацию, после проверки вы получите уведомление об этом в личном кабинете",
+  // ],
+  [EnumTypeProvider.offer, "Ваше умение или услуга успешно создана и уже отображается на карте"],
 ])
 
 function SuccessNewOptional() {

@@ -11,8 +11,8 @@ import { dispatchModalClose, EModalData, useModal } from "@/store"
 
 const title: Map<EModalData, string> = new Map([
   [EModalData.SUCCESS_UPDATE_ALERT, "Мы скоро обновим SOS-сообщение на карте"],
-  [EModalData.SUCCESS_UPDATE_OFFER, "Отлично! Мы скоро проверим и обновим умение или услугу на карте"],
-  [EModalData.SUCCESS_UPDATE_POSTS, "Отлично! Мы скоро проверим и обновим событие на карте"],
+  [EModalData.SUCCESS_UPDATE_OFFER, "Обновление завершено!"],
+  [EModalData.SUCCESS_UPDATE_POSTS, "Обновление завершено!"],
 ])
 
 const description: Map<EModalData, string> = new Map([
@@ -22,7 +22,7 @@ const description: Map<EModalData, string> = new Map([
   ],
   [
     EModalData.SUCCESS_UPDATE_OFFER,
-    "Ваше умение или услуга отправлено на модерацию, после проверки оно обновится на карте. Это займёт некоторое малое время",
+    "Изменения сохранены, и ваша умение или услуга будут обновлены на карте. Для того, чтобы увидеть обновления прямо сейчас, перезагрузите страницу",
   ],
   [
     EModalData.SUCCESS_UPDATE_POSTS,
