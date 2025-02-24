@@ -13,8 +13,18 @@ import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 import { cx } from "@/lib/cx"
 import useRole from "@/helpers/is-role"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
-import { dispatchAddTestimonials, dispatchComplaintModalOffer, dispatchMapCoordinates, displayAddAdvert, useAuth } from "@/store"
+import {
+  dispatchAddTestimonials,
+  dispatchComplaintModalOffer,
+  dispatchMapCoordinates,
+  dispatchUpdateDiscussionAndAlert,
+  dispatchUpdateOffer,
+  displayAddAdvert,
+  useAuth,
+} from "@/store"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
+const LABEL_EDIT = "Редактировать"
 const LABEL_MAP = "Показать на карте"
 const LABEL_SHARE = "Поделиться"
 const LABEL_COMPLAIN = "Пожаловаться"
@@ -60,6 +70,25 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
         "*:w-full *:py-2 *:px-1.5 *:flex *:flex-row *:items-center *:justify-start *:gap-2.5 *:rounded-[0.375rem] hover:*:bg-grey-field",
       )}
     >
+      <a
+        title={LABEL_EDIT}
+        aria-label={LABEL_EDIT}
+        aria-labelledby={LABEL_EDIT}
+        onClick={(event) => {
+          event.stopPropagation()
+          if (provider === EnumTypeProvider.offer) {
+            dispatchUpdateOffer(true, offer)
+          } else if (provider === EnumTypeProvider.alert) {
+            dispatchUpdateDiscussionAndAlert({ offer: offer!, visible: true })
+          }
+        }}
+        className={cx("text-text-primary", offerUserId === userId ? "flex" : "!hidden")}
+      >
+        <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
+          <IconSprite id="icon-edit" className="w-5 " />
+        </div>
+        <span className="text-sm font-normal text-left">{LABEL_EDIT}</span>
+      </a>
       <a
         title={LABEL_MAP}
         aria-label={LABEL_MAP}

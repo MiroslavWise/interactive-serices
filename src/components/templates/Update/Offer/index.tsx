@@ -15,6 +15,7 @@ import { ImageCategory, NextImageMotion } from "@/components/common"
 
 import { queryClient } from "@/context"
 import { updateOffer } from "./utils/update"
+import { useToast } from "@/helpers/hooks/useToast"
 import { getGeocodeSearch, getOffers } from "@/services"
 import { useDebounce, useOutsideClickEvent } from "@/helpers"
 import { LIMIT_DESCRIPTION } from "../DiscussionAndAlert/shema"
@@ -31,6 +32,7 @@ export default function UpdateOffer() {
   const debouncedValue = useDebounce(onChangeAddress, 1000)
   const offer = useUpdateOffer(({ offer }) => offer)
   const [focusGeo, setFocusGeo, refGeo] = useOutsideClickEvent()
+  const { on } = useToast()
 
   const { refetch } = useQuery({
     queryFn: () => getOffers({ provider: EnumTypeProvider.offer, order: "DESC", user: userId! }),
@@ -91,10 +93,17 @@ export default function UpdateOffer() {
     if (!loading) {
       setLoading(true)
       updateOffer({ values, defaults: offer!, files, images: photos, deleteIdPhotos, userId: userId! }).then((res) => {
-        if (typeof res.ok !== "string" && res.ok) {
+        if (res.ok === "not update") {
+          on(
+            {
+              message: "Вы не обновили никаких данных в данном событии!",
+            },
+            "warning",
+          )
+        } else {
           refetch()
+          dispatchModal(EModalData.SUCCESS_UPDATE_OFFER)
         }
-        dispatchModal(EModalData.SUCCESS_UPDATE_OFFER)
         setLoading(false)
       })
     }

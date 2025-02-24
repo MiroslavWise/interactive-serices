@@ -1,8 +1,9 @@
+import { type Dispatch } from "react"
+
 import { IResponseOffers } from "@/services/offers/types"
 
 import ItemOffers from "./ItemOffers"
 import PaginationRS from "@/components/common/PaginationRS"
-import { Dispatch } from "react"
 
 interface IProps {
   items: IResponseOffers[]
@@ -24,15 +25,6 @@ function ContainerOffers({ items, page, onPage, total }: IProps) {
       </div>
     </ul>
   )
-
-  // return (
-  //   <VirtualGrid
-  //     items={items}
-  //     minColumnWidth={320}
-  //     gap={16}
-  //     renderItem={(item: IResponseOffers) => <ItemOffers key={`:key:post:${item.id}:`} offer={item} />}
-  //   />
-  // )
 }
 
 ContainerOffers.displayName = "ContainerOffers"

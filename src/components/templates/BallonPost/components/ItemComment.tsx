@@ -67,6 +67,7 @@ function ItemComment({ comment, handleToNote }: IProps) {
           <div
             className={cx(
               "absolute top-1/2 right-0 -translate-y-1/2",
+              open ? "z-50" : "z-0",
               !!userId && (userId === postUserId || userId === commentUserId) ? "flex items-center justify-center" : "hidden",
             )}
             ref={ref}

@@ -79,7 +79,7 @@ function UpdatePost() {
           "warning",
         )
       } else {
-        refetch()
+        refetch() 
         refetchNote()
         dispatchModal(EModalData.SUCCESS_UPDATE_POSTS)
       }
