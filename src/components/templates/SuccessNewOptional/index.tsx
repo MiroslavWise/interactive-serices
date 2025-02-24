@@ -11,25 +11,19 @@ import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 import { cx } from "@/lib/cx"
 import { dispatchModalClose, useAddCreateModal } from "@/store"
 
-const title: Map<EnumTypeProvider, string> = new Map([
-  [EnumTypeProvider.alert, "Мы скоро разместим SOS-сообщение на карте"],
-  [EnumTypeProvider.discussion, "Мы скоро разместим Обсуждение на карте"],
-  [EnumTypeProvider.offer, "Отлично! Мы скоро разместим Умение или услугу на карте"],
-])
+// const title: Map<EnumTypeProvider, string> = new Map([
+//   [EnumTypeProvider.alert, "Готово!"],
+//   // [EnumTypeProvider.discussion, "Мы скоро разместим Обсуждение на карте"],
+//   [EnumTypeProvider.offer, "Готово!"],
+// ])
 
 const description: Map<EnumTypeProvider, string> = new Map([
-  [
-    EnumTypeProvider.alert,
-    "Ваше SOS-сообщение сейчас отправлено на модерацию, после проверки вы получите уведомление об этом в личном кабинете",
-  ],
-  [
-    EnumTypeProvider.discussion,
-    "Ваше обсуждение сейчас отправлена на модерацию, после проверки вы получите уведомление об этом в личном кабинете",
-  ],
-  [
-    EnumTypeProvider.offer,
-    "Ваше умение или услуга отправлено на модерацию, после проверки вы получите уведомление об этом в личном кабинете",
-  ],
+  [EnumTypeProvider.alert, "Ваше SOS-сообщение успешно создана! Для того, чтобы увидеть ее, перезагрузите страницу"],
+  // [
+  //   EnumTypeProvider.discussion,
+  //   "Ваше обсуждение сейчас отправлена на модерацию, после проверки вы получите уведомление об этом в личном кабинете",
+  // ],
+  [EnumTypeProvider.offer, "Ваше умение или услуга успешно создана! Для того, чтобы увидеть ее, перезагрузите страницу"],
 ])
 
 function SuccessNewOptional() {
@@ -64,7 +58,8 @@ function SuccessNewOptional() {
           </div>
         </div>
         <h2 className="text-text-primary text-center text-2xl font-semibold">
-          {typeAdd && title.has(typeAdd) ? title.get(typeAdd) : null}
+          Готово!
+          {/* {typeAdd && title.has(typeAdd) ? title.get(typeAdd) : null} */}
         </h2>
         <p className="text-text-primary text-center text-sm font-normal">
           {typeAdd && description.has(typeAdd) ? description.get(typeAdd) : null}

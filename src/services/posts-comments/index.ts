@@ -4,7 +4,7 @@ import { type IUserOffer } from "../offers/types"
 import { type IResponse } from "../request/types"
 import { type TTypeStatusComments } from "../comments/types"
 
-import { fetchGet, post } from "../request"
+import { fetchGet, post, wrapperDelete } from "../request"
 
 export interface IBodyPostComment {
   parentId?: number
@@ -44,3 +44,4 @@ const url = "/posts-comments"
 export const postPostsComment: TPostPostsComment = (body) => post({ url, body })
 export const getPostsComments: TGetPostsComments = (query) => fetchGet({ url, query })
 export const getPostsCommentId: TGetPostsCommentId = (id) => fetchGet({ url: `${url}/${id}` })
+export const deletePostsCommentId = (id: number) => wrapperDelete({ url, id })

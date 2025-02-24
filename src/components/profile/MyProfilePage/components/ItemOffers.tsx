@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { memo } from "react"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers } from "@/services/offers/types"
@@ -143,4 +142,4 @@ function ItemOffers({ offer }: { offer: IResponseOffers }) {
 }
 
 ItemOffers.displayName = "ItemOffers"
-export default memo(ItemOffers)
+export default ItemOffers

@@ -17,6 +17,7 @@ const defaultDataContext: IContext = {
   onNoteCurrent() {},
   onUpdateCurrent() {},
   countCommentNote: () => 0,
+  refetch: () => Promise.resolve(),
 }
 
 const createContextComments = createContext<IContext>(defaultDataContext)
@@ -30,7 +31,7 @@ function ContextComments({ children }: { children: ReactNode }) {
 
   const isBecomeMember = !post?.archive && !!post?.isParticipants && (!userId || (!!userId && userId !== post?.userId))
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryFn: () => getPostsComments({ post: post?.id! }),
     queryKey: ["posts-comments", { postId: post?.id! }],
     refetchOnMount: true,
@@ -76,6 +77,7 @@ function ContextComments({ children }: { children: ReactNode }) {
         onNoteCurrent,
         countCommentNote,
         onUpdateCurrent,
+        refetch,
       }}
     >
       {children}
@@ -99,4 +101,5 @@ interface IContext {
   onUpdateCurrent: (id: number, value: IPostsComment) => void
   onWriteResponse: Dispatch<INotes | null>
   countCommentNote: (value: number) => number
+  refetch: () => Promise<any>
 }

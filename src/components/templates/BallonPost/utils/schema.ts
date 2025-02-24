@@ -12,7 +12,7 @@ const file = z.object({
 const comment = z
   .string()
   .trim()
-  .min(1, { message: "Поле не может оставаться пустым" })
+  // .min(1, { message: "Поле не может оставаться пустым" })
   .max(MAX_LENGTH_COMMENT, { message: `Не более ${MAX_LENGTH_COMMENT} символов` })
   .default("")
 

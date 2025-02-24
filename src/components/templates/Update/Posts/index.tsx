@@ -16,8 +16,9 @@ import { getNotes } from "@/services/notes"
 import { getPostId, getPosts } from "@/services/posts"
 import { handleImageChange, updatePatch } from "./utils"
 import { MAX_LENGTH_DESCRIPTION_NOTE } from "@/config/constants"
-import { dispatchBallonPost, dispatchUpdatePost, useAuth, useUpdatePost } from "@/store"
+import { dispatchBallonPost, dispatchModal, dispatchUpdatePost, EModalData, useAuth, useUpdatePost } from "@/store"
 import { LIMIT_TITLE_POST, resolverCreatePostUpdate, type TSchemaCreatePostUpdate } from "../../CreatePost/schema"
+import { useToast } from "@/helpers/hooks/useToast"
 
 function UpdatePost() {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
@@ -26,6 +27,7 @@ function UpdatePost() {
   const images = noteMain?.images ?? []
   const address = post?.addresses[0] ?? null
   const [loading, setLoading] = useState(false)
+  const { on } = useToast()
 
   const defaultValues: TSchemaCreatePostUpdate = {
     title: post?.title ?? "",
@@ -69,18 +71,17 @@ function UpdatePost() {
         userId: userId!,
         images: images.map((item) => item.id),
       })
-      if (response.some((item) => typeof item !== "undefined")) {
-        refetch()
-        refetchNote()
-        const { data: dataPost } = await queryClient.fetchQuery({
-          queryFn: () => getPostId(post?.id!),
-          queryKey: ["post", { id: post?.id! }],
-        })
-        if (dataPost) {
-          dispatchBallonPost(dataPost)
-        }
+      if (response.every((item) => item?.data === "not-update")) {
+        on(
+          {
+            message: "Вы не обновили никаких данных в данном событии!",
+          },
+          "warning",
+        )
       } else {
-        dispatchBallonPost(post)
+        refetch() 
+        refetchNote()
+        dispatchModal(EModalData.SUCCESS_UPDATE_POSTS)
       }
       setLoading(false)
       dispatchUpdatePost()

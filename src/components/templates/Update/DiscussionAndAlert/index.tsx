@@ -6,15 +6,16 @@ import { EnumTypeProvider } from "@/types/enum"
 import { type IPatchOffers } from "@/services/offers/types"
 
 import Button from "@/components/common/Button"
+import ControlImages from "./components/ControlImages"
 
 import { cx } from "@/lib/cx"
 import { getOffers, patchOffer } from "@/services"
-import { resolverSchema, TSchema, LIMIT_DESCRIPTION } from "./shema"
-import { dispatchUpdateDiscussionAndAlert, useAuth, useUpdateDiscussionAndAlert } from "@/store"
-import ControlImages from "./components/ControlImages"
 import { updateImageOffer } from "./utils/update-image"
+import { resolverSchema, TSchema, LIMIT_DESCRIPTION } from "./shema"
+import { dispatchModal, dispatchUpdateDiscussionAndAlert, EModalData, useAuth, useUpdateDiscussionAndAlert } from "@/store"
 
 import styles from "./styles/style.module.scss"
+import { useToast } from "@/helpers/hooks/useToast"
 
 export const CN_UPDATE_DISCUSSION_AND_ALERT = "max-md:!rounded-none"
 
@@ -29,6 +30,7 @@ function UpdateDiscussionAndAlert() {
   const [loading, setLoading] = useState(false)
   const offer = useUpdateDiscussionAndAlert(({ offer }) => offer)
   const { id, title, description, provider, addresses, urgent, images = [] } = offer ?? {}
+  const { on } = useToast()
 
   /** Отдел для изображений */
   const [files, setFiles] = useState<File[]>([])
@@ -85,6 +87,12 @@ function UpdateDiscussionAndAlert() {
         ])
 
         if (responses.every((_) => _.ok === "not update")) {
+          on(
+            {
+              message: "Вы не обновили никаких данных в данном событии!",
+            },
+            "warning",
+          )
           setTimeout(() => {
             dispatchUpdateDiscussionAndAlert({ visible: false })
           })
@@ -92,12 +100,18 @@ function UpdateDiscussionAndAlert() {
           if (responses?.[1].ok) {
             refetch()
             setTimeout(() => {
-              dispatchUpdateDiscussionAndAlert({ visible: false })
+              dispatchModal(EModalData.SUCCESS_UPDATE_ALERT)
             })
           }
         }
         setLoading(false)
       } else {
+        on(
+          {
+            message: "Вы не обновили никаких данных в данном событии!",
+          },
+          "warning",
+        )
         setTimeout(() => {
           dispatchUpdateDiscussionAndAlert({ visible: false })
         })

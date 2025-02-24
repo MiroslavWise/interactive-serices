@@ -61,6 +61,13 @@ export enum EModalData {
   UPDATE_ENABLED_COMPANY = "update-enabled-company",
   UPDATE_ENABLED_ACTIVE_COMPANY = "update-enabled-active-company",
   UPDATE_DELETE_COMPANY = "update-delete-company",
+
+  /** Успешное обновление умения или услуги @default ОБНОВЛЕНИЕ */
+  SUCCESS_UPDATE_OFFER = "success-update-offer",
+  /** Успешное обновление события @default ОБНОВЛЕНИЕ */
+  SUCCESS_UPDATE_POSTS = "success-update-posts",
+  /** Успешное обновление SOS-сообщения @default ОБНОВЛЕНИЕ */
+  SUCCESS_UPDATE_ALERT = "success-update-alert",
 }
 
 interface IStateUseModal {
