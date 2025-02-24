@@ -24,7 +24,7 @@ function FooterNewComment({ post }: { post: IPosts }) {
   const [loading, setLoading] = useState(false)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const user = useAuth(({ user }) => user)
-  const { onUpdate, writeResponse, onWriteResponse, onUpdateCurrent } = useContextPostsComments()
+  const { onUpdate, writeResponse, onWriteResponse, onUpdateCurrent, refetch } = useContextPostsComments()
   const [errorPost, setErrorPost] = useState(false)
   const { on } = useToast()
 
@@ -97,16 +97,16 @@ function FooterNewComment({ post }: { post: IPosts }) {
         }
       }
 
+      resetField("comment")
+      resetField("file")
+      onWriteResponse(null)
+      if (textRef.current) {
+        textRef.current.style.borderRadius = `1.25rem`
+        textRef.current.style.height = "2.5rem"
+      }
+
       const response = await postPostsComment(body)
-      if (response?.data) {
-        onWriteResponse(null)
-        resetField("comment")
-        resetField("file")
-        if (textRef.current) {
-          textRef.current.style.borderRadius = `1.25rem`
-          textRef.current.style.height = "2.5rem"
-        }
-      } else {
+      if (!response?.data || response.error) {
         setErrorPost(true)
         on({ message: "Извините, ваш комментарий не был отправлен. У нас какие-то проблемы, мы разбираемся" })
       }
