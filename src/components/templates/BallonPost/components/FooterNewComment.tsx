@@ -14,8 +14,8 @@ import { fileUploadService } from "@/services"
 import { getMiniUser } from "@/lib/get-mini-user"
 import { useToast } from "@/helpers/hooks/useToast"
 import { dispatchAuthModal, useAuth } from "@/store"
-import { dispatchDelete, handleImageChange } from "../utils/comment"
 import { useContextPostsComments } from "./ContextComments"
+import { dispatchDelete, handleImageChange } from "../utils/comment"
 import { MAX_LENGTH_COMMENT, resolver, type TSchema } from "../utils/schema"
 import { getPostsCommentId, type IBodyPostComment, postPostsComment } from "@/services/posts-comments"
 
@@ -28,7 +28,7 @@ function FooterNewComment({ post }: { post: IPosts }) {
   const [errorPost, setErrorPost] = useState(false)
   const { on } = useToast()
 
-  const { control, handleSubmit, resetField } = useForm<TSchema>({
+  const { control, handleSubmit, resetField, watch } = useForm<TSchema>({
     resolver: resolver,
     defaultValues: {
       comment: "",
@@ -226,9 +226,12 @@ function FooterNewComment({ post }: { post: IPosts }) {
                     </>
                   )}
                 />
-                <button type="submit" className="relative w-6 h-10 px-3 py-5 disabled:opacity-50" disabled={!field.value.trim()}>
+                <button
+                  type="submit"
+                  className="relative w-6 h-10 px-3 py-5 disabled:opacity-50"
+                  disabled={!field.value.trim() && watch("file").file.length === 0}
+                >
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
                     width="24"
                     height="24"
                     viewBox="0 0 24 24"
@@ -240,7 +243,7 @@ function FooterNewComment({ post }: { post: IPosts }) {
                       clip-rule="evenodd"
                       d="M7.07469 12L4.10383 4.82283C3.64338 3.71046 4.7998 2.61684 5.89333 3.13053L22.1221 10.754C22.3382 10.8268 22.5184 10.9514 22.6582 11.108C22.8951 11.3591 23.0036 11.6805 22.9999 12C23.0036 12.3195 22.8951 12.6409 22.6581 12.892C22.5184 13.0486 22.3382 13.1732 22.1221 13.246L5.89333 20.8695C4.7998 21.3832 3.64338 20.2895 4.10383 19.1772L7.07469 12ZM5.76777 19.1927L5.74897 19.2381L5.75237 19.2365L5.76777 19.1927Z"
                       fill="var(--element-accent-1)"
-                      className="fcla-element-accent-1"
+                      className="text-element-accent-1"
                     />
                   </svg>
                 </button>
