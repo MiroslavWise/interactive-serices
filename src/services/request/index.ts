@@ -1,5 +1,3 @@
-import { AxiosError, type RawAxiosRequestHeaders } from "axios"
-
 import type { IResponse, MethodDelete, MethodPatch } from "./types"
 
 import { fetchGet } from "./get"

@@ -1,8 +1,8 @@
 import { type ChangeEvent } from "react"
 
+import { EnumTypeProvider } from "@/types/enum"
 import { type IBodyNote } from "@/services/notes/types"
 import { type IBodyPost } from "@/services/posts/types"
-import { EnumHelper, EnumTypeProvider } from "@/types/enum"
 import { type TSchemaCreatePostUpdate } from "../../CreatePost/schema"
 
 import { patchPost } from "@/services/posts"
@@ -19,6 +19,8 @@ interface IUpdate {
   newValues: TSchemaCreatePostUpdate
   defaultValues: Omit<TSchemaCreatePostUpdate, "addressFeature">
 }
+
+const promiseResolveUpdate = Promise.resolve({ data: "not-update" } as const)
 
 export async function updatePatch({ id, idNote, userId, images, defaultValues, newValues }: IUpdate) {
   const dataPost: Partial<IBodyPost> = {}
@@ -85,9 +87,11 @@ export async function updatePatch({ id, idNote, userId, images, defaultValues, n
     }
   }
 
-  return await Promise.all([
-    Object.entries(dataPost).length > 0 ? patchPost(id, dataPost) : Promise.resolve(),
-    Object.entries(dataNote).length > 0 ? patchNote(idNote, dataNote) : Promise.resolve(),
+  if (Object.entries(dataPost).length > 0 && Object.entries(dataNote).length > 0) return Promise.all([promiseResolveUpdate])
+
+  return Promise.all([
+    Object.entries(dataPost).length > 0 ? patchPost(id, dataPost) : promiseResolveUpdate,
+    Object.entries(dataNote).length > 0 ? patchNote(idNote, dataNote) : promiseResolveUpdate,
   ])
 }
 
