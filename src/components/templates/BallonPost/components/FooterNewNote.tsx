@@ -8,7 +8,7 @@ import Button from "@/components/common/Button"
 import { cx } from "@/lib/cx"
 import { useToast } from "@/helpers/hooks/useToast"
 import { useContextPostsComments } from "./ContextComments"
-import { getPostParticipants, patchPost } from "@/services/posts"
+import { getPostParticipants, patchFromParticipantPosts } from "@/services/posts"
 import { dispatchAuthModal, dispatchOpenCreateNote, useAuth, useBalloonPost } from "@/store"
 
 function FooterNewNote() {
@@ -74,7 +74,7 @@ function FooterNewNote() {
             if (!!userId && !is) {
               if (!loading && !isLoading) {
                 setLoading(true)
-                await patchPost(id!, {})
+                await patchFromParticipantPosts(id!)
                 on({
                   message: "Вы были добавлены в список участников данного мероприятия",
                 })

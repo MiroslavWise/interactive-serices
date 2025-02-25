@@ -21,6 +21,8 @@ export const getPosts: TGetPosts = (query, isInvalid) => fetchGet({ url, query }
 export const getPostsFromUser: TGetPostsFromUser = ({ query, userId }) => fetchGet({ url: `${url}/user/${userId}`, query })
 /** Пост по {{post_id}} */
 export const getPostId: TGetPostId = (id) => fetchGet({ url: `${url}/${id}` })
+/** Запись на участие в событии */
+export const patchFromParticipantPosts = (id: number) => patch({ url: `${url}/participants/${id}`, body: {} })
 /** Получение участников поста по {{post_id}} */
 export const getPostParticipants: TGetPostParticipants = (id) => fetchGet({ url: `${url}/participants/${id}` })
 /** Удаление поста по {{post_id}} */

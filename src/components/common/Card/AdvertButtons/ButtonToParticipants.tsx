@@ -1,16 +1,15 @@
 import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { patchPost } from "@/services/posts"
-import { dispatchAuthModal } from "@/store"
 
+import { EnumSign } from "@/types/enum"
 import { IPosts } from "@/services/posts/types"
 
 import Button from "../../Button"
 
 import { useAuth } from "@/store"
+import { dispatchAuthModal } from "@/store"
 import { useToast } from "@/helpers/hooks/useToast"
-import { getPostParticipants } from "@/services/posts"
-import { EnumSign } from "@/types/enum"
+import { patchFromParticipantPosts, getPostParticipants } from "@/services/posts"
 
 interface IProps {
   post: IPosts
@@ -48,7 +47,7 @@ function ButtonToParticipants({ post }: IProps) {
         }
         if (userId && userId !== post?.userId && !is) {
           setLoading(true)
-          await patchPost(post?.id!, {})
+          await patchFromParticipantPosts(post?.id)
           on({
             message: "Вы были добавлены в список участников данного мероприятия",
           })
