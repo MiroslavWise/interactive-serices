@@ -1,14 +1,13 @@
 import { EnumTypeProvider } from "@/types/enum"
-import { ETitleRole } from "@/services/roles/types"
 import { type IPosts } from "@/services/posts/types"
 
 import IconArchive from "@/components/icons/IconArchive"
-import { SpriteDefault } from "@/components/icons/icon-sprite-default"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
-import useRole from "@/helpers/is-role"
 import { useOutsideClickEvent } from "@/helpers"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
+import { useIsAllowAccess } from "@/helpers/hooks/use-roles-allow-access"
 import {
   useAuth,
   displayAddAdvert,
@@ -33,7 +32,8 @@ function SharedDotsPost({ post }: IProps) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { title, id, userId: userIdPost, archive, company } = post ?? {}
   const [open, set, ref] = useOutsideClickEvent()
-  const isManager = useRole(ETitleRole.Manager)
+  const isManager = useIsAllowAccess("PATCH", "companies")
+  const isEdit = useIsAllowAccess("PATCH", "posts")
   const isAdvertising = !!company
 
   function handleArchive() {
@@ -59,7 +59,7 @@ function SharedDotsPost({ post }: IProps) {
           set((_) => !_)
         }}
       >
-        <SpriteDefault id="dots-horizontal" />
+        <IconSprite id="dots-horizontal" />
       </button>
       <article
         className={cx(
@@ -73,7 +73,7 @@ function SharedDotsPost({ post }: IProps) {
           aria-labelledby={TITLE_UPDATE}
           className={cx(
             "w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field",
-            userId === userIdPost && !archive ? "grid" : "hidden",
+            (userId === userIdPost || isEdit) && !archive ? "grid" : "hidden",
           )}
           onClick={(event) => {
             event.stopPropagation()
@@ -120,7 +120,7 @@ function SharedDotsPost({ post }: IProps) {
               "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5 [&>svg>path]:fill-text-primary",
             )}
           >
-            <SpriteDefault id="icon-share" className="text-text-primary w-5 h-5" />
+            <IconSprite id="icon-share" className="text-text-primary w-5 h-5" />
           </div>
           <span className="text-text-primary text-sm font-normal text-left">{TITLE_SHARE}</span>
         </a>
@@ -142,7 +142,7 @@ function SharedDotsPost({ post }: IProps) {
           )}
         >
           <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
-            <SpriteDefault id="icon-star" className="text-text-primary w-5 h-5" />
+            <IconSprite id="icon-star" className="text-text-primary w-5 h-5" />
           </div>
           <span className="text-sm font-normal text-left text-text-primary">{LABEL_REVIEW}</span>
         </a>
@@ -180,7 +180,7 @@ function SharedDotsPost({ post }: IProps) {
             className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field"
           >
             <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
-              <SpriteDefault id="icon-complaint" className="text-text-error w-5 h-5" />
+              <IconSprite id="icon-complaint" className="text-text-error w-5 h-5" />
             </div>
             <span className="text-sm font-normal text-left !text-text-error">{TITLE_COMPLAINT}</span>
           </a>
@@ -203,7 +203,7 @@ function SharedDotsPost({ post }: IProps) {
           )}
         >
           <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
-            <SpriteDefault id="icon-default-currency-ruble-circle" className="text-text-primary w-5 h-5" />
+            <IconSprite id="icon-default-currency-ruble-circle" className="text-text-primary w-5 h-5" />
           </div>
           <span className="text-sm font-normal text-left text-text-primary">{LABEL_ADD_ADVERT}</span>
         </a>

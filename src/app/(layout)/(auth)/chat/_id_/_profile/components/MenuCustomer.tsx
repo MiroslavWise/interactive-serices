@@ -2,12 +2,11 @@
 
 import { type IUserResponse } from "@/services/users/types"
 
-import { SpriteDefault } from "@/components/icons/icon-sprite-default"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
 import { dispatchComplaintModalUser, dispatchOpenDeleteChat } from "@/store"
-import { IconSprite } from "@/components/icons/icon-sprite"
 
 function MenuCustomer({ user, id }: { user: IUserResponse; id: string | number }) {
   const [open, set, ref] = useOutsideClickEvent()
@@ -36,7 +35,7 @@ function MenuCustomer({ user, id }: { user: IUserResponse; id: string | number }
       ref={ref}
       onClick={() => set((_) => !_)}
     >
-      <SpriteDefault id="dots-horizontal" />
+      <IconSprite id="dots-horizontal" />
       <article
         className={cx(
           "absolute -right-[2.125rem] rounded-xl bg-BG-second shadow-menu-absolute p-3 w-44 flex flex-col gap-0.5 -top-2.5 -translate-y-full",
@@ -52,7 +51,7 @@ function MenuCustomer({ user, id }: { user: IUserResponse; id: string | number }
           }}
         >
           <div className="relative w-5 h-5 p-2.5">
-            <SpriteDefault id="icon-complaint" className="text-text-error w-5 h-5" />
+            <IconSprite id="icon-complaint" className="text-text-error w-5 h-5" />
           </div>
           <span>Пожаловаться</span>
         </a>

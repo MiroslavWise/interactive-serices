@@ -1,17 +1,18 @@
 import { type INotes } from "@/services/notes/types"
 
 import { IconSprite } from "@/components/icons/icon-sprite"
-import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
 import { dispatchDeleteNote, useAuth } from "@/store"
+import { useIsAllowAccess } from "@/helpers/hooks/use-roles-allow-access"
 
 function DeletePopup({ note }: { note: INotes }) {
   const [open, set, ref] = useOutsideClickEvent()
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
+  const isDeleteNote = useIsAllowAccess("DELETE", "notes")
   if (!!note?.main) return null
-  if (userId !== note.userId) return null
+  if (userId !== note.userId && !isDeleteNote) return null
 
   return (
     <div className="w-4 h-4 relative flex" ref={ref}>
@@ -23,7 +24,7 @@ function DeletePopup({ note }: { note: INotes }) {
           set((_) => !_)
         }}
       >
-        <SpriteDefault id="dots-horizontal" />
+        <IconSprite id="dots-horizontal" className="w-4 h-4" />
       </button>
       <article
         className={cx(
@@ -36,11 +37,11 @@ function DeletePopup({ note }: { note: INotes }) {
           set(false)
         }}
       >
-        <a className="w-full py-2 px-1.5 grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 items-center rounded-md bg-BG-second hover:bg-grey-field cursor-pointer">
-          <div className="relative w-5 h-5 *:w-5 *:h-5 text-text-error">
-            <IconSprite id="trash-20-20" />
+        <a className="w-full py-2 px-1.5 grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 items-center rounded-md bg-BG-second hover:bg-grey-field cursor-pointer text-text-error">
+          <div className="relative w-5 h-5">
+            <IconSprite id="trash-20-20" className="w-5 h-5" />
           </div>
-          <span className="text-text-error text-sm font-normal whitespace-nowrap">Удалить запись</span>
+          <span className="text-sm font-normal whitespace-nowrap">Удалить запись</span>
         </a>
       </article>
     </div>

@@ -1,7 +1,9 @@
 "use client"
 
+import { type TSpriteNav } from "@/components/icons/icon-sprite-nav-header"
+
 import Button from "@/components/common/Button"
-import { IconSpriteNavHeader, TSpriteNav } from "@/components/icons/icon-sprite-nav-header"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 import { dispatchOpenDrawer, useOpenDrawer } from "@/store"
@@ -16,8 +18,8 @@ function ButtonOpenDrawer({ type }: { type: TSpriteNav }) {
       typeButton="regular-primary"
       onClick={dispatchOpenDrawer}
       suffixIcon={
-        <div className="relative w-6 h-6 *:w-8 *:h-8 text-element-accent-1">
-          <IconSpriteNavHeader id={type} />
+        <div className="relative w-6 h-6">
+          <IconSprite id={type} className="w-8 h-8 text-element-accent-1" />
         </div>
       }
     />

@@ -6,9 +6,9 @@ import { useQuery } from "@tanstack/react-query"
 import { BadgesColors } from "./BadgesColors"
 import Button from "@/components/common/Button"
 import { NextImageMotion } from "@/components/common"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import IconEmptyProfile from "@/components/icons/IconEmptyProfile"
 import { IconVerifiedTick } from "@/components/icons/IconVerifiedTick"
-import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 
 import { cx } from "@/lib/cx"
 import { dayFormat } from "@/helpers"
@@ -137,7 +137,7 @@ export const MContainerAboutProfile = () => {
             data-test="button-open-option"
             className="bg-grey-field relative p-[1.125rem] *:w-4 *:h-4 text-element-grey-light hover:text-element-accent-1"
           >
-            <SpriteDefault id="dots-horizontal" />
+            <IconSprite id="dots-horizontal" />
           </button>
         </section>
         <BadgesColors userId={userId!} />
@@ -153,7 +153,7 @@ export const MContainerAboutProfile = () => {
           <article className="w-full flex flex-row items-center justify-between gap-2.5">
             <h3>{friends}</h3>
             <div className="relative w-5 h-5">
-              <SpriteDefault id="icon-arrow-right" className="w-5 h-5 text-text-primary" />
+              <IconSprite id="icon-arrow-right" className="w-5 h-5 text-text-primary" />
             </div>
           </article>
         </button>

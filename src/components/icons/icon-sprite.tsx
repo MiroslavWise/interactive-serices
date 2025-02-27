@@ -1,4 +1,6 @@
 import { cx } from "@/lib/cx"
+import { TID } from "./icon-sprite-default"
+import { TSpriteNav } from "./icon-sprite-nav-header"
 
 export default function IconFillSprite() {
   return (
@@ -78,15 +80,22 @@ export default function IconFillSprite() {
 
 interface IProps {
   size?: number
-  color?: string
   className?: string
   id: ID
 }
 
-type ID = "accent-chat-20-20" | "add-friend-20-20" | "alert-balloon-20-20" | "x-close-20-20" | "trash-20-20" | "icon-edit"
+type ID =
+  | "accent-chat-20-20"
+  | "add-friend-20-20"
+  | "alert-balloon-20-20"
+  | "x-close-20-20"
+  | "trash-20-20"
+  | "icon-edit"
+  | TID
+  | TSpriteNav
 
-export const IconSprite = ({ size = 20, color = "currentColor", id, className }: IProps) => (
-  <svg width={size} height={size} fill={color} className={cx(className, "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2")}>
+export const IconSprite = ({ size = 20, id, className }: IProps) => (
+  <svg width={size} height={size} fill="none" className={cx(className, "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2")}>
     <use href={`#${id}`} />
   </svg>
 )

@@ -1,12 +1,12 @@
 import { type IResponseOffers } from "@/services/offers/types"
 
 import { PopupShared } from "./Popup"
-import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
 
 import styles from "../styles/shared-popup.module.scss"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 export default function SharedPopupButton({ offer }: { offer: IResponseOffers }) {
   const [visible, setVisible, ref] = useOutsideClickEvent()
@@ -17,7 +17,6 @@ export default function SharedPopupButton({ offer }: { offer: IResponseOffers })
       className={cx(
         styles.container,
         "absolute top-0 right-5 bg-transparent border-none outline-none h-6 w-6 flex items-start justify-end pb-2 pl-2 z-10 text-element-grey-light hover:text-element-accent-1",
-        "[&>svg]:pointer-events-none [&>svg]:w-4 [&>svg]:h-4",
       )}
       ref={ref}
       onClick={(event) => {
@@ -26,7 +25,7 @@ export default function SharedPopupButton({ offer }: { offer: IResponseOffers })
       }}
       data-active={visible}
     >
-      <SpriteDefault id="dots-horizontal" />
+      <IconSprite id="dots-horizontal" className="w-4 h-4 pointer-events-none" />
       <PopupShared offer={offer} visible={visible} />
     </button>
   )

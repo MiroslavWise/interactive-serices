@@ -7,7 +7,6 @@ import { type IResponseThread } from "@/services/threads/types"
 import IconProfile from "@/components/icons/IconProfile"
 import { IconSprite } from "@/components/icons/icon-sprite"
 import IconDefaultOffer from "@/components/icons/IconDefaultOffer"
-import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
@@ -55,7 +54,7 @@ function AbsoluteMenu({ thread }: { thread: IResponseThread }) {
         set((_) => !_)
       }}
     >
-      <SpriteDefault id="dots-horizontal" />
+      <IconSprite id="dots-horizontal" />
       <article
         className={cx(
           "absolute top-full md:top-[calc(100%_+_0.625rem)] right-1 md:-right-2.5 shadow-menu-absolute p-3 flex flex-col gap-0.5 bg-BG-second w-fit min-w-60 rounded-xl",
@@ -88,7 +87,7 @@ function AbsoluteMenu({ thread }: { thread: IResponseThread }) {
           }}
         >
           <div>
-            <SpriteDefault id="icon-complaint" className="text-text-error w-5 h-5" />
+            <IconSprite id="icon-complaint" className="text-text-error w-5 h-5" />
           </div>
           <span className="!text-text-error">Пожаловаться</span>
         </a>

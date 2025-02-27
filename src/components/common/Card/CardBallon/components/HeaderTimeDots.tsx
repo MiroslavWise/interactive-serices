@@ -1,14 +1,11 @@
 "use client"
 
 import { EnumTypeProvider } from "@/types/enum"
-import { ETitleRole } from "@/services/roles/types"
 import { type IResponseOffers } from "@/services/offers/types"
 
-import IconEdit from "@/components/icons/IconEdit"
-import { SpriteDefault } from "@/components/icons/icon-sprite-default"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
-import useRole from "@/helpers/is-role"
 import { daysAgo, useOutsideClickEvent } from "@/helpers"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
 import {
@@ -19,6 +16,7 @@ import {
   dispatchComplaintModalOffer,
   dispatchUpdateDiscussionAndAlert,
 } from "@/store"
+import { useIsAllowAccess } from "@/helpers/hooks/use-roles-allow-access"
 
 const LABEL_REPLACE = "Редактировать"
 const TITLE_SHARE = "Поделиться"
@@ -28,8 +26,9 @@ const LABEL_REVIEW = "Оставить отзыв"
 
 function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
   const [visible, setVisible, ref] = useOutsideClickEvent()
-  const isManager = useRole(ETitleRole.Manager)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
+  const isEdit = useIsAllowAccess("PATCH", "posts")
+  const isAddAdvert = useIsAllowAccess("PATCH", "companies")
 
   const isAdvertising = !!offer?.company
 
@@ -68,7 +67,7 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
             setVisible((prev) => !prev)
           }}
         >
-          <SpriteDefault id="dots-horizontal" />
+          <IconSprite id="dots-horizontal" />
         </button>
         <article
           className={cx(
@@ -85,16 +84,16 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
             aria-label={LABEL_REPLACE}
             aria-labelledby={LABEL_REPLACE}
             onClick={onReplace}
-            className={cx(!isManager && "!hidden")}
+            className={cx(!isEdit && "!hidden")}
           >
             <div className="relative w-5 h-5 *:w-5 *:h-5">
-              <IconEdit />
+              <IconSprite id="icon-edit" />
             </div>
             <span>{LABEL_REPLACE}</span>
           </a>
           <a title={TITLE_SHARE} aria-label={TITLE_SHARE} aria-labelledby={TITLE_SHARE} onClick={onShare}>
             <div>
-              <SpriteDefault id="icon-share" className="w-5 h-5 text-text-primary" />
+              <IconSprite id="icon-share" className="w-5 h-5 text-text-primary" />
             </div>
             <span>{TITLE_SHARE}</span>
           </a>
@@ -109,7 +108,7 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
             className={cx((offer?.userId === userId || !userId) && "!hidden")}
           >
             <div>
-              <SpriteDefault id="icon-star" className="text-text-primary w-5 h-5" />
+              <IconSprite id="icon-star" className="text-text-primary w-5 h-5" />
             </div>
             <span>{LABEL_REVIEW}</span>
           </a>
@@ -126,7 +125,7 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
             }}
           >
             <div>
-              <SpriteDefault id="icon-complaint" className="text-text-error w-5 h-5" />
+              <IconSprite id="icon-complaint" className="text-text-error w-5 h-5" />
             </div>
             <span className="!text-text-error">{TITLE_COMPLAINT}</span>
           </a>
@@ -140,10 +139,10 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
               displayAddAdvert(offer?.provider!, offer?.id!, offer?.userId!)
               setVisible(false)
             }}
-            className={cx((!isManager || offer.provider !== EnumTypeProvider.offer || isAdvertising) && "!hidden")}
+            className={cx((!isAddAdvert || offer.provider !== EnumTypeProvider.offer || isAdvertising) && "!hidden")}
           >
             <div>
-              <SpriteDefault id="icon-default-currency-ruble-circle" className="text-text-primary w-5 h-5" />
+              <IconSprite id="icon-default-currency-ruble-circle" className="text-text-primary w-5 h-5" />
             </div>
             <span>{LABEL_ADD_ADVERT}</span>
           </a>

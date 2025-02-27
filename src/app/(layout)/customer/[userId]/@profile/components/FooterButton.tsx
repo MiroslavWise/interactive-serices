@@ -3,7 +3,7 @@
 import { type IUserResponse } from "@/services/users/types"
 
 import Button from "@/components/common/Button"
-import { SpriteDefault } from "@/components/icons/icon-sprite-default"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 import { dispatchComplaintModalUser } from "@/store"
@@ -53,7 +53,7 @@ function FooterButton({ user }: { user: IUserResponse }) {
         aria-labelledby="Пожаловаться"
       >
         <div className="w-5 h-5 relative">
-          <SpriteDefault id="icon-complaint" className="text-text-error w-5 h-5" />
+          <IconSprite id="icon-complaint" className="text-text-error w-5 h-5" />
         </div>
         <article className={cx("absolute -top-1 -right-3 rounded-md bg-element-accent-2 py-1 px-2 -translate-y-full opacity-0 invisible")}>
           <span className="text-text-tab text-xs text-center font-normal">Пожаловаться</span>

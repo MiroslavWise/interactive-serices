@@ -1,19 +1,16 @@
 "use client"
 
-import { useState } from "react"
-
 import Button from "@/components/common/Button"
+import ButtonOpenDrawer from "./ButtonOpenDrawer"
 import IconPlus from "@/components/icons/IconPlus"
-import { IconSpriteNavHeader } from "@/components/icons/icon-sprite-nav-header"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 import { useSign } from "../../FooterMenu/hooks/useSign"
 import { useStatusAuth } from "@/helpers/use-status-auth"
 import { dispatchIntro, dispatchModal, dispatchNewServicesBanner, EModalData, EStatusAuth, useModal } from "@/store"
-import ButtonOpenDrawer from "./ButtonOpenDrawer"
 
 export const Buttons = () => {
-  const [open, setOpen] = useState(false)
   const handleAuthModal = useSign()
   const statusAuth = useStatusAuth()
   const isCreateModal = useModal(({ data }) => data === EModalData.NewServicesBanner)
@@ -61,7 +58,7 @@ export const Buttons = () => {
         title={statusAuth === EStatusAuth.AUTHORIZED ? "Выйти" : "Войти"}
         suffixIcon={
           <div className="relative w-6 h-6 *:w-6 *:h-6 text-element-accent-1">
-            <IconSpriteNavHeader id={`sprite-nav-header-${statusAuth === EStatusAuth.AUTHORIZED ? "out" : "profile"}`} />
+            <IconSprite id={`sprite-nav-header-${statusAuth === EStatusAuth.AUTHORIZED ? "out" : "profile"}`} />
           </div>
         }
         typeButton="regular-primary"

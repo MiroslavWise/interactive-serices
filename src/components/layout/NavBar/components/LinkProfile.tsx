@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { IconSpriteNavHeader } from "@/components/icons/icon-sprite-nav-header"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 
@@ -17,7 +17,7 @@ export const LinkProfile = ({ pathname }: { pathname: string }) => (
     aria-labelledby={TITLE}
   >
     <div className={cx(`w-6 h-6 relative *:w-6 *:h-6`, pathname.includes("/profile") ? "text-element-accent-1" : "text-text-primary")}>
-      <IconSpriteNavHeader id="sprite-nav-header-profile" />
+      <IconSprite id="sprite-nav-header-profile" className="w-6 h-6" />
     </div>
     <span>{TITLE}</span>
   </Link>

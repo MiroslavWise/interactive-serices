@@ -4,13 +4,13 @@ import { useQuery } from "@tanstack/react-query"
 
 import { type IResponseNotifications } from "@/services/notifications/types"
 
+import { IconSprite } from "@/components/icons/icon-sprite"
 import { ItemNotification } from "@/components/notifications"
 
 import { cx } from "@/lib/cx"
 import { useAuth } from "@/store"
 import { useOutsideClickEvent } from "@/helpers"
 import { serviceNotifications } from "@/services"
-import { IconSpriteNavHeader } from "@/components/icons/icon-sprite-nav-header"
 import { DESCRIPTION_NOTIFICATIONS_EMPTY } from "@/components/templates/NotificationsMobile/constants/navigation"
 
 const TITLE = "Уведомления"
@@ -80,10 +80,8 @@ export const LinkNotification = ({ pathname }: { pathname: string }) => {
       aria-label={TITLE}
       aria-labelledby={TITLE}
     >
-      <div
-        className={cx(`w-6 h-6 relative *:w-6 *:h-6`, pathname?.includes("/notifications") ? "text-element-accent-1" : "text-text-primary")}
-      >
-        <IconSpriteNavHeader id="sprite-nav-header-notification" />
+      <div className={cx(`w-6 h-6 relative`, pathname?.includes("/notifications") ? "text-element-accent-1" : "text-text-primary")}>
+        <IconSprite id="sprite-nav-header-notification" className="w-6 h-6" />
       </div>
       <span>{TITLE}</span>
       {count ? (

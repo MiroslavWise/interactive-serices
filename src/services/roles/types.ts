@@ -5,6 +5,7 @@ export enum ETitleRole {
   User = "user",
   Admin = "admin",
   Manager = "manager",
+  Owner = "owner",
 }
 
 const objRole = z.object({

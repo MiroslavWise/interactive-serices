@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { IconSpriteNavHeader } from "@/components/icons/icon-sprite-nav-header"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 import { ITEMS_LINK_FOOTER } from "../constants"
@@ -34,7 +34,7 @@ export const LinkMap = ({ pathname }: { pathname: string }) => {
     >
       <section className="h-full flex flex-col items-center gap-[0.1875rem]">
         <article className={cx("relative w-6 h-6 p-3 *:h-6 *:w-6", isActive ? "text-text-accent" : "text-text-secondary")}>
-          <IconSpriteNavHeader id={`sprite-nav-header-${statusAuth === EStatusAuth.AUTHORIZED ? "map" : "about"}`} />
+          <IconSprite id={`sprite-nav-header-${statusAuth === EStatusAuth.AUTHORIZED ? "map" : "about"}`} />
         </article>
         <p
           className={cx(

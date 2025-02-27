@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation"
 import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseComplains } from "@/services/complains/types"
 
-import { SpriteDefault } from "@/components/icons/icon-sprite-default"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { formatOfMMM } from "@/helpers"
 import { getIdOffer } from "@/services"
@@ -78,7 +78,7 @@ function ItemComplain(props: IResponseComplains) {
       <div className="w-full flex flex-row items-center justify-between gap-3">
         <time className="text-text-secondary text-xs font-normal">{formatOfMMM(created)}</time>
         <button type="button" className="relative w-4 h-4 p-2 *:w-4 *:h-4 text-element-grey-light hover:text-element-accent-1">
-          <SpriteDefault id="dots-horizontal" />
+          <IconSprite id="dots-horizontal" className="w-4 h-4" />
         </button>
       </div>
       <h3 className="text-text-primary text-base font-semibold">{onTitle(provider)}</h3>

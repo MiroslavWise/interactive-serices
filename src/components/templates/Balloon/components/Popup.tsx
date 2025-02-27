@@ -3,15 +3,13 @@
 import { usePathname, useRouter } from "next/navigation"
 
 import { EnumTypeProvider } from "@/types/enum"
-import { ETitleRole } from "@/services/roles/types"
 import { type IResponseOffers } from "@/services/offers/types"
 
 import IconActivity from "@/components/icons/IconActivity"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import IconAlertCircle from "@/components/icons/IconAlertCircle"
-import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 
 import { cx } from "@/lib/cx"
-import useRole from "@/helpers/is-role"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
 import {
   dispatchAddTestimonials,
@@ -22,7 +20,7 @@ import {
   displayAddAdvert,
   useAuth,
 } from "@/store"
-import { IconSprite } from "@/components/icons/icon-sprite"
+import { useIsAllowAccess } from "@/helpers/hooks/use-roles-allow-access"
 
 const LABEL_EDIT = "Редактировать"
 const LABEL_MAP = "Показать на карте"
@@ -33,9 +31,10 @@ const LABEL_REVIEW = "Оставить отзыв"
 
 export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visible: boolean }) => {
   const { user, id, addresses, title, slug, userId: offerUserId, provider, company } = offer ?? {}
-  const isManager = useRole(ETitleRole.Manager)
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const isAdvertising = !!company
+  const isEdit = useIsAllowAccess("PATCH", "offers")
+  const isManager = useIsAllowAccess("PATCH", "companies")
 
   const pathname = usePathname()
   const { push } = useRouter()
@@ -82,10 +81,10 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
             dispatchUpdateDiscussionAndAlert({ offer: offer!, visible: true })
           }
         }}
-        className={cx("text-text-primary", offerUserId === userId ? "flex" : "!hidden")}
+        className={cx("text-text-primary", offerUserId === userId || isEdit ? "flex" : "!hidden")}
       >
         <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
-          <IconSprite id="icon-edit" className="w-5 " />
+          <IconSprite id="icon-edit" className="w-5 h-5 " />
         </div>
         <span className="text-sm font-normal text-left">{LABEL_EDIT}</span>
       </a>
@@ -107,7 +106,7 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
         }}
       >
         <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
-          <SpriteDefault id="icon-default-map" className="w-5 h-5 text-text-primary" />
+          <IconSprite id="icon-default-map" className="w-5 h-5 text-text-primary" />
         </div>
         <span className="text-text-primary text-sm font-normal text-left">{LABEL_MAP}</span>
       </a>
@@ -130,7 +129,7 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
         className={cx((offerUserId === userId || !userId) && "!hidden")}
       >
         <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
-          <SpriteDefault id="icon-star" className="text-text-primary w-5 h-5" />
+          <IconSprite id="icon-star" className="text-text-primary w-5 h-5" />
         </div>
         <span className="text-text-primary text-sm font-normal text-left">{LABEL_REVIEW}</span>
       </a>
@@ -153,7 +152,7 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
         className={cx((!isManager || provider !== EnumTypeProvider.offer || isAdvertising) && "!hidden")}
       >
         <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
-          <SpriteDefault id="icon-default-currency-ruble-circle" className="text-text-primary w-5 h-5" />
+          <IconSprite id="icon-default-currency-ruble-circle" className="text-text-primary w-5 h-5" />
         </div>
         <span className="text-text-primary text-sm font-normal text-left">{LABEL_ADD_ADVERT}</span>
       </a>

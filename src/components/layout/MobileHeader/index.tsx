@@ -4,8 +4,8 @@ import { usePathname } from "next/navigation"
 import { parseAsInteger, useQueryState } from "nuqs"
 
 import { Logo } from "./components/Logo"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import { NotificationBell } from "./components/NotificationBell"
-import { IconSpriteNavHeader } from "@/components/icons/icon-sprite-nav-header"
 
 import { cx } from "@/lib/cx"
 import { QUERY_CHAT_MESSAGES } from "@/types/constants"
@@ -34,8 +34,8 @@ export default function MobileHeader() {
       <Logo />
       <div className="flex items-center gap-2">
         <NotificationBell />
-        <button type="button" className="relative w-6 h-6 *:w-8 *:h-8 text-element-accent-1" onClick={dispatchOpenDrawer}>
-          <IconSpriteNavHeader id="sprite-nav-header-burger-menu" />
+        <button type="button" className="relative w-6 h-6" onClick={dispatchOpenDrawer}>
+          <IconSprite id="sprite-nav-header-burger-menu" className="w-8 h-8 text-element-accent-1" />
         </button>
       </div>
     </header>
