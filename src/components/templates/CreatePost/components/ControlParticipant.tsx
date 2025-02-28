@@ -2,9 +2,8 @@ import { Controller, type Control } from "react-hook-form"
 
 import { TSchemaCreatePostUpdate, type TSchemaCreatePost } from "../schema"
 
-import IconCheck from "@/components/icons/IconCheck"
-
 import { cx } from "@/lib/cx"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 interface IProps {
   control: Control<TSchemaCreatePost, any>
@@ -20,13 +19,12 @@ function ControlParticipant({ control }: IProps) {
           <label
             htmlFor={name}
             className={cx(
-              "relative w-4 h-4 *:w-4 *:h-4 flex *:transition-opacity transition-colors rounded-[0.25rem] border border-solid cursor-pointer",
-              "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2",
+              "relative w-4 h-4 flex transition-colors rounded-[0.25rem] border border-solid cursor-pointer",
               value ? "*:opacity-100 bg-element-accent-1 border-element-accent-1" : "*:opacity-0 bg-transparent border-text-disabled",
             )}
             onClick={() => onChange(!value)}
           >
-            <IconCheck />
+            <IconSprite id="icon-check" className="text-text-button w-4 h-4 transition-opacity" />
           </label>
           <article className="w-full flex flex-col gap-0.5">
             <p className="text-sm font-medium text-text-primary">Регистрировать участников</p>

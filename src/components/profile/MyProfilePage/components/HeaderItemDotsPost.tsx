@@ -5,7 +5,6 @@ import { type IPosts } from "@/services/posts/types"
 import IconArchive from "@/components/icons/IconArchive"
 import IconActivity from "@/components/icons/IconActivity"
 import { IconSprite } from "@/components/icons/icon-sprite"
-import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 
 import { cx } from "@/lib/cx"
 import useRole from "@/helpers/is-role"
@@ -40,13 +39,13 @@ function HeaderItemDotsPost({ post }: IProps) {
     <div className="w-6 h-6 relative flex" ref={ref}>
       <button
         type="button"
-        className="w-6 h-6 relative p-3 *:w-4 *:h-4 text-element-grey-light hover:text-element-accent-1"
+        className="w-6 h-6 relative p-3 text-element-grey-light hover:text-element-accent-1"
         onClick={(event) => {
           event.stopPropagation()
           setOpen((_) => !_)
         }}
       >
-        <SpriteDefault id="dots-horizontal" />
+        <IconSprite id="dots-horizontal" className="w-4 h-4" />
       </button>
       <article
         className={cx(
@@ -146,7 +145,7 @@ function HeaderItemDotsPost({ post }: IProps) {
           )}
         >
           <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
-            <SpriteDefault id="icon-default-currency-ruble-circle" className="text-text-primary w-5 h-5" />
+            <IconSprite id="icon-default-currency-ruble-circle" className="text-text-primary w-5 h-5" />
           </div>
           <span className="text-text-primary text-sm font-normal text-left">{LABEL_ADD_ADVERT}</span>
         </a>

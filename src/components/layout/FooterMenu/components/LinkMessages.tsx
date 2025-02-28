@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { IconSpriteNavHeader } from "@/components/icons/icon-sprite-nav-header"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 import { EStatusAuth } from "@/store"
@@ -38,8 +38,8 @@ export const LinkMessages = ({ pathname }: { pathname: string }) => {
       prefetch
     >
       <section className="h-full flex flex-col items-center gap-[0.1875rem]">
-        <article className={cx(`w-6 h-6 relative *:w-6 *:h-6`, isActive ? "text-element-accent-1" : "text-element-grey")}>
-          <IconSpriteNavHeader id="sprite-nav-header-message" />
+        <article className={cx(`w-6 h-6 relative`, isActive ? "text-element-accent-1" : "text-element-grey")}>
+          <IconSprite id="sprite-nav-header-message" className="w-6 h-6" />
         </article>
         <p
           className={cx(

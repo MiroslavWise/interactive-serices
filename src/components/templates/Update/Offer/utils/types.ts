@@ -1,7 +1,7 @@
-import { schemaFeatureMember } from "@/services/addresses/types/geocodeSearch"
-
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+
+import { schemaFeatureMember } from "@/services/addresses/types/geocodeSearch"
 import { descriptionOfferZod, titleOfferZod } from "@/components/templates/CreateNewOptionModal/utils/create.schema"
 
 const schema = z.object({

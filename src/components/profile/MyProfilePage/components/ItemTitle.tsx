@@ -5,7 +5,7 @@ import { ETitleRole } from "@/services/roles/types"
 import { IResponseOffers } from "@/services/offers/types"
 
 import { ImageCategory } from "@/components/common"
-import { SpriteDefault } from "@/components/icons/icon-sprite-default"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
 import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 
@@ -67,9 +67,9 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
             event.stopPropagation()
             setOpen((prev) => !prev)
           }}
-          className="w-6 h-6 relative p-3 bg-transparent *:w-4 *:h-4 z-30 *:pointer-events-none text-element-grey-light hover:text-element-accent-1"
+          className="w-6 h-6 relative p-3 bg-transparent z-30 *:pointer-events-none text-element-grey-light hover:text-element-accent-1"
         >
-          <SpriteDefault id="dots-horizontal" />
+          <IconSprite id="dots-horizontal" className="w-4 h-4" />
         </button>
         <section
           className={cx(
@@ -104,13 +104,13 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
             }}
           >
             <div>
-              <SpriteDefault id="icon-default-map" className="w-5 h-5 text-text-primary" />
+              <IconSprite id="icon-default-map" className="w-5 h-5 text-text-primary" />
             </div>
             <span>{TITLE_TO_MAP}</span>
           </Link>
           <a title={TITLE_SHARE} aria-label={TITLE_SHARE} aria-labelledby={TITLE_SHARE} onClick={onShare}>
             <div>
-              <SpriteDefault id="icon-share" className="w-5 h-5 text-text-primary" />
+              <IconSprite id="icon-share" className="w-5 h-5 text-text-primary" />
             </div>
             <span>{TITLE_SHARE}</span>
           </a>
@@ -126,7 +126,7 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
             className={cx((!isManager || isAdvertising) && "!hidden")}
           >
             <div>
-              <SpriteDefault id="icon-default-currency-ruble-circle" className="text-text-primary w-5 h-5" />
+              <IconSprite id="icon-default-currency-ruble-circle" className="text-text-primary w-5 h-5" />
             </div>
             <span>{LABEL_ADD_ADVERT}</span>
           </a>
@@ -141,7 +141,7 @@ function ItemTitle({ offer }: { offer: IResponseOffers }) {
             }}
           >
             <div>
-              <SpriteDefault id="dots-horizontal" className="text-text-primary w-5 h-5" />
+              <IconSprite id="dots-horizontal" className="text-text-primary w-5 h-5" />
             </div>
             <span>{CREATE_COPY}</span>
           </a>

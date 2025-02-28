@@ -122,15 +122,3 @@ export default function SpriteNavHeader() {
 type TIconLayout = "map" | "profile" | "message" | "notification" | "about" | "out" | "burger-menu" | "burger-menu-x"
 
 export type TSpriteNav = `sprite-nav-header-${TIconLayout}`
-
-interface IProps {
-  id: TSpriteNav
-}
-
-export const IconSpriteNavHeader = ({ id }: IProps) => {
-  return (
-    <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-      <use href={`#${id}`} />
-    </svg>
-  )
-}

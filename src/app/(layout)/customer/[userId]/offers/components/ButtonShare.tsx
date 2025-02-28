@@ -6,8 +6,8 @@ import { EnumTypeProvider } from "@/types/enum"
 import { IResponseOffers } from "@/services/offers/types"
 
 import IconMapWhite from "@/components/icons/IconMapWhite"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import IconArrowRight from "@/components/icons/IconArrowRight"
-import { SpriteDefault } from "@/components/icons/icon-sprite-default"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
@@ -61,7 +61,7 @@ function ButtonShare({ offer }: { offer: IResponseOffers }) {
           setOpen((prev) => !prev)
         }}
       >
-        <SpriteDefault id="dots-horizontal" />
+        <IconSprite id="dots-horizontal" className="w-4 h-4" />
       </button>
       <section
         className={cx(
@@ -97,13 +97,13 @@ function ButtonShare({ offer }: { offer: IResponseOffers }) {
           }}
         >
           <div>
-            <SpriteDefault id="icon-default-map" className="w-5 h-5 text-text-primary" />
+            <IconSprite id="icon-default-map" className="w-5 h-5 text-text-primary" />
           </div>
           <span>{TITLE_TO_MAP}</span>
         </Link>
         <a title={TITLE_SHARE} aria-label={TITLE_SHARE} aria-labelledby={TITLE_SHARE} onClick={onShare}>
           <div>
-            <SpriteDefault id="icon-share" className="w-5 h-5 text-text-primary" />
+            <IconSprite id="icon-share" className="w-5 h-5 text-text-primary" />
           </div>
           <span>{TITLE_SHARE}</span>
         </a>
@@ -114,8 +114,8 @@ function ButtonShare({ offer }: { offer: IResponseOffers }) {
           onClick={onReview}
           className={cx((userIdOffer === userId || !userId) && "!hidden")}
         >
-          <div className="*:w-5 *h-5 text-text-primary">
-            <SpriteDefault id="icon-star" />
+          <div>
+            <IconSprite id="icon-star" className="w-5 h-5 text-text-primary" />
           </div>
           <span>{LABEL_REVIEW}</span>
         </a>
@@ -132,7 +132,7 @@ function ButtonShare({ offer }: { offer: IResponseOffers }) {
           }}
         >
           <div>
-            <SpriteDefault id="icon-complaint" className="text-text-error w-5 h-5" />
+            <IconSprite id="icon-complaint" className="text-text-error w-5 h-5" />
           </div>
           <span className="!text-text-error">{TITLE_COMPLAINT}</span>
         </a>

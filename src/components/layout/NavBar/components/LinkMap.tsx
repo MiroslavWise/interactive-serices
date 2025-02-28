@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { IconSpriteNavHeader } from "@/components/icons/icon-sprite-nav-header"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 
@@ -11,8 +11,8 @@ export const LinkMap = ({ pathname }: { pathname: string }) => {
 
   return (
     <Link href="/" data-active={is} prefetch title={TITLE} aria-label={TITLE} aria-labelledby={TITLE} className={cx()}>
-      <div className={cx(`w-6 h-6 relative *:w-6 *:h-6`, is ? "text-element-accent-1" : "text-text-primary")}>
-        <IconSpriteNavHeader id="sprite-nav-header-map" />
+      <div className={cx(`w-6 h-6 relative`, is ? "text-element-accent-1" : "text-text-primary")}>
+        <IconSprite id="sprite-nav-header-map" className="w-6 h-6" />
       </div>
       <span>{TITLE}</span>
     </Link>

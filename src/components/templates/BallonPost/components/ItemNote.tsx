@@ -11,12 +11,12 @@ import IconComment from "@/components/icons/IconComment"
 import IconFile_06 from "@/components/icons/IconFile_06"
 import IconPlayCircle from "@/components/icons/IconPlayCircle"
 import IconChevronDown from "@/components/icons/IconChevronDown"
+import AdvertisingData from "@/components/common/Card/CardBallon/components/AdvertisingData"
 
 import { cx } from "@/lib/cx"
 import { daysAgo } from "@/helpers"
 import { useContextPostsComments } from "./ContextComments"
 import { dispatchPhotoCarousel, dispatchVideoStream, useBalloonPost } from "@/store"
-import AdvertisingData from "@/components/common/Card/CardBallon/components/AdvertisingData"
 
 function ItemNote({ note, handleToComments }: { note: INotes; handleToComments: DispatchWithoutAction }) {
   const { archive, company } = useBalloonPost(({ data }) => data) ?? {}

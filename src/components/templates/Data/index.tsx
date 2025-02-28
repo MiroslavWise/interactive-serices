@@ -44,6 +44,7 @@ import stylesComplaintModal from "@/components/templates/ComplaintModal/styles/s
 import UpdateDiscussionAndAlert, { CN_UPDATE_DISCUSSION_AND_ALERT } from "../Update/DiscussionAndAlert"
 import stylesAlertAndDiscussion from "@/components/templates/Balloon/Discussion/styles/style.module.scss"
 import styleCreateNewOptionModal from "@/components/templates/CreateNewOptionModal/styles/style.module.scss"
+import RoleAddition from "../RoleAddition"
 
 const stringBalloonOffer = cx(stylesGeneralOffer.containerGeneral, stylesOffer.container)
 const stringBalloonAlert = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
@@ -81,6 +82,7 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.BALLOON_POST, <BallonPost key="::key::BallonPost" />], //Балун поста
   [EModalData.DELETE_FRIEND, <DeleteFriend key="::key::DeleteFriend" />], //Удаление друга
   [EModalData.DELETE_POST, <DeletePost key="::key::DeleteFriend" />], //Удаление друга
+  [EModalData.ROLE_ADDITION, <RoleAddition key="::key::RoleAddition::" />], //Добавление и обновление роли
 
   [EModalData.UPDATE_DELETE_COMPANY, <UpdateCompanyDelete key="::key::UpdateCompanyDelete::" />], //Удаление компании
   [EModalData.UPDATE_ENABLED_COMPANY, <UpdateCompanyEnabled key="::key::UpdateCompanyEnabled::" />], //Деактивация компании
@@ -112,6 +114,7 @@ export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.UPDATE_DELETE_COMPANY, stylesOutAccount.container], //
   [EModalData.UPDATE_ENABLED_COMPANY, stylesOutAccount.container], //
   [EModalData.UPDATE_ENABLED_ACTIVE_COMPANY, stylesOutAccount.container], //
+  [EModalData.ROLE_ADDITION, stylesOutAccount.container], //
   [EModalData.UpdateOffer, stylesUpdateOffer.container], //
   [EModalData.ChangePassword, stylesChangePassword.container], //
   // [EModalData.ActiveServicesFrom, stylesActiveServicesFrom.container], //

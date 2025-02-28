@@ -3,17 +3,15 @@ import { useQuery } from "@tanstack/react-query"
 
 import { EnumStatusBarter } from "@/types/enum"
 
-import { MENU_ICONS } from "../../NavBar/constants/menu-icons"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
-import { useSign } from "../hooks/useSign"
-import { useAuth, EStatusAuth, dispatchIntro } from "@/store"
 import { ITEMS_LINK_FOOTER } from "../constants"
 import { getBarterUserIdReceiver } from "@/services"
 import { useStatusAuth } from "@/helpers/use-status-auth"
+import { useAuth, EStatusAuth, dispatchIntro } from "@/store"
 
 import styles from "../styles/link.module.scss"
-import { IconSpriteNavHeader } from "@/components/icons/icon-sprite-nav-header"
 
 const TITLE = "О Sheira"
 
@@ -57,8 +55,8 @@ export const LinkOffers = ({ pathname }: { pathname: string }) => {
       aria-labelledby={TITLE}
     >
       <section className="h-full flex flex-col items-center gap-[0.1875rem]">
-        <article className={cx("relative w-6 h-6 p-3 *:h-6 *:w-6 text-text-secondary")}>
-          <IconSpriteNavHeader id="sprite-nav-header-about" />
+        <article className={cx("relative w-6 h-6 p-3 text-text-secondary")}>
+          <IconSprite id="sprite-nav-header-about" className="w-6 h-6" />
         </article>
         <p
           className={cx(

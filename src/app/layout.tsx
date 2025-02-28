@@ -124,7 +124,7 @@ export default async ({ children }: PropsWithChildren) => (
   <html lang="ru" suppressHydrationWarning>
     <head>
       <link rel="preconnect" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}`} />
-      <link rel="canonical" key="canonical" href={`https://${process.env.NEXT_PUBLIC_DOMAIN}/categories`} />
+      <link rel="dns-prefetch" href={env!?.server!?.host!?.includes("dev") ? "https://mc.yandex.ru" : "https://mc.yandex.ru"} />
       <Script
         id={env!?.server!?.host!?.includes("dev") ? `yandex-metrics-dev` : `yandex-metrics-prod`}
         dangerouslySetInnerHTML={{
