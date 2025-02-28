@@ -1,19 +1,15 @@
 "use client"
 
-import Link from "next/link"
 import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { parseAsInteger, parseAsStringEnum, useQueryState } from "nuqs"
 
 import { EOrder } from "@/services/types/general"
 
-import Avatar from "@avatar"
 import IconSearch from "@/components/icons/IconSearch"
+import ComponentUser from "./components/ComponentUser"
 import ComponentSort from "../components/ComponentSort"
 import PaginationRS from "@/components/common/PaginationRS"
-import ComponentsDotsUser from "../components/ComponentsDotsUser"
-import IconVerifiedTick from "@/components/icons/IconVerifiedTick"
-import RatingAndFeedbackComponent from "@/components/templates/Friends/components/RatingAndFeedbackComponent"
 
 import { useDebounce } from "@/helpers"
 import { getUsers, IQUsers } from "@/services"
@@ -88,24 +84,7 @@ export default () => {
             </li>
           ))
         ) : list.length > 0 ? (
-          list.map((item) => (
-            <li
-              key={`:df:b:sd:f-${item.id}`}
-              className="group w-full grid grid-cols-[3.125rem_minmax(0,1fr)] gap-3 p-2 rounded-sm bg-transparent hover:bg-grey-stroke-light transition-colors relative"
-            >
-              <Avatar className="w-[3.125rem] h-[3.125rem] rounded-md" image={item?.profile?.image} userId={item?.id!} />
-              <div className="w-full flex flex-col gap-1 items-start justify-center text-text-primary">
-                <Link href={{ pathname: `/customer/${item.id}` }}>
-                  {item?.profile?.firstName || "Имя"}&nbsp;
-                  <span className="relative w-5 h-5 p-2.5 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-[1.125rem] *:h-[1.125rem]">
-                    <IconVerifiedTick />
-                  </span>
-                </Link>
-                <RatingAndFeedbackComponent id={item.id} />
-              </div>
-              <ComponentsDotsUser />
-            </li>
-          ))
+          list.map((item) => <ComponentUser key={`:df:b:sd:f-${item.id}`} {...item} />)
         ) : (
           <section className="w-full col-span-full flex items-center justify-center">
             <article className="w-full max-w-[35rem] flex flex-col items-center gap-2">

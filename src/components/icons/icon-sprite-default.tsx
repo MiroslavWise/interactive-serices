@@ -81,20 +81,30 @@ export default () => (
       <path
         d="M9.5 6.5H14C15.3807 6.5 16.5 7.61929 16.5 9C16.5 10.3807 15.3807 11.5 14 11.5H9.5V6.5ZM9.5 6.5V17.5M9.75 11.5H8M13 14.75H8M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
         stroke="currentColor"
-        className="stroke-current transition-colors fill-none"
+        className="transition-colors fill-none"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
     </symbol>
     <symbol viewBox="0 0 24 24" id="icon-arrow-right">
+      <path d="M4 12H20M20 12L14 6M20 12L14 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </symbol>
+    <symbol id="icon-user-edit" viewBox="0 0 24 24" fill="none">
       <path
-        d="M4 12H20M20 12L14 6M20 12L14 18"
+        d="M11 15H8C6.13623 15 5.20435 15 4.46927 15.3045C3.48915 15.7105 2.71046 16.4892 2.30448 17.4693C2 18.2044 2 19.1362 2 21M15.5 3.29076C16.9659 3.88415 18 5.32131 18 7M11.9999 21.5L14.025 21.095C14.2015 21.0597 14.2898 21.042 14.3721 21.0097C14.4452 20.9811 14.5147 20.9439 14.579 20.899C14.6516 20.8484 14.7152 20.7848 14.8426 20.6574L21.5 14C22.0524 13.4477 22.0523 12.5523 21.5 12C20.9477 11.4477 20.0523 11.4477 19.5 12L12.8425 18.6575C12.7152 18.7848 12.6516 18.8484 12.601 18.921C12.5561 18.9853 12.5189 19.0548 12.4902 19.1278C12.458 19.2102 12.4403 19.2984 12.405 19.475L11.9999 21.5ZM13.5 7C13.5 9.20914 11.7091 11 9.5 11C7.29086 11 5.5 9.20914 5.5 7C5.5 4.79086 7.29086 3 9.5 3C11.7091 3 13.5 4.79086 13.5 7Z"
         stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="stroke-current"
+      />
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 16 17" fill="none">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M13.5303 4.51972C13.8232 4.81261 13.8232 5.28749 13.5303 5.58038L6.65533 12.4554C6.36244 12.7483 5.88756 12.7483 5.59467 12.4554L2.46967 9.33038C2.17678 9.03749 2.17678 8.56261 2.46967 8.26972C2.76256 7.97683 3.23744 7.97683 3.53033 8.26972L6.125 10.8644L12.4697 4.51972C12.7626 4.22683 13.2374 4.22683 13.5303 4.51972Z"
+        fill="currentColor"
       />
     </symbol>
   </svg>
@@ -109,3 +119,5 @@ export type TID =
   | "icon-default-map"
   | "icon-default-currency-ruble-circle"
   | "icon-arrow-right"
+  | "icon-user-edit"
+  | "icon-check"

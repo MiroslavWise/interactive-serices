@@ -20,3 +20,5 @@ export const getUserEmail: IServiceUser["getEmail"] = (email) => fetchGet({ url:
 
 export const patchEmailPasswordUser: TPatchEmailPasswordUser = (body, id) =>
   patch({ url: `${url}/${id}`, body: { ...body, enabled: true } })
+
+export const pathUserRoles = (roles: number[], id: number) => patch({ url: `${url}/${id}`, body: { roles } })

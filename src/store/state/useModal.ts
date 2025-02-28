@@ -68,6 +68,7 @@ export enum EModalData {
   SUCCESS_UPDATE_POSTS = "success-update-posts",
   /** Успешное обновление SOS-сообщения @default ОБНОВЛЕНИЕ */
   SUCCESS_UPDATE_ALERT = "success-update-alert",
+  ROLE_ADDITION = "role-addition"
 }
 
 interface IStateUseModal {

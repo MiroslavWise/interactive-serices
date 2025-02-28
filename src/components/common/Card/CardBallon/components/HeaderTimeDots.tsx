@@ -73,7 +73,7 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
           className={cx(
             "absolute top-[calc(100%_+_0.25rem)] right-0 rounded-xl p-3 bg-BG-second w-[13.5rem] flex flex-col gap-0.5 shadow-box-down",
             "*:grid *:grid-cols-[1.25rem_minmax(0,1fr)] *:gap-2.5 *:items-center *:py-2 *:px-1.5 *:rounded-md",
-            "[&>*>span]:text-text-primary [&>*>span]:text-sm [&>*>span]:font-normal [&>*>span]:text-left [&>*>span]:whitespace-nowrap",
+            "text-text-primary text-sm font-normal [&>*>span]:text-left [&>*>span]:whitespace-nowrap",
             "[&>*>div]:w-5 [&>*>div]:h-5  [&>*>div]:relative  [&>*>div]:p-2.5",
             "hover:*:bg-grey-field",
             visible ? "opacity-100 visible -z-10" : "opacity-0 invisible z-[120]",

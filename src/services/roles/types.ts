@@ -10,7 +10,7 @@ export enum ETitleRole {
 
 const objRole = z.object({
   description: z.string().nullable(),
-  id: z.number().nullable(),
+  id: z.number(),
   title: z.nativeEnum(ETitleRole),
 })
 

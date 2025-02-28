@@ -27,8 +27,8 @@ type TCombineMethodRoute = `${TRoutes}:${TMethod}`
 const mapRole: Map<TCombineMethodRoute, ETitleRole[]> = new Map([
   /** Роут пользователей */
   ["users:GET", [ETitleRole.Admin, ETitleRole.SuperAdmin, ETitleRole.Manager, ETitleRole.Owner]],
-  ["users:POST", [ETitleRole.SuperAdmin]],
-  ["users:PATCH", [ETitleRole.SuperAdmin]],
+  ["users:POST", [ETitleRole.SuperAdmin, ETitleRole.Admin]],
+  ["users:PATCH", [ETitleRole.SuperAdmin, ETitleRole.Admin]],
   ["users:DELETE", [ETitleRole.SuperAdmin]],
   /** Роут offers */
   ["offers:GET", [ETitleRole.Admin, ETitleRole.SuperAdmin, ETitleRole.Manager]],
