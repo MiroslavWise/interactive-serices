@@ -38,7 +38,7 @@ function ItemCategorySearch({ setValue, idsActive, item }: IProps) {
       <div data-check>{idsActive.includes(item?.id!) ? <IconCheck /> : null}</div>
       <span>
         <div data-img>
-          <ImageCategory id={item?.id!} slug={item?.slug} provider={item?.provider} />
+          <ImageCategory slug={item?.slug} provider={item?.provider} />
         </div>
         <p>{item.title}</p>
       </span>

@@ -4,7 +4,8 @@ import { fetchGet, wrapperPost } from "../request"
 
 const url = "/offers-categories"
 
-export const getOffersCategories: IServiceOffersCategories["get"] = (value) => fetchGet({ url, query: value?.query })
+export const getOffersCategories: IServiceOffersCategories["get"] = (value) =>
+  fetchGet({ url, query: value?.query ? value?.query : { provider: "main" } })
 //TODO
 export const getOffersCategoriesPROD = async () => {
   try {

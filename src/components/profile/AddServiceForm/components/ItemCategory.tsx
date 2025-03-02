@@ -50,7 +50,7 @@ export function ItemCategory(props: IMainAndSubCategories & { setValue: UseFormS
           }}
         >
           <div data-img>
-            <ImageCategory id={main.id!} slug={main?.slug} provider={main?.provider} />
+            <ImageCategory slug={main?.slug} provider={main?.provider} />
           </div>
           <p>{main.title}</p>
           <img data-img-expand src="/svg/chevron-down-gray.svg" alt="down" width={24} height={24} />
@@ -82,7 +82,7 @@ export function ItemCategory(props: IMainAndSubCategories & { setValue: UseFormS
             <div data-check>{idsActive.includes(item?.id!) ? <IconCheck /> : null}</div>
             <span>
               <div data-img>
-                <ImageCategory id={item?.id!} slug={item?.slug} provider={item?.provider} />
+                <ImageCategory slug={item?.slug} provider={item?.provider} />
               </div>
               <p>{item.title}</p>
             </span>

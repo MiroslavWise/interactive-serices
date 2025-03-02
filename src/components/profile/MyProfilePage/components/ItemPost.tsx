@@ -8,8 +8,8 @@ import Button from "@/components/common/Button"
 import ItemCommentsPost from "./ItemCommentsPost"
 import IconNote from "@/components/icons/IconNote"
 import IconMapWhite from "@/components/icons/IconMapWhite"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import IconArrowRight from "@/components/icons/IconArrowRight"
-import { IconSpriteCategoryId } from "@/components/icons/icon-sprite-category"
 import AdvertisingData from "@/components/common/Card/CardBallon/components/AdvertisingData"
 
 import { cx } from "@/lib/cx"
@@ -41,8 +41,8 @@ function ItemPost({ post }: IProps) {
           !!urgent ? "flex" : "hidden",
         )}
       >
-        <div className="w-4 h-4 relative *:w-4">
-          <IconSpriteCategoryId id="category-heart-white" />
+        <div className="w-4 h-4 relative">
+          <IconSprite id="category-heart-white" className="w-4 h-4" />
         </div>
         <span className="text-text-button text-xs font-medium">Щедрое сердце</span>
       </article>

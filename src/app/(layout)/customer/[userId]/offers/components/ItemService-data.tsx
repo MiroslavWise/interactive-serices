@@ -4,7 +4,7 @@ import Avatar from "@avatar"
 import ItemTitle from "../../components/ItemTitle"
 import ItemServiceImages from "./ItemServiceImages"
 import ButtonShare, { LinkToMap } from "./ButtonShare"
-import { IconSpriteCategoryId } from "@/components/icons/icon-sprite-category"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 import { fromNow } from "@/helpers"
@@ -27,7 +27,7 @@ function ItemServiceData({ offer }: IProps) {
         )}
       >
         <div className="w-4 h-4 relative *:w-4">
-          <IconSpriteCategoryId id="category-heart-white" />
+          <IconSprite id="category-heart-white" className="w-4 h-4" />
         </div>
         <span className="text-text-button text-xs font-medium">Щедрое сердце</span>
       </article>

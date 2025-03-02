@@ -126,7 +126,12 @@ function ControllerCategory({ control }: IProps) {
           </button>
           {!!error ? <i>Поле не может оставаться незаполненным</i> : null}
           <div data-current={!!field.value}>
-            <div data-icon>{field.value ? <ImageCategory id={field.value!} /> : null}</div>
+            <div data-icon>
+              {field.value
+                ? null
+                : // <ImageCategory id={field.value!} />
+                  null}
+            </div>
             <span>{currentCategory(field.value!)?.title || null}</span>
             <button
               type="button"
@@ -175,7 +180,7 @@ function ControllerCategory({ control }: IProps) {
                     />
                   </button>
                   <div className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
-                    <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
+                    <ImageCategory slug={item?.slug} provider={item?.provider} />
                   </div>
                   <span className="text-text-primary text-sm font-normal text-ellipsis line-clamp-1">{item.title}</span>
                 </li>
@@ -210,7 +215,7 @@ function ControllerCategory({ control }: IProps) {
                       />
                     </a>
                     <div className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
-                      <ImageCategory id={itemMain.id} slug={itemMain?.slug} provider={itemMain?.provider} />
+                      <ImageCategory slug={itemMain?.slug} provider={itemMain?.provider} />
                     </div>
                     <span
                       onClick={(event) => {
@@ -264,7 +269,7 @@ function ControllerCategory({ control }: IProps) {
                         />
                       </a>
                       <div className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
-                        <ImageCategory id={itemSub.id} slug={itemSub?.slug} provider={itemSub?.provider} />
+                        <ImageCategory slug={itemSub?.slug} provider={itemSub?.provider} />
                       </div>
                       <span className="text-text-primary text-sm font-normal text-ellipsis line-clamp-1">{itemSub.title}</span>
                     </li>

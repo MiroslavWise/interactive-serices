@@ -1,13 +1,31 @@
-import { EnumTypeProvider } from "@/types/enum"
 import type { IPromiseReturn, TOrder } from "../types/general"
 import { TCreateOfferCategory } from "@/components/templates/CreateNewCategory/utils/create.schema"
 import { IResponse } from "../request/types"
 
+export type TSlugCategory =
+  | "heart"
+  | "beauty"
+  | "housework"
+  | "social"
+  | "appliances"
+  | "studying"
+  | "transport"
+  | "foto-video-audio"
+  | "needlework"
+  | "cooking"
+  | "design"
+  | "business"
+  | "pets"
+  | "games"
+  | "rent"
+  | "psychology"
+  | "recommendation"
+
 export interface IResponseOffersCategories {
   id: number
-  provider: EnumTypeProvider | "main" | "kursk"
+  provider: TSlugCategory | "main" | "kursk"
   title: string
-  slug: string
+  slug: TSlugCategory | string
   description: string | null
   content: string | null
 }
@@ -16,6 +34,7 @@ export interface IQueryOffersCategories {
   order?: TOrder
   page?: number
   limit?: number
+  provider?: "main"
 }
 
 export interface IServiceOffersCategories {

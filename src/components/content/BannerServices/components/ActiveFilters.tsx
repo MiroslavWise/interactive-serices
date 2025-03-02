@@ -36,7 +36,7 @@ function ActiveFilters() {
             // )}
           >
             <div data-icon className="relative *:w-4 *:h-4 *:rounded-sm">
-              <ImageCategory id={item} slug={itemCategory(item)?.slug} provider={itemCategory(item)?.provider} />
+              <ImageCategory slug={itemCategory(item)?.slug!} provider={itemCategory(item)?.provider!} />
             </div>
             <span>{itemCategory(item) ? itemCategory(item)?.title : null}</span>
             <button

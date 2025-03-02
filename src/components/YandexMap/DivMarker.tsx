@@ -10,7 +10,7 @@ import { type IResponseOffers } from "@/services/offers/types"
 import { type IAddressesResponse } from "@/services/addresses/types/serviceAddresses"
 
 import AdvertsData from "./AdvertsData"
-import { IconSpriteCategoryId } from "../icons/icon-sprite-category"
+import { IconSprite } from "../icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 import { formatOfMMM } from "@/helpers/functions/daysAgo"
@@ -83,8 +83,8 @@ function DivMarker({
             isAdvertising ? "translate-x-5 grid" : "translate-x-3.5 hidden invisible group-hover:grid group-hover:visible",
           )}
         >
-          <div className="w-4 h-4 relative p-2 *:w-4">
-            <IconSpriteCategoryId id="category-heart-white" />
+          <div className="w-4 h-4 relative p-2">
+            <IconSprite id="category-heart-white" className="w-4 h-4" />
           </div>
           <span className="text-xs text-text-button font-medium line-clamp-1 text-ellipsis">{title ?? "Щедрое сердце"}</span>
         </div>

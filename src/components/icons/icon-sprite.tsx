@@ -1,6 +1,7 @@
 import { cx } from "@/lib/cx"
 import { TID } from "./icon-sprite-default"
 import { TSpriteNav } from "./icon-sprite-nav-header"
+import { IDCategory } from "./icon-sprite-category"
 
 export default function IconFillSprite() {
   return (
@@ -93,6 +94,7 @@ type ID =
   | "icon-edit"
   | TID
   | TSpriteNav
+  | IDCategory
 
 export const IconSprite = ({ size = 20, id, className }: IProps) => (
   <svg width={size} height={size} fill="none" className={cx(className, "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2")}>
