@@ -14,6 +14,7 @@ import dynamic from "next/dynamic"
 
 import FormProviderSearch from "./components/FormProviderSearch"
 const SpriteMap = dynamic(() => import("@/components/icons/icon-sprite-map"))
+const SpriteMapCategory = dynamic(() => import("@/components/icons/icon-sprite-map-category"))
 const HeaderMap = dynamic(() => import("@/components/YandexMap/HeaderMap"), { ssr: false })
 const ContextMap = dynamic(() => import("@/components/YandexMap/ContextMap"), { ssr: false })
 import { MobileFilterMap, ButtonCollapseServices, FiltersScreen } from "@/components/content"
@@ -61,6 +62,7 @@ export default () => {
         </FormProviderSearch>
       </main>
       <SpriteMap />
+      <SpriteMapCategory />
     </>
   )
 }

@@ -151,4 +151,4 @@ export default () => (
   </svg>
 )
 
-export type IDCategory = `icon-category-${TSlugCategory}`
+export type IDCategory = `icon-category-${TSlugCategory}` | `icon-map-category-${TSlugCategory}`
