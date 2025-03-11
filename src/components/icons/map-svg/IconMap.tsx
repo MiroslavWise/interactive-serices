@@ -1,4 +1,4 @@
-import { ReactElement, type DispatchWithoutAction } from "react"
+import { type ReactElement, type DispatchWithoutAction } from "react"
 
 import { type IImageData } from "@/types/type"
 import { EnumTypeProvider } from "@/types/enum"
@@ -35,12 +35,12 @@ const iconRainbow = (value: EnumTypeProvider) => (Rainbow.hasOwnProperty(value!)
 export default ({ provider, onClick, urgent, isAdvertising, image, category }: IProps) => {
   if (!isAdvertising && provider === EnumTypeProvider.offer) {
     const { provider: p, slug: s } = category ?? {}
-    const string: TSlugCategory = ["main", "heart"].includes(provider!) ? (s as TSlugCategory) : (p as TSlugCategory)
+    const string: TSlugCategory = ["main", "heart"].includes(p!) ? (s as TSlugCategory) : (p as TSlugCategory)
 
     return (
       <IconSpriteMap
         id={`icon-map-category-${string}`}
-        className="w-[2.1875rem] h-auto aspect-[48/60]"
+        className="w-[2.1875rem] h-auto aspect-[48/60] cursor-pointer"
         onClick={(event) => {
           event.stopPropagation()
           onClick()
