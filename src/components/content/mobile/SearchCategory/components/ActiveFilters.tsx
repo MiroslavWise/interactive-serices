@@ -32,7 +32,7 @@ function ActiveFilters({ activeFilters }: { activeFilters: number[] }) {
           )}
         >
           <div className="relative w-6 h-6 p-3 rounded-full bg-BG-icons *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
-            <ImageCategory id={item} slug={itemCategory(item)?.slug} provider={itemCategory(item)?.provider} />
+            <ImageCategory slug={itemCategory(item)?.slug!} provider={itemCategory(item)?.provider!} />
           </div>
           <span className="text-text-button text-xs text-ellipsis line-clamp-1 whitespace-nowrap font-medium">
             {itemCategory(item) ? itemCategory(item)?.title : null}

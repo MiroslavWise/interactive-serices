@@ -9,12 +9,12 @@ import ItemCommentsPost from "./ItemCommentsPost"
 import IconNote from "@/components/icons/IconNote"
 import IconPost from "@/components/icons/IconPost"
 import IconMapWhite from "@/components/icons/IconMapWhite"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import IconArrowRight from "@/components/icons/IconArrowRight"
 
 import { cx } from "@/lib/cx"
 import { nameTitle } from "@/lib/names"
 import { dispatchBallonPost, dispatchMapCoordinates } from "@/store"
-import { IconSpriteCategoryId } from "@/components/icons/icon-sprite-category"
 
 function ItemPost({ post, on }: { post: IPosts; on?: () => void }) {
   const { title, notes, addresses, user, id, urgent } = post ?? {}
@@ -43,8 +43,8 @@ function ItemPost({ post, on }: { post: IPosts; on?: () => void }) {
           !!urgent ? "flex" : "hidden",
         )}
       >
-        <div className="w-4 h-4 relative *:w-4 *:h-4">
-          <IconSpriteCategoryId id="category-heart-white" />
+        <div className="w-4 h-4 relative">
+          <IconSprite id="category-heart-white" className="w-4 h-4" />
         </div>
         <span className="text-text-button text-xs font-medium">Щедрое сердце</span>
       </article>

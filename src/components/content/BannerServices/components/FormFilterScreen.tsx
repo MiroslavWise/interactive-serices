@@ -6,11 +6,11 @@ import { type IValuesFormFilters } from "../types/types"
 
 import Button from "@/components/common/Button"
 import { ImageCategory } from "@/components/common"
-import { IconSpriteCategoryId } from "@/components/icons/icon-sprite-category"
 
 import { cx } from "@/lib/cx"
 import { getOffersCategories } from "@/services"
 import { dispatchActiveFilterScreen, dispatchDataFilterScreen, useFiltersScreen } from "@/store"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 function FormFilterScreen() {
   const activeFilters = useFiltersScreen(({ activeFilters }) => activeFilters)
@@ -73,9 +73,9 @@ function FormFilterScreen() {
               >
                 <div className="w-6 h-6 p-3 bg-transparent relative *:w-6 *:h-6">
                   {item?.slug === "kursk" && field.value.some((some) => some === item.id) ? (
-                    <IconSpriteCategoryId id="category-heart-white" />
+                    <IconSprite id="category-heart-white" />
                   ) : (
-                    <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
+                    <ImageCategory slug={item?.slug} provider={item?.provider} />
                   )}
                 </div>
                 <p

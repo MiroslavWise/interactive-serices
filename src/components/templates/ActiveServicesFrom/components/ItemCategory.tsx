@@ -41,7 +41,7 @@ export const ItemCategory = memo(function ItemCategory(
     >
       <header className="w-full flex flex-row items-start justify-between">
         <div className="w-6 h-6 p-3 relative *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-6 *:h-6">
-          <ImageCategory id={id} slug={slug} provider={provider} />
+          <ImageCategory slug={slug} provider={provider} />
         </div>
         <button
           onClick={deleteCategory}

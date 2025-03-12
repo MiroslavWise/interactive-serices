@@ -9,8 +9,8 @@ import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
 import IconDiscussionBalloon from "@/components/icons/IconDiscussionBalloon"
 
 import { cx } from "@/lib/cx"
+import { IconSprite } from "@/components/icons/icon-sprite"
 import { closeCreateOffers, dispatchClosePreCloseCreateService, dispatchModalClose, usePreCloseCreateService } from "@/store"
-import { IconSpriteCategoryId } from "@/components/icons/icon-sprite-category"
 
 const H: Map<EnumTypeProvider, string> = new Map([
   [EnumTypeProvider.offer, "Умения и услуги"],
@@ -21,7 +21,7 @@ const H: Map<EnumTypeProvider, string> = new Map([
 ])
 
 const ICON = new Map([
-  [EnumTypeProvider.offer, <IconSpriteCategoryId id={`category-default`} key={`EnumTypeProvider.offer`} />],
+  [EnumTypeProvider.offer, <IconSprite id={`icon-category-default`} key={`EnumTypeProvider.offer`} />],
   [EnumTypeProvider.alert, <IconAlertCirlceRed key={`EnumTypeProvider.alert`} />],
   [EnumTypeProvider.discussion, <IconDiscussionBalloon key={`EnumTypeProvider.discussion`} />],
   [EnumTypeProvider.POST, <IconPost key={`EnumTypeProvider.POST`} />],

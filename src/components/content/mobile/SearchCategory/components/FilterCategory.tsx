@@ -10,7 +10,6 @@ import { getOffersCategories } from "@/services"
 import { dispatchActiveFilterScreen, dispatchDataFilterScreen, useFiltersScreen } from "@/store"
 
 import styles from "../styles/filter-category.module.scss"
-import { IconSpriteCategoryId } from "@/components/icons/icon-sprite-category"
 
 export default function FilterCategory() {
   const visible = useFiltersScreen(({ visible }) => visible)
@@ -78,9 +77,9 @@ export default function FilterCategory() {
             >
               <div className="relative w-6 h-6 bg-transparent p-3 *:w-6 *:h-6">
                 {item?.slug === "kursk" && state.some((some) => some === item.id) ? (
-                  <IconSpriteCategoryId id="category-heart-white" />
+                  <IconSprite id="category-heart-white" className="w-6 h-6" />
                 ) : (
-                  <ImageCategory id={item.id} slug={item?.slug} provider={item?.provider} />
+                  <ImageCategory slug={item?.slug!} provider={item?.provider!} />
                 )}
               </div>
               <p className="text-text-primary text-sm font-normal line-clamp-2 text-ellipsis">{item.title}</p>

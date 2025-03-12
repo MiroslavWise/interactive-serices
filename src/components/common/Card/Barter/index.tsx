@@ -126,7 +126,7 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
           <div data-first>
             <article>
               <div className="relative bg-BG-icons rounded-full overflow-hidden p-3 w-6 h-6 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
-                <ImageCategory id={categoriesBarter?.start?.categoryId} />
+                {/* <ImageCategory id={categoriesBarter?.start?.categoryId} /> */}
               </div>
               <span className="text-text-primary text-sm text-ellipsis line-clamp-1 font-normal">
                 {titleCategory(categoriesBarter?.start?.categoryId)}
@@ -136,7 +136,7 @@ export const CardBarter = ({ barter }: { barter: IBarterResponse }) => {
           </div>
           <article data-me>
             <div className="relative bg-BG-icons rounded-full overflow-hidden p-3 w-6 h-6 *:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-4 *:h-4">
-              <ImageCategory id={categoriesBarter?.end?.categoryId} />
+              {/* <ImageCategory id={categoriesBarter?.end?.categoryId} /> */}
             </div>
             <span className="text-text-primary text-sm text-ellipsis line-clamp-1 font-normal">
               {titleCategory(categoriesBarter?.end?.categoryId)}

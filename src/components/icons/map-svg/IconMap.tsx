@@ -1,14 +1,15 @@
-import { ReactElement, type DispatchWithoutAction } from "react"
+import { type ReactElement, type DispatchWithoutAction } from "react"
 
 import { type IImageData } from "@/types/type"
 import { EnumTypeProvider } from "@/types/enum"
+import { TSlugCategory } from "@/services/offers-categories/types"
 
 /** @deprecated */
 import IconPost from "@/components/icons/IconPost"
+import { IconSpriteMap } from "../icon-sprite-map"
 import IconCategoryDefault from "../IconCategoryDefault"
 import { NextImageMotion } from "@/components/common/Image"
 import IconAlertCirlceRed from "@/components/icons/IconAlertCirlceRed"
-import { IconSpriteMap } from "../icon-sprite-map"
 
 interface IProps {
   image?: IImageData
@@ -17,6 +18,10 @@ interface IProps {
   categoryId?: number
   urgent?: boolean
   isAdvertising?: boolean
+  category?: {
+    provider?: TSlugCategory | "main" | "kursk"
+    slug?: TSlugCategory | "heart"
+  }
 }
 
 const Rainbow = {
@@ -27,8 +32,24 @@ const Rainbow = {
 
 const iconRainbow = (value: EnumTypeProvider) => (Rainbow.hasOwnProperty(value!) ? Rainbow[value!]! : null)
 
-export default ({ provider, onClick, urgent, isAdvertising, image }: IProps) =>
-  isAdvertising ? (
+export default ({ provider, onClick, urgent, isAdvertising, image, category }: IProps) => {
+  if (!isAdvertising && provider === EnumTypeProvider.offer) {
+    const { provider: p, slug: s } = category ?? {}
+    const string: TSlugCategory = ["main", "heart"].includes(p!) ? (s as TSlugCategory) : (p as TSlugCategory)
+
+    return (
+      <IconSpriteMap
+        id={`icon-map-category-${string}`}
+        className="w-[2.1875rem] h-auto aspect-[48/60] cursor-pointer"
+        onClick={(event) => {
+          event.stopPropagation()
+          onClick()
+        }}
+      />
+    )
+  }
+
+  return isAdvertising ? (
     <>
       <div
         onClick={(event) => {
@@ -62,14 +83,4 @@ export default ({ provider, onClick, urgent, isAdvertising, image }: IProps) =>
       id={`${provider}-balloon${!!urgent ? "-urgent" : ""}`}
     />
   )
-
-//   <svg
-//   width={urgent ? "43" : "35"}
-//   height={urgent ? "53" : "41"}
-//   viewBox={urgent ? "0 0 43 53" : "0 0 35 41"}
-//   fill="none"
-//   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer w-[2.1875rem] h-[2.5625rem]"
-
-// >
-//   {icon(provider)(!!urgent)}
-// </svg>
+}

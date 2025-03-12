@@ -54,7 +54,7 @@ function BlockButtons({ user }: { user: IUserResponse }) {
                   "*:absolute *:top-1/2 *:left-1/2 *:-translate-x-1/2 *:-translate-y-1/2 *:w-5 *:h-5",
                 )}
               >
-                <ImageCategory id={item.categoryId!} slug={item?.category?.slug} provider={item?.category?.provider} />
+                <ImageCategory slug={item?.category?.slug} provider={item?.category?.provider} />
               </section>
             </a>
           ))}

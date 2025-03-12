@@ -8,6 +8,7 @@ import DivMarker from "./DivMarker"
 import IconMap from "../icons/map-svg/IconMap"
 
 import { dispatchBallonAlert, dispatchBallonOffer, dispatchBallonPost } from "@/store"
+import { TSlugCategory } from "@/services/offers-categories/types"
 
 function Marker({ properties, geometry, reactifiedApi, is }: FeatureCluster) {
   if (!reactifiedApi) return null
@@ -51,6 +52,10 @@ function Marker({ properties, geometry, reactifiedApi, is }: FeatureCluster) {
           provider={provider}
           urgent={urgent}
           categoryId={offer?.categoryId}
+          category={{
+            provider: offer?.category?.provider!,
+            slug: offer?.category?.slug! as TSlugCategory,
+          }}
           image={image}
           onClick={() => {
             if (provider === EnumTypeProvider.offer) {

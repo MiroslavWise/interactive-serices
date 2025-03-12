@@ -188,9 +188,8 @@ function AllClusters() {
                       ) : provider === EnumTypeProvider.offer ? (
                         <ImageCategory
                           isUrgent={!!properties?.offer?.urgent}
-                          provider={properties?.offer?.provider}
-                          slug={properties?.offer?.slug}
-                          id={properties?.offer?.categoryId!}
+                          provider={properties?.offer?.category?.provider!}
+                          slug={properties?.offer?.category?.slug!}
                         />
                       ) : provider === EnumTypeProvider.alert ? (
                         <IconAlertCirlceRed />

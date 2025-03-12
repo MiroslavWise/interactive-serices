@@ -4,7 +4,6 @@ import { IconSprite } from "@/components/icons/icon-sprite"
 import { IconFilters } from "@/components/icons/IconFilters"
 import IconChevronDown from "@/components/icons/IconChevronDown"
 import { SpriteHeart } from "@/components/icons/icon-sprite-heart"
-import { IconSpriteCategoryId } from "@/components/icons/icon-sprite-category"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
@@ -127,7 +126,7 @@ function TimesFilter() {
               }}
             >
               <div className="relative w-4 h-4 *:w-4 *:h-4">
-                {urgent === key ? <IconSpriteCategoryId id="category-heart-white" /> : <SpriteHeart />}
+                {urgent === key ? <IconSprite id="category-heart-white" /> : <SpriteHeart />}
               </div>
               <span className={cx("text-[0.8125rem] leading-4 font-normal", urgent === key ? "text-text-button" : "text-text-primary")}>
                 {label}
