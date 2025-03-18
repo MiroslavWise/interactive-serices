@@ -3,16 +3,15 @@ import { type INotes } from "@/services/notes/types"
 import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
+import { dispatchDeleteNote } from "@/store"
 import { useOutsideClickEvent } from "@/helpers"
-import { dispatchDeleteNote, useAuth } from "@/store"
 import { useIsAllowAccess } from "@/helpers/hooks/use-roles-allow-access"
 
 function DeletePopup({ note }: { note: INotes }) {
   const [open, set, ref] = useOutsideClickEvent()
-  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const isDeleteNote = useIsAllowAccess("DELETE", "notes")
+  const isDeleteNote = useIsAllowAccess("DELETE", "notes", note?.id)
   if (!!note?.main) return null
-  if (userId !== note.userId && !isDeleteNote) return null
+  if (!isDeleteNote) return null
 
   return (
     <div className="w-4 h-4 relative flex" ref={ref}>
@@ -32,9 +31,11 @@ function DeletePopup({ note }: { note: INotes }) {
           open ? "opacity-100 visible z-50" : "opacity-0 invisible -z-10",
         )}
         onClick={(event) => {
-          dispatchDeleteNote(note)
           event.stopPropagation()
           set(false)
+          if (isDeleteNote) {
+            dispatchDeleteNote(note)
+          }
         }}
       >
         <a className="w-full py-2 px-1.5 grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 items-center rounded-md bg-BG-second hover:bg-grey-field cursor-pointer text-text-error">

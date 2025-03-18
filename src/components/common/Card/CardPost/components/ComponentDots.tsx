@@ -23,8 +23,9 @@ function ComponentDots({ post }: IProps) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { created, id, title, userId: userIdPost, archive, company } = post ?? {}
   const [visible, setVisible, ref] = useOutsideClickEvent()
+  const isEdit = useIsAllowAccess("PATCH", "posts", id)
   const isManager = useIsAllowAccess("PATCH", "companies")
-  const isEdit = useIsAllowAccess("PATCH", "posts")
+
   const isAdvertising = !!company
 
   const onShare = useNavigator({
@@ -74,7 +75,7 @@ function ComponentDots({ post }: IProps) {
             title={TITLE_UPDATE}
             aria-label={TITLE_UPDATE}
             aria-labelledby={TITLE_UPDATE}
-            className={(userId === userIdPost || isEdit) && !archive ? "grid" : "!hidden"}
+            className={isEdit && !archive ? "grid" : "!hidden"}
             onClick={(event) => {
               event.stopPropagation()
               if (userId === userIdPost && !archive) {
@@ -131,7 +132,7 @@ function ComponentDots({ post }: IProps) {
             title={LABEL_ADD_ADVERT}
             aria-label={LABEL_ADD_ADVERT}
             aria-labelledby={LABEL_ADD_ADVERT}
-            className={cx((!isManager || isAdvertising) && "!hidden")}
+            className={cx(isManager || isAdvertising ? "grid" : "!hidden")}
             onClick={(event) => {
               event.stopPropagation()
               event.preventDefault()

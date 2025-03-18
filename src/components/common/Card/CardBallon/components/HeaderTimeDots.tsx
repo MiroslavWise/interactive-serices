@@ -27,7 +27,7 @@ const LABEL_REVIEW = "Оставить отзыв"
 function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
   const [visible, setVisible, ref] = useOutsideClickEvent()
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const isEdit = useIsAllowAccess("PATCH", "posts")
+  const isEdit = useIsAllowAccess("PATCH", "offers", offer?.id)
   const isAddAdvert = useIsAllowAccess("PATCH", "companies")
 
   const isAdvertising = !!offer?.company
@@ -43,10 +43,12 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
 
   function onReplace(event: any) {
     event.stopPropagation()
-    if (offer?.provider === EnumTypeProvider.offer) {
-      dispatchUpdateOffer(true, offer)
-    } else if (EnumTypeProvider.alert === offer?.provider!) {
-      dispatchUpdateDiscussionAndAlert({ offer: offer!, visible: true })
+    if (isEdit) {
+      if (offer?.provider === EnumTypeProvider.offer) {
+        dispatchUpdateOffer(true, offer)
+      } else if (EnumTypeProvider.alert === offer?.provider!) {
+        dispatchUpdateDiscussionAndAlert({ offer: offer!, visible: true })
+      }
     }
   }
 
@@ -84,7 +86,7 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
             aria-label={LABEL_REPLACE}
             aria-labelledby={LABEL_REPLACE}
             onClick={onReplace}
-            className={cx(!isEdit && "!hidden")}
+            className={cx(isEdit ? "grid" : "!hidden")}
           >
             <div className="relative w-5 h-5 *:w-5 *:h-5">
               <IconSprite id="icon-edit" />

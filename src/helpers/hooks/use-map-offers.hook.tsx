@@ -1,13 +1,13 @@
 "use client"
 
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import { useQueries, useQuery } from "@tanstack/react-query"
 
 import { EnumTypeProvider } from "@/types/enum"
 import { type IResponseOffers, type IQueriesOffers } from "@/services/offers/types"
 
 import { getOffers, getOffersCategories } from "@/services"
-import { useFiltersScreen, useFiltersServices, useUrgentFilter } from "@/store"
+import { dispatchDataOffers, useFiltersScreen, useFiltersServices, useUrgentFilter } from "@/store"
 
 const LIMIT = 100
 
@@ -74,6 +74,23 @@ export const useMapOffers = () => {
   const total = data?.meta?.total
   const array = Array.from({ length: Math.ceil((total || 0) / LIMIT) }).map((_, index) => index + 1)
 
+  const {} = useQuery({
+    queryFn: () =>
+      getOffers({
+        order: "DESC",
+        limit: 1000,
+        ...obj,
+        ...objProvider,
+      }),
+    queryKey: [
+      "offers-coordinates",
+      {
+        ...obj,
+        ...objProvider,
+      },
+    ],
+  })
+
   const responses = useQueries({
     queries: array.map((number) => ({
       queryFn: () =>
@@ -110,8 +127,16 @@ export const useMapOffers = () => {
       }
     }
 
-    return _offers.flat()
+    const offersFlat = _offers.flat()
+
+    return offersFlat
   }, [responses, is])
+
+    useEffect(() => {
+      if (Array.isArray(offers) && offers.length > 0) {
+        dispatchDataOffers(offers)
+      }
+    }, [offers])
 
   return {
     itemsOffers: offers,

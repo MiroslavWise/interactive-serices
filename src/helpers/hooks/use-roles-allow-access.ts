@@ -52,13 +52,14 @@ const mapRole: Map<TCombineMethodRoute, ETitleRole[]> = new Map([
   ["notes:DELETE", [ETitleRole.SuperAdmin, ETitleRole.Manager, ETitleRole.Admin]],
 ])
 
-export const useIsAllowAccess = (method: TMethod, route: TRoutes) => {
+export const useIsAllowAccess = (method: TMethod, route: TRoutes, idTarget?: number) => {
   if (typeof window === "undefined") return false
 
   const user = useAuth.getState().user
 
   if (!user) return false
 
+  if (idTarget && idTarget === user?.id) return true
   const combine = `${route}:${method}` as TCombineMethodRoute
   if (!mapRole.has(combine)) return false
 

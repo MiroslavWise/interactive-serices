@@ -10,7 +10,6 @@ function PrivacyPolicy() {
   useEffect(() => {
     setTimeout(() => {
       const element = document.querySelector(".ymaps3x0--map-copyrights")
-      clg("element: ", element)
       if (element) {
         const width = element.clientWidth + 8
         if (ref.current) {
