@@ -22,7 +22,6 @@ function BannerServices() {
   useEffect(() => {
     if (refSection.current && refDiv.current) {
       const heightSection = refSection.current.clientHeight
-      clg("heightSection", heightSection)
 
       refDiv.current.style.setProperty("--h", `${heightSection / 16}rem`)
     }

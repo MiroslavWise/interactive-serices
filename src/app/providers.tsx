@@ -17,7 +17,6 @@ export default ({ children }: { children: ReactNode }) => {
     document.documentElement.style.height = window.innerHeight.toString() + "px"
     requestAnimationFrame(() => {
       const is = useCookies.getState().isUse
-      clg("dispatchCookiesVisible: ", is)
       if (typeof is !== "undefined" && !is) {
         dispatchCookiesVisible()
       }

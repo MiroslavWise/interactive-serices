@@ -7,6 +7,7 @@ import { IconSprite } from "@/components/icons/icon-sprite"
 import { cx } from "@/lib/cx"
 import { clg } from "@console"
 import { patchPost } from "@/services/posts"
+import { useIsAllowAccess } from "@/helpers/hooks/use-roles-allow-access"
 import { dispatchArchivePost, dispatchBallonPostUpdate, useArchivePost } from "@/store"
 
 function ArchivePost() {
@@ -14,22 +15,28 @@ function ArchivePost() {
   const [loading, setLoading] = useState(false)
   const { archive, id } = data ?? {}
 
+  const is = useIsAllowAccess("PATCH", "posts", id)
+
   async function ok() {
-    if (!loading && !archive) {
-      setLoading(true)
-      const response = await patchPost(id!, { archive: true })
-      if (!!response?.data) {
-        dispatchBallonPostUpdate({ archive: true })
+    if (is) {
+      if (!loading && !archive) {
+        setLoading(true)
+        const response = await patchPost(id!, { archive: true })
+        if (!!response?.data) {
+          dispatchBallonPostUpdate({ archive: true })
+        }
+        clg("response archive: ", response)
+        setLoading(false)
+        dispatchArchivePost()
       }
-      clg("response archive: ", response)
-      setLoading(false)
-      dispatchArchivePost()
     }
   }
 
   function no() {
     dispatchArchivePost()
   }
+
+  if (!is) return null
 
   return (
     <div

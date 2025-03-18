@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
@@ -7,10 +9,12 @@ import { IconSprite } from "@/components/icons/icon-sprite"
 import { cx } from "@/lib/cx"
 import { deleteNote, getNotes } from "@/services/notes"
 import { dispatchDeleteNote, useDeleteNote } from "@/store"
+import { useIsAllowAccess } from "@/helpers/hooks/use-roles-allow-access"
 
 function DeleteNote() {
   const data = useDeleteNote(({ data }) => data)
   const [loading, setLoading] = useState(false)
+  const isDeleteNote = useIsAllowAccess("DELETE", "notes", data?.id)
 
   const { refetch: refetchNotes } = useQuery({
     queryFn: () => getNotes({ order: "DESC", post: data?.postId! }),
@@ -19,17 +23,21 @@ function DeleteNote() {
   })
 
   async function ok() {
-    if (!loading && !!data?.id) {
-      setLoading(true)
-      await deleteNote(data?.id)
-      await refetchNotes()
-      setLoading(false)
-      no()
+    if (isDeleteNote) {
+      if (!loading && !!data?.id) {
+        setLoading(true)
+        await deleteNote(data?.id)
+        await refetchNotes()
+        setLoading(false)
+        no()
+      }
     }
   }
   function no() {
     dispatchDeleteNote()
   }
+
+  if (!isDeleteNote) return null
 
   return (
     <div

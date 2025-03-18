@@ -11,6 +11,7 @@ import useRole from "@/helpers/is-role"
 import { useOutsideClickEvent } from "@/helpers"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
 import { dispatchArchivePost, dispatchOpenDeletePost, dispatchUpdatePost, displayAddAdvert, useAuth } from "@/store"
+import { useIsAllowAccess } from "@/helpers/hooks/use-roles-allow-access"
 
 interface IProps {
   post: IPosts
@@ -23,9 +24,10 @@ const LABEL_DELETE = "Удалить"
 const LABEL_ADD_ADVERT = "Добавить рекламу"
 
 function HeaderItemDotsPost({ post }: IProps) {
-  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const { id, title, userId: userIdPost, archive, company } = post ?? {}
+  const { id, title, archive, company } = post ?? {}
   const [open, setOpen, ref] = useOutsideClickEvent()
+  const isPathPost = useIsAllowAccess("PATCH", "posts", id)
+  const isDeletePost = useIsAllowAccess("DELETE", "posts", id)
 
   const onShare = useNavigator({
     url: `/post/${id}`,
@@ -100,7 +102,9 @@ function HeaderItemDotsPost({ post }: IProps) {
             className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field cursor-pointer"
             onClick={(event) => {
               event.stopPropagation()
-              dispatchOpenDeletePost(id!, title)
+              if (isDeletePost) {
+                dispatchOpenDeletePost(id!, title)
+              }
             }}
           >
             <div className="w-5 h-5 flex items-center justify-center relative p-2.5 text-text-error *:w-5">
@@ -116,7 +120,9 @@ function HeaderItemDotsPost({ post }: IProps) {
             className="w-full grid grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field cursor-pointer"
             onClick={(event) => {
               event.stopPropagation()
-              dispatchArchivePost(post)
+              if (isPathPost) {
+                dispatchArchivePost(post)
+              }
             }}
           >
             <div

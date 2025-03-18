@@ -33,7 +33,7 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
   const { user, id, addresses, title, slug, userId: offerUserId, provider, company } = offer ?? {}
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const isAdvertising = !!company
-  const isEdit = useIsAllowAccess("PATCH", "offers")
+  const isEdit = useIsAllowAccess("PATCH", "offers", id)
   const isManager = useIsAllowAccess("PATCH", "companies")
 
   const pathname = usePathname()
@@ -75,13 +75,15 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
         aria-labelledby={LABEL_EDIT}
         onClick={(event) => {
           event.stopPropagation()
-          if (provider === EnumTypeProvider.offer) {
-            dispatchUpdateOffer(true, offer)
-          } else if (provider === EnumTypeProvider.alert) {
-            dispatchUpdateDiscussionAndAlert({ offer: offer!, visible: true })
+          if (isEdit) {
+            if (provider === EnumTypeProvider.offer) {
+              dispatchUpdateOffer(true, offer)
+            } else if (provider === EnumTypeProvider.alert) {
+              dispatchUpdateDiscussionAndAlert({ offer: offer!, visible: true })
+            }
           }
         }}
-        className={cx("text-text-primary", offerUserId === userId || isEdit ? "flex" : "!hidden")}
+        className={cx("text-text-primary", isEdit ? "flex" : "!hidden")}
       >
         <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
           <IconSprite id="icon-edit" className="w-5 h-5 " />

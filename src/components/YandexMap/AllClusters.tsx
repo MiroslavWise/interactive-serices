@@ -12,8 +12,8 @@ import { type IResponseOffers } from "@/services/offers/types"
 
 import Marker from "./Marker"
 import IconPost from "../icons/IconPost"
-import { IconSprite } from "../icons/icon-sprite"
 import { ImageCategory, NextImageMotion } from "../common"
+import IconAlertCirlceRed from "../icons/IconAlertCirlceRed"
 
 import {
   useFiltersServices,
@@ -23,6 +23,8 @@ import {
   dispatchMapZoomClick,
   dispatchCollapseServicesTrue,
   useBounds,
+  useDataOffers,
+  dispatchDataOffers,
 } from "@/store"
 import { cx } from "@/lib/cx"
 import { clg } from "@console"
@@ -30,7 +32,6 @@ import { getPosts } from "@/services/posts"
 import { JSONStringBounds } from "@/utils/map-sort"
 import { useMapOffers } from "@/helpers/hooks/use-map-offers.hook"
 import { useFormProviderSearch } from "@/app/(layout)/components/FormProviderSearch"
-import IconAlertCirlceRed from "../icons/IconAlertCirlceRed"
 
 export type ReactifiedApi = ReactifiedModule<typeof ymaps3>
 export type FeatureCluster = Feature & {
@@ -50,6 +51,9 @@ function AllClusters() {
   const [MapClusterer, setMapClusterer] = React.useState<any>()
   const [size, setSize] = React.useState<any>()
 
+  // const object = useDataOffers()
+  // const offersObj = Object.values(object)
+
   React.useEffect(() => {
     if (typeof ymaps3 !== "undefined") {
       Promise.all([ymaps3?.import("@yandex/ymaps3-reactify"), ymaps3?.import("@yandex/ymaps3-clusterer@0.0.1"), ymaps3.ready]).then(
@@ -67,6 +71,7 @@ function AllClusters() {
   }, [])
 
   const { itemsOffers } = useMapOffers()
+
   const { data } = useQuery({
     queryFn: () => getPosts({ order: "DESC" }),
     queryKey: ["posts", { order: "DESC" }],
