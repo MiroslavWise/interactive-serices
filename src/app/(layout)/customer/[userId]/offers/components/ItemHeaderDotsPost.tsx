@@ -26,7 +26,7 @@ function ItemHeaderDotsPost({ post }: IProps) {
   const [open, setOpen, ref] = useOutsideClickEvent()
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { id, addresses, title, userId: userIdPost, archive } = post ?? {}
-  const isEdit = useIsAllowAccess("PATCH", "posts")
+  const isEdit = useIsAllowAccess("PATCH", "posts", userIdPost)
 
   const onShare = useNavigator({
     url: `/post/${id}`,
@@ -66,7 +66,7 @@ function ItemHeaderDotsPost({ post }: IProps) {
           title={TITLE_UPDATE}
           aria-label={TITLE_UPDATE}
           aria-labelledby={TITLE_UPDATE}
-          className={(userId === userIdPost || isEdit) && !archive ? "grid" : "!hidden"}
+          className={isEdit && !archive ? "grid" : "!hidden"}
           onClick={(event) => {
             event.stopPropagation()
             if (userId === userIdPost && !archive) {

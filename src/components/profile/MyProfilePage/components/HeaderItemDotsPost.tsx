@@ -24,10 +24,10 @@ const LABEL_DELETE = "Удалить"
 const LABEL_ADD_ADVERT = "Добавить рекламу"
 
 function HeaderItemDotsPost({ post }: IProps) {
-  const { id, title, archive, company } = post ?? {}
+  const { id, title, archive, company, userId: postUserIs } = post ?? {}
   const [open, setOpen, ref] = useOutsideClickEvent()
-  const isPathPost = useIsAllowAccess("PATCH", "posts", id)
-  const isDeletePost = useIsAllowAccess("DELETE", "posts", id)
+  const isPathPost = useIsAllowAccess("PATCH", "posts", postUserIs)
+  const isDeletePost = useIsAllowAccess("DELETE", "posts", postUserIs)
 
   const onShare = useNavigator({
     url: `/post/${id}`,

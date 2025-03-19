@@ -23,7 +23,7 @@ function ComponentDots({ post }: IProps) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { created, id, title, userId: userIdPost, archive, company } = post ?? {}
   const [visible, setVisible, ref] = useOutsideClickEvent()
-  const isEdit = useIsAllowAccess("PATCH", "posts", id)
+  const isEdit = useIsAllowAccess("PATCH", "posts", userIdPost)
   const isManager = useIsAllowAccess("PATCH", "companies")
 
   const isAdvertising = !!company
