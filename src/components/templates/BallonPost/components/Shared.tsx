@@ -32,7 +32,7 @@ function SharedDotsPost({ post }: IProps) {
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const { title, id, userId: userIdPost, archive, company } = post ?? {}
   const [open, set, ref] = useOutsideClickEvent()
-  const isEdit = useIsAllowAccess("PATCH", "posts", id)
+  const isEdit = useIsAllowAccess("PATCH", "posts", userIdPost)
   const isManager = useIsAllowAccess("PATCH", "companies")
   const isAdvertising = !!company
 

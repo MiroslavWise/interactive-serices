@@ -13,9 +13,9 @@ import { dispatchArchivePost, dispatchBallonPostUpdate, useArchivePost } from "@
 function ArchivePost() {
   const data = useArchivePost(({ data }) => data)
   const [loading, setLoading] = useState(false)
-  const { archive, id } = data ?? {}
+  const { archive, id, userId } = data ?? {}
 
-  const is = useIsAllowAccess("PATCH", "posts", id)
+  const is = useIsAllowAccess("PATCH", "posts", userId)
 
   async function ok() {
     if (is) {

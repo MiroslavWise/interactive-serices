@@ -1,12 +1,12 @@
 import { type IResponseOffers } from "@/services/offers/types"
 
 import { PopupShared } from "./Popup"
+import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
 
 import styles from "../styles/shared-popup.module.scss"
-import { IconSprite } from "@/components/icons/icon-sprite"
 
 export default function SharedPopupButton({ offer }: { offer: IResponseOffers }) {
   const [visible, setVisible, ref] = useOutsideClickEvent()

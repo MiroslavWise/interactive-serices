@@ -27,7 +27,7 @@ const LABEL_REVIEW = "Оставить отзыв"
 function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
   const [visible, setVisible, ref] = useOutsideClickEvent()
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
-  const isEdit = useIsAllowAccess("PATCH", "offers", offer?.id)
+  const isEdit = useIsAllowAccess("PATCH", "offers", offer?.userId)
   const isAddAdvert = useIsAllowAccess("PATCH", "companies")
 
   const isAdvertising = !!offer?.company

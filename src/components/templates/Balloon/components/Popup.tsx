@@ -33,7 +33,7 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
   const { user, id, addresses, title, slug, userId: offerUserId, provider, company } = offer ?? {}
   const { id: userId } = useAuth(({ auth }) => auth) ?? {}
   const isAdvertising = !!company
-  const isEdit = useIsAllowAccess("PATCH", "offers", id)
+  const isEdit = useIsAllowAccess("PATCH", "offers", offerUserId)
   const isManager = useIsAllowAccess("PATCH", "companies")
 
   const pathname = usePathname()

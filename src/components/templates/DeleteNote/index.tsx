@@ -14,7 +14,7 @@ import { useIsAllowAccess } from "@/helpers/hooks/use-roles-allow-access"
 function DeleteNote() {
   const data = useDeleteNote(({ data }) => data)
   const [loading, setLoading] = useState(false)
-  const isDeleteNote = useIsAllowAccess("DELETE", "notes", data?.id)
+  const isDeleteNote = useIsAllowAccess("DELETE", "notes", data?.userId)
 
   const { refetch: refetchNotes } = useQuery({
     queryFn: () => getNotes({ order: "DESC", post: data?.postId! }),

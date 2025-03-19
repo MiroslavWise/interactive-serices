@@ -9,7 +9,7 @@ import { useIsAllowAccess } from "@/helpers/hooks/use-roles-allow-access"
 
 function DeletePopup({ note }: { note: INotes }) {
   const [open, set, ref] = useOutsideClickEvent()
-  const isDeleteNote = useIsAllowAccess("DELETE", "notes", note?.id)
+  const isDeleteNote = useIsAllowAccess("DELETE", "notes", note?.userId)
   if (!!note?.main) return null
   if (!isDeleteNote) return null
 
