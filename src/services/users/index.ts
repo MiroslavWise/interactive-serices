@@ -1,3 +1,4 @@
+import { ETitleRole } from "../roles/types"
 import { IPaginateQuery } from "../types/general"
 import type { IServiceUser, IUserResponse, TPatchEmailPasswordUser } from "./types"
 
@@ -21,4 +22,4 @@ export const getUserEmail: IServiceUser["getEmail"] = (email) => fetchGet({ url:
 export const patchEmailPasswordUser: TPatchEmailPasswordUser = (body, id) =>
   patch({ url: `${url}/${id}`, body: { ...body, enabled: true } })
 
-export const pathUserRoles = (roles: number[], id: number) => patch({ url: `${url}/${id}`, body: { roles } })
+export const pathUserRoles = (roles: ETitleRole[], id: number) => patch({ url: `${url}/${id}`, body: { roles } })

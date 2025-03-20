@@ -2,9 +2,9 @@ import { IconSprite } from "@/components/icons/icon-sprite"
 
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
+import { IUserResponse } from "@/services/users/types"
 import { useIsAllowAccess } from "@/helpers/hooks/use-roles-allow-access"
 import { dispatchRoleAdditionUser } from "@/store/state/useRoleAdditionUser"
-import { IUserResponse } from "@/services/users/types"
 
 function ComponentsDotsUser(props: IUserResponse) {
   const isSuper = useIsAllowAccess("PATCH", "users")
