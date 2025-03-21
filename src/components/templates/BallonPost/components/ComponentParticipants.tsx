@@ -9,6 +9,7 @@ import { getPostParticipants } from "@/services/posts"
 import { dispatchPublicProfile, useAuth } from "@/store"
 import { useNavigator } from "@/helpers/hooks/use-navigator"
 import { declensionAllQuantityParticipants } from "@/lib/declension"
+import ComponentDotDeleteUser from "./ComponentDotDeleteUser"
 
 interface IProps {
   postUserId: number
@@ -27,7 +28,7 @@ function ComponentParticipants({ postUserId, id, title, isParticipant }: IProps)
     title: title! ?? "",
   })
 
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryFn: () => getPostParticipants(id),
     queryKey: ["participants", { id: id }],
     enabled: isParticipant,
@@ -73,6 +74,7 @@ function ComponentParticipants({ postUserId, id, title, isParticipant }: IProps)
                     </div>
                   </div>
                 </article>
+                {userId === postUserId && <ComponentDotDeleteUser idUser={item.id} id={id} refetch={refetch} />}
               </li>
             ))}
           </ul>
