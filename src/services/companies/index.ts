@@ -13,12 +13,13 @@ export interface ICompanyExtend extends ICompany {
   enabled: boolean
 }
 
-interface Q {
+export interface QCompanies {
   limit?: number
   page?: number
+  search?: string
 }
 
-export const getCompanies = (values?: Q) => fetchGet<ICompanyExtend[]>({ url, query: values })
+export const getCompanies = (values?: QCompanies) => fetchGet<ICompanyExtend[]>({ url, query: values })
 export const getCompanyId = (id: number) => fetchGet<ICompanyExtend>({ url: `${url}/${id}` })
 
 export interface IBodyCompany extends IBodyAdvertAction {

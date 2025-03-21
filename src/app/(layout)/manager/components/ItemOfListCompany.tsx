@@ -12,7 +12,7 @@ function ItemOfListCompany(props: ICompanyExtend) {
 
   return (
     <i
-      className="w-full grid grid-cols-[2.5rem_minmax(0,1fr)] gap-3 bg-transparent hover:bg-grey-stroke-light transition-colors p-2 items-center cursor-pointer border-b border-grey-field last:border-none"
+      className="w-full grid grid-cols-[2.5rem_minmax(0,1fr)] gap-3 bg-transparent hover:bg-grey-stroke-light transition-colors p-2 items-center cursor-pointer border-b border-grey-field last:border-none text-text-primary"
       onClick={() => {
         setIsEdit(false)
         if (id === companyId) {
