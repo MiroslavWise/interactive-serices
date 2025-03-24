@@ -53,10 +53,13 @@ export async function dispatchLoginTokenData({ email, password }: TSchemaEmailSi
       })
       .then(({ data }) => {
         if (!!data) {
-          useAuth.setState((_) => ({
-            ..._,
-            user: data,
-          }))
+          useAuth.setState(
+            (_) => ({
+              ..._,
+              user: data,
+            }),
+            true,
+          )
         }
       })
   } else {
@@ -70,11 +73,14 @@ export const dispatchRefresh = async () => {
   return refresh().then((response) => {
     const { data, error } = response
     if (data) {
-      useAuth.setState((_) => ({
-        ..._,
-        auth: data,
-        isAuth: EStatusAuth.AUTHORIZED,
-      }))
+      useAuth.setState(
+        (_) => ({
+          ..._,
+          auth: data,
+          isAuth: EStatusAuth.AUTHORIZED,
+        }),
+        true,
+      )
 
       return response
     } else {
@@ -93,7 +99,7 @@ export const dispatchRefresh = async () => {
 }
 
 export const dispatchAuthToken = ({ auth, user }: { auth: TAuth; user: IUserResponse | null }) =>
-  useAuth.setState((_) => ({ user, auth, isAuth: EStatusAuth.AUTHORIZED }), true)
+  useAuth.setState((_) => ({ ..._, user, auth, isAuth: EStatusAuth.AUTHORIZED }), true)
 
 export const dispatchClearAuth = async () => {
   return getLogout().then(() => {

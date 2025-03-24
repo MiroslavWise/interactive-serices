@@ -1,9 +1,10 @@
 import { pathUserRoles } from "@/services"
+import { ETitleRole } from "@/services/roles/types"
 
 interface IData {
   id: number
-  oldRoles: number[]
-  newRoles: number[]
+  oldRoles: ETitleRole[]
+  newRoles: ETitleRole[]
 }
 
 export async function updateUserRole({ id, oldRoles, newRoles }: IData) {
@@ -11,7 +12,7 @@ export async function updateUserRole({ id, oldRoles, newRoles }: IData) {
   const newSort = JSON.stringify(newRoles.sort())
 
   if (oldSort !== newSort) {
-    return pathUserRoles(newRoles, id)
+    return pathUserRoles(Array.from(new Set(newRoles)), id)
   }
 
   return Promise.resolve({ data: "not-update" } as const)
