@@ -35,6 +35,7 @@ function FormRoleAddition(props: IUserResponse) {
     if (!loading) {
       setLoading(true)
       await updateUserRole({ id, oldRoles: roles.map((_) => _.title), newRoles: values.roles })
+      close()
       setLoading(false)
     }
   })
