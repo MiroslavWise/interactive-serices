@@ -61,6 +61,7 @@ export enum EModalData {
   UPDATE_ENABLED_COMPANY = "update-enabled-company",
   UPDATE_ENABLED_ACTIVE_COMPANY = "update-enabled-active-company",
   UPDATE_DELETE_COMPANY = "update-delete-company",
+  DELETE_USER_MANAGEMENT = "delete-user-management",
 
   /** Успешное обновление умения или услуги @default ОБНОВЛЕНИЕ */
   SUCCESS_UPDATE_OFFER = "success-update-offer",
@@ -68,7 +69,7 @@ export enum EModalData {
   SUCCESS_UPDATE_POSTS = "success-update-posts",
   /** Успешное обновление SOS-сообщения @default ОБНОВЛЕНИЕ */
   SUCCESS_UPDATE_ALERT = "success-update-alert",
-  ROLE_ADDITION = "role-addition"
+  ROLE_ADDITION = "role-addition",
 }
 
 interface IStateUseModal {

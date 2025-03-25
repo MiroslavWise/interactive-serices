@@ -3,12 +3,17 @@ import { IconSprite } from "@/components/icons/icon-sprite"
 import { cx } from "@/lib/cx"
 import { useOutsideClickEvent } from "@/helpers"
 import { IUserResponse } from "@/services/users/types"
+import { dispatchDeleteUser } from "@/store/state/useDeleteUser"
 import { useIsAllowAccess } from "@/helpers/hooks/use-roles-allow-access"
 import { dispatchRoleAdditionUser } from "@/store/state/useRoleAdditionUser"
 
 function ComponentsDotsUser(props: IUserResponse) {
   const isSuper = useIsAllowAccess("PATCH", "users")
   const [open, setOpen, ref] = useOutsideClickEvent()
+
+  function handleDelete() {
+    dispatchDeleteUser(props.id)
+  }
 
   return (
     <div className="absolute top-2 right-2" ref={ref}>
@@ -46,6 +51,23 @@ function ComponentsDotsUser(props: IUserResponse) {
             <IconSprite id="icon-user-edit" className="w-5 h-5 aspect-square" />
           </div>
           <span className="text-left whitespace-nowrap">Добавить роль</span>
+        </a>
+        <a
+          className={cx(
+            "w-full grid-cols-[1.25rem_minmax(0,1fr)] gap-2.5 items-center py-2 px-1.5 rounded-md bg-BG-second hover:bg-grey-field cursor-pointer",
+            isSuper ? "grid" : "hidden",
+            "text-text-error text-sm font-normal",
+          )}
+          onClick={(event) => {
+            event.stopPropagation()
+            handleDelete()
+            setOpen(false)
+          }}
+        >
+          <div className="relative w-5 h-5 aspect-square p-2.5">
+            <IconSprite id="trash-20-20" className="w-5 h-5" />
+          </div>
+          <span className="text-left whitespace-nowrap">Удалить</span>
         </a>
       </article>
     </div>
