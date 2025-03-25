@@ -28,7 +28,7 @@ const titleEmpty: Map<EnumTypeProvider, string> = new Map([
   ],
   [
     EnumTypeProvider.POST,
-    "У вас есть мероприятие, которое вы хотите анонсировать, обсудить, осветить в процессе и опубликовать к нему фотоотчет? Создайте пост — и добавляйте к нему новые записи.",
+    "У вас есть мероприятие, которое вы хотите анонсировать, обсудить, осветить в процессе и опубликовать к нему фотоотчет? Создайте событие — и добавляйте к нему новые записи.",
   ],
 ])
 
@@ -79,7 +79,7 @@ export const ContainerSuggestions = () => {
     const title: Map<Partial<EnumTypeProvider>, string> = new Map([
       [EnumTypeProvider.offer, "Создать умение или услугу"],
       [EnumTypeProvider.alert, "Создать SOS"],
-      [EnumTypeProvider.POST, "Создать пост"],
+      [EnumTypeProvider.POST, "Создать событие"],
     ])
 
     return {

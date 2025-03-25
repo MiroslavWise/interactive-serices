@@ -14,6 +14,7 @@ import { useNavigator } from "@/helpers/hooks/use-navigator"
 import {
   dispatchAddTestimonials,
   dispatchComplaintModalOffer,
+  dispatchDeleteOffer,
   dispatchMapCoordinates,
   dispatchUpdateDiscussionAndAlert,
   dispatchUpdateOffer,
@@ -28,6 +29,7 @@ const LABEL_SHARE = "Поделиться"
 const LABEL_COMPLAIN = "Пожаловаться"
 const LABEL_ADD_ADVERT = "Добавить рекламу"
 const LABEL_REVIEW = "Оставить отзыв"
+const LABEL_DELETE = "Удалить"
 
 export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visible: boolean }) => {
   const { user, id, addresses, title, slug, userId: offerUserId, provider, company } = offer ?? {}
@@ -58,6 +60,11 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
 
   function onReview() {
     dispatchAddTestimonials({ offer, provider: provider })
+  }
+  function handleDelete() {
+    if (isEdit) {
+      dispatchDeleteOffer({ visible: true, idOffer: id!, provider })
+    }
   }
 
   return (
@@ -135,6 +142,18 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
         </div>
         <span className="text-text-primary text-sm font-normal text-left">{LABEL_REVIEW}</span>
       </a>
+      <a
+        onClick={() => displayAddAdvert(offer?.provider!, offer?.id!, offer?.userId!)}
+        title={LABEL_ADD_ADVERT}
+        aria-label={LABEL_ADD_ADVERT}
+        aria-labelledby={LABEL_ADD_ADVERT}
+        className={cx("text-text-primary", (!isManager || provider !== EnumTypeProvider.offer || isAdvertising) && "!hidden")}
+      >
+        <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
+          <IconSprite id="icon-default-currency-ruble-circle" className="w-5 h-5" />
+        </div>
+        <span className="text-sm font-normal text-left">{LABEL_ADD_ADVERT}</span>
+      </a>
       <a onClick={handle} title={LABEL_COMPLAIN} aria-label={LABEL_COMPLAIN} aria-labelledby={LABEL_COMPLAIN}>
         <div
           className={cx(
@@ -147,16 +166,16 @@ export const PopupShared = ({ offer, visible }: { offer: IResponseOffers; visibl
         <span className="text-text-error text-sm font-normal text-left">{LABEL_COMPLAIN}</span>
       </a>
       <a
-        onClick={() => displayAddAdvert(offer?.provider!, offer?.id!, offer?.userId!)}
-        title={LABEL_ADD_ADVERT}
-        aria-label={LABEL_ADD_ADVERT}
-        aria-labelledby={LABEL_ADD_ADVERT}
-        className={cx((!isManager || provider !== EnumTypeProvider.offer || isAdvertising) && "!hidden")}
+        onClick={handleDelete}
+        title={LABEL_DELETE}
+        aria-label={LABEL_DELETE}
+        aria-labelledby={LABEL_DELETE}
+        className={cx("text-text-error", isEdit ? "flex" : "!hidden")}
       >
         <div className="w-5 h-5 flex items-center justify-center relative p-2.5">
-          <IconSprite id="icon-default-currency-ruble-circle" className="text-text-primary w-5 h-5" />
+          <IconSprite id="trash-20-20" className="w-5 h-5" />
         </div>
-        <span className="text-text-primary text-sm font-normal text-left">{LABEL_ADD_ADVERT}</span>
+        <span className="text-sm font-normal text-left">{LABEL_DELETE}</span>
       </a>
     </article>
   )

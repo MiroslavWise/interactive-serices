@@ -134,8 +134,8 @@ function FormNewCompany() {
   const actionAdvertButton = watch("actionAdvertButton")
 
   return (
-    <form onSubmit={onSubmit} className="w-full flex flex-col gap-[1.875rem]">
-      <h3 className="text-text-primary text-2xl font-medium">Добавление новой рекламной компании</h3>
+    <form onSubmit={onSubmit} className="w-full flex flex-col gap-[1.875rem] text-text-primary">
+      <h3 className="text-2xl font-medium">Добавление новой рекламной компании</h3>
       <section className="flex flex-col gap-3 md:gap-4">
         <Controller
           control={control}

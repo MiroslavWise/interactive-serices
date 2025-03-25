@@ -45,6 +45,7 @@ import UpdateDiscussionAndAlert, { CN_UPDATE_DISCUSSION_AND_ALERT } from "../Upd
 import stylesAlertAndDiscussion from "@/components/templates/Balloon/Discussion/styles/style.module.scss"
 import styleCreateNewOptionModal from "@/components/templates/CreateNewOptionModal/styles/style.module.scss"
 import RoleAddition from "../RoleAddition"
+import DeleteUserManagement from "../DeleteUser/DeleteUserManagement"
 
 const stringBalloonOffer = cx(stylesGeneralOffer.containerGeneral, stylesOffer.container)
 const stringBalloonAlert = cx(stylesGeneralOffer.containerGeneral, stylesAlertAndDiscussion.container)
@@ -69,6 +70,7 @@ export const DATA_MODAL: Map<EModalData, ReactNode> = new Map([
   [EModalData.ChangePassword, <ChangePassword key="::key::modal::change-password" />], //Изменение пароля
   [EModalData.DeleteOffer, <DeleteOffer key="::key::modal::delete-offer" />], //Удаление оффера
   [EModalData.DeleteUser, <DeleteUser key="::key::modal::delete-user" />], //Удаление user
+  [EModalData.DELETE_USER_MANAGEMENT, <DeleteUserManagement key="::key::modal::DeleteUserManagement" />], //Удаление user любого
   // [EModalData.ActiveServicesFrom, <ActiveServicesFrom key="::key::modal::active-services-from" />], //Желаемые услуги
   [EModalData.SuccessNewOptional, <SuccessNewOptional key="::key::modal::successNewOptional" />], //Успешное создание оффера, дискуссии или алерта
   [EModalData.UpdateDiscussionAndAlert, <UpdateDiscussionAndAlert key="::key::Update::Discussion::And::Alert" />], //Обновление беседы и алерта
@@ -112,6 +114,7 @@ export const STYLE_MODAL: Map<EModalData, string> = new Map([
   [EModalData.DELETE_FRIEND, stylesOutAccount.container], //
   [EModalData.DELETE_POST, stylesOutAccount.container], //
   [EModalData.UPDATE_DELETE_COMPANY, stylesOutAccount.container], //
+  [EModalData.DELETE_USER_MANAGEMENT, stylesOutAccount.container], //
   [EModalData.UPDATE_ENABLED_COMPANY, stylesOutAccount.container], //
   [EModalData.UPDATE_ENABLED_ACTIVE_COMPANY, stylesOutAccount.container], //
   [EModalData.ROLE_ADDITION, stylesOutAccount.container], //

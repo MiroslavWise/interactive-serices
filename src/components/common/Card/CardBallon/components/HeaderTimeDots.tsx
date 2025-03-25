@@ -15,6 +15,7 @@ import {
   dispatchAddTestimonials,
   dispatchComplaintModalOffer,
   dispatchUpdateDiscussionAndAlert,
+  dispatchDeleteOffer,
 } from "@/store"
 import { useIsAllowAccess } from "@/helpers/hooks/use-roles-allow-access"
 
@@ -23,6 +24,7 @@ const TITLE_SHARE = "Поделиться"
 const TITLE_COMPLAINT = "Пожаловаться"
 const LABEL_ADD_ADVERT = "Добавить рекламу"
 const LABEL_REVIEW = "Оставить отзыв"
+const LABEL_DELETE = "Удалить"
 
 function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
   const [visible, setVisible, ref] = useOutsideClickEvent()
@@ -49,6 +51,12 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
       } else if (EnumTypeProvider.alert === offer?.provider!) {
         dispatchUpdateDiscussionAndAlert({ offer: offer!, visible: true })
       }
+    }
+  }
+
+  function handleDelete() {
+    if (isEdit) {
+      dispatchDeleteOffer({ visible: true, idOffer: offer?.id!, provider: offer?.provider! })
     }
   }
 
@@ -115,6 +123,23 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
             <span>{LABEL_REVIEW}</span>
           </a>
           <a
+            title={LABEL_ADD_ADVERT}
+            aria-label={LABEL_ADD_ADVERT}
+            aria-labelledby={LABEL_ADD_ADVERT}
+            onClick={(event) => {
+              event.stopPropagation()
+              event.preventDefault()
+              displayAddAdvert(offer?.provider!, offer?.id!, offer?.userId!)
+              setVisible(false)
+            }}
+            className={cx((!isAddAdvert || offer.provider !== EnumTypeProvider.offer || isAdvertising) && "!hidden")}
+          >
+            <div>
+              <IconSprite id="icon-default-currency-ruble-circle" className="text-text-primary w-5 h-5" />
+            </div>
+            <span>{LABEL_ADD_ADVERT}</span>
+          </a>
+          <a
             title={TITLE_COMPLAINT}
             aria-label={TITLE_COMPLAINT}
             aria-labelledby={TITLE_COMPLAINT}
@@ -132,21 +157,21 @@ function HeaderTimeDots({ offer }: { offer: IResponseOffers }) {
             <span className="!text-text-error">{TITLE_COMPLAINT}</span>
           </a>
           <a
-            title={LABEL_ADD_ADVERT}
-            aria-label={LABEL_ADD_ADVERT}
-            aria-labelledby={LABEL_ADD_ADVERT}
+            title={LABEL_DELETE}
+            aria-label={LABEL_DELETE}
+            aria-labelledby={LABEL_DELETE}
             onClick={(event) => {
               event.stopPropagation()
               event.preventDefault()
-              displayAddAdvert(offer?.provider!, offer?.id!, offer?.userId!)
+              handleDelete()
               setVisible(false)
             }}
-            className={cx((!isAddAdvert || offer.provider !== EnumTypeProvider.offer || isAdvertising) && "!hidden")}
+            className={cx("!text-text-error", isEdit ? "gird" : "!hidden")}
           >
             <div>
-              <IconSprite id="icon-default-currency-ruble-circle" className="text-text-primary w-5 h-5" />
+              <IconSprite id="trash-20-20" className="w-5 h-5" />
             </div>
-            <span>{LABEL_ADD_ADVERT}</span>
+            <span>{LABEL_DELETE}</span>
           </a>
         </article>
       </div>
