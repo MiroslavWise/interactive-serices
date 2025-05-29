@@ -1,0 +1,26 @@
+.container {
+  --height-filter-popup: calc(1.25rem + 3rem + 0.625rem);
+}
+
+.container {
+  transition-duration: 700ms;
+  transition-property: opacity, visibility, height;
+  transition-timing-function: ease;
+
+  z-index: 90;
+
+  & > header {
+    padding: 1.94rem calc(1.25rem + 3rem + 0.625rem) calc(0.625rem + 0.44rem) 1.25rem;
+  }
+}
+
+[data-theme="light"] {
+  .container {
+    box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
+  }
+}
+[data-theme="dark"] {
+  .container {
+    box-shadow: 0px 24px 36px 0px rgba(32, 32, 32, 0.7);
+  }
+}

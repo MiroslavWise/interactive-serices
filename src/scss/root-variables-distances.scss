@@ -1,0 +1,26 @@
+:root {
+  --width-left-aside-profile: 17.5rem;
+  --width-right-services: 25rem;
+  --height-header-nav-bar: 4rem;
+
+  //mobile
+  --height-mobile-header: 3.125rem;
+  --height-mobile-footer-nav: 3.375rem;
+
+  //
+  --height-standard-header-modal: 4.75rem;
+  --height-banner: 2.75rem;
+
+  @media screen and (max-width: 768px) {
+    --height-standard-header-modal: 4.25rem;
+    --height-banner: 4rem;
+  }
+}
+
+:root {
+  --height--banner--promotional: 2.75rem;
+
+  @media screen and (max-width: 768px) {
+    --height--banner--promotional: 4rem;
+  }
+}

@@ -1,0 +1,19 @@
+.containerOffersNow {
+  @media screen and (max-width: 1380px) {
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  }
+}
+
+[data-theme="dark"] {
+  .containerOffersNow {
+    ul {
+      li {
+        box-shadow: none !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+name: Core CI/CD
+run-name: ${{ github.actor }} is starting GitHub Actions 🚀
+on:
+  push:
+    branches:
+      - 'develop'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          build-args: |
+            NEXT_PUBLIC_URL=${{ secrets.NEXT_PUBLIC_URL }}
+            NEXT_PUBLIC_WEB_SOCKET=${{ secrets.NEXT_PUBLIC_WEB_SOCKET }} 
+            NEXT_PUBLIC_AUTO_VERIFICATION=${{ secrets.NEXT_PUBLIC_AUTO_VERIFICATION }} 
+            NEXT_PUBLIC_DOMAIN=${{ secrets.NEXT_PUBLIC_DOMAIN }} 
+            NEXT_PUBLIC_API_KEY_YANDEX=${{ secrets.NEXT_PUBLIC_API_KEY_YANDEX }}
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_REPO }}:development
+      - name: Declare variables
+        shell: bash
+        run: |
+          echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+          echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >> "$GITHUB_ENV" 
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            echo "Branch: ${{ env.branch }}"
+            echo "Sha: ${{ env.sha_short }}"
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            cd /home/sheira/sheira-core/
+            # docker stop sheira-frontend && docker rm sheira-frontend && docker rmi $(docker images | grep 'sheira/frontend')
+            docker pull sheira/frontend:development 
+            docker compose up -d --no-deps sheira-frontend && docker restart sheira-nginx
+            ls -la

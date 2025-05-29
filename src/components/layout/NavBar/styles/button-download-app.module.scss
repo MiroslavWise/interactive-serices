@@ -1,0 +1,29 @@
+.button {
+  background: linear-gradient(134deg, #d571f8 7.48%, #6b5ae7 81.25%);
+
+  &::after,
+  &::before {
+    content: "";
+    position: absolute;
+    width: 1.41669rem;
+    height: auto;
+    aspect-ratio: 1/1;
+    filter: blur(6.666666507720947px);
+  }
+
+  &::after {
+    top: -0.21rem;
+    left: -0.71rem;
+    background-color: #e836e1;
+    border-radius: 100%;
+    z-index: 1;
+  }
+
+  &::before {
+    right: -0.15rem;
+    bottom: -0.48rem;
+    background-color: #3648e8;
+    border-radius: 100%;
+    z-index: 1;
+  }
+}

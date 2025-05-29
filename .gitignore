@@ -1,0 +1,53 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+/prisma
+./prisma
+/prisma/
+
+# testing
+/coverage
+
+/db
+./db
+/db/
+./db/
+/db/ids.json
+./db/ids.json
+
+# next.js
+/.next/
+/out/
+/.vscode/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.history
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+.env
+
+#docker
+docker-compose.yml
+
+sheira-core.code-workspace

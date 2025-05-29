@@ -1,0 +1,67 @@
+"use client"
+
+import { useRef } from "react"
+
+import { type IImageData } from "@/types/type"
+
+import { NextImageMotion } from "@/components/common"
+
+import { cx } from "@/lib/cx"
+import { dispatchPhotoCarousel } from "@/store"
+
+function ImagesFeedback({ images }: { images: IImageData[] }) {
+  const refImages = useRef<HTMLDivElement>(null)
+
+  if (images.length === 0) return null
+
+  return (
+    <div
+      className={cx(
+        "scroll-no",
+        "w-[calc(100%_+_2rem)] h-[4.875rem] -mx-4 min-h-[4.875rem] max-h-[4.875rem] relative overflow-hidden !px-0",
+        images.length === 0 && "hidden",
+      )}
+      onWheel={(event) => {
+        event.stopPropagation()
+        event.preventDefault()
+        if (refImages.current) {
+          refImages.current.scrollBy({
+            top: 0,
+            left: event.deltaY,
+            behavior: "smooth",
+          })
+        }
+      }}
+    >
+      <div ref={refImages} className={cx("not-y-scroll", "w-full h-full px-4 flex flex-row gap-2 flex-nowrap")}>
+        {images.map((item) => (
+          <NextImageMotion
+            key={`::key::image::offer::${item.id}::`}
+            src={item.attributes.url}
+            className="h-[4.875rem] rounded-lg w-[4.375rem] aspect-[4.375/4.875] cursor-pointer"
+            alt="offer-image"
+            width={240}
+            height={240}
+            onClick={(event) => {
+              event.stopPropagation()
+              const photos = images.map((item) => ({
+                url: item?.attributes?.url!,
+                id: item?.id,
+                hash: item?.attributes?.blur,
+              }))
+              dispatchPhotoCarousel({
+                visible: true,
+                photos: photos,
+                idPhoto: item?.id!,
+              })
+            }}
+            hash={item.attributes?.blur}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+ImagesFeedback.displayName = "ImagesFeedback"
+export default ImagesFeedback

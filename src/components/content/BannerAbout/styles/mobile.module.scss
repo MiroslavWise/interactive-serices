@@ -1,0 +1,10 @@
+.container {
+  background: linear-gradient(180deg, rgba(23, 15, 38, 0) 24.51%, rgba(23, 15, 38, 0.09) 64.31%, rgba(23, 15, 38, 0.2) 100%), #6a59e6;
+
+  & > article {
+    & > button {
+      background: var(--opacity-white-hard-1);
+      backdrop-filter: blur(2px);
+    }
+  }
+}

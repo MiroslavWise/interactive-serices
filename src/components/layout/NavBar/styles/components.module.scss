@@ -1,0 +1,31 @@
+.logo {
+  @media screen and (max-width: 768px) {
+    margin-left: -2rem;
+    margin-top: -0.125rem;
+
+    & > img {
+      width: 6.6875rem;
+      height: 1.75rem;
+    }
+  }
+}
+
+.buttons {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+  z-index: 40;
+
+  & > button {
+    width: auto;
+  }
+
+  & > a {
+    min-width: 8.875rem;
+  }
+}
+
+.widthButton {
+  min-width: 8.875rem;
+}

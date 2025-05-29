@@ -1,0 +1,86 @@
+.container {
+  position: relative;
+  z-index: 3;
+
+  & > input {
+    padding: 0 3rem 0 0.875rem;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.25rem;
+    border: 0.0625rem solid var(--grey-stroke);
+
+    &[data-error="true"] {
+      border-color: var(--element-error);
+    }
+
+    transition: var(--transition);
+    transition-property: border;
+
+    &::placeholder {
+      color: var(--text-secondary);
+    }
+
+    &:disabled {
+      border-color: var(--grey-stroke);
+      color: var(--text-disabled);
+      background-color: var(--grey-field);
+      cursor: no-drop;
+    }
+  }
+
+  & > [data-current] {
+    top: 3.25rem;
+    max-width: calc(100% - 1.75rem);
+
+    & > button {
+      & > svg {
+        & > path {
+          stroke: var(--element-grey);
+        }
+      }
+    }
+  }
+
+  & > [data-list] {
+    top: 5rem;
+    max-height: 17.5rem;
+
+    & > ul {
+      overflow: hidden;
+      overflow-y: scroll;
+      max-height: 17.5rem;
+
+      & > li {
+        grid-template-columns: 1.25rem 1.5rem minmax(0, 1fr) 1.25rem;
+
+        &[data-sub] {
+          grid-template-columns: 1.25rem 1.5rem minmax(0, 1fr);
+        }
+      }
+    }
+  }
+
+  & > [data-collapse] {
+    z-index: 2;
+    top: calc(1.5rem + 1.25rem + 0.5rem);
+    transform: translateY(-50%) rotate(90deg);
+
+    transition-property: transform;
+    transition-duration: 375ms;
+    transition-timing-function: ease-in-out;
+
+    & > svg {
+      width: 1.25rem;
+      height: 1.25rem;
+
+      & > path {
+        fill: var(--text-primary);
+      }
+    }
+
+    &[data-collapse="true"] {
+      transform: translateY(-50%) rotate(-90deg);
+    }
+  }
+}

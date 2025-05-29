@@ -1,0 +1,16 @@
+.wrapper {
+  &[data-visible="true"] {
+    z-index: 1989;
+  }
+
+  & > section {
+    max-width: 31.25rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    & > section {
+      max-width: 100%;
+      max-height: calc(100% - 2.5rem);
+    }
+  }
+}

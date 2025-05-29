@@ -1,0 +1,44 @@
+.container {
+    position: relative;
+    border-radius: 50%;
+    display: flex;
+    padding: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    border: 0.125rem solid transparent !important;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    tap-highlight-color: transparent;
+    touch-action: manipulation;
+    background: transparent !important;
+
+    &.primary {
+        background:var(--primary-500)
+    }
+
+    &.option-1 {
+        background:
+            linear-gradient(
+                    var(--button-default-background),
+                    var(--button-default-background)
+                )
+                padding-box,
+            var(--gradient-optional-1) border-box !important;
+    }
+
+    &[data-loading="true"] {
+        &::before {
+            animation: loading 11s infinite;
+        }
+    }
+}
+
+@keyframes loading {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(3600deg);
+    }
+}

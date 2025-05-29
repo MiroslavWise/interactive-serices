@@ -1,0 +1,43 @@
+.container {
+  -ms-overflow-style: none;
+  overscroll-behavior-y: none;
+
+  & > [data-images] {
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+    overscroll-behavior-y: none;
+    overscroll-behavior-x: contain;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    & > * {
+      height: 5.625rem;
+      width: 5rem;
+      aspect-ratio: 80/90;
+      border-radius: 1rem;
+      cursor: pointer;
+    }
+
+    & > [data-video] {
+      padding-inline: 2.5rem;
+
+      &::after {
+        content: "";
+        position: absolute;
+        z-index: 10;
+        inset: 0;
+        background-color: var(--translucent);
+      }
+    }
+  }
+}
+
+[data-theme="dark"] {
+  .container {
+    & > button {
+      img {
+        filter: invert(1);
+      }
+    }
+  }
+}

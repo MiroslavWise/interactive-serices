@@ -1,0 +1,9 @@
+.container {
+  max-height: 28.6875rem;
+  height: 100%;
+
+  @media screen and (max-width: 768px) {
+    border-radius: 0 !important;
+    max-height: 100% !important;
+  }
+}

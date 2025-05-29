@@ -1,0 +1,7 @@
+export * from "./MyProfilePage"
+export * from "./BlockProfileAside"
+export * from "./HistoryExchangeOffers"
+export * from "./OffersPage"
+export * from "./AddServiceForm"
+export * from "./BlockDesiredServices"
+export * from "./ButtonFriends"

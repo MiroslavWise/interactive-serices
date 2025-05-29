@@ -1,0 +1,23 @@
+.link {
+  & > section {
+    & > article {
+      & > svg {
+        & > path {
+          fill: var(--element-grey);
+        }
+      }
+    }
+  }
+
+  &[data-active="true"] {
+    & > section {
+      & > article {
+        & > svg {
+          & > path {
+            fill: var(--element-accent-1);
+          }
+        }
+      }
+    }
+  }
+}

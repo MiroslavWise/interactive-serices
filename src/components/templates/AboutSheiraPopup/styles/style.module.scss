@@ -1,0 +1,13 @@
+.wrapper {
+  z-index: 1500;
+
+  & > section {
+    & > ul {
+      -webkit-overflow-scrolling: touch;
+
+      & > li {
+        list-style-type: circle;
+      }
+    }
+  }
+}

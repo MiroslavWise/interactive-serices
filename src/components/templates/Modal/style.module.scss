@@ -1,0 +1,21 @@
+.wrapperModal {
+  --padding-top: 2.5rem;
+  --width-section: 35rem;
+}
+
+.wrapperModal {
+  padding-top: var(--padding-top);
+
+  & > section {
+    max-width: var(--width-section);
+
+    @media screen and (max-width: 768px) {
+      max-width: 100%;
+    }
+  }
+
+  &::-webkit-scrollbar,
+  &::-webkit-scrollbar-thumb {
+    display: none;
+  }
+}

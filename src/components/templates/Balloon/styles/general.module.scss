@@ -1,0 +1,79 @@
+.containerGeneral {
+  height: fit-content;
+  max-height: calc(100% - 5rem);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--BG-second);
+
+  & > header {
+    & > h3 {
+      color: var(--text-primary);
+      font-size: 1.25rem;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 1.5rem;
+    }
+
+    &[data-color="offer"] {
+      background: var(--BG-second);
+    }
+    &[data-color="discussion"] {
+      background: linear-gradient(0deg, rgba(16, 117, 238, 0.04) 0%, rgba(16, 117, 238, 0.04) 100%), var(--BG-second);
+    }
+    &[data-color="alert"] {
+      background: linear-gradient(0deg, rgba(239, 68, 36, 0.04) 0%, rgba(239, 68, 36, 0.04) 100%), var(--BG-second);
+      // @media (prefers-color-scheme: dark) {
+      //   background: transparent;
+      // }
+      overflow: hidden;
+    }
+  }
+
+  & > [data-container] {
+    overflow: hidden;
+    overflow-y: auto;
+    height: calc(100% - var(--height-standard-header-modal));
+
+    & > [data-container-children] {
+      overflow: hidden;
+      overflow-y: auto;
+
+      & > * {
+        padding-inline: 1.25rem;
+      }
+
+      & > article {
+        padding-inline: 0;
+        overflow: hidden;
+
+        & > * {
+          padding-inline: 1.25rem;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    max-height: calc(100% - 1rem);
+
+    & > header {
+      & > h3 {
+        padding-right: calc(2.75rem + 0.625rem);
+      }
+    }
+  }
+}
+
+[data-theme="dark"] {
+  .containerGeneral {
+    & > header {
+      &[data-color="discussion"] {
+        background: linear-gradient(0deg, rgba(9, 95, 199, 0.12) 0%, rgba(9, 95, 199, 0.12) 100%), #2c3139;
+      }
+      &[data-color="alert"] {
+        background: linear-gradient(0deg, rgba(156, 31, 7, 0.12) 0%, rgba(156, 31, 7, 0.12) 100%), #2c3139;
+      }
+    }
+  }
+}

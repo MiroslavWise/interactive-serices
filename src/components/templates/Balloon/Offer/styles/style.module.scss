@@ -1,0 +1,32 @@
+.container {
+  & > header {
+    & > [data-category-img] {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 0.25rem;
+
+      & > img {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+  }
+
+  [data-container-children] {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+
+    & > [data-loading-profile] {
+      padding-inline: 1.25rem;
+    }
+
+    & > [data-buttons] {
+      & > [data-type-button="regular-primary"] {
+        max-width: min-content;
+        padding-inline: 1.5rem;
+      }
+    }
+  }
+}

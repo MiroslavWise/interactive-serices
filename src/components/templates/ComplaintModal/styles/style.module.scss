@@ -1,0 +1,31 @@
+.container {
+  width: 100%;
+  position: relative;
+  padding: 2.5rem;
+  background-color: var(--BG-second);
+  border-radius: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+
+  & > form {
+    & > [data-content] {
+      & > ul {
+        & > fieldset {
+          & > [data-check] {
+            transition: var(--transition);
+            transition-property: background-color;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 1.25rem;
+    padding-bottom: 0;
+    padding-top: calc(1rem + 1rem);
+    border-radius: 1.5rem 1.5rem 0 0;
+    max-height: calc(100% - 2.5rem);
+  }
+}

@@ -1,0 +1,19 @@
+.wrapper {
+  &[data-visible="true"] {
+    z-index: 2019;
+  }
+  & > section {
+    max-width: 30.625rem;
+    & > article {
+      & > [data-img] {
+        width: 4.375rem;
+        background: var(--grey-filed);
+        padding: 0.8125rem;
+
+        & > img {
+          padding-bottom: 0.06556rem;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+$height-footer: 4.625rem;
+
+.wrapper {
+  bottom: var(--height-mobile-footer-nav);
+  height: calc(100% - 1.625rem - 1rem - var(--height-mobile-footer-nav));
+
+  & > section {
+    height: calc(100% - $height-footer);
+    &::-webkit-scrollbar {
+      display: none !important;
+    }
+
+    & > [data-grid] {
+      & > a {
+        &[data-active="true"] {
+          border-width: 0px;
+
+          & > p {
+            color: var(--text-button);
+          }
+        }
+      }
+    }
+  }
+}

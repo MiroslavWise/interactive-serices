@@ -1,0 +1,7 @@
+.container {
+  .button {
+    transition-property: background;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+}

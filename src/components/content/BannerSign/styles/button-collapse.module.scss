@@ -1,0 +1,51 @@
+$width-left-aside-profile: var(--width-left-aside-profile);
+
+.button,
+.button > img,
+.buttonNavigation {
+  transition-duration: 700ms;
+  transition-property: transform;
+  transition-timing-function: ease;
+}
+
+.button {
+  transform: translateX(calc(1.5rem + $width-left-aside-profile + 0.625rem));
+
+  &[data-collapse="true"] {
+    transform: translateX(0.625rem);
+  }
+}
+
+.buttonNavigation {
+  transform: translateX(calc(1.5rem + $width-left-aside-profile + 0.625rem));
+
+  & > section {
+    & > button {
+      &:disabled {
+        background-color: var(--btn-second-default);
+        cursor: no-drop;
+      }
+    }
+  }
+
+  &[data-collapse="true"] {
+    transform: translateX(0.625rem);
+  }
+}
+
+[data-theme="dark"] {
+  .buttonNavigation {
+    & > section,
+    [data-navigate] {
+      box-shadow: 0px 6px 12px 0px rgba(32, 32, 32, 0.4);
+    }
+  }
+}
+[data-theme="light"] {
+  .buttonNavigation {
+    & > section,
+    [data-navigate] {
+      box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
+    }
+  }
+}

@@ -1,0 +1,79 @@
+"use client"
+
+import { memo, useCallback, useMemo } from "react"
+import { useQuery } from "@tanstack/react-query"
+import { useFormContext } from "react-hook-form"
+
+import { type IFormValues, ETypeOfNewCreated } from "../types/types"
+import { EnumTypeProvider } from "@/types/enum"
+
+import { ImageCategory } from "@/components/common"
+import ItemImages from "@/components/templates/Balloon/Offer/components/ItemImages"
+
+import { useAuth } from "@/store"
+import { getOffers, getOffersCategories } from "@/services"
+
+import styles from "../styles/offers-my.module.scss"
+
+export const OffersMy = memo(({ loading }: IProps) => {
+  const { id: userId } = useAuth(({ auth }) => auth) ?? {}
+  const { data: c } = useQuery({
+    queryFn: () => getOffersCategories(),
+    queryKey: ["categories"],
+  })
+  const categories = c?.data || []
+  const { register, setValue, watch } = useFormContext<IFormValues>()
+
+  const { data } = useQuery({
+    queryFn: () => getOffers({ provider: EnumTypeProvider.offer, order: "DESC", user: userId! }),
+    queryKey: ["offers", { userId: userId, provider: EnumTypeProvider.offer }],
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    enabled: !!userId,
+  })
+
+  const offersMy = useMemo(() => {
+    if (!data?.data) return []
+
+    return data?.data?.filter((item) => item?.addresses?.length > 0) || []
+  }, [data?.data])
+
+  const categoryMyOffer = useCallback((id: number) => categories?.find((item) => item?.id === id!), [categories])
+
+  return (
+    <div className={styles.container} {...register("my_offer", { required: watch("select_new_proposal") === ETypeOfNewCreated.their })}>
+      {offersMy.length > 0
+        ? offersMy?.map((item) => (
+            <a
+              key={`::${item.id}::my::offer::`}
+              data-active={watch("my_offer") === item.id}
+              onClick={(event) => {
+                if (loading) {
+                  return
+                }
+                event.stopPropagation()
+                if (watch("my_offer") !== item.id) {
+                  setValue("my_offer", item.id)
+                } else {
+                  setValue("my_offer", undefined)
+                }
+              }}
+            >
+              <div data-category>
+                <div data-img>
+                  <ImageCategory slug={item?.slug} provider={item?.provider} />
+                </div>
+                <span>{categoryMyOffer(item.categoryId!)?.title || ""}</span>
+              </div>
+              <p>{item.title}</p>
+              {item?.images?.length > 0 ? <ItemImages images={item?.images} /> : null}
+            </a>
+          ))
+        : null}
+    </div>
+  )
+})
+
+interface IProps {
+  loading: boolean
+}

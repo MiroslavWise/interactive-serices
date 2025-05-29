@@ -1,0 +1,1 @@
+export const MAX_LENGTH_DESCRIPTION_NOTE = 1024

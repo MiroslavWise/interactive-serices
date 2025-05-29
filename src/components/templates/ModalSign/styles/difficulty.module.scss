@@ -1,0 +1,10 @@
+.div {
+  --w: 0;
+  --color: var(--text-error);
+
+  &::before {
+    content: "";
+    width: var(--w);
+    background-color: var(--color);
+  }
+}

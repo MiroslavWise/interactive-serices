@@ -1,0 +1,46 @@
+.container {
+  & > section {
+    & > a {
+      height: 2.375rem;
+      border-radius: 1.1875rem;
+      padding: 0.3125rem 0.75rem 0.3125rem 0.3125rem;
+
+      & > [data-img] {
+        & > img {
+          width: 1rem;
+          height: 1rem;
+        }
+      }
+
+      & > img {
+        width: 1rem;
+        height: 1rem;
+      }
+
+      &[data-active="true"] {
+        & > [data-img] {
+          background: var(--element-white);
+        }
+
+        & > span {
+          color: var(--text-button);
+        }
+      }
+    }
+  }
+
+  & > fieldset {
+    & > p {
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 1.25rem;
+      letter-spacing: -0.01125rem;
+
+      & > span {
+        font-weight: 600;
+      }
+    }
+  }
+}

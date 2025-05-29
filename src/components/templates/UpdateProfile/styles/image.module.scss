@@ -1,0 +1,17 @@
+.container {
+  & > [data-img] {
+    & > button {
+      z-index: 3;
+      transition: var(--transition);
+      transition-property: opacity, visibility;
+    }
+  }
+
+  & > [data-upload] {
+    & > a {
+      & > input {
+        z-index: 2;
+      }
+    }
+  }
+}

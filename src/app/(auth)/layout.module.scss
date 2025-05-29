@@ -1,0 +1,22 @@
+.container {
+  & > img {
+    animation: rotate 1s linear infinite;
+  }
+}
+
+[data-theme="dark"] {
+  .container {
+    & > img {
+      filter: invert(0.9);
+    }
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,92 @@
+.container {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  border-radius: 2rem;
+  overflow: hidden;
+  overflow-y: auto;
+  padding: 4rem 0 3.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1.5rem;
+  height: 100%;
+
+  &[data-page="0"] {
+    background: linear-gradient(180deg, rgba(23, 15, 38, 0) 27.32%, rgba(23, 15, 38, 0.18) 47.38%, rgba(23, 15, 38, 0.4) 100%),
+      linear-gradient(180deg, rgba(106, 89, 230, 0.2) 0%, rgba(106, 89, 230, 0.88) 32.55%, rgba(106, 89, 230, 0.98) 63.36%),
+      url("/intro/start/map.avif"), lightgray 50% / cover no-repeat;
+  }
+
+  & > [data-photo-container] {
+    width: 100%;
+    margin: auto 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  & > footer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-inline: 1.875rem;
+
+    & > h3 {
+      color: #fff;
+      font-size: 1.625rem;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 2rem;
+      letter-spacing: -0.13px;
+    }
+
+    & > p {
+      color: #fff;
+      font-size: 1rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1.5rem;
+      letter-spacing: 0.08px;
+    }
+
+    & > button {
+      border: none !important;
+      outline: none !important;
+      background: #fff;
+      width: 100%;
+      padding: 0.625rem 1.25rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      height: 52px;
+      border-radius: 26px;
+
+      & > span {
+        color: var(--primary-500, #6656db);
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 1.75rem;
+        letter-spacing: -0.2px;
+      }
+    }
+  }
+}
+
+.container {
+  @media screen and (max-width: 768px) {
+    padding: calc(0.625rem + 0.25rem + 1.25rem) 0 1.875rem;
+    gap: 1rem;
+    border-radius: 0;
+
+    & > footer {
+      padding-inline: 1.25rem;
+      gap: 0.75rem;
+    }
+  }
+}

@@ -1,0 +1,42 @@
+.container {
+  transition-duration: 700ms;
+  transition-property: transform;
+  transition-timing-function: ease;
+}
+
+.container {
+  & > section {
+    & > button {
+      height: calc(0.875rem + 1.25rem + 0.75rem);
+    }
+  }
+
+  & > button {
+    border-radius: 0.625rem;
+
+    & > svg {
+      & > g {
+        & > path {
+          fill: var(--element-accent-2);
+        }
+      }
+    }
+  }
+}
+
+[data-theme="dark"] {
+  .container {
+    & > button,
+    & > section {
+      box-shadow: 0px 6px 12px 0px rgba(32, 32, 32, 0.4);
+    }
+  }
+}
+[data-theme="light"] {
+  .container {
+    & > button,
+    & > section {
+      box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
+    }
+  }
+}
