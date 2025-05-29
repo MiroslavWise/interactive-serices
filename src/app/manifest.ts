@@ -4,8 +4,8 @@ import { APPLE_ID, URL_APPLE_APP } from "@/config/environment"
 
 export default function (): MetadataRoute.Manifest {
   return {
-    name: "Sheira - сервис с интерактивной картой городов",
-    short_name: "Sheira",
+    name: "Interactive Services - сервис с интерактивной картой городов",
+    short_name: "Interactive Services",
     description:
       "Сервис с интерактивной картой города. Можно размещать свои услуги, проводить активности, общаться и помогать друг другу",
     orientation: "portrait",

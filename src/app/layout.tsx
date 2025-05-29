@@ -56,14 +56,14 @@ export function generateMetadata(): Metadata {
       appId: APPLE_ID,
       appArgument: URL_APPLE_APP,
     },
-    applicationName: "Sheira",
+    applicationName: "Interactive Services",
     title: {
-      default: "Sheira",
-      template: "%s | Sheira",
+      default: "Interactive Services",
+      template: "%s | Interactive Services",
     },
     authors: {
       url: env.server.host!,
-      name: "Sheira",
+      name: "Interactive Services",
     },
     description: "Сервис с интерактивной картой города. Можно размещать свои услуги, проводить активности, общаться и помогать друг другу",
     keywords: keyWords,
@@ -77,20 +77,20 @@ export function generateMetadata(): Metadata {
       type: "website",
       locale: "ru_RU",
       url: env.server.host!,
-      siteName: "Sheira",
+      siteName: "Interactive Services",
       description:
         "Сервис с интерактивной картой города, где можно размещать свои услуги, проводить активности, общаться и помогать друг другу",
       title: {
-        default: "Sheira",
-        template: "%s | Sheira. Люди, события, услуги",
+        default: "Interactive Services",
+        template: "%s | Interactive Services. Люди, события, услуги",
       },
       images: `${env.server.host!}/api/og`,
     },
     twitter: {
       site: env.server.host!,
       title: {
-        default: "Sheira",
-        template: "%s | Sheira. Люди, события, услуги",
+        default: "Interactive Services",
+        template: "%s | Interactive Services. Люди, события, услуги",
       },
       description:
         "Сервис с интерактивной картой города. Можно размещать свои услуги, проводить активности, общаться и помогать друг другу",
